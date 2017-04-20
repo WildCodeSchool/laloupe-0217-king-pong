@@ -63,6 +63,15 @@ angular.module('app')
                     }
                 }
             })
+            .state('user.createDefis', {
+                url: '/createDefis',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/createDefis.html',
+                        controller: 'CreateDefisController'
+                    }
+                }
+            })
             .state('user.profile', {
                 url: '/profile',
                 views: {
