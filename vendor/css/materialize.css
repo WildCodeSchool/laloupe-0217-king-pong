@@ -2889,7 +2889,7 @@ table, th, td {
 }
 
 table {
-  width: 100%;
+  /*width: 100%;*/
   display: table;
 }
 
@@ -5873,7 +5873,7 @@ textarea.materialize-textarea {
   border-bottom: 1px solid #9e9e9e;
   border-radius: 0;
   outline: none;
-  height: 3rem;
+  height: 1rem;
   width: 100%;
   font-size: 1rem;
   margin: 0 0 20px 0;

@@ -1,49 +1,15 @@
 <div class="row">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s4">
-          <input placeholder="Activités" id="activity" type="text" class="validate">
-          <label for="activity">Choisir son activités</label>
-          </div>
-        </div>
-      <div class="row">
-        <div class="input-field col s4">
-          <input placeholder="Date de début de mon activité" id="start" type="text" class="validate">
-          <label for="start">Début</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s4">
-          <input placeholder="Combien de temps durera le défi" id="duration" type="text" class="validate">
-          <label for="duration">Durée</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s4">
-          <input placeholder="Dans quelle ville se déroulera le défi" id="where" type="text" class="validate">
-          <label for="where">Lieu</label>
-        </div>
-      </div>
-      <div class="row">
-          <p>PARTICIPANTS</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s4">
-          <input placeholder="Combien d'équipes peuvent participer" id="team" type="text" class="validate">
-          <label for="team">Nombre de groupes</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s4">
-          <input placeholder="Combien de joueurs peuvent participer" id="player" type="text" class="validate">
-          <label for="player">Nombre de participants par groupe</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s4">
-          <input placeholder="Combien d'équipes peuvent participer" id="invite" type="text" class="validate">
-          <label for="invite">Invitation</label>
-        </div>
-      </div>
-        </form>
+  <div class="col s4">
+
+<md-list>
+  <md-subheader class="md-no-sticky">Activités</md-subheader><br>
+  <md-list-item class="md-2-line contact-item" ng-repeat="activ in activities">
+          <div class="md-list-item-text compact">
+        <h3>{{activ.activity}}</h3>
+     </div>
+<md-divider md-inset ng-if="!$last"></md-divider>
+  </md-list-item>
+</md-list>
+</md-content>
+</div>
+</div>

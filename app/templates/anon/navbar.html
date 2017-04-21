@@ -12,7 +12,8 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
                 <li ui-sref-active="active"><a ui-sref="anon.home">Home</a></li>
-
+                <li ui-sref-active="active"><a ui-sref="user.createDefis" ng-show="auth.isAuthenticated()">Nouveau defi</a></li>
+                <li ui-sref-active="active"><a ui-sref="user.filterActivity" ng-show="auth.isAuthenticated()">filter activity</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>

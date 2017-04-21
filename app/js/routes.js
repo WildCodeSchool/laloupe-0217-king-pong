@@ -72,6 +72,15 @@ angular.module('app')
                     }
                 }
             })
+            .state('user.filterActivity', {
+                url: '/filteractivity',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/newDefiActivity.html',
+                        controller: 'CreateActivityController'
+                    }
+                }
+            })
             .state('user.profile', {
                 url: '/profile',
                 views: {
