@@ -64,12 +64,13 @@ angular.module('app')
                 }
             })
             .state('user.createDefis', {
-                url: '/createDefis',
+                url: '/createDefis/:activity',
+
                 views: {
                     'content@': {
                         templateUrl: 'user/createDefis.html',
-                        controller: 'CreateDefisController'
-                    }
+                        controller: 'CreateDefisController',
+                      }
                 }
             })
             .state('user.filterActivity', {
@@ -77,8 +78,10 @@ angular.module('app')
                 views: {
                     'content@': {
                         templateUrl: 'user/newDefiActivity.html',
-                        controller: 'CreateActivityController'
-                    }
+                        controller: 'CreateActivityController',
+
+                        }
+
                 }
             })
             .state('user.profile', {

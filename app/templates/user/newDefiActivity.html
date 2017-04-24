@@ -1,15 +1,15 @@
 <div class="row">
   <div class="col s4">
 
+
+
+
 <md-list>
   <md-subheader class="md-no-sticky">Activités</md-subheader><br>
-  <md-list-item class="md-2-line contact-item" ng-repeat="activ in activities">
-          <div class="md-list-item-text compact">
-        <h3>{{activ.activity}}</h3>
-     </div>
-<md-divider md-inset ng-if="!$last"></md-divider>
-  </md-list-item>
-</md-list>
-</md-content>
-</div>
-</div>
+<ul>
+  <li ng-repeat = "activ in activitiesList" >
+    <div class="md-list-item-text compact" ng-click="addActivity($index)">
+{{activ.activity}}
+    </a>
+  </li>
+</ul>

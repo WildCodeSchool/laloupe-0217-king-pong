@@ -3,13 +3,13 @@
         <label for="activity">Choisir son activités</label>
         <div class="row">
             <div class="input-field col s4">
-                <input placeholder="Activités" id="activity" type="text" class="active" ng-click="filterActivity()" ng-model='fullInActivity()'>
+                <input placeholder="Activités" id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity" >
+
             </div>
         </div>
         <!-- Calendrier datepicker -->
         <label for="start">Début</label>
-        <div class="row">
-            <div class="input-field col s4">
+        <div class="row">            <div class="input-field col s4">
                 <div layout-gt-xs="row">
                     <div flex-gt-xs>
                         <md-datepicker ng-model="myDate" md-placeholder="Saisir la date"></md-datepicker>

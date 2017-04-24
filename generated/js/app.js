@@ -107658,39 +107658,51 @@ angular.module('app')
         };
     });
 
-angular.module('app')
-    .controller('CreateActivityController', function($scope, $state) {
-            $scope.activities = [{
-                    activity: 'Foot de rue'
-                },
-                {
-                    activity: 'Tennis'
-                },
-                {
-                    activity: 'Ping-pong'
-                },
-                {
-                    activity: 'Echec'
-                },
-                {
-                    activity: 'Poker'
-                },
-                {
-                    activity: 'Basket'
-                }
-            ];
-              $scope.myActivity = {};
-              $scope.champs = function(){
+var instrumentsControllers = angular.module('app')
+    .controller('CreateActivityController', function($scope, $state, $stateParams) {
+        $scope.activitiesList = [{
+                activity: 'Foot de rue'
+            },
+            {
+                activity: 'Tennis'
+            },
+            {
+                activity: 'Ping-pong'
+            },
+            {
+                activity: 'Echec'
+            },
+            {
+                activity: 'Poker'
+            },
+            {
+                activity: 'Basket'
+            }
+        ];
 
-              };
 
+        $scope.activity = '';
+
+        $scope.addActivity = function(index) {
+            $state.go('user.createDefis', {
+                activity: $scope.activitiesList[index].activity
+            });
+        };
     });
 
 angular.module('app')
-    .controller('CreateDefisController', function($scope, $state) {
+    .controller('CreateDefisController', function($scope, $state, $stateParams) {
+
+
+$scope.activity="";
+
         $scope.filterActivity = function() {
-            $state.go('user.filterActivity');
+          $state.go('user.filterActivity',$stateParams);
+
+
         };
+        $scope.activity=$stateParams.activity;
+        console.log($stateParams.activity);
     });
 
 angular.module('app')
@@ -107812,12 +107824,13 @@ angular.module('app')
                 }
             })
             .state('user.createDefis', {
-                url: '/createDefis',
+                url: '/createDefis/:activity',
+
                 views: {
                     'content@': {
                         templateUrl: 'user/createDefis.html',
-                        controller: 'CreateDefisController'
-                    }
+                        controller: 'CreateDefisController',
+                      }
                 }
             })
             .state('user.filterActivity', {
@@ -107825,8 +107838,10 @@ angular.module('app')
                 views: {
                     'content@': {
                         templateUrl: 'user/newDefiActivity.html',
-                        controller: 'CreateActivityController'
-                    }
+                        controller: 'CreateActivityController',
+
+                        }
+
                 }
             })
             .state('user.profile', {
@@ -107922,13 +107937,13 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "        <label for=\"activity\">Choisir son activités</label>\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"input-field col s4\">\n" +
-    "                <input placeholder=\"Activités\" id=\"activity\" type=\"text\" class=\"active\" ng-click=\"filterActivity()\" ng-model='fullInActivity()'>\n" +
+    "                <input placeholder=\"Activités\" id=\"activity\" type=\"text\" class=\"active\" ng-click=\"filterActivity()\" ng-model=\"activity\" >\n" +
+    "\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <!-- Calendrier datepicker -->\n" +
     "        <label for=\"start\">Début</label>\n" +
-    "        <div class=\"row\">\n" +
-    "            <div class=\"input-field col s4\">\n" +
+    "        <div class=\"row\">            <div class=\"input-field col s4\">\n" +
     "                <div layout-gt-xs=\"row\">\n" +
     "                    <div flex-gt-xs>\n" +
     "                        <md-datepicker ng-model=\"myDate\" md-placeholder=\"Saisir la date\"></md-datepicker>\n" +
@@ -108010,18 +108025,18 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "<div class=\"row\">\n" +
     "  <div class=\"col s4\">\n" +
     "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "<md-list>\n" +
     "  <md-subheader class=\"md-no-sticky\">Activités</md-subheader><br>\n" +
-    "  <md-list-item class=\"md-2-line contact-item\" ng-repeat=\"activ in activities\">\n" +
-    "          <div class=\"md-list-item-text compact\">\n" +
-    "        <h3>{{activ.activity}}</h3>\n" +
-    "     </div>\n" +
-    "<md-divider md-inset ng-if=\"!$last\"></md-divider>\n" +
-    "  </md-list-item>\n" +
-    "</md-list>\n" +
-    "</md-content>\n" +
-    "</div>\n" +
-    "</div>\n"
+    "<ul>\n" +
+    "  <li ng-repeat = \"activ in activitiesList\" >\n" +
+    "    <div class=\"md-list-item-text compact\" ng-click=\"addActivity($index)\">\n" +
+    "{{activ.activity}}\n" +
+    "    </a>\n" +
+    "  </li>\n" +
+    "</ul>\n"
   );
 
   $templateCache.put("user/profile.html",
