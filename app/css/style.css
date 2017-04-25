@@ -1,21 +1,12 @@
-textarea.materialize-textarea {
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #9e9e9e;
-  border-radius: 0;
-  outline: none;
-  height: 1rem;
-  width: 100%;
-  font-size: 1rem;
-  margin: 0 !important;
-  padding: 0;
-  box-shadow: none;
-  box-sizing: content-box;
-  transition: all 0.3s;
-}
+
 .md-datepicker-input-container {
   position: relative;
   border-bottom-width: 1px;
   border-bottom-style: none !important;
   display: inline-block;
   width: auto; }
+
+
+.btn-floating.btn-large{
+  float: right;
+}

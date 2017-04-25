@@ -22,9 +22,8 @@ var instrumentsControllers = angular.module('app')
 
 
         $scope.activity = '';
-
         $scope.addActivity = function(index) {
-            $state.go('user.createDefis', {
+            $state.go('user.activityDescription', {
                 activity: $scope.activitiesList[index].activity
             });
         };

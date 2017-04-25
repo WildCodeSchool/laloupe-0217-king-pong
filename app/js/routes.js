@@ -73,6 +73,16 @@ angular.module('app')
                       }
                 }
             })
+            .state('user.activityDescription', {
+                url: '/activityDescription/:activity',
+
+                views: {
+                    'content@': {
+                        templateUrl: 'user/activityDescription.html',
+                        controller: 'ActivityDescriptionController',
+                      }
+                }
+            })
             .state('user.filterActivity', {
                 url: '/filteractivity',
                 views: {
