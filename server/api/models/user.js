@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import token from '../token.js';
 import community from './community.js';
+import md5 from 'md5'
 
 const hashCode = (s) => s.split("").reduce((a, b) => {
   a = ((a << 5) - a) + b.charCodeAt(0);
@@ -121,6 +122,8 @@ export default class User {
       var salt = bcrypt.genSaltSync(10);
       req.body.password = bcrypt.hashSync(req.body.password, salt);
     }
+    var mail = md5(req.body.email.trim().toLowerCase());
+    console.log(mail);
     model.create(req.body,
       (err, user) => {
         if (err || !user) {

@@ -15,6 +15,7 @@
     "cors": "",
     "express": "",
     "jsonwebtoken": "",
+    "md5": "^2.2.1",
     "method-override": "",
     "moment": "^2.18.1",
     "mongoose": "",
