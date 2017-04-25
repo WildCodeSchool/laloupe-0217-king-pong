@@ -9,13 +9,18 @@
     </form>
   </div>
 </nav>
-<div class="row">
-  <div class="col s12 l6 offset-l4 community">
-    <ul class="collection">
-      <li ng-repeat="community in communitys track by $index" ng-click="addCommunity(community._id)" class="collection-item">{{community.name}}
-      </li>
-    </ul>
-
+<md-toolbar layout="row" class="md-hue-3">
+  <div class="md-toolbar-tools ">
+    Community
   </div>
+</md-toolbar>
 
-</div>
+
+<md-list>
+  <md-list-item class="md-2-line" ng-repeat="community in communitys track by $index" ng-click="addCommunity(community._id)">
+    <div  class="md-list-item-text">
+      <h3>{{community.name}}</h3>
+      <p>{{community.location}}</p>
+    </div>
+  </md-list-item>
+</md-list>

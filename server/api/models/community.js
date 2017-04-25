@@ -11,8 +11,12 @@ const hashCode = (s) => s.split("").reduce((a, b) => {
 
 const communitySchema = new mongoose.Schema({
 
-  Name : {
+  name : {
     type : String,
+    required: true
+  },
+  location: {
+    type: String,
     required: true
   },
   users : [{
