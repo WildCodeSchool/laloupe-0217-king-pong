@@ -243,7 +243,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "                <input placeholder=\"Dans quelle ville se déroulera le défi\" id=\"where\" type=\"text\" class=\"validate\">\n" +
     "            </div>\n" +
     "        </div>\n" +
-    "<button class=\"btn blue\" type=\"button\"><span>   Creer le défi    </span></button>\n" +
+    "<button ng-click=\"add()\"class=\"btn blue\" type=\"button\"><span>   Creer le défi    </span></button>\n" +
     "</div>\n" +
     "\n" +
     "</form>\n"
