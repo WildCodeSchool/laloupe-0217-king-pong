@@ -39,6 +39,15 @@ angular.module('app')
                         controller: 'RegisterController'
                     }
                 }
+            })
+            .state('anon.community', {
+                url: '/community',
+                views: {
+                    'content@': {
+                        templateUrl: 'anon/community.html',
+                        controller: 'CommunityController'
+                    }
+                }
             });
         $stateProvider
             .state('user', {
