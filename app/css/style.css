@@ -10,3 +10,8 @@
 .btn-floating.btn-large{
   float: right;
 }
+.md-subheader .md-subheader-inner{
+height: 70px;
+background-color: #eeeeee;
+text-align: center;
+}

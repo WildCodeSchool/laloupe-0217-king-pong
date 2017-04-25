@@ -32691,6 +32691,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 .btn-floating.btn-large{
   float: right;
 }
+.md-subheader .md-subheader-inner{
+height: 70px;
+background-color: #eeeeee;
+text-align: center;
+}
 
 @font-face {
   font-family: 'Material Icons';
