@@ -1,4 +1,5 @@
 angular.module('app')
-    .controller('MainController', function($scope) {
-      /* Here is your main controller */
+    .controller('MainController', function($scope, $timeout, $mdSidenav) {
+      
+
     });
