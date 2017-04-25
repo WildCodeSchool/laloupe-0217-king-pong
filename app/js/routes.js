@@ -39,6 +39,15 @@ angular.module('app')
                         controller: 'RegisterController'
                     }
                 }
+            })
+            .state('anon.community', {
+                url: '/community',
+                views: {
+                    'content@': {
+                        templateUrl: 'anon/community.html',
+                        controller: 'CommunityController'
+                    }
+                }
             });
         $stateProvider
             .state('user', {
@@ -60,6 +69,15 @@ angular.module('app')
                     'content@': {
                         templateUrl: 'user/dashboard.html',
                         controller: 'DashboardController'
+                    }
+                }
+            })
+            .state('user.home', {
+                url: '/home',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/home.html',
+                        controller: 'HomeController'
                     }
                 }
             })
