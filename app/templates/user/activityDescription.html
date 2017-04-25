@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col s12">
+        <md-list>
+            <a class="btn-floating btn-large waves-effect waves-light blue">+</a>
+            <md-subheader class="md-no-sticky">
+              <p>{{activity}}</p>
+            </md-subheader><br>
+            <div class="row">
+                <form class="col s12">
+                    <label for="activity">Description</label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="description" type="text" class="active" ng-model="description">
+                        </div>
+                    </div>
+                    <label for="resultRule">Règle du resultat</label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input  id="resultRule" type="text" class="validate">
+                        </div>
+                    </div>
+                    <label for="teamNumber">Nombre d'équipe</label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="teamNumber" type="text" class="validate">
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <p>PARTICIPANTS</p>
+                    </div> -->
+            </div>
+            <label for="playerNumber">Nombre de joueur par équipe</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input  id="playerNumber" type="text" class="validate">
+                </div>
+            </div>
+            <label for="averageLast">Durée moyenne</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input  id="averageLast" type="text" class="validate">
+                </div>
+            </div>
+
+            </form>

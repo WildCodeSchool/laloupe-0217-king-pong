@@ -97884,9 +97884,61 @@ angular.module('app')
     });
 
 angular.module('app')
+    .controller('ActivityDescriptionController', function($scope, $state, $stateParams) {
+
+
+        $scope.activity = "";
+
+        $scope.activity = $stateParams.activity;
+        $scope.description = "loren sum.....";
+
+    });
+
+angular.module('app')
     .controller('CommunityController', function($scope, $timeout, $mdSidenav) {
 
 
+    });
+
+var instrumentsControllers = angular.module('app')
+    .controller('CreateActivityController', function($scope, $state, $stateParams) {
+        $scope.activitiesList = [{
+                activity: 'Foot de rue'
+            },
+            {
+                activity: 'Tennis'
+            },
+            {
+                activity: 'Ping-pong'
+            },
+            {
+                activity: 'Echec'
+            },
+            {
+                activity: 'Poker'
+            },
+            {
+                activity: 'Basket'
+            }
+        ];
+
+
+        $scope.activity = '';
+        $scope.addActivity = function(index) {
+            $state.go('user.activityDescription', {
+                activity: $scope.activitiesList[index].activity
+            });
+        };
+    });
+
+angular.module('app')
+    .controller('CreateDefisController', function($scope, $state, $stateParams) {
+
+        $scope.activity = "";
+        $scope.filterActivity = function() {
+            $state.go('user.filterActivity', $stateParams);
+        };
+        $scope.activity = $stateParams.activity;
     });
 
 angular.module('app')
@@ -98016,13 +98068,35 @@ angular.module('app')
                     }
                 }
             })
-            .state('user.home', {
-                url: '/home',
+            .state('user.createDefis', {
+                url: '/createDefis/:activity',
+
                 views: {
                     'content@': {
-                        templateUrl: 'user/home.html',
-                        controller: 'HomeController'
-                    }
+                        templateUrl: 'user/createDefis.html',
+                        controller: 'CreateDefisController',
+                      }
+                }
+            })
+            .state('user.activityDescription', {
+                url: '/activityDescription/:activity',
+
+                views: {
+                    'content@': {
+                        templateUrl: 'user/activityDescription.html',
+                        controller: 'ActivityDescriptionController',
+                      }
+                }
+            })
+            .state('user.filterActivity', {
+                url: '/filteractivity',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/newDefiActivity.html',
+                        controller: 'CreateActivityController',
+
+                        }
+
                 }
             })
             .state('user.profile', {
@@ -98092,7 +98166,8 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "        <div class=\"collapse navbar-collapse\" id=\"navbar\">\n" +
     "            <ul class=\"nav navbar-nav\">\n" +
     "                <li ui-sref-active=\"active\"><a ui-sref=\"anon.home\">Home</a></li>\n" +
-    "\n" +
+    "                <li ui-sref-active=\"active\"><a ui-sref=\"user.createDefis\" ng-show=\"auth.isAuthenticated()\">Nouveau defi</a></li>\n" +
+    "                <li ui-sref-active=\"active\"><a ui-sref=\"user.filterActivity\" ng-show=\"auth.isAuthenticated()\">filter activity</a></li>\n" +
     "            </ul>\n" +
     "            <ul class=\"nav navbar-nav navbar-right\">\n" +
     "                <li>\n" +
@@ -98174,6 +98249,93 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "</div> -->\n"
   );
 
+  $templateCache.put("user/activityDescription.html",
+    "<div class=\"row\">\n" +
+    "    <div class=\"col s12\">\n" +
+    "        <md-list>\n" +
+    "            <a class=\"btn-floating btn-large waves-effect waves-light blue\">+</a>\n" +
+    "            <md-subheader class=\"md-no-sticky\">\n" +
+    "              <p>{{activity}}</p>\n" +
+    "            </md-subheader><br>\n" +
+    "            <div class=\"row\">\n" +
+    "                <form class=\"col s12\">\n" +
+    "                    <label for=\"activity\">Description</label>\n" +
+    "                    <div class=\"row\">\n" +
+    "                        <div class=\"input-field col s12\">\n" +
+    "                            <input id=\"description\" type=\"text\" class=\"active\" ng-model=\"description\">\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                    <label for=\"resultRule\">Règle du resultat</label>\n" +
+    "                    <div class=\"row\">\n" +
+    "                        <div class=\"input-field col s12\">\n" +
+    "                            <input  id=\"resultRule\" type=\"text\" class=\"validate\">\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                    <label for=\"teamNumber\">Nombre d'équipe</label>\n" +
+    "                    <div class=\"row\">\n" +
+    "                        <div class=\"input-field col s12\">\n" +
+    "                            <input id=\"teamNumber\" type=\"text\" class=\"validate\">\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                    <!-- <div class=\"row\">\n" +
+    "                        <p>PARTICIPANTS</p>\n" +
+    "                    </div> -->\n" +
+    "            </div>\n" +
+    "            <label for=\"playerNumber\">Nombre de joueur par équipe</label>\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"input-field col s12\">\n" +
+    "                    <input  id=\"playerNumber\" type=\"text\" class=\"validate\">\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            <label for=\"averageLast\">Durée moyenne</label>\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"input-field col s12\">\n" +
+    "                    <input  id=\"averageLast\" type=\"text\" class=\"validate\">\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            </form>\n"
+  );
+
+  $templateCache.put("user/createDefis.html",
+    "<a class=\"btn-floating btn-large waves-effect waves-light blue\">+</a>\n" +
+    "<br><br>\n" +
+    "<div class=\"row\">\n" +
+    "    <form class=\"col s12\">\n" +
+    "              <label for=\"activity\">Choisir son activités</label>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"input-field col s12\">\n" +
+    "                <input placeholder=\"Activités\" id=\"activity\" type=\"text\" class=\"active\" ng-click=\"filterActivity()\" ng-model=\"activity\" >\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <!-- Calendrier datepicker -->\n" +
+    "        <label for=\"start\">Début</label>\n" +
+    "        <div class=\"row\">            <div class=\"input-field col s12\">\n" +
+    "                <div layout-gt-xs=\"row\">\n" +
+    "                    <div flex-gt-xs>\n" +
+    "                        <md-datepicker ng-model=\"myDate\" md-placeholder=\"Saisir la date\"></md-datepicker>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <label for=\"duration\">Durée</label>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"input-field col s12\">\n" +
+    "                <input placeholder=\"Combien de temps durera le défi\" id=\"duration\" type=\"text\" class=\"validate\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <label for=\"where\">Lieu</label>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"input-field col s12\">\n" +
+    "                <input placeholder=\"Dans quelle ville se déroulera le défi\" id=\"where\" type=\"text\" class=\"validate\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "<button class=\"btn blue\" type=\"button\"><span>   Creer le défi    </span></button>\n" +
+    "</div>\n" +
+    "\n" +
+    "</form>\n"
+  );
+
   $templateCache.put("user/dashboard.html",
     "Dashboard de {{user.email}}\n"
   );
@@ -98198,17 +98360,29 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "            <ul class=\"nav navbar-nav\">\n" +
     "                <li ui-sref-active=\"active\"><a ui-sref=\"user.dashboard\" ng-show=\"auth.isAuthenticated()\">Dashboard</a></li>\n" +
     "                <li ui-sref-active=\"active\"><a ui-sref=\"user.profile\" ng-show=\"auth.isAuthenticated()\">Profile</a></li>\n" +
-    "\n" +
+    "              \n" +
     "            </ul>\n" +
     "            <ul class=\"nav navbar-nav navbar-right\">\n" +
     "                <li>\n" +
-    "                <li ui-sref-active=\"active\"><a ui-sref=\"anon.home\">Website</a></li>\n" +
+    "                    <li ui-sref-active=\"active\"><a ui-sref=\"anon.home\">Website</a></li>\n" +
     "                    <li><a ng-click=\"logout()\" ng-show=\"auth.isAuthenticated()\" href='#'>Logout</a></li>\n" +
     "                </li>\n" +
     "            </ul>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</nav>\n"
+  );
+
+  $templateCache.put("user/newDefiActivity.html",
+    "<div class=\"row\">\n" +
+    "    <div class=\"col s12\">\n" +
+    "        <md-list>\n" +
+    "            <md-subheader class=\"md-no-sticky\"><b>Activités</b></md-subheader><br>\n" +
+    "            <ul class=\"collection\">\n" +
+    "                <li class=\"collection-item\" ng-repeat=\"activ in activitiesList\">\n" +
+    "                    <div class=\"md-list-item-text compact\" ng-click=\"addActivity($index)\">{{activ.activity}}\n" +
+    "                </li>\n" +
+    "            </ul>\n"
   );
 
   $templateCache.put("user/profile.html",

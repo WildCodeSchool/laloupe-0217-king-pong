@@ -29681,7 +29681,7 @@ textarea.materialize-textarea {
   border-bottom: 1px solid #9e9e9e;
   border-radius: 0;
   outline: none;
-  height: 3rem;
+  height: 1rem;
   width: 100%;
   font-size: 1rem;
   margin: 0 0 20px 0;
@@ -32679,32 +32679,17 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   }
 }
 
-.slideshow{
-  width: 350px;
-  height: 200px;
-  overflow: hidden;
-  border: 3px solid black;
-}
 
-.slideshow ul{
-  width: 400%;
-  height: 200px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
+.md-datepicker-input-container {
+  position: relative;
+  border-bottom-width: 1px;
+  border-bottom-style: none !important;
+  display: inline-block;
+  width: auto; }
 
-.slideshow li {
-  float: left;
-}
-#li1{
-  background-color: black;
-}
-#li2{
-  background-color: red;
-}
-#li3{
-  background-color: green;
+
+.btn-floating.btn-large{
+  float: right;
 }
 
 @font-face {

@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="col s12">
+        <md-list>
+            <md-subheader class="md-no-sticky"><b>Activités</b></md-subheader><br>
+            <ul class="collection">
+                <li class="collection-item" ng-repeat="activ in activitiesList">
+                    <div class="md-list-item-text compact" ng-click="addActivity($index)">{{activ.activity}}
+                </li>
+            </ul>

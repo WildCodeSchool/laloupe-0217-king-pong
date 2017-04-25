@@ -72,13 +72,35 @@ angular.module('app')
                     }
                 }
             })
-            .state('user.home', {
-                url: '/home',
+            .state('user.createDefis', {
+                url: '/createDefis/:activity',
+
                 views: {
                     'content@': {
-                        templateUrl: 'user/home.html',
-                        controller: 'HomeController'
-                    }
+                        templateUrl: 'user/createDefis.html',
+                        controller: 'CreateDefisController',
+                      }
+                }
+            })
+            .state('user.activityDescription', {
+                url: '/activityDescription/:activity',
+
+                views: {
+                    'content@': {
+                        templateUrl: 'user/activityDescription.html',
+                        controller: 'ActivityDescriptionController',
+                      }
+                }
+            })
+            .state('user.filterActivity', {
+                url: '/filteractivity',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/newDefiActivity.html',
+                        controller: 'CreateActivityController',
+
+                        }
+
                 }
             })
             .state('user.profile', {
