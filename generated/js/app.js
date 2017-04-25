@@ -97866,6 +97866,22 @@ angular.module('app')
     });
 
 angular.module('app')
+    .service('CategoryService', function($http) {
+        return {
+
+            getOne: function(id) {
+                return $http.get('/categorys/' + id);
+            },
+            update: function(id, category) {
+                return $http.put('/categorys/' + id, category);
+            },
+            delete: function(id) {
+                return $http.delete('/users/' + id);
+            }
+        };
+    });
+
+angular.module('app')
     .service('UserService', function($http) {
         return {
             getAll: function() {
@@ -97966,7 +97982,26 @@ angular.module('app')
 
 angular.module('app')
     .controller('MainController', function($scope, $timeout, $mdSidenav) {
-      
+
+$scope.image = [
+
+"./img/ping-png.jpg",
+"./img/jeuxVideo.jpg",
+"./img/boardGames.jpg", ];
+
+
+
+      $scope.challenge = [
+    { url: foot,
+
+  },
+  ];
+
+  $('.carousel.carousel-slider').carousel({
+    fullWidth: true,
+  shift: -150,
+padding: 80,
+});
 
     });
 
@@ -98128,8 +98163,179 @@ angular.module("app").run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put("anon/home.html",
+    "<nav class=\"nav-extended\">\n" +
+    "    <div class=\"col s12\">\n" +
+    "        <div class=\"nav-wrapper\">\n" +
+    "            <a href=\"#\" class=\"brand-logo\">Logo</a>\n" +
+    "            <a href=\"#\" data-activates=\"mobile-demo\" class=\"button-collapse\"><i class=\"\">menu</i></a>\n" +
     "\n" +
-    "  \n"
+    "\n" +
+    "        </div>\n" +
+    "        <div class=\"nav-content\">\n" +
+    "            <ul class=\"tabs tabs-transparent\">\n" +
+    "                <li class=\"tab\"><a href=\"#test1\">Defi</a></li>\n" +
+    "                <li class=\"tab\"><a class=\"active\" href=\"#test2\">Classement</a></li>\n" +
+    "\n" +
+    "            </ul>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</nav>\n" +
+    "\n" +
+    "\n" +
+    "<div class=\"invitation\">\n" +
+    "    <h1>Invitation</h1></div>\n" +
+    "<div class=\"carousel carousel-slider center\" data-indicators=\"true\">\n" +
+    "\n" +
+    "    <div class=\"carousel-item \" href=\"#one!\">\n" +
+    "        <div class=\"card\">\n" +
+    "          <div class=\"challenge\" ng-repeat =\"media in challenge\">\n" +
+    "              <img class=\"activator\" ng-src =\"{{challenge.url}}\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"carousel-item \" href=\"#two!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/boardGames.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "    <div class=\"carousel-item \" href=\"#three!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/ping-pong.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"carousel-item\" href=\"#four!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/jeuxVideo.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"row\">\n" +
+    "\n" +
+    "    <div class=\"col s6 arbitrage\">\n" +
+    "        <h1>Arbitrage</h1></div>\n" +
+    "    <div class=\"col s6 flotingButton\">\n" +
+    "        <a class=\"btn-floating btn-large waves-effect waves-light blue\">\n" +
+    "            <i class=\"material-icons\">add</i></a>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<div class=\"arbitrage\">\n" +
+    "</div>\n" +
+    "<div class=\"carousel carousel-slider center\" data-indicators=\"true\">\n" +
+    "\n" +
+    "    <div class=\"carousel-item \" href=\"#one!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/foot.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    "    <div class=\"carousel-item \" href=\"#two!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/boardGames.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "    <div class=\"carousel-item \" href=\"#three!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/ping-pong.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"carousel-item\" href=\"#four!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/jeuxVideo.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "</div>\n"
   );
 
   $templateCache.put("anon/login.html",
