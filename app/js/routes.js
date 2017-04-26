@@ -101,6 +101,18 @@ angular.module('app')
                       }
                 }
             })
+            .state('user.invitation', {
+                url: '/invitation',
+
+                views: {
+                    'content@': {
+                        templateUrl: 'user/invitation.html',
+                        controller: 'invitationController',
+                      }
+                }
+            })
+
+
             .state('user.filterActivity', {
                 url: '/filteractivity',
                 views: {

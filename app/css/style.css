@@ -10,3 +10,16 @@
 .btn-floating.btn-large{
   float: right;
 }
+.md-subheader .md-subheader-inner{
+height: 150px;
+background-color: #eeeeee;
+border-bottom: solid 1px;
+border-color: grey;
+
+}
+.cadre{
+  text-align: center;
+}
+img.circle{
+  width: 80px !important;
+}

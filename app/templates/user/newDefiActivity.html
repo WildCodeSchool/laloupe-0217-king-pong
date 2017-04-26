@@ -1,9 +1,25 @@
+<nav>
+  <div class="nav-wrapper">
+    <form>
+      <i class="material-icons">navigate_before</i>
+      <div class="input-field">
+        <input id="search" type="search" required>
+        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+        <i class="material-icons">close</i>
+      </div>
+    </form>
+  </div>
+</nav>
+<div class="cadre">
+<md-subheader class="md-no-sticky"><b>Activités</b></md-subheader><br>
+</div>
 <div class="row">
     <div class="col s12">
-        <md-list>
-            <md-subheader class="md-no-sticky"><b>Activités</b></md-subheader><br>
+
+            <md-list>
             <ul class="collection">
                 <li class="collection-item" ng-repeat="activ in activitiesList">
                     <div class="md-list-item-text compact" ng-click="addActivity($index)">{{activ.activity}}
                 </li>
             </ul>
+          </md-list>

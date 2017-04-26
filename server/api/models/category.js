@@ -7,10 +7,7 @@ const categorySchema = new mongoose.Schema({
     catName: {
         type: String
     },
-    url: {
-        type: String
-    },
-
+  
 });
 
 
