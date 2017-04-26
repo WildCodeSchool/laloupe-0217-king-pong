@@ -138,67 +138,59 @@ angular.module("app").run(["$templateCache", function($templateCache) {
 
   $templateCache.put("user/activityDescription.html",
     "<nav>\n" +
-    "  <div class=\"nav-wrapper\">\n" +
-    "    <form>\n" +
-    "      <i class=\"material-icons\">navigate_before</i>\n" +
-    "      </div>\n" +
+    "    <div class=\"nav-wrapper\">\n" +
+    "        <form>\n" +
+    "            <i class=\"material-icons\">navigate_before</i>\n" +
     "    </form>\n" +
     "  </div>\n" +
     "</nav>\n" +
     "<div class=\"cadre\">\n" +
-    "            <md-subheader class=\"md-no-sticky\">\n" +
-    "              <p>{{activity}}</p>\n" +
-    "            </md-subheader><br>\n" +
-    "          </div>\n" +
-    "          <md-list>\n" +
+    "    <md-subheader class=\"md-no-sticky\">\n" +
+    "        <div class =\"photoCat\">\n" +
+    "            <img src=\"img/echec.jpg\" alt=\"\" class=\"circle\">\n" +
+    "        </div>\n" +
+    "        <p>{{activity}}</p>\n" +
+    "    </md-subheader><br>\n" +
+    "</div>\n" +
+    "<md-list>\n" +
+    "    <div class=\"row\">\n" +
+    "        <form class=\"col s12\">\n" +
+    "            <label for=\"activity\">Description</label>\n" +
     "            <div class=\"row\">\n" +
-    "                <form class=\"col s12\">\n" +
-    "                    <label for=\"activity\">Description</label>\n" +
-    "                    <div class=\"row\">\n" +
-    "                        <div class=\"input-field col s12\">\n" +
-    "                            <input id=\"description\" type=\"text\" class=\"active\" ng-model=\"description\">\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                  </div>\n" +
-    "                  <div class=\"row\">\n" +
-    "                      <form class=\"col s12\">\n" +
-    "                    <label for=\"resultRule\">Règle du resultat</label>\n" +
-    "                    <div class=\"row\">\n" +
-    "                        <div class=\"input-field col s12\">\n" +
-    "                            <input  id=\"resultRule\" type=\"text\" class=\"validate\">\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                  </div>\n" +
-    "                  <div class=\"row\">\n" +
-    "                      <form class=\"col s12\">\n" +
-    "                    <label for=\"teamNumber\">Nombre d'équipe</label>\n" +
-    "                    <div class=\"row\">\n" +
-    "                        <div class=\"input-field col s12\">\n" +
-    "                            <input id=\"teamNumber\" type=\"text\" class=\"validate\">\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
+    "                <div class=\"input-field col s12\">\n" +
+    "                    <input id=\"description\" type=\"text\" class=\"active\" ng-model=\"description\">\n" +
     "                </div>\n" +
-    "                <div class=\"row\">\n" +
-    "                    <form class=\"col s12\">\n" +
+    "            </div>\n" +
+    "            <label for=\"resultRule\">Règle du resultat</label>\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"input-field col s12\">\n" +
+    "                    <input id=\"resultRule\" type=\"text\" class=\"active\" ng-model=\"description\">\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <label for=\"teamNumber\">Nombre d'équipe</label>\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"input-field col s12\">\n" +
+    "                    <input id=\"teamNumber\" type=\"text\" class=\"validate\">\n" +
+    "                </div>\n" +
+    "            </div>\n" +
     "            <label for=\"playerNumber\">Nombre de joueur par équipe</label>\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"input-field col s12\">\n" +
-    "                    <input  id=\"playerNumber\" type=\"text\" class=\"validate\">\n" +
+    "                    <input id=\"playerNumber\" type=\"text\" class=\"validate\">\n" +
     "                </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
-    "          <div class=\"row\">\n" +
-    "              <form class=\"col s12\">\n" +
+    "              </div>\n" +
+    "\n" +
     "            <label for=\"averageLast\">Durée moyenne</label>\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"input-field col s12\">\n" +
-    "                    <input  id=\"averageLast\" type=\"text\" class=\"validate\">\n" +
+    "                    <input id=\"averageLast\" type=\"text\" class=\"validate\">\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "          </div>\n" +
+    "    </div>\n" +
+    "  </form>\n" +
     "</md-list>\n" +
-    "            <a class=\"btn-floating btn-large waves-effect waves-light blue\">+</a>\n" +
-    "            </form>\n"
+    "<a class=\"btn-floating btn-large waves-effect waves-light blue\">+</a>\n"
   );
 
   $templateCache.put("user/createDefis.html",
@@ -208,10 +200,16 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "          <label class=\"label-icon\" for=\"close\"><i class=\"material-icons\">close</i></label>\n" +
     "          <i class=\"material-icons\">close</i>\n" +
     "        </div>\n" +
+    "        <div class=\"cadre\">\n" +
+    "            <md-subheader class=\"md-no-sticky\">\n" +
+    "                <div class =\"photoCat\">\n" +
+    "                    <img src=\"img/echec.jpg\" alt=\"\" class=\"circle\">\n" +
+    "                </div>\n" +
+    "            </md-subheader><br>\n" +
+    "        </div>\n" +
     "      </form>\n" +
     "    </div>\n" +
     "  </nav>\n" +
-    "<a class=\"btn-floating btn-large waves-effect waves-light blue\">+</a>\n" +
     "<br><br>\n" +
     "<div class=\"row\">\n" +
     "    <form class=\"col s12\">\n" +

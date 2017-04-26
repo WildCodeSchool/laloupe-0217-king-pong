@@ -11,7 +11,15 @@
   float: right;
 }
 .md-subheader .md-subheader-inner{
-height: 70px;
+height: 150px;
 background-color: #eeeeee;
-text-align: center;
+border-bottom: solid 1px;
+border-color: grey;
+
+}
+.cadre{
+  text-align: center;
+}
+img.circle{
+  width: 80px !important;
 }
