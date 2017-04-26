@@ -97866,6 +97866,7 @@ angular.module('app')
     });
 
 angular.module('app')
+<<<<<<< HEAD
     .service('ActivityService', function($http) {
         return {
           update: function(id, user) {
@@ -97877,6 +97878,27 @@ angular.module('app')
             getOne: function(id) {
                 return $http.get('/activity/' + id);
             },
+=======
+    .service('CategoryService', function($http) {
+      
+    });
+
+angular.module('app')
+    .service('CommunityService', function($http) {
+        return {
+            getAll: function() {
+                return $http.get('/communitys');
+            },
+            getOne: function(id) {
+                return $http.get('/communitys/' + id);
+            },
+            update: function(id, user) {
+                return $http.put('/communitys/' + id, user);
+            },
+            delete: function(id) {
+                return $http.delete('/communitys/' + id);
+            }
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
         };
     });
 
@@ -97887,6 +97909,10 @@ angular.module('app')
                 return $http.get('/users');
             },
             getOne: function(id) {
+<<<<<<< HEAD
+=======
+              console.log(id);
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
                 return $http.get('/users/' + id);
             },
             update: function(id, user) {
@@ -97899,6 +97925,7 @@ angular.module('app')
     });
 
 angular.module('app')
+<<<<<<< HEAD
     .controller('ActivityDescriptionController', function($scope, $state, $stateParams, ActivityService) {
 
         $scope.activity = $stateParams.activity;
@@ -97914,14 +97941,50 @@ angular.module('app')
    //bad
 
 });
+=======
+    .controller('ActivityDescriptionController', function($scope, $state, $stateParams) {
+
+
+        $scope.activity = "";
+
+        $scope.activity = $stateParams.activity;
+        $scope.description = "loren sum.....";
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
 
     });
 
 angular.module('app')
+<<<<<<< HEAD
     .controller('CommunityController', function($scope, $timeout, $mdSidenav) {
 
 
     });
+=======
+  .controller('CommunityController', function($scope, Auth, UserService, CommunityService, SessionService, $state) {
+    $scope.communitys = [{
+      _id: "58fdeef005219f2cac9c9f86",
+      name: "WCS Chartres",
+      location: "Chartes"
+    }, {
+      _id: "58fdeef005219f2cac9c9f87",
+      name: "Ecole 42",
+      location: "Paris"
+    }, {
+      _id: "58fdeef005219f2cac9c9f88",
+      name: "WCS Lyon",
+      location: "Lyon"
+    }];
+    var current = [];
+    current = JSON.parse(SessionService.get('users'));
+
+    $scope.addCommunity = function(id) {
+      current.community = id;
+      SessionService.unset('users');
+      Auth.register(current);
+      $state.go("user.home");
+    };
+  });
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
 
 var instrumentsControllers = angular.module('app')
     .controller('CreateActivityController', function($scope, $state, $stateParams) {
@@ -97962,7 +98025,13 @@ angular.module('app')
             $state.go('user.filterActivity', $stateParams);
         };
         $scope.activity = $stateParams.activity;
+<<<<<<< HEAD
           });
+=======
+      
+
+    });
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
 
 angular.module('app')
     .controller('DashboardController', function($scope, CurrentUser, UserService) {
@@ -97979,7 +98048,11 @@ angular.module('app')
             if ($scope.loginForm.$valid) {
                 $scope.errors = [];
                 Auth.login($scope.user).then(function(result) {
+<<<<<<< HEAD
                     $state.go('user.profile');
+=======
+                    $state.go('user.home');
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
                 }).catch(function(err) {
                     $scope.errors.push(err);
                 });
@@ -97989,7 +98062,18 @@ angular.module('app')
 
 angular.module('app')
     .controller('MainController', function($scope, $timeout, $mdSidenav) {
+<<<<<<< HEAD
       
+=======
+
+
+
+  $('.carousel.carousel-slider').carousel({
+    fullWidth: true,
+  shift: -150,
+padding: 80,
+});
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
 
     });
 
@@ -98005,15 +98089,23 @@ angular.module('app')
     });
 
 angular.module('app')
+<<<<<<< HEAD
   .controller('RegisterController', function($scope, $state, Auth, SessionService) {
+=======
+  .controller('RegisterController', function($scope, $state, SessionService) {
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
     $scope.register = function() {
       SessionService.set("users", JSON.stringify($scope.user));
       $state.go('anon.community');
 
+<<<<<<< HEAD
       // Auth.register($scope.user).then(function(res) {
       //
       //
       // });
+=======
+
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
     };
   });
 
@@ -98091,6 +98183,18 @@ angular.module('app')
                     }
                 }
             })
+<<<<<<< HEAD
+=======
+            .state('user.home', {
+                url: '/',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/home.html',
+                        controller: 'MainController'
+                    }
+                }
+            })
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
             .state('user.createDefis', {
                 url: '/createDefis/:activity',
 
@@ -98138,6 +98242,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
 
   $templateCache.put("anon/community.html",
     "<nav>\n" +
+<<<<<<< HEAD
     "    <div class=\"nav-wrapper\">\n" +
     "      <form>\n" +
     "        <div class=\"input-field center-align\">\n" +
@@ -98171,6 +98276,236 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "            <button type=\"submit\" class=\"btn btn-primary btn-block\">Login</button>\n" +
     "        </form>\n" +
     "    </div>\n" +
+=======
+    "  <div class=\"nav-wrapper\">\n" +
+    "    <form>\n" +
+    "      <div class=\"input-field center-align\">\n" +
+    "        <input id=\"search\" type=\"search\" required>\n" +
+    "        <label class=\"label-icon\" for=\"search\"><i class=\"material-icons\">search</i></label>\n" +
+    "        <i class=\"material-icons\">close</i>\n" +
+    "      </div>\n" +
+    "    </form>\n" +
+    "  </div>\n" +
+    "</nav>\n" +
+    "<md-toolbar layout=\"row\" class=\"md-hue-3\">\n" +
+    "  <div class=\"md-toolbar-tools \">\n" +
+    "    Community\n" +
+    "  </div>\n" +
+    "</md-toolbar>\n" +
+    "\n" +
+    "\n" +
+    "<md-list>\n" +
+    "  <md-list-item class=\"md-2-line\" ng-repeat=\"community in communitys track by $index\" ng-click=\"addCommunity(community._id)\">\n" +
+    "    <div  class=\"md-list-item-text\">\n" +
+    "      <h3>{{community.name}}</h3>\n" +
+    "      <p>{{community.location}}</p>\n" +
+    "    </div>\n" +
+    "  </md-list-item>\n" +
+    "</md-list>\n"
+  );
+
+  $templateCache.put("anon/home.html",
+    "<nav class=\"nav-extended\">\n" +
+    "    <div class=\"col s12\">\n" +
+    "        <div class=\"nav-wrapper\">\n" +
+    "            <a href=\"#\" class=\"brand-logo\">Logo</a>\n" +
+    "            <a href=\"#\" data-activates=\"mobile-demo\" class=\"button-collapse\"><i class=\"\">menu</i></a>\n" +
+    "\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <div class=\"nav-content\">\n" +
+    "            <ul class=\"tabs tabs-transparent\">\n" +
+    "                <li class=\"tab\"><a href=\"#test1\">Defi</a></li>\n" +
+    "                <li class=\"tab\"><a class=\"active\" href=\"#test2\">Classement</a></li>\n" +
+    "\n" +
+    "            </ul>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</nav>\n" +
+    "\n" +
+    "\n" +
+    "<div class=\"invitation\">\n" +
+    "    <h1>Invitation</h1></div>\n" +
+    "<div class=\"carousel carousel-slider center\" data-indicators=\"true\">\n" +
+    "\n" +
+    "    <div class=\"carousel-item \" href=\"#one!\">\n" +
+    "        <div class=\"card\">\n" +
+    "          <div class=\"challenge\" ng-repeat =\"media in challenge\">\n" +
+    "              <img class=\"activator\" ng-src =\"{{challenge.url}}\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"carousel-item \" href=\"#two!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/boardGames.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "    <div class=\"carousel-item \" href=\"#three!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/ping-pong.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"carousel-item\" href=\"#four!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/jeuxVideo.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"row\">\n" +
+    "\n" +
+    "    <div class=\"col s6 arbitrage\">\n" +
+    "        <h1>Arbitrage</h1></div>\n" +
+    "    <div class=\"col s6 flotingButton\">\n" +
+    "        <a class=\"btn-floating btn-large waves-effect waves-light blue\">\n" +
+    "            <i class=\"material-icons\">add</i></a>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<div class=\"arbitrage\">\n" +
+    "</div>\n" +
+    "<div class=\"carousel carousel-slider center\" data-indicators=\"true\">\n" +
+    "\n" +
+    "    <div class=\"carousel-item \" href=\"#one!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/foot.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    "    <div class=\"carousel-item \" href=\"#two!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/boardGames.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "    <div class=\"carousel-item \" href=\"#three!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/ping-pong.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"carousel-item\" href=\"#four!\">\n" +
+    "        <div class=\"card\">\n" +
+    "            <div class=\"card-image waves-effect waves-block waves-light\">\n" +
+    "                <img class=\"activator\" src=\"./img/jeuxVideo.jpg\">\n" +
+    "            </div>\n" +
+    "            <div class=\"card-content\">\n" +
+    "                <span class=\"card-title activator grey-text text-darken-4\">Card Title<i class=\"material-icons right\">more_vert</i></span>\n" +
+    "                <p><a href=\"#\">This is a link</a></p>\n" +
+    "            </div>\n" +
+    "            <div class=\"card-reveal\">\n" +
+    "                <span class=\"card-title grey-text text-darken-4\">Card Title<i class=\"material-icons right\">close</i></span>\n" +
+    "                <p>Here is some more information about this product that is only revealed once clicked on.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "</div>\n"
+  );
+
+  $templateCache.put("anon/login.html",
+    "\n" +
+    "<div class=\"row\">\n" +
+    "  <form class=\"col s12 l6 offset-l4 login\" name=\"loginForm\" novalidate ng-submit=\"login()\">\n" +
+    "    <div ng-repeat=\"error in errors\">{{error.error}}</div>\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"input-field col s11 l6 \">\n" +
+    "        <i class=\"material-icons prefix\">mail</i>\n" +
+    "        <input id=\"email\" type=\"email\" class=\"form-control\" ng-model=\"user.email\" required>\n" +
+    "        <label for=\"email\">Email</label>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"input-field col s11 l6 \">\n" +
+    "        <i class=\"material-icons prefix\">vpn_key</i>\n" +
+    "        <input id=\"password\" type=\"password\" class=\"form-control\" ng-model=\"user.password\" required>\n" +
+    "        <label for=\"password\">Password</label>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"col s12 l6\">\n" +
+    "        <a id=\"submit\" ng-click=\"login()\" type=\"submit\" class=\"waves-effect waves-teal btn \">Register</a>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </form>\n" +
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
     "</div>\n"
   );
 
@@ -98273,6 +98608,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put("user/activityDescription.html",
+<<<<<<< HEAD
     "<nav>\n" +
     "    <div class=\"nav-wrapper\">\n" +
     "        <form>\n" +
@@ -98309,10 +98645,43 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "                <div class=\"input-field col s12\">\n" +
     "                    <input id=\"teamNumber\" type=\"text\" class=\"validate\">\n" +
     "                </div>\n" +
+=======
+    "<div class=\"row\">\n" +
+    "    <div class=\"col s12\">\n" +
+    "        <md-list>\n" +
+    "            <a class=\"btn-floating btn-large waves-effect waves-light blue\">+</a>\n" +
+    "            <md-subheader class=\"md-no-sticky\">\n" +
+    "              <p>{{activity}}</p>\n" +
+    "            </md-subheader><br>\n" +
+    "            <div class=\"row\">\n" +
+    "                <form class=\"col s12\">\n" +
+    "                    <label for=\"activity\">Description</label>\n" +
+    "                    <div class=\"row\">\n" +
+    "                        <div class=\"input-field col s12\">\n" +
+    "                            <input id=\"description\" type=\"text\" class=\"active\" ng-model=\"description\">\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                    <label for=\"resultRule\">Règle du resultat</label>\n" +
+    "                    <div class=\"row\">\n" +
+    "                        <div class=\"input-field col s12\">\n" +
+    "                            <input  id=\"resultRule\" type=\"text\" class=\"validate\">\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                    <label for=\"teamNumber\">Nombre d'équipe</label>\n" +
+    "                    <div class=\"row\">\n" +
+    "                        <div class=\"input-field col s12\">\n" +
+    "                            <input id=\"teamNumber\" type=\"text\" class=\"validate\">\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                    <!-- <div class=\"row\">\n" +
+    "                        <p>PARTICIPANTS</p>\n" +
+    "                    </div> -->\n" +
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
     "            </div>\n" +
     "            <label for=\"playerNumber\">Nombre de joueur par équipe</label>\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"input-field col s12\">\n" +
+<<<<<<< HEAD
     "                    <input id=\"playerNumber\" type=\"text\" class=\"validate\">\n" +
     "                </div>\n" +
     "              </div>\n" +
@@ -98346,6 +98715,23 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      </form>\n" +
     "    </div>\n" +
     "  </nav>\n" +
+=======
+    "                    <input  id=\"playerNumber\" type=\"text\" class=\"validate\">\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            <label for=\"averageLast\">Durée moyenne</label>\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"input-field col s12\">\n" +
+    "                    <input  id=\"averageLast\" type=\"text\" class=\"validate\">\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            </form>\n"
+  );
+
+  $templateCache.put("user/createDefis.html",
+    "<a class=\"btn-floating btn-large waves-effect waves-light blue\">+</a>\n" +
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
     "<br><br>\n" +
     "<div class=\"row\">\n" +
     "    <form class=\"col s12\">\n" +
@@ -98377,7 +98763,11 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "                <input placeholder=\"Dans quelle ville se déroulera le défi\" id=\"where\" type=\"text\" class=\"validate\">\n" +
     "            </div>\n" +
     "        </div>\n" +
+<<<<<<< HEAD
     "<button ng-click=\"add()\"class=\"btn blue\" type=\"button\"><span>   Creer le défi    </span></button>\n" +
+=======
+    "<button class=\"btn blue\" type=\"button\"><span>   Creer le défi    </span></button>\n" +
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
     "</div>\n" +
     "\n" +
     "</form>\n"
@@ -98388,6 +98778,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put("user/home.html",
+<<<<<<< HEAD
     ""
   );
 
@@ -98415,12 +98806,55 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "    <div class=\"col s12\">\n" +
     "\n" +
     "            <md-list>\n" +
+=======
+    "\n"
+  );
+
+  $templateCache.put("user/navbar.html",
+    "<nav class=\"navbar navbar-default\" role=\"navigation\" ng-controller=\"NavbarController\">\n" +
+    "    <div class=\"container-fluid\">\n" +
+    "        <div class=\"navbar-header\">\n" +
+    "            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#navbar\">\n" +
+    "        <span class=\"sr-only\">Toggle navigation</span>\n" +
+    "        <span class=\"icon-bar\"></span>\n" +
+    "        <span class=\"icon-bar\"></span>\n" +
+    "        <span class=\"icon-bar\"></span>\n" +
+    "      </button>\n" +
+    "            <a class=\"navbar-brand\" href=\"#\"></a>\n" +
+    "        </div>\n" +
+    "        <div class=\"collapse navbar-collapse\" id=\"navbar\">\n" +
+    "            <ul class=\"nav navbar-nav\">\n" +
+    "                <li ui-sref-active=\"active\"><a ui-sref=\"user.dashboard\" ng-show=\"auth.isAuthenticated()\">Dashboard</a></li>\n" +
+    "                <li ui-sref-active=\"active\"><a ui-sref=\"user.profile\" ng-show=\"auth.isAuthenticated()\">Profile</a></li>\n" +
+    "              \n" +
+    "            </ul>\n" +
+    "            <ul class=\"nav navbar-nav navbar-right\">\n" +
+    "                <li>\n" +
+    "                    <li ui-sref-active=\"active\"><a ui-sref=\"anon.home\">Website</a></li>\n" +
+    "                    <li><a ng-click=\"logout()\" ng-show=\"auth.isAuthenticated()\" href='#'>Logout</a></li>\n" +
+    "                </li>\n" +
+    "            </ul>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</nav>\n"
+  );
+
+  $templateCache.put("user/newDefiActivity.html",
+    "<div class=\"row\">\n" +
+    "    <div class=\"col s12\">\n" +
+    "        <md-list>\n" +
+    "            <md-subheader class=\"md-no-sticky\"><b>Activités</b></md-subheader><br>\n" +
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
     "            <ul class=\"collection\">\n" +
     "                <li class=\"collection-item\" ng-repeat=\"activ in activitiesList\">\n" +
     "                    <div class=\"md-list-item-text compact\" ng-click=\"addActivity($index)\">{{activ.activity}}\n" +
     "                </li>\n" +
+<<<<<<< HEAD
     "            </ul>\n" +
     "          </md-list>\n"
+=======
+    "            </ul>\n"
+>>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
   );
 
   $templateCache.put("user/profile.html",
