@@ -22,6 +22,6 @@ module.exports = (app) => {
 
     router.delete('/:id', Auth.isAdministrator, activity.delete);
 
-    app.use('/users', router);
+    app.use('/activitie', router);
 
 };

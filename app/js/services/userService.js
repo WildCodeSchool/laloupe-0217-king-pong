@@ -5,6 +5,7 @@ angular.module('app')
                 return $http.get('/users');
             },
             getOne: function(id) {
+              console.log(id);
                 return $http.get('/users/' + id);
             },
             update: function(id, user) {

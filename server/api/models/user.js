@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 import token from '../token.js';
 import community from './community.js';
 import md5 from 'md5';
-import request from 'request';
 
 const hashCode = (s) => s.split("").reduce((a, b) => {
   a = ((a << 5) - a) + b.charCodeAt(0);
@@ -95,6 +94,7 @@ export default class User {
   }
 
   findAll(req, res) {
+    console.log('all');
     model.find({}, {
       password: 0
     }, (err, users) => {
@@ -107,11 +107,13 @@ export default class User {
   }
 
   findById(req, res) {
+    console.log('find');
     model.findById(req.params.id, {
       password: 0
     }, (err, user) => {
       if (err || !user) {
-        res.sendStatus(403);
+        console.log(err);
+        res.sendStatus('nope');
       } else {
         res.json(user);
       }
@@ -124,7 +126,7 @@ export default class User {
       req.body.password = bcrypt.hashSync(req.body.password, salt);
     }
     var hashMail = md5(req.body.email.trim().toLowerCase());
-    req.body.avatar = 'https://www.gravatar.com/avatar/'+hashMail+'?d=mm';
+    req.body.avatar = 'https://www.gravatar.com/avatar/'+ hashMail +'?d=mm';
     model.create(req.body,
       (err, user) => {
         if (err || !user) {
@@ -146,6 +148,8 @@ export default class User {
   }
 
   update(req, res) {
+    var hashMail = md5(req.body.email.trim().toLowerCase());
+    req.body.avatar = 'https://www.gravatar.com/avatar/'+ hashMail +'?d=mm';
     model.update({
       _id: req.params.id
     }, req.body, (err, user) => {
