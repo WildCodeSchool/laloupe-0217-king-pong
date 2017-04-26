@@ -32818,5 +32818,8 @@ img {
 .md-datepicker-triangle-button.md-button.md-icon-button {
   top: 0;
 }
+li :active {
+  background-color: #312c41;
+}
 
 /*# sourceMappingURL=app.css.map */

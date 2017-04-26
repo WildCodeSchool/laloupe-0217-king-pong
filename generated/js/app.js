@@ -97871,12 +97871,31 @@ angular.module('app')
     });
 
 angular.module('app')
+    .service('CommunityService', function($http) {
+        return {
+            getAll: function() {
+                return $http.get('/communitys');
+            },
+            getOne: function(id) {
+                return $http.get('/communitys/' + id);
+            },
+            update: function(id, user) {
+                return $http.put('/communitys/' + id, user);
+            },
+            delete: function(id) {
+                return $http.delete('/communitys/' + id);
+            }
+        };
+    });
+
+angular.module('app')
     .service('UserService', function($http) {
         return {
             getAll: function() {
                 return $http.get('/users');
             },
             getOne: function(id) {
+              console.log(id);
                 return $http.get('/users/' + id);
             },
             update: function(id, user) {
@@ -97900,10 +97919,30 @@ angular.module('app')
     });
 
 angular.module('app')
-    .controller('CommunityController', function($scope, $timeout, $mdSidenav) {
+  .controller('CommunityController', function($scope, Auth, UserService, CommunityService, SessionService, $state) {
+    $scope.communitys = [{
+      _id: "58fdeef005219f2cac9c9f86",
+      name: "WCS Chartres",
+      location: "Chartes"
+    }, {
+      _id: "58fdeef005219f2cac9c9f87",
+      name: "Ecole 42",
+      location: "Paris"
+    }, {
+      _id: "58fdeef005219f2cac9c9f88",
+      name: "WCS Lyon",
+      location: "Lyon"
+    }];
+    var current = [];
+    current = JSON.parse(SessionService.get('users'));
 
-
-    });
+    $scope.addCommunity = function(id) {
+      current.community = id;
+      SessionService.unset('users');
+      Auth.register(current);
+      $state.go("user.home");
+    };
+  });
 
 var instrumentsControllers = angular.module('app')
     .controller('CreateActivityController', function($scope, $state, $stateParams) {
@@ -97963,7 +98002,7 @@ angular.module('app')
             if ($scope.loginForm.$valid) {
                 $scope.errors = [];
                 Auth.login($scope.user).then(function(result) {
-                    $state.go('user.profile');
+                    $state.go('user.home');
                 }).catch(function(err) {
                     $scope.errors.push(err);
                 });
@@ -97996,15 +98035,12 @@ angular.module('app')
     });
 
 angular.module('app')
-  .controller('RegisterController', function($scope, $state, Auth, SessionService) {
+  .controller('RegisterController', function($scope, $state, SessionService) {
     $scope.register = function() {
       SessionService.set("users", JSON.stringify($scope.user));
       $state.go('anon.community');
 
-      // Auth.register($scope.user).then(function(res) {
-      //
-      //
-      // });
+
     };
   });
 
@@ -98082,6 +98118,15 @@ angular.module('app')
                     }
                 }
             })
+            .state('user.home', {
+                url: '/',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/home.html',
+                        controller: 'MainController'
+                    }
+                }
+            })
             .state('user.createDefis', {
                 url: '/createDefis/:activity',
 
@@ -98129,16 +98174,31 @@ angular.module("app").run(["$templateCache", function($templateCache) {
 
   $templateCache.put("anon/community.html",
     "<nav>\n" +
-    "    <div class=\"nav-wrapper\">\n" +
-    "      <form>\n" +
-    "        <div class=\"input-field center-align\">\n" +
-    "          <input id=\"search\" type=\"search\" required>\n" +
-    "          <label class=\"label-icon\" for=\"search\"><i class=\"material-icons\">search</i></label>\n" +
-    "          <i class=\"material-icons\">close</i>\n" +
-    "        </div>\n" +
-    "      </form>\n" +
+    "  <div class=\"nav-wrapper\">\n" +
+    "    <form>\n" +
+    "      <div class=\"input-field center-align\">\n" +
+    "        <input id=\"search\" type=\"search\" required>\n" +
+    "        <label class=\"label-icon\" for=\"search\"><i class=\"material-icons\">search</i></label>\n" +
+    "        <i class=\"material-icons\">close</i>\n" +
+    "      </div>\n" +
+    "    </form>\n" +
+    "  </div>\n" +
+    "</nav>\n" +
+    "<md-toolbar layout=\"row\" class=\"md-hue-3\">\n" +
+    "  <div class=\"md-toolbar-tools \">\n" +
+    "    Community\n" +
+    "  </div>\n" +
+    "</md-toolbar>\n" +
+    "\n" +
+    "\n" +
+    "<md-list>\n" +
+    "  <md-list-item class=\"md-2-line\" ng-repeat=\"community in communitys track by $index\" ng-click=\"addCommunity(community._id)\">\n" +
+    "    <div  class=\"md-list-item-text\">\n" +
+    "      <h3>{{community.name}}</h3>\n" +
+    "      <p>{{community.location}}</p>\n" +
     "    </div>\n" +
-    "  </nav>\n"
+    "  </md-list-item>\n" +
+    "</md-list>\n"
   );
 
   $templateCache.put("anon/home.html",
@@ -98318,21 +98378,30 @@ angular.module("app").run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put("anon/login.html",
+    "\n" +
     "<div class=\"row\">\n" +
-    "    <div class=\"col-xs-6 col-xs-offset-3\">\n" +
-    "        <form class=\"form\" name=\"loginForm\" novalidate ng-submit=\"login()\">\n" +
-    "            <div ng-repeat=\"error in errors\">{{error.error}}</div>\n" +
-    "            <div class=\"input-group\">\n" +
-    "                <span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-user\"></i></span>\n" +
-    "                <input id=\"email\" type=\"email\" class=\"form-control\" ng-model=\"user.email\" required placeholder=\"Email Address\">\n" +
-    "            </div>\n" +
-    "            <div class=\"input-group\">\n" +
-    "                <span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-lock\"></i></span>\n" +
-    "                <input id=\"password\" type=\"password\" class=\"form-control\" ng-model=\"user.password\" required placeholder=\"Password\">\n" +
-    "            </div>\n" +
-    "            <button type=\"submit\" class=\"btn btn-primary btn-block\">Login</button>\n" +
-    "        </form>\n" +
+    "  <form class=\"col s12 l6 offset-l4 login\" name=\"loginForm\" novalidate ng-submit=\"login()\">\n" +
+    "    <div ng-repeat=\"error in errors\">{{error.error}}</div>\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"input-field col s11 l6 \">\n" +
+    "        <i class=\"material-icons prefix\">mail</i>\n" +
+    "        <input id=\"email\" type=\"email\" class=\"form-control\" ng-model=\"user.email\" required>\n" +
+    "        <label for=\"email\">Email</label>\n" +
+    "      </div>\n" +
     "    </div>\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"input-field col s11 l6 \">\n" +
+    "        <i class=\"material-icons prefix\">vpn_key</i>\n" +
+    "        <input id=\"password\" type=\"password\" class=\"form-control\" ng-model=\"user.password\" required>\n" +
+    "        <label for=\"password\">Password</label>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"col s12 l6\">\n" +
+    "        <a id=\"submit\" ng-click=\"login()\" type=\"submit\" class=\"waves-effect waves-teal btn \">Register</a>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </form>\n" +
     "</div>\n"
   );
 
@@ -98515,7 +98584,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "                <input placeholder=\"Dans quelle ville se déroulera le défi\" id=\"where\" type=\"text\" class=\"validate\">\n" +
     "            </div>\n" +
     "        </div>\n" +
-    "<button ng-click=\"add()\"class=\"btn blue\" type=\"button\"><span>   Creer le défi    </span></button>\n" +
+    "<button class=\"btn blue\" type=\"button\"><span>   Creer le défi    </span></button>\n" +
     "</div>\n" +
     "\n" +
     "</form>\n"
@@ -98526,7 +98595,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put("user/home.html",
-    ""
+    "\n"
   );
 
   $templateCache.put("user/navbar.html",
