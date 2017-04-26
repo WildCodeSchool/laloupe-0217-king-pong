@@ -6,4 +6,4 @@ angular.module('app')
             $state.go('user.filterActivity', $stateParams);
         };
         $scope.activity = $stateParams.activity;
-    });
+          });
