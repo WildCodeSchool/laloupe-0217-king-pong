@@ -25,7 +25,7 @@ export default class Category {
           res.status(500).send(err.message);
         } else {
           res.json({
-            recettes: category
+             category
           });
         }
 

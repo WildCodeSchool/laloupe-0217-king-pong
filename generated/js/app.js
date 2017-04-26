@@ -97867,18 +97867,7 @@ angular.module('app')
 
 angular.module('app')
     .service('CategoryService', function($http) {
-        return {
-
-            getOne: function(id) {
-                return $http.get('/categorys/' + id);
-            },
-            update: function(id, category) {
-                return $http.put('/categorys/' + id, category);
-            },
-            delete: function(id) {
-                return $http.delete('/users/' + id);
-            }
-        };
+      
     });
 
 angular.module('app')
@@ -97983,19 +97972,7 @@ angular.module('app')
 angular.module('app')
     .controller('MainController', function($scope, $timeout, $mdSidenav) {
 
-$scope.image = [
 
-"./img/ping-png.jpg",
-"./img/jeuxVideo.jpg",
-"./img/boardGames.jpg", ];
-
-
-
-      $scope.challenge = [
-    { url: foot,
-
-  },
-  ];
 
   $('.carousel.carousel-slider').carousel({
     fullWidth: true,
