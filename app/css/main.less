@@ -1,6 +1,9 @@
 // Main less file for your application.
 // Use `@import` to use other less files
 // relative to 'app/css' or 'vendor/css'.
+// ---------------------------------------------------------------------------------
+// **********************Fonts & Icons********************************************
+// --------------------------------------------------------------------------------
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -27,13 +30,50 @@
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+// ---------------------------------------------------------------------------------
+// **********************Variables LESS********************************************
+// --------------------------------------------------------------------------------
 @purple: #312C41;
+@grey: #EDEDED; // ---------------------------------------------------------------------------------
+// **********************Style********************************************
+// --------------------------------------------------------------------------------
 
 div .nav-wrapper {
   background-color: @purple;
 }
 
-.welcome {
+.welcomeLogin {
+  height: 40%;
+  background-color: @grey;
+  padding: 60px;
+  color: white;
+}
+.login{
+  margin-top: 10%;
+}
+.welcomeRegister {
+  padding: 10px;
+  color: white;
+  p {
+    text-align: center;
+    padding: 0 15%;
+  }
+  @media (min-width: 768px) {
+      padding: 40px;
+      p{
+        padding: 0 33%;
+      }
+
+    }
+}
+.register{
+  @media (min-width: 768px) {
+      margin-top: 6%;
+
+    }
+}
+
+.background {
   background: linear-gradient(66deg, #071f5a,#312C41, #1a485a, #50024d, #8a1130, #4c0c70);
   background-size: 1200% 1200%;
   -webkit-animation: AnimationName 250s ease infinite;
@@ -92,12 +132,12 @@ div .nav-wrapper {
       background-position: 0 50%;
     }
   }
-  padding: 10px;
-  background-color: @purple;
 }
 
-.titre{
-  font-family: 'pressStart' ;
+
+
+.titre {
+  font-family: 'pressStart';
   font-size: 30px;
 }
 
@@ -107,47 +147,68 @@ div .nav-wrapper {
   margin-top: 20px;
 }
 
-.carousel{
+.carousel {
   margin-top: 0;
 }
-h1{
+
+h1 {
   margin-top: 20px;
   font-size: 30px;
   margin-left: 30px;
 }
-.card{
+
+.card {
   width: 200px;
   height: 250px;
 }
-img{height: 150px; }
 
-.carousel-item.active{
+img {
+  height: 150px;
+}
+
+.carousel-item.active {
   width: 360px !important;
   height: 300px !important;
-
 }
 
-.carousel.carousel-slider.center.ng-scope.initialized{
+.carousel.carousel-slider.center.ng-scope.initialized {
   width: 340px !important;
-
-
 }
-
 @media (max-width: 500px) {
-  .carousel{
-
-height: 300px !important;
+  .carousel {
+    height: 300px !important;
     width: 360px !important;
-    margin-left: 30px ;
+    margin-left: 30px;
   }
-  .carousel.carousel-slider.center.ng-scope.initialized{
-    width: 380px !important;
 
+  .carousel.carousel-slider.center.ng-scope.initialized {
+    width: 380px !important;
+  }
 }
-}
+
 .md-datepicker-triangle-button.md-button.md-icon-button {
-    top: 0;
+  top: 0;
+}
+
+li:active {
+  background-color: @purple;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid silver;
+  background-color: @grey;
+
+  div {
+    margin: 0;
+    padding: 0;
+    height: 2.2em;
   }
-  li :active{
-    background-color: @purple;
+
+  li {
+    display: inline;
+    list-style: none;
   }
+}

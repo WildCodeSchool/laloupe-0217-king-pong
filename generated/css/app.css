@@ -32720,15 +32720,43 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 div .nav-wrapper {
   background-color: #312c41;
 }
-.welcome {
+.welcomeLogin {
+  height: 40%;
+  background-color: #ededed;
+  padding: 60px;
+  color: white;
+}
+.login {
+  margin-top: 10%;
+}
+.welcomeRegister {
+  padding: 10px;
+  color: white;
+}
+.welcomeRegister p {
+  text-align: center;
+  padding: 0 15%;
+}
+@media (min-width: 768px) {
+  .welcomeRegister {
+    padding: 40px;
+  }
+  .welcomeRegister p {
+    padding: 0 33%;
+  }
+}
+@media (min-width: 768px) {
+  .register {
+    margin-top: 6%;
+  }
+}
+.background {
   background: linear-gradient(66deg, #071f5a, #312c41, #1a485a, #50024d, #8a1130, #4c0c70);
   background-size: 1200% 1200%;
   -webkit-animation: AnimationName 250s ease infinite;
   -moz-animation: AnimationName 250s ease infinite;
   -o-animation: AnimationName 250s ease infinite;
   animation: AnimationName 250s ease infinite;
-  padding: 10px;
-  background-color: #312c41;
 }
 @-webkit-keyframes AnimationName {
   0% {
@@ -32809,7 +32837,7 @@ img {
   .carousel {
     height: 300px !important;
     width: 360px !important;
-    margin-left: 30px ;
+    margin-left: 30px;
   }
   .carousel.carousel-slider.center.ng-scope.initialized {
     width: 380px !important;
@@ -32818,8 +32846,24 @@ img {
 .md-datepicker-triangle-button.md-button.md-icon-button {
   top: 0;
 }
-li :active {
+li:active {
   background-color: #312c41;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid silver;
+  background-color: #ededed;
+}
+footer div {
+  margin: 0;
+  padding: 0;
+  height: 2.2em;
+}
+footer li {
+  display: inline;
+  list-style: none;
 }
 
 /*# sourceMappingURL=app.css.map */
