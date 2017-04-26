@@ -5,8 +5,9 @@ import mongoose from 'mongoose';
 
 const activitySchema = new mongoose.Schema({
 
-    activity: {
+    activityName: {
         type: String
+
     },
     author: {
         type: String
@@ -39,16 +40,27 @@ export default class Activity {
     findById(req, res) {
         model.findById(req.params.id, {
             password: 0
-        }, (err, user) => {
-            if (err || !user) {
+        }, (err, activity) => {
+            if (err || !activity) {
                 res.sendStatus(403);
             } else {
-                res.json(user);
+                res.json(activity);
             }
         });
     }
 
+  create(req, res){
+      model.create(req.body, (err,activity) => {
+        if (err ||!activity){
+          res.status(500).send(err.message);
+        } else {
+          res.json({
+             activity
+          });
+        }
+  });
 
+  }
 
 
 }

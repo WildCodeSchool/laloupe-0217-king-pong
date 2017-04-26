@@ -97866,6 +97866,21 @@ angular.module('app')
     });
 
 angular.module('app')
+    .service('ActivityService', function($http) {
+        return {
+          update: function(id, user) {
+              return $http.put('/activity/' + id, user);
+          },
+            getAll: function() {
+                return $http.get('/activity');
+            },
+            getOne: function(id) {
+                return $http.get('/activity/' + id);
+            },
+        };
+    });
+
+angular.module('app')
     .service('UserService', function($http) {
         return {
             getAll: function() {
@@ -97884,13 +97899,21 @@ angular.module('app')
     });
 
 angular.module('app')
-    .controller('ActivityDescriptionController', function($scope, $state, $stateParams) {
-
-
-        $scope.activity = "";
+    .controller('ActivityDescriptionController', function($scope, $state, $stateParams, ActivityService) {
 
         $scope.activity = $stateParams.activity;
         $scope.description = "loren sum.....";
+
+        $scope.activity=[];
+     ActivityService.getOne().then(function(res){
+   $scope.activity = res.data;
+   console.log($scope.activity);
+
+ },
+ function(err){
+   //bad
+
+});
 
     });
 
