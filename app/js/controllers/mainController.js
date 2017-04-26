@@ -1,5 +1,6 @@
 angular.module('app')
-    .controller('MainController', function($scope, $timeout, $mdSidenav) {
-      
+    .controller('MainController', function($scope,UserService, CurrentUser) {
+    
+
 
     });

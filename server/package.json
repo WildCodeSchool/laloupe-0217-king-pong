@@ -15,12 +15,14 @@
     "cors": "",
     "express": "",
     "jsonwebtoken": "",
+    "md5": "^2.2.1",
     "method-override": "",
     "moment": "^2.18.1",
     "mongoose": "",
     "morgan": "",
     "nodemailer": "^4.0.1",
-    "nodemailer-express-handlebars": "^2.0.0"
+    "nodemailer-express-handlebars": "^2.0.0",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
