@@ -18,6 +18,7 @@ angular.module('app')
 
     $scope.addCommunity = function(id) {
       current.community = id;
+      console.log(id);
       SessionService.unset('users');
       Auth.register(current);
       $state.go("user.home");
