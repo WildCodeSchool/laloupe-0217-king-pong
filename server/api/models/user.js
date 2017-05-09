@@ -195,7 +195,7 @@ export default class User {
   addCommunity(req, res) {
     model.update({
       _id: req.params.id
-    },{$push:{community:req.body.community}},{upsert:true}, (err, user) => {
+    },{$addToSet:{community:req.body.community}},{upsert:true}, (err, user) => {
       if (err || !user) {
         res.status(500).send(err.message);
       } else {
