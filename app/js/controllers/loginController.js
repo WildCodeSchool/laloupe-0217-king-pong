@@ -1,6 +1,7 @@
 angular.module('app')
     .controller('LoginController', function($scope, $state, Auth) {
         $scope.errors = [];
+        $scope.user = {email:$state.params.email};
 
         $scope.login = function() {
             if ($scope.loginForm.$valid) {

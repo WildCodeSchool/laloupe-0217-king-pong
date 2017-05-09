@@ -39,10 +39,10 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String
   },
-  community: {
+  community: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: community
-  }
+  }]
 
 });
 
@@ -119,6 +119,31 @@ export default class User {
       }
     });
   }
+  findByPseudo(req, res) {
+    model.findOne({
+      pseudo: req.params.pseudo
+    }, (err, user) => {
+      if (err || !user) {
+        res.status(404);
+      } else {
+        console.log(user);
+        res.json(user);
+      }
+    });
+  }
+  findByMail(req, res) {
+    model.findOne({
+        email: req.params.email
+      },
+      (err, user) => {
+        if (err || !user) {
+          res.status(404);
+        } else {
+          console.log(user);
+          res.json(user);
+        }
+      });
+  }
 
   create(req, res) {
     if (req.body.password) {
@@ -126,7 +151,7 @@ export default class User {
       req.body.password = bcrypt.hashSync(req.body.password, salt);
     }
     var hashMail = md5(req.body.email.trim().toLowerCase());
-    req.body.avatar = 'https://www.gravatar.com/avatar/'+ hashMail +'?d=mm';
+    req.body.avatar = 'https://www.gravatar.com/avatar/' + hashMail + '?d=mm';
     model.create(req.body,
       (err, user) => {
         if (err || !user) {
@@ -149,7 +174,7 @@ export default class User {
 
   update(req, res) {
     var hashMail = md5(req.body.email.trim().toLowerCase());
-    req.body.avatar = 'https://www.gravatar.com/avatar/'+ hashMail +'?d=mm';
+    req.body.avatar = 'https://www.gravatar.com/avatar/' + hashMail + '?d=mm';
     model.update({
       _id: req.params.id
     }, req.body, (err, user) => {
@@ -163,6 +188,20 @@ export default class User {
           success: true,
           user: user,
           token: tk
+        });
+      }
+    });
+  }
+  addCommunity(req, res) {
+    model.update({
+      _id: req.params.id
+    },{$push:{community:req.body.community}},{upsert:true}, (err, user) => {
+      if (err || !user) {
+        res.status(500).send(err.message);
+      } else {
+        res.json({
+          success: true,
+          user: user,
         });
       }
     });

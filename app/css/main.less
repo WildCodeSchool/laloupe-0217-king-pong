@@ -35,7 +35,40 @@
 // --------------------------------------------------------------------------------
 @purple: #312C41;
 @grey: #EDEDED; // ---------------------------------------------------------------------------------
-// **********************Style********************************************
+// **********************Slide View********************************************
+// --------------------------------------------------------------------------------
+
+
+
+.view.ng-enter,
+.view.ng-leave {
+  position: absolute;
+  width: 100%;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.view.ng-enter {
+  transform: translate3d(100%, 0, 0);
+  -webkit-transform: translate3d(100%, 0, 0);
+}
+
+.view.ng-enter-active {
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.view.ng-leave {
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.view.ng-leave-active {
+  transform: translate3d(-100%, 0, 0);
+  -webkit-transform: translate3d(-100%, 0, 0);
+}
+// ---------------------------------------------------------------------------------
+// **********************Style Less********************************************
 // --------------------------------------------------------------------------------
 
 div .nav-wrapper {
@@ -71,8 +104,25 @@ div .nav-wrapper {
 }
 
 .register {
-  @media (min-width: 768px) {
-    margin-top: 6%;
+  // @media (width: 768px) {
+  //   margin-top: 100px;
+  // @media (min-width: 800px) {
+  //   margin-top: 0%;
+  //
+  // }
+}
+
+#revealPassword {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  transition: right 0.2s;
+}
+
+#communityTitle {
+  margin-left: 25%;
+  @media (min-width: 900px) {
+    margin-left: 45%;
   }
 }
 
@@ -146,6 +196,9 @@ div .nav-wrapper {
   background-color: @purple;
   width: 100%;
   margin-top: 20px;
+  @media (max-width: 400px) {
+    margin-top: -10px;
+  }
 }
 
 .carousel {
@@ -156,6 +209,12 @@ h1 {
   margin-top: 20px;
   font-size: 30px;
   margin-left: 30px;
+  @media (max-width: 730px) {
+    margin-left: 5%;
+  }
+  @media (max-width: 400px) {
+    margin-left: -15px;
+  }
 }
 
 .card {
@@ -201,6 +260,13 @@ footer {
   width: 100%;
   border-top: 1px solid silver;
   background-color: @grey;
+  @media (max-width: 320px) {
+    position: absolute;
+    bottom: -120px;
+    width: 100%;
+    border-top: 1px solid silver;
+    background-color: @grey;
+  }
 
   div {
     margin: 0;
