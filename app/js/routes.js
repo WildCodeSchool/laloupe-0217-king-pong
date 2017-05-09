@@ -23,7 +23,7 @@ angular.module('app')
                 }
             })
             .state('anon.login', {
-                url: '/login',
+                url: '/login/:email',
                 views: {
                     'content@': {
                         templateUrl: 'anon/login.html',
@@ -39,16 +39,8 @@ angular.module('app')
                         controller: 'RegisterController'
                     }
                 }
-            })
-            .state('anon.community', {
-                url: '/community',
-                views: {
-                    'content@': {
-                        templateUrl: 'anon/community.html',
-                        controller: 'CommunityController'
-                    }
-                }
             });
+
         $stateProvider
             .state('user', {
                 abstract: true,
@@ -56,11 +48,21 @@ angular.module('app')
                 views: {
                     'navbar@': {
                         templateUrl: 'user/navbar.html',
-                        controller: 'NavbarController'
+                        controller: 'NavbarUserController'
                     }
                 },
                 data: {
                     access: AccessLevels.user
+                }
+
+            })
+            .state('user.community', {
+                url: '/community',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/community.html',
+                        controller: 'CommunityController'
+                    }
                 }
             })
             .state('user.dashboard', {
