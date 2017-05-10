@@ -11,7 +11,7 @@
   float: right;
 }
 .md-subheader .md-subheader-inner{
-height: 150px;
+height:150px;
 background-color: #eeeeee;
 border-bottom: solid 1px;
 border-color: grey;
@@ -20,6 +20,11 @@ border-color: grey;
 .cadre{
   text-align: center;
 }
-img.circle{
-  width: 80px !important;
+.validateButton
+{
+color:red;
+margin-right: 10px;
+}
+.clickValide{
+margin-left: 300px;
 }

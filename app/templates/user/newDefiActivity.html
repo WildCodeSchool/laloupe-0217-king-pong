@@ -1,12 +1,13 @@
 <nav>
   <div class="nav-wrapper">
+    <ul>
+        <li>
+            <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
+        </li>
+    </ul>
+    
     <form>
-      <i class="material-icons">navigate_before</i>
-      <div class="input-field">
-        <input id="search" type="search" required>
-        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-        <i class="material-icons">close</i>
-      </div>
+
     </form>
   </div>
 </nav>
@@ -18,8 +19,8 @@
 
             <md-list>
             <ul class="collection">
-                <li class="collection-item" ng-repeat="activ in activitiesList">
-                    <div class="md-list-item-text compact" ng-click="addActivity($index)">{{activ.activity}}
+                <li class="collection-item" ng-repeat="activ in activity">
+                    <div class="md-list-item-text compact" ng-click="addActivity($index)">{{activ.activityName}}
                 </li>
             </ul>
           </md-list>

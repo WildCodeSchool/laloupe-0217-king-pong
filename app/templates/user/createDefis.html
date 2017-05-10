@@ -1,31 +1,30 @@
 <nav>
     <div class="nav-wrapper">
-      <form>
-          <label class="label-icon" for="close"><i class="material-icons">close</i></label>
-          <i class="material-icons">close</i>
-        </div>
-        <div class="cadre">
-            <md-subheader class="md-no-sticky">
-                <div class ="photoCat">
-                    <img src="img/echec.jpg" alt="" class="circle">
-                </div>
-            </md-subheader><br>
-        </div>
-      </form>
+        <i class="material-icons" ng-click="goToHome()">close</i></label>
+        <form>
+            <i class="material-icons">close</i>
     </div>
-  </nav>
+    <div class="cadre">
+        <md-subheader class="md-no-sticky">
+        </md-subheader><br>
+    </div>
+    </form>
+    </div>
+</nav>
 <br><br>
 <div class="row">
     <form class="col s12">
-              <label for="activity">Choisir son activités</label>
+        <label for="activity">Choisir son activités</label>
         <div class="row">
             <div class="input-field col s12">
-                <input placeholder="Activités" id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity" >
+                <input placeholder="Activités" id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
+
             </div>
         </div>
         <!-- Calendrier datepicker -->
         <label for="start">Début</label>
-        <div class="row">            <div class="input-field col s12">
+        <div class="row">
+            <div class="input-field col s12">
                 <div layout-gt-xs="row">
                     <div flex-gt-xs>
                         <md-datepicker ng-model="myDate" md-placeholder="Saisir la date"></md-datepicker>
@@ -36,7 +35,9 @@
         <label for="duration">Durée</label>
         <div class="row">
             <div class="input-field col s12">
-                <input placeholder="Combien de temps durera le défi" id="duration" type="text" class="validate">
+                <md-select placeholder="combien de temps" ng-model="duration">
+                    <md-option  ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
+                </md-select>
             </div>
         </div>
         <label for="where">Lieu</label>
@@ -45,7 +46,6 @@
                 <input placeholder="Dans quelle ville se déroulera le défi" id="where" type="text" class="validate">
             </div>
         </div>
-<button class="btn blue" type="button"><span>   Creer le défi    </span></button>
+        <button class="btn blue" type="button"><span>   Creer le défi    </span></button>
 </div>
-
 </form>

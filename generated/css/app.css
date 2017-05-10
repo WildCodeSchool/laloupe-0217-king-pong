@@ -32691,9 +32691,8 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 .btn-floating.btn-large{
   float: right;
 }
-<<<<<<< HEAD
 .md-subheader .md-subheader-inner{
-height: 150px;
+height:150px;
 background-color: #eeeeee;
 border-bottom: solid 1px;
 border-color: grey;
@@ -32702,11 +32701,14 @@ border-color: grey;
 .cadre{
   text-align: center;
 }
-img.circle{
-  width: 80px !important;
+.validateButton
+{
+color:red;
+margin-right: 10px;
 }
-=======
->>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
+.clickValide{
+margin-left: 300px;
+}
 
 @font-face {
   font-family: 'Material Icons';
@@ -32799,11 +32801,6 @@ div .nav-wrapper {
   width: 100%;
   margin-top: 20px;
 }
-<<<<<<< HEAD
-.md-datepicker-triangle-button.md-button.md-icon-button {
-  top: 0;
-}
-=======
 .carousel {
   margin-top: 0;
 }
@@ -32842,6 +32839,5 @@ img {
 li :active {
   background-color: #312c41;
 }
->>>>>>> b240a86ddbe2b1888463c33b5c54804b7798035b
 
 /*# sourceMappingURL=app.css.map */
