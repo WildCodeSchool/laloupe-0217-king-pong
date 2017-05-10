@@ -44,7 +44,7 @@ angular.module('app')
 
     $scope.register = function() {
       Auth.register($scope.user);
-      $state.go("anon.login",{email:$scope.user.email});
+      $state.go("user.community");
 
     };
   });
