@@ -23,7 +23,7 @@ angular.module('app')
                 }
             })
             .state('anon.login', {
-                url: '/login/:email',
+                url: '/login',
                 views: {
                     'content@': {
                         templateUrl: 'anon/login.html',
@@ -85,7 +85,6 @@ angular.module('app')
             })
             .state('user.createDefis', {
                 url: '/createDefis/:activity',
-
                 views: {
                     'content@': {
                         templateUrl: 'user/createDefis.html',

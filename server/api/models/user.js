@@ -193,15 +193,19 @@ export default class User {
     });
   }
   addCommunity(req, res) {
-    model.update({
+    model.findOneAndUpdate({
       _id: req.params.id
-    },{$push:{community:req.body.community}},{upsert:true}, (err, user) => {
+    },{$addToSet:{community:req.body.community}},{upsert:true, new: true}, (err, user) => {
       if (err || !user) {
         res.status(500).send(err.message);
       } else {
+        let tk = jsonwebtoken.sign(user, token, {
+          expiresIn: "24h"
+        });
         res.json({
           success: true,
           user: user,
+          token: tk
         });
       }
     });

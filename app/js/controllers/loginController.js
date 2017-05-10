@@ -1,7 +1,15 @@
 angular.module('app')
     .controller('LoginController', function($scope, $state, Auth) {
         $scope.errors = [];
-        $scope.user = {email:$state.params.email};
+          $scope.inputType = "password";
+
+          $scope.showPassword = function() {
+            if ($scope.inputType === "password") {
+              $scope.inputType = "text";
+            } else {
+              $scope.inputType = "password";
+            }
+          };
 
         $scope.login = function() {
             if ($scope.loginForm.$valid) {
