@@ -263,8 +263,7 @@ img {
 @media (max-width: 500px) {
   .carousel {
     height: 300px !important;
-    width: 360px !important;
-    margin-left: 30px;
+    width: 100% !important;
   }
 
   .carousel.carousel-slider.center.ng-scope.initialized {
@@ -311,4 +310,12 @@ footer {
     display: inline;
   }
   background-color: @purple;
+}
+
+// ---------------------------------------------------------------------------------
+// **********************Carousel********************************************
+// --------------------------------------------------------------------------------
+
+.carousel.carousel-slider .carousel-item {
+  top:50px;
 }
