@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('MainController', function($scope, $timeout, $mdSidenav) {
+  .controller('MainController', function($scope, $timeout, $mdSidenav, CategoryService) {
 
 
 
@@ -9,4 +9,15 @@ angular.module('app')
       padding: 80,
     });
 
+    $scope.categories = [];
+
+            CategoryService.getAll().then(function(res){
+              console.log(res.data);
+              $scope.categories = res.data;
+            });
+
+
+    $scope.goToInvitation = function(id){
+      $state.go("user.challenge",{id:$scope.challenge[id]._id});
+    };
   });

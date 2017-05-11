@@ -4,10 +4,13 @@ import mongoose from 'mongoose';
 
 
 const categorySchema = new mongoose.Schema({
-    catName: {
+    category: {
         type: String
     },
-  
+    img: {
+      type:String
+    }
+
 });
 
 
@@ -29,11 +32,20 @@ export default class Category {
       });
 
       }
+      findAll(req, res) {
+          model.find({}, (err, category) => {
+              if (err || !category) {
+                  res.sendStatus(403);
+              } else {
+                  res.json(category);
+              }
+          });
+      }
 
     findById(req, res) {
         model.findById(req.params.id, {
 
-        }, (err, user) => {
+        }, (err, category) => {
             if (err || !category) {
                 res.sendStatus(403);
             } else {

@@ -101,13 +101,12 @@ angular.module('app')
                       }
                 }
             })
-            .state('user.invitation', {
-                url: '/invitation',
-
+            .state('user.challenge', {
+                url: '/challenge',
                 views: {
                     'content@': {
-                        templateUrl: 'user/invitation.html',
-                        controller: 'invitationController',
+                        templateUrl: 'user/challenge.html',
+                        controller: 'ChallengeController',
                       }
                 }
             })

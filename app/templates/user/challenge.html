@@ -1,0 +1,87 @@
+<nav>
+    <div class="nav-wrapper">
+        <form>
+            <!-- <label class="label-icon" for="close"><i class="material-icons">close</i></label> -->
+            <i class="material-icons" ng-click="">close</i>
+    </div>
+    </form>
+    </div>
+</nav>
+
+<ul class="collection">
+    <li ng-repeat="x in challenges">
+        <li class="collection-item">
+            <span class="title">Date</span>
+            <p>First Line
+            </p>
+        </li>
+        <li class="collection-item">
+            <span class="title">Durée</span>
+            <p>{{challenges.duration}}h</p>
+        </li>
+        <li class="collection-item">
+            <span class="title">Activité</span>
+            <div class="row">
+                <div class="col s6">
+                    <p>{{challenges.place}}</p>
+                </div>
+                <div class="col s6">
+                    <a href="#!" class="secondary-content"><i class="material-icons">insert_chart</i></a>
+                </div>
+        </li>
+        <li class="collection-item">
+            <span class="title">Lieu</span>
+            <p>{{challenges.place}}</p>
+
+            <a href="#!" class="secondary-content"></a>
+        </li>
+        <li class="participants">
+            <span class="title">Participants</span>
+        </li>
+        </br>
+        <li class="collection-item">
+            <span class="team">Equipe 1</span>
+            </br>
+            </br>
+        </li>
+        <div class="chip">
+            <img src="olive.jpg" alt="Contact Person"> Olive
+        </div>
+        <div class="chip">
+            <img src="olive.jpg" alt="Contact Person"> Tom
+        </div>
+        <div class="chip">
+            <img src="olive.jpg" alt="Contact Person"> Joe
+        </div>
+        <div class="chip">
+            <img src="olive.jpg" alt="Contact Person"> Phelippe
+        </div>
+        <div class="chip">
+            <img src="olive.jpg" alt="Contact Person"> Phelippe
+        </div>
+        </br>
+
+        <li class="collection-item">
+            <span class="team">Equipe 2</span>
+            </br>
+            </br>
+        </li>
+        <div class="chip">
+            <img src="olive.jpg" alt="Contact Person"> Olive
+        </div>
+        <div class="chip">
+            <img src="static/img/olive.jpg" alt="Contact Person"> Tom
+        </div>
+        <div class="chip">
+            <img src="olive.jpg" alt="Contact Person"> Joe
+        </div>
+        <div class="chip">
+            <img src="olive.jpg" alt="Contact Person"> Phelippe
+        </div>
+        <div class="chip">
+            <img src="olive.jpg" alt="Contact Person"> Nailletine
+        </div>
+
+    </li>
+
+</ul>
