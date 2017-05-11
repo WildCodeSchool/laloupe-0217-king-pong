@@ -105,8 +105,19 @@ angular.module('app')
                 url: '/filteractivity',
                 views: {
                     'content@': {
-                        templateUrl: 'user/newDefiActivity.html',
-                        controller: 'CreateActivityController',
+                        templateUrl: 'user/newActivity.html',
+                        controller: 'NewActivityController',
+
+                        }
+
+                }
+            })
+            .state('user.createActivity', {
+                url: '/createactivity',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/createNewActivity.html',
+                        controller: 'CreateNewActivityController',
 
                         }
 

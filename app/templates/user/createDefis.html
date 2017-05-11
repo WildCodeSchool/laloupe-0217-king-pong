@@ -11,10 +11,17 @@
     </form>
     </div>
 </nav>
+<div class="cadre">
+    <md-subheader class="md-no-sticky">
+        <div class="photoCat">
+            <img src="img/echec.jpg" alt="" class="circle">
+        </div>
+      </md-subheader><br>
+</div>
 <br><br>
 <div class="row">
     <form class="col s12">
-        <label for="activity">Choisir son activités</label>
+        <label for="activity">Activité</label>
         <div class="row">
             <div class="input-field col s12">
                 <input placeholder="Activités" id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
@@ -35,7 +42,7 @@
         <label for="duration">Durée</label>
         <div class="row">
             <div class="input-field col s12">
-                <md-select placeholder="combien de temps" ng-model="duration">
+                <md-select placeholder="Indiquer la durée du défi" ng-model="duration">
                     <md-option  ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
                 </md-select>
             </div>
@@ -46,6 +53,29 @@
                 <input placeholder="Dans quelle ville se déroulera le défi" id="where" type="text" class="validate">
             </div>
         </div>
+        <div class="bloc-participant" ng-show = "activity.activityName">
+          <div class="bckgrd-participant">
+          <p>Participants</p>
+        </div>
+        <label for="nbGroupe">Nombre de groupe</label>
+        <div class="row">
+            <div class="input-field col s12">
+                <input placeholder="Nombre de groupe" id="nbGroupe" type="text" class="validate">
+            </div>
+        </div>
+        <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
+        <div class="row">
+            <div class="input-field col s12">
+                <input placeholder="Nombre de participants par groupe" id="nbParticipantGroupe" type="text" class="validate">
+            </div>
+        </div>
+        <label for="invitation">Invitations</label>
+        <div class="row">
+            <div class="input-field col s12">
+                <input placeholder="Invitations" id="invitation" type="text" class="validate">
+            </div>
+        </div>
+      </div>
         <button class="btn blue" type="button"><span>   Creer le défi    </span></button>
 </div>
 </form>

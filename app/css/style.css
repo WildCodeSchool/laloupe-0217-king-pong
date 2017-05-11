@@ -1,30 +1,40 @@
-
 .md-datepicker-input-container {
-  position: relative;
-  border-bottom-width: 1px;
-  border-bottom-style: none !important;
-  display: inline-block;
-  width: auto; }
+    position: relative;
+    border-bottom-width: 1px;
+    border-bottom-style: none !important;
+    display: inline-block;
+    width: auto;
+}
 
+.btn-floating.btn-large {
+    float: right;
+}
 
-.btn-floating.btn-large{
-  float: right;
+.md-subheader .md-subheader-inner {
+    height: 150px;
+    background-color: #eeeeee;
+    border-bottom: solid 1px;
+    border-color: grey;
 }
-.md-subheader .md-subheader-inner{
-height:150px;
-background-color: #eeeeee;
-border-bottom: solid 1px;
-border-color: grey;
 
+.cadre {
+    text-align: center;
 }
-.cadre{
-  text-align: center;
+
+.validateButton {
+    color: red;
+    margin-right: 10px;
 }
-.validateButton
-{
-color:red;
-margin-right: 10px;
+
+.clickValide {
+    margin-left: 300px;
 }
-.clickValide{
-margin-left: 300px;
+
+.bckgrd-participant {
+    margin-left: -10px;
+    margin-right: -10px;
+    padding-top: 10px;
+    height: 50px;
+    width: auto;
+    background-color: #eeeeee;
 }
