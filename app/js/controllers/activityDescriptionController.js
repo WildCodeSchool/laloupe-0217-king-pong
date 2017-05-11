@@ -1,18 +1,18 @@
 angular.module('app')
-    .controller('ActivityDescriptionController', function($scope, $state, $stateParams, ActivityService) {
+    .controller('ActivityDescriptionController', function($scope, $state, $stateParams, ActivityService, SessionService) {
 
-        $scope.activity = $stateParams.activity;
-        $scope.description = "loren sum.....";
+        $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
 
-        $scope.activity=[];
-     ActivityService.getOne().then(function(res){
-   $scope.activity = res.data;
-   console.log($scope.activity);
+        // ActivityService.getOne().then(function(res) {
+        //     $scope.activity = res.data;
+        //     console.log($scope.activity);
+        // }, function(err) {});
 
- },
- function(err){
-   //bad
+        $scope.navigateBefore = function() {
+            $state.go('user.filterActivity');
+        };
 
-});
-
+        $scope.valide = function() {
+            $state.go('user.createDefis');
+        };
     });

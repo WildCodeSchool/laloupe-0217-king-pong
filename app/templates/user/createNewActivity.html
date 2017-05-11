@@ -1,0 +1,61 @@
+<nav>
+    <div class="nav-wrapper">
+        <ul>
+            <li>
+                <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <i class="clickValide" ng-click="valide()">Valide</i>
+            </li>
+        </ul>
+    </div>
+</nav>
+</div>
+<md-list>
+    <div class="row">
+        <form class="col s12">
+            <label for="activity">Acitivité</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="activity" type="text" class="active" ng-model="activity">
+                </div>
+            </div>
+            <div class="row">
+                <form class="col s12">
+                    <label for="description">Description</label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="description" type="text" class="active" ng-model="description">
+                        </div>
+                    </div>
+                    <label for="resultRule">Règle du resultat</label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="resultRule" type="text" class="active" ng-model="resultRule">
+                        </div>
+                    </div>
+
+                    <label for="teamNumber">Nombre d'équipe</label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="teamNumber" type="text" class="validate" ng-model="teamNumber">
+                        </div>
+                    </div>
+                    <label for="playerNumber">Nombre de joueur par équipe</label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="playerNumber" type="text" class="validate" ng-model="playerNumber">
+                        </div>
+                    </div>
+
+                    <label for="averageLast">Durée moyenne</label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="averageLast" type="text" class="validate" ng-model="averageLast">
+                        </div>
+                    </div>
+            </div>
+            </form>
+</md-list>

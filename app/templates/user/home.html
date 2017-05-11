@@ -1,1 +1,106 @@
+<nav class="nav-extended">
+  <div class="col s12">
+    <div class="nav-wrapper">
+      <!-- <select class="brand-logo select">
+      <option value="" disabled selected>{{community[index].name}}</option>
+      <option ng-repeat="community in communitys track by $index"
+           value="$index">{{community.name}}</option>
 
+    </select> -->
+      <select class="brand-logo select center" ng-options="value.community for community in communitys" ng-model="community" ng-change="selected(community)">
+    <option
+
+            value="{{index}}">
+      {{community}}
+    </option>
+</select>
+      <a href class="button-collapse md-primary right" ng-click="toggleRight()" ng-hide="isOpenRight()"><i class="material-icons">menu</i></a>
+    </div>
+    <div class="nav-content center-align">
+      <ul class="tabs tabs-transparent center-align">
+        <li class="tab center-align"><a href="#test1">Defi</a></li>
+        <li class="tab center"><a class="active" href="#test2">Classement</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div ng-cloak>
+
+  <section layout="row" flex>
+
+    <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
+
+      <md-toolbar class="md-theme-light grey">
+        <img class="center" src="{{user.avatar}}" alt="">
+      </md-toolbar>
+      <md-content layout-padding>
+        <form>
+          <md-input-container>
+            <label for="testInput">Test input</label>
+            <input type="text" id="testInput" ng-model="data" md-autofocus>
+          </md-input-container>
+        </form>
+        <md-button ng-click="close()" class="md-primary">
+          Close Sidenav Right
+        </md-button>
+      </md-content>
+
+    </md-sidenav>
+
+  </section>
+
+</div>
+
+
+<div class="row">
+  <div class="col s12 offset-m3 m6 offset-l4 l4">
+    <div class="invitation ">
+      <h1>Invitation</h1></div>
+    <div class="carousel carousel-slider center">
+      <div class="carousel-item" ng-repeat="challenge in invitations track by $index">
+        <div class="card">
+          <div class="card-image">
+            <img ng-src="{{challenge.url}}">
+            <span class="card-title"><h3>{{challenge.name}}</h3></span>
+            <span class="card-title" ><p>{{challenge.activity}}</p></span>
+          </div>
+          <div class="card-content">
+
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">{{challenge.activity}}<i class="material-icons right">close</i></span>
+            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col s12 offset-m3 m6 offset-l4 l4">
+    <div class="arbitrage">
+      <h1>Arbitrage</h1></div>
+      <div class="carousel carousel-slider center">
+        <div class="carousel-item" ng-repeat="challenge in challenges track by $index">
+          <div class="card">
+            <div class="card-image">
+              <img ng-src="{{challenge.url}}">
+              <span class="card-title">{{challenge.name}}</span>
+              <span class="card-text">{{challenge.activity}}</span>
+            </div>
+            <div class="card-content">
+            </div>
+            <div class="card-reveal">
+              <span class="card-title grey-text text-darken-4">{{challenge.activity}}<i class="material-icons right">close</i></span>
+              <p>Here is some more information about this product that is only revealed once clicked on.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

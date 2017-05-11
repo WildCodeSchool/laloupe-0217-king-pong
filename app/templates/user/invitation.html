@@ -1,0 +1,48 @@
+<nav>
+    <div class="nav-wrapper">
+      <form>
+          <label class="label-icon" for="close"><i class="material-icons">close</i></label>
+          <i class="material-icons">close</i>
+        </div>
+        <div class="cadre">
+            <md-subheader class="md-no-sticky">
+                <div class ="photoCat">
+                    <img src="img/echec.jpg" alt="" class="circle">
+                </div>
+            </md-subheader><br>
+        </div>
+      </form>
+    </div>
+  </nav>
+<br><br>
+<div class="row">
+    <form class="col s12">
+              <label for="activity">Choisir son activités</label>
+        <div class="row">
+            <div class="input-field col s12">
+                <input placeholder="Activités" id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity" >
+            </div>
+        </div>
+        <!-- Calendrier datepicker -->
+        <label for="duration">Date</label>
+        <div class="row">
+            <div class="input-field col s12">
+                <input placeholder="Date de  défi" type="text" class="dateDefi">
+            </div>
+        </div>
+        <label for="duration">Durée</label>
+        <div class="row">
+            <div class="input-field col s12">
+                <input placeholder="Combien de temps durera le défi" id="duration" type="text" class="validate">
+            </div>
+        </div>
+        <label for="where">Lieu</label>
+        <div class="row">
+            <div class="input-field col s12">
+                <input placeholder="Dans quelle ville se déroulera le défi" id="where" type="text" class="validate">
+            </div>
+        </div>
+<button class="btn blue" type="button"><span>   Creer le défi    </span></button>
+</div>
+
+</form>

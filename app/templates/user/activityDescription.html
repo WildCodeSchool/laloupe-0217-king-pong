@@ -1,16 +1,23 @@
 <nav>
     <div class="nav-wrapper">
-        <form>
-            <i class="material-icons">navigate_before</i>
-    </form>
-  </div>
+        <ul>
+            <li>
+                <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
+            </li>
+        </ul>
+        <ul>
+          <li>
+          <i class="clickValide" ng-click="valide()">Valide</i>
+        </li>
+      </ul>
+    </div>
 </nav>
 <div class="cadre">
     <md-subheader class="md-no-sticky">
-        <div class ="photoCat">
+        <div class="photoCat">
             <img src="img/echec.jpg" alt="" class="circle">
         </div>
-        <p>{{activity}}</p>
+        <p>{{activity.activityName}}</p>
     </md-subheader><br>
 </div>
 <md-list>
@@ -40,7 +47,7 @@
                 <div class="input-field col s12">
                     <input id="playerNumber" type="text" class="validate">
                 </div>
-              </div>
+            </div>
 
             <label for="averageLast">Durée moyenne</label>
             <div class="row">
@@ -49,6 +56,5 @@
                 </div>
             </div>
     </div>
-  </form>
+    </form>
 </md-list>
-<a class="btn-floating btn-large waves-effect waves-light blue">+</a>
