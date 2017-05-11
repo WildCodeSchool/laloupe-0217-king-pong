@@ -1,7 +1,9 @@
 angular.module('app')
   .controller('MainController', function($scope, $timeout, $mdSidenav, UserService, CurrentUser, $log) {
     var userId = CurrentUser.user()._id;
-    $scope.communitys = [];
+    $scope.user = CurrentUser.user();
+    console.log($scope.user);
+    // $scope.communitys = [];
     UserService.getOne(userId).then(function(res) {
       // console.log(res.data.community);
       //TODO add key for community
@@ -27,7 +29,7 @@ angular.module('app')
       };
     }
 
-    $scope.challenges = [{
+    $scope.invitations = [{
       name: 'Foot',
       activity: 'Sport Extérieur',
       url: './img/foot.jpg'

@@ -30,8 +30,8 @@
 
     <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
 
-      <md-toolbar class="md-theme-light">
-        <h2 class="md-toolbar-tools">Sidenav Right</h2>
+      <md-toolbar class="md-theme-light grey">
+        <img class="center" src="{{user.avatar}}" alt="">
       </md-toolbar>
       <md-content layout-padding>
         <form>
@@ -57,7 +57,7 @@
     <div class="invitation ">
       <h1>Invitation</h1></div>
     <div class="carousel carousel-slider center">
-      <div class="carousel-item" ng-repeat="challenge in challenges track by $index">
+      <div class="carousel-item" ng-repeat="challenge in invitations track by $index">
         <div class="card">
           <div class="card-image">
             <img ng-src="{{challenge.url}}">
