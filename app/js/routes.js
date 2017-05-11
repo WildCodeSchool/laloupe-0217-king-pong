@@ -39,16 +39,8 @@ angular.module('app')
                         controller: 'RegisterController'
                     }
                 }
-            })
-            .state('anon.community', {
-                url: '/community',
-                views: {
-                    'content@': {
-                        templateUrl: 'anon/community.html',
-                        controller: 'CommunityController'
-                    }
-                }
             });
+
         $stateProvider
             .state('user', {
                 abstract: true,
@@ -56,11 +48,21 @@ angular.module('app')
                 views: {
                     'navbar@': {
                         templateUrl: 'user/navbar.html',
-                        controller: 'NavbarController'
+                        controller: 'NavbarUserController'
                     }
                 },
                 data: {
                     access: AccessLevels.user
+                }
+
+            })
+            .state('user.community', {
+                url: '/community',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/community.html',
+                        controller: 'CommunityController'
+                    }
                 }
             })
             .state('user.dashboard', {
@@ -83,7 +85,6 @@ angular.module('app')
             })
             .state('user.createDefis', {
                 url: '/createDefis/:activity',
-
                 views: {
                     'content@': {
                         templateUrl: 'user/createDefis.html',
@@ -101,6 +102,18 @@ angular.module('app')
                       }
                 }
             })
+            .state('user.invitation', {
+                url: '/invitation',
+
+                views: {
+                    'content@': {
+                        templateUrl: 'user/invitation.html',
+                        controller: 'invitationController',
+                      }
+                }
+            })
+
+
             .state('user.filterActivity', {
                 url: '/filteractivity',
                 views: {
