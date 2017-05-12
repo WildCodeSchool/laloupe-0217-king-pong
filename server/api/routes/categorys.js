@@ -7,19 +7,16 @@ let router = express.Router();
 module.exports = (app) => {
 
     var category = new Category();
-
-  
-    router.post('/', category.create);
-
+    
     router.put('/:id', category.update);
 
     router.delete('/:id', category.delete);
 
-
-
     router.get('/:id', category.findById);
 
+    router.get('/', category.findAll);
 
+    router.post('/', category.create);
 
     app.use('/categorys', router);
 

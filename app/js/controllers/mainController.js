@@ -1,22 +1,23 @@
 angular.module('app')
-  .controller('MainController', function($scope, $timeout, $mdSidenav, UserService, CurrentUser, $log) {
+
+  .controller('MainController', function($scope,Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService,$state) {
     var userId = CurrentUser.user()._id;
     $scope.user = CurrentUser.user();
+
     console.log($scope.user);
-    // $scope.communitys = [];
+    $scope.communitys = [];
     UserService.getOne(userId).then(function(res) {
-      // console.log(res.data.community);
-      //TODO add key for community
+      console.log("res",res.data);
+
+
       $scope.communitys = res.data.community;
+      $scope.community = $scope.communitys[($scope.communitys.length-1)];
     });
+
+
     $scope.selected = function(index) {
-      console.log(index);
     };
 
-    $scope.toggleRight = buildToggler('right');
-    $scope.isOpenRight = function() {
-      return $mdSidenav('right').isOpen();
-    };
 
     function buildToggler(navID) {
       return function() {
@@ -28,6 +29,17 @@ angular.module('app')
           });
       };
     }
+
+    $scope.toggleRight = buildToggler('right');
+    $scope.isOpenRight = function() {
+      return $mdSidenav('right').isOpen();
+    };
+
+    $scope.logout = function() {
+            Auth.logout();
+            $state.go('anon.login');
+        };
+
 
     $scope.invitations = [{
       name: 'Foot',
@@ -46,16 +58,24 @@ angular.module('app')
       activity: 'Jeux Société',
       url: './img/echec.jpg'
     }];
-    $(function(){ $('.carousel.carousel-slider').carousel({full_width: true}); });
 
 
-    // $scope.close = function () {
-    //   // Component lookup should always be available since we are not using `ng-if`
-    //   $mdSidenav('right').close()
-    //     .then(function () {
-    //       $log.debug("close RIGHT is done");
-    //     });
-    // };
+
+   
+
+
+
+    $scope.categories = [];
+
+            // CategoryService.getAll().then(function(res){
+            //   console.log(res.data);
+            //   $scope.categories = res.data;
+            // });
+
+
+    $scope.goToInvitation = function(id){
+      $state.go("user.challenge",{id:$scope.challenge[id]._id});
+    };
 
 
 

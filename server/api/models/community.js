@@ -21,8 +21,8 @@ const communitySchema = new mongoose.Schema({
   },
   users : [{
     type : mongoose.Schema.Types.ObjectId,
-    ref: user
-  }],
+    ref: "User"
+  }]
 
 
 });
@@ -35,9 +35,9 @@ export default class Community {
 
 
   findAll(req, res) {
-    model.find({}, {
-      password: 0
-    }, (err, communitys) => {
+    console.log("findAll");
+    model.find({},
+      (err, communitys) => {
       if (err || !communitys) {
         res.sendStatus(403);
       } else {
@@ -47,9 +47,8 @@ export default class Community {
   }
 
   findById(req, res) {
-    model.findById(req.params.id, {
-      password: 0
-    }, (err, community) => {
+    model.findById(req.params.id).populate("users").exec(
+      (err, community) => {
       if (err || !community) {
         res.sendStatus(403);
       } else {
@@ -98,6 +97,22 @@ export default class Community {
       }
     });
   }
+
+  addUser(req,res){
+    console.log(req.params,req.body);
+    model.findOneAndUpdate({_id:req.params.id}, {$addToSet:{users:req.body.users}},{upsert:true}, (err,community)=>{
+      if (err || !community) {
+        res.status(404).send(err.message);
+    }
+  else{
+    res.json({
+      success: true,
+      community: community,
+
+    });
+  }
+});
+}
 
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {
