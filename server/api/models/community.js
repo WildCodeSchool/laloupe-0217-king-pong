@@ -38,43 +38,33 @@ export default class Community {
     console.log("findAll");
     model.find({},
       (err, communitys) => {
-      if (err || !communitys) {
-        res.sendStatus(403);
-      } else {
-        res.json(communitys);
-      }
-    });
+        if (err || !communitys) {
+          res.sendStatus(403);
+        } else {
+          res.json(communitys);
+        }
+      });
   }
 
   findById(req, res) {
     model.findById(req.params.id).populate("users").exec(
       (err, community) => {
-      if (err || !community) {
-        res.sendStatus(403);
-      } else {
-        res.json(community);
-      }
-    });
+        if (err || !community) {
+          res.sendStatus(403);
+        } else {
+          res.json(community);
+        }
+      });
   }
 
   create(req, res) {
 
     model.create(req.body,
       (err, community) => {
-        if (err || !community) {
-          if (err.code === 11000 || err.code === 11001) {
-            err.message = "Email " + req.body.email + " already exist";
-          }
-          res.status(500).send(err.message);
+        if (err || community) {
+          res.sendStatus(500);
         } else {
-          let tk = jsonwebtoken.sign(community, token, {
-            expiresIn: "24h"
-          });
-          res.json({
-            success: true,
-            community: community,
-            token: tk
-          });
+          res.json(community);
         }
       });
   }
@@ -98,21 +88,28 @@ export default class Community {
     });
   }
 
-  addUser(req,res){
-    console.log(req.params,req.body);
-    model.findOneAndUpdate({_id:req.params.id}, {$addToSet:{users:req.body.users}},{upsert:true}, (err,community)=>{
+  addUser(req, res) {
+    console.log(req.params, req.body);
+    model.findOneAndUpdate({
+      _id: req.params.id
+    }, {
+      $addToSet: {
+        users: req.body.users
+      }
+    }, {
+      upsert: true
+    }, (err, community) => {
       if (err || !community) {
         res.status(404).send(err.message);
-    }
-  else{
-    res.json({
-      success: true,
-      community: community,
+      } else {
+        res.json({
+          success: true,
+          community: community,
 
+        });
+      }
     });
   }
-});
-}
 
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {

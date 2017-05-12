@@ -38,7 +38,6 @@ angular.module('app')
                 LocalService.unset('auth_token');
                 var register = $http.post('/users', formData);
                 register.then(function(result) {
-                  console.log(result);
                     LocalService.set('auth_token', result.data.token);
                     LocalService.set('user', JSON.stringify(result.data.user));
                 }).catch(function() {});

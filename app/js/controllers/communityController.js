@@ -4,6 +4,7 @@ angular.module('app')
     $scope.communitys = [];
 
     var timer = $timeout(function() {
+      console.log('community');
       CommunityService.getAll().then(function(res) {
         $scope.communitys = res.data;
       });
