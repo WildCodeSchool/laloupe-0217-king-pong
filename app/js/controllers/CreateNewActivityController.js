@@ -22,7 +22,6 @@ angular.module('app')
                    console.log($scope.newActivity);
                  CreateActivityService.create(infoActivity).then(function(res) {
                    $state.go('user.filterActivity');
-                   console.log(res);
                  });
                };
             });
