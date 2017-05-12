@@ -7,7 +7,7 @@ angular.module('app')
             getAll: function() {
                 return $http.get('/activities');
             },
-            getOne: function(id) {
+            getOne: function(id,activityName) {
                 return $http.get('/activities/' + id);
             },
         };
