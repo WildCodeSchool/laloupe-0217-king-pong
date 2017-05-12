@@ -39,10 +39,10 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String
   },
-  community: {
+  community: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: community
-  }
+    ref: "Community"
+  }]
 
 });
 
@@ -94,10 +94,10 @@ export default class User {
   }
 
   findAll(req, res) {
-    console.log('all');
+
     model.find({}, {
       password: 0
-    }, (err, users) => {
+    }).populate("community").exec( (err, users) => {
       if (err || !users) {
         res.sendStatus(403);
       } else {
@@ -110,14 +110,39 @@ export default class User {
     console.log('find');
     model.findById(req.params.id, {
       password: 0
-    }, (err, user) => {
+    }).populate("community").exec(function (err, user)  {
       if (err || !user) {
         console.log(err);
-        res.sendStatus('nope');
+        res.sendStatus(400);
       } else {
         res.json(user);
       }
     });
+  }
+  findByPseudo(req, res) {
+    model.findOne({
+      pseudo: req.params.pseudo
+    }, (err, user) => {
+      if (err || !user) {
+        res.status(404);
+      } else {
+        console.log(user);
+        res.json(user);
+      }
+    });
+  }
+  findByMail(req, res) {
+    model.findOne({
+        email: req.params.email
+      },
+      (err, user) => {
+        if (err || !user) {
+          res.status(404);
+        } else {
+          console.log(user);
+          res.json(user);
+        }
+      });
   }
 
   create(req, res) {
@@ -126,7 +151,7 @@ export default class User {
       req.body.password = bcrypt.hashSync(req.body.password, salt);
     }
     var hashMail = md5(req.body.email.trim().toLowerCase());
-    req.body.avatar = 'https://www.gravatar.com/avatar/'+ hashMail +'?d=mm';
+    req.body.avatar = 'https://www.gravatar.com/avatar/' + hashMail + '?d=mm';
     model.create(req.body,
       (err, user) => {
         if (err || !user) {
@@ -149,10 +174,28 @@ export default class User {
 
   update(req, res) {
     var hashMail = md5(req.body.email.trim().toLowerCase());
-    req.body.avatar = 'https://www.gravatar.com/avatar/'+ hashMail +'?d=mm';
+    req.body.avatar = 'https://www.gravatar.com/avatar/' + hashMail + '?d=mm';
     model.update({
       _id: req.params.id
     }, req.body, (err, user) => {
+      if (err || !user) {
+        res.status(500).send(err.message);
+      } else {
+        let tk = jsonwebtoken.sign(user, token, {
+          expiresIn: "24h"
+        });
+        res.json({
+          success: true,
+          user: user,
+          token: tk
+        });
+      }
+    });
+  }
+  addCommunity(req, res) {
+    model.findOneAndUpdate({
+      _id: req.params.id
+    },{$addToSet:{community:req.body.community}},{upsert:true, new: true}, (err, user) => {
       if (err || !user) {
         res.status(500).send(err.message);
       } else {

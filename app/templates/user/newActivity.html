@@ -1,0 +1,26 @@
+<nav>
+  <div class="nav-wrapper">
+    <ul>
+        <li>
+            <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
+        </li>
+    </ul>
+  </div>
+</nav>
+<div class="cadre">
+<md-subheader class="md-no-sticky"><b>Activités</b></md-subheader><br>
+</div>
+<div class="row">
+    <div class="col s12">
+
+            <md-list>
+            <ul class="collection">
+                <li class="collection-item" ng-repeat="activ in activity">
+                    <div class="md-list-item-text compact" ng-click="addActivity($index)">{{activ.activityName}}
+                </li>
+            </ul>
+          </md-list>
+          <div class="col s6 flotingButton">
+              <a class="btn-floating btn-large waves-effect waves-light blue" ng-click="createNewActivity()">
+                  <i class="material-icons">add</i></a>
+          </div>

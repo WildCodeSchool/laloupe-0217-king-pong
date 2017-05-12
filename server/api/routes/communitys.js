@@ -12,11 +12,12 @@ module.exports = (app) => {
 
     var community = new Community();
 
+
+    router.put('/user/:id',Auth.hasAuthorization , community.addUser);
+
+    router.get('/:id', Auth.hasAuthorization, community.findById);
     
-
-    router.get('/', Auth.isAdministrator, community.findAll);
-
-    router.get('/:id', Auth.isAdministrator, community.findById);
+    router.get('/', Auth.hasAuthorization, community.findAll);
 
     router.post('/', community.create);
 

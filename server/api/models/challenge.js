@@ -11,16 +11,16 @@ const challengeSchema = new mongoose.Schema({
 
     community:{
       type: mongoose.Schema.Types.ObjectId,
-      ref: community
+      ref: "Community"
     },
 
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: user
+        ref: "User"
     },
     activity: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: activity
+      ref: "Activity"
     },
     date: {
       type:Date,default: Date.now

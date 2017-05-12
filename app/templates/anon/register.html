@@ -5,32 +5,35 @@
   </div>
 </div>
 <div class="row">
-  <form class="col s12 offset-l4 l4 register" name="loginForm" novalidate ng-submit="register()">
-    <div ng-repeat="error in errors">{{error.error}}</div>
+  <form class="col s12 offset-l4 l4 register" name="loginForm" ng-submit="register()">
     <div class="row">
       <div class="input-field col s11 offset-l1 l10  ">
         <i class="material-icons prefix">account_circle</i>
-        <input id="pseudo" type="text" class="form-control" ng-model="user.pseudo" required>
-        <label for="pseudo">Pseudo</label>
+        <input id="pseudo" type="text" class="form-control" ng-model="user.pseudo" ng-change="addPseudo()" required>
+        <label class="active" for="pseudo">Pseudo</label>
+        <span ng-if="(user.pseudo| lowercase) == verif.pseudo && user.pseudo != undefined" style="color:red"><i class="material-icons">error_outline</i>{{error.pseudo}}</span>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s11 offset-l1 l10  ">
         <i class="material-icons prefix">mail</i>
-        <input id="email" type="email" class="form-control" ng-model="user.email" required>
-        <label for="email">Email</label>
+        <input id="email" type="email" class="form-control" ng-model="user.email" ng-change="addEmail()" required>
+        <label class="active" for="email">Email</label>
+        <span ng-if="(user.email|lowercase) == verif.email && user.email != undefined" style="color:red"><i class="material-icons">error_outline</i>{{error.email}}</span>
+
       </div>
     </div>
     <div class="row">
       <div class="input-field col s11 offset-l1 l10  ">
         <i class="material-icons prefix">vpn_key</i>
-        <input id="password" type="password" class="form-control" ng-model="user.password" required>
-        <label for="password">Password</label>
+        <input id="password" type="{{inputType}}" class="form-control" ng-model="user.password" required>
+        <span class="hide-on-small-only"><a id="revealPassword" href ng-click="showPassword()"><i class="material-icons">remove_red_eye</i></a></span>
+        <label class="active" for="password">Password</label>
       </div>
     </div>
     <div class="row">
       <div class="col col s12 offset-l1 l10 ">
-        <a id="submit" ng-click="register()" type="submit" class="waves-effect waves-teal btn ">Register</a>
+        <input id="submit" type="submit" name="action" class="waves-effect waves-teal btn form" value="Register">
       </div>
     </div>
   </form>

@@ -1,5 +1,6 @@
 angular.module('app')
-  .controller('CommunityController', function($scope, Auth, UserService, CommunityService, SessionService, $state) {
+  .controller('CommunityController', function($scope, CurrentUser, UserService, CommunityService, SessionService, $state) {
+    var userId = CurrentUser.user()._id;
     $scope.communitys = [{
       _id: "58fdeef005219f2cac9c9f86",
       name: "WCS Chartres",
@@ -13,13 +14,13 @@ angular.module('app')
       name: "WCS Lyon",
       location: "Lyon"
     }];
-    var current = [];
-    current = JSON.parse(SessionService.get('users'));
+
 
     $scope.addCommunity = function(id) {
-      current.community = id;
-      SessionService.unset('users');
-      Auth.register(current);
-      $state.go("user.home");
+      UserService.addCommunity(userId, {
+          community: id
+        }).then(function(res) {
+          $state.go('user.home');
+        });
     };
   });
