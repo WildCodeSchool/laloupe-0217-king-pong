@@ -4,6 +4,8 @@ angular.module('app')
       function(event) {
         if (CurrentUser.user().community.length === 0 && $state.current.name !== 'user.community') {
           $state.go('user.community');
+        }if (CurrentUser.user().community.length === 0 && $state.current.name !== 'anon.login'){
+          $state.go('anon.login');
         }
       });
 

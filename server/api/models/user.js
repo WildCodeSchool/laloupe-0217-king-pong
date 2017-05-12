@@ -163,6 +163,7 @@ export default class User {
           let tk = jsonwebtoken.sign(user, token, {
             expiresIn: "24h"
           });
+          console.log(tk);
           res.json({
             success: true,
             user: user,
