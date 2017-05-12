@@ -4,6 +4,10 @@ angular.module('app')
       $scope.navigateBefore = function() {
           $state.go('user.filterActivity');
       };
+      $scope.resultRules = [
+        'Gagnant / Perdant',
+        'Gagnant / Match nul / Perdant'
+      ];
       $scope.valide = function() {
       $scope.newActivity = [];
                  var infoActivity = {
@@ -18,7 +22,6 @@ angular.module('app')
                    console.log($scope.newActivity);
                  CreateActivityService.create(infoActivity).then(function(res) {
                    $state.go('user.filterActivity');
-                   console.log(res);
                  });
                };
             });

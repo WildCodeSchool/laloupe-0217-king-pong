@@ -62,19 +62,13 @@ export default class Community {
     model.create(req.body,
       (err, community) => {
         if (err || !community) {
-          if (err.code === 11000 || err.code === 11001) {
-            err.message = "Email " + req.body.email + " already exist";
-          }
-          res.status(500).send(err.message);
+                    res.sendStatus(500);
         } else {
           let tk = jsonwebtoken.sign(community, token, {
             expiresIn: "24h"
           });
-          res.json({
-            success: true,
-            community: community,
-            token: tk
-          });
+          res.json(community
+          );
         }
       });
   }
