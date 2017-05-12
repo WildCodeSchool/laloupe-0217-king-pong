@@ -1,10 +1,17 @@
 angular.module('app')
-  .controller('MainController', function($scope,Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log,$state) {
+
+  .controller('MainController', function($scope,Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService,$state) {
     var userId = CurrentUser.user()._id;
     $scope.user = CurrentUser.user();
+
+    console.log($scope.user);
+    $scope.communitys = [];
     UserService.getOne(userId).then(function(res) {
+      console.log("res",res.data);
+
 
       $scope.communitys = res.data.community;
+      $scope.community = $scope.communitys[($scope.communitys.length-1)];
     });
 
 
@@ -54,16 +61,21 @@ angular.module('app')
 
 
 
-    // $(function(){ $('.carousel.carousel-slider').carousel({full_width: true}); });
+   
 
 
-    // $scope.close = function () {
-    //   // Component lookup should always be available since we are not using `ng-if`
-    //   $mdSidenav('right').close()
-    //     .then(function () {
-    //       $log.debug("close RIGHT is done");
-    //     });
-    // };
+
+    $scope.categories = [];
+
+            // CategoryService.getAll().then(function(res){
+            //   console.log(res.data);
+            //   $scope.categories = res.data;
+            // });
+
+
+    $scope.goToInvitation = function(id){
+      $state.go("user.challenge",{id:$scope.challenge[id]._id});
+    };
 
 
 

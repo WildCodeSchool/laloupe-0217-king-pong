@@ -7,13 +7,9 @@
            value="$index">{{community.name}}</option>
 
     </select> -->
-      <select class="brand-logo select center" ng-options="value.community for community in communitys" ng-model="community" ng-change="selected(community)">
-    <option
+      <select class="brand-logo select center" ng-options="community.name for community in communitys" ng-model="community" ng-change="selected(community)">
+      </select>
 
-            value="{{index}}">
-      {{community}}
-    </option>
-</select>
       <a href class="button-collapse md-primary right" ng-click="toggleRight()" ng-hide="isOpenRight()"><i class="material-icons">menu</i></a>
     </div>
     <div class="nav-content center-align">
@@ -130,6 +126,8 @@
       </ks-swiper-slide>
     </ks-swiper-container>
   </div>
+
 </div>
+
 
 </div>

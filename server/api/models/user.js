@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
   },
   community: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: community
+    ref: "Community"
   }]
 
 });
@@ -94,10 +94,10 @@ export default class User {
   }
 
   findAll(req, res) {
-    console.log('all');
+
     model.find({}, {
       password: 0
-    }, (err, users) => {
+    }).populate("community").exec( (err, users) => {
       if (err || !users) {
         res.sendStatus(403);
       } else {
@@ -110,10 +110,10 @@ export default class User {
     console.log('find');
     model.findById(req.params.id, {
       password: 0
-    }, (err, user) => {
+    }).populate("community").exec(function (err, user)  {
       if (err || !user) {
         console.log(err);
-        res.sendStatus('nope');
+        res.sendStatus(400);
       } else {
         res.json(user);
       }
