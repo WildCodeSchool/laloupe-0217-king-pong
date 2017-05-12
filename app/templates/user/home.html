@@ -30,21 +30,39 @@
 
     <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
 
-      <md-toolbar class="md-theme-light grey">
-        <img class="center" src="{{user.avatar}}" alt="">
+      <md-toolbar class="md-theme-light">
+        <img class="center circle avatar" src="{{user.avatar}}" alt="">
+        <b class="center pseudo-sidenav">{{user.pseudo}}</b>
       </md-toolbar>
       <md-content layout-padding>
-        <form>
-          <md-input-container>
-            <label for="testInput">Test input</label>
-            <input type="text" id="testInput" ng-model="data" md-autofocus>
-          </md-input-container>
-        </form>
-        <md-button ng-click="close()" class="md-primary">
-          Close Sidenav Right
-        </md-button>
-      </md-content>
+        <md-list>
+          <md-list-item ui-sref='user.profile' class="md-3-line">
+            <img  src="./img/person.png" class="md-avatar side-img"></i>
+            <div class="md-list-item-text">
+              <h2 class="side-title">Profile</h4>
+            </div>
 
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+          <md-list-item class="md-3-line">
+            <img  src="./img/people.png" class="md-avatar side-img"></i>
+                <div class="md-list-item-text">
+                <h2 class="side-title">Community</h2>
+              </div>
+
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+          <md-list-item ng-click="logout()"  class="md-3-line">
+            <img  src="./img/exit.png" class="md-avatar side-img"></i>
+            <div class="md-list-item-text">
+              <h2 class="side-title">LogOut</h4>
+              <span></span>
+            </div>
+
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+        </md-list>
+      </md-content>
     </md-sidenav>
 
   </section>
@@ -56,13 +74,13 @@
   <div class="col s12 offset-m3 m6 offset-l4 l4">
     <div class="invitation ">
       <h1>Invitation</h1></div>
-    <div class="carousel carousel-slider center">
-      <div class="carousel-item" ng-repeat="challenge in invitations track by $index">
-        <div class="card">
+    <ks-swiper-container class="swiper-container" initial-slide="0" loop="false" free-mode="true" show-nav-buttons="false" slides-per-view="2" space-between="60" pagination-clickable="false" centered-slides="true">
+      <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in invitations track by $index">
+        <div class="card z-depth-2">
           <div class="card-image">
-            <img ng-src="{{challenge.url}}">
+            <img class="" ng-src="{{challenge.url}}">
             <span class="card-title"><h3>{{challenge.name}}</h3></span>
-            <span class="card-title" ><p>{{challenge.activity}}</p></span>
+            <span class="card-title"><p>{{challenge.activity}}</p></span>
           </div>
           <div class="card-content">
 
@@ -72,10 +90,19 @@
             <p>Here is some more information about this product that is only revealed once clicked on.</p>
           </div>
         </div>
-      </div>
+      </ks-swiper-slide>
+      <ks-swiper-slide>
+      </ks-swiper-slide>
+    </ks-swiper-container>
+
+    <div class="fixed-action-btn">
+      <a ui-sref='user.createDefis' class="btn-floating btn-large customPurple z-depth-4">
+        <i class="large material-icons ">add</i>
+      </a>
     </div>
   </div>
 </div>
+
 
 
 
@@ -83,24 +110,26 @@
   <div class="col s12 offset-m3 m6 offset-l4 l4">
     <div class="arbitrage">
       <h1>Arbitrage</h1></div>
-      <div class="carousel carousel-slider center">
-        <div class="carousel-item" ng-repeat="challenge in challenges track by $index">
-          <div class="card">
-            <div class="card-image">
-              <img ng-src="{{challenge.url}}">
-              <span class="card-title">{{challenge.name}}</span>
-              <span class="card-text">{{challenge.activity}}</span>
-            </div>
-            <div class="card-content">
-            </div>
-            <div class="card-reveal">
-              <span class="card-title grey-text text-darken-4">{{challenge.activity}}<i class="material-icons right">close</i></span>
-              <p>Here is some more information about this product that is only revealed once clicked on.</p>
-            </div>
+    <ks-swiper-container class="swiper-container" initial-slide="0" loop="false" free-mode="true" show-nav-buttons="false" slides-per-view="2" space-between="60" pagination-clickable="false" centered-slides="true">
+      <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in invitations track by $index">
+        <div class="card">
+          <div class="card-image">
+            <img class="" ng-src="{{challenge.url}}">
+            <span class="card-title"><h3>{{challenge.name}}</h3></span>
+            <span class="card-title"><p>{{challenge.activity}}</p></span>
+          </div>
+          <div class="card-content">
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">{{challenge.activity}}<i class="material-icons right">close</i></span>
+            <p>Here is some more information about this product that is only revealed once clicked on.</p>
           </div>
         </div>
-      </div>
-    </div>
+      </ks-swiper-slide>
+      <ks-swiper-slide>
+      </ks-swiper-slide>
+    </ks-swiper-container>
   </div>
+</div>
 
 </div>
