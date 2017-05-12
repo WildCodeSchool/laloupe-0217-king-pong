@@ -17,8 +17,9 @@ angular.module('app')
             "1h45",
             "2h00"
         ];
-  
+
         $scope.goToHome = function() {
             $state.go('user.home');
         };
-    });
+        
+          });
