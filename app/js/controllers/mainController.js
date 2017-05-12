@@ -1,13 +1,15 @@
 angular.module('app')
-  .controller('MainController', function($scope, $timeout, $mdSidenav, UserService, CurrentUser, $log) {
+  .controller('MainController', function($scope, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService) {
     var userId = CurrentUser.user()._id;
     $scope.user = CurrentUser.user();
+
     console.log($scope.user);
-    // $scope.communitys = [];
+    $scope.communitys = [];
     UserService.getOne(userId).then(function(res) {
-      // console.log(res.data.community);
-      //TODO add key for community
+      console.log("res",res.data);
+
       $scope.communitys = res.data.community;
+      $scope.community = $scope.communitys[($scope.communitys.length-1)];
     });
     $scope.selected = function(index) {
       console.log(index);
@@ -61,13 +63,16 @@ angular.module('app')
 
     $scope.categories = [];
 
-            CategoryService.getAll().then(function(res){
-              console.log(res.data);
-              $scope.categories = res.data;
-            });
+            // CategoryService.getAll().then(function(res){
+            //   console.log(res.data);
+            //   $scope.categories = res.data;
+            // });
 
 
     $scope.goToInvitation = function(id){
       $state.go("user.challenge",{id:$scope.challenge[id]._id});
     };
+
+
+ //  CommunityService.getOne(_id).then()
   });
