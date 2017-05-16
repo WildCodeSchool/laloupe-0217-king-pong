@@ -20,4 +20,5 @@ angular.module('app')
         $scope.goToHome = function() {
             $state.go('user.home');
         };
+
     });

@@ -64,10 +64,7 @@ export default class Community {
         if (err || !community) {
                     res.sendStatus(500);
         } else {
-          let tk = jsonwebtoken.sign(community, token, {
-            expiresIn: "24h"
-          });
-          res.json(community
+            res.json(community
           );
         }
       });

@@ -10,15 +10,13 @@
     float: right;
 }
 
-.md-subheader .md-subheader-inner {
-    height: 150px;
+.md-no-sticky {
+    text-align: center;
+    height: 160px;
     background-color: #eeeeee;
     border-bottom: solid 1px;
     border-color: grey;
-}
 
-.cadre {
-    text-align: center;
 }
 
 .validateButton {
@@ -36,4 +34,10 @@
     height: 50px;
     width: auto;
     background-color: #eeeeee;
+}
+.circle{
+  height: 80px;
+}
+.validate{
+  margin-left: 250px;
 }
