@@ -76,11 +76,10 @@
             <label for="invitation">Invitations</label>
             <div class="row">
                 <div class="input-field col s12">
-                    <input placeholder="Invitations" id="invitation" type="text" class="validate">
+                    <input placeholder="Invitations" id="invitation" type="text" class="validate" ng-model="invite">
                 </div>
             </div>
         </div>
+        <button class="btn blue" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
     </div>
-    <button class="btn blue" type="button" ng-click="valide()"><span>Creer le défi</span></button>
-</div>
-</form>
+    </form>
