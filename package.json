@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "angular-flickity": "^3.1.1",
+    "angular-material-time-picker": "^1.0.5",
     "express": "",
     "flickity": "^2.0.5",
     "lineman": "~0.37.0",

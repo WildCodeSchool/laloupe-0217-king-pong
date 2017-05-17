@@ -13,11 +13,12 @@ angular.module('app')
             pseudo : $scope.user._id,
             activity : $scope.activity._id,
             date : $scope.myDate,
+            time : $scope.startTime,
             duration : $scope.duration,
             place : $scope.lieu,
             groupe : $scope.activity.numberOfTeam,
             nbrParticipantGroupe : $scope.activity.numberOfplayer,
-            emailInvite : $scope.emailInvitation
+            invite : $scope.invite
 
           };
           $scope.newChallenge.push(infoChallenge);
