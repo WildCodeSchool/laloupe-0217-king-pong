@@ -12,4 +12,5 @@ angular.module('app')
         $scope.valide = function() {
             $state.go('user.createDefis');
         };
+        console.log($scope.activity);
     });

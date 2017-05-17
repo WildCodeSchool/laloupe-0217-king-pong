@@ -4,79 +4,83 @@
         <form>
             <i class="material-icons">close</i>
     </div>
-    <div class="cadre">
-        <md-subheader class="md-no-sticky">
-        </md-subheader><br>
-    </div>
     </form>
     </div>
 </nav>
 <div class="cadre">
     <md-subheader class="md-no-sticky">
-        <div class="photoCat">
-            <img src="img/echec.jpg" alt="" class="circle">
-        </div>
-      </md-subheader><br>
+
+        <img src="img/carlin.jpg" alt="" class="circle">
+        <p>Créer un nouveau défi</p>
+
+    </md-subheader><br>
 </div>
 <br><br>
-<div class="row">
-    <form class="col s12">
-        <label for="activity">Activité</label>
-        <div class="row">
-            <div class="input-field col s12">
-                <input placeholder="Activités" id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
+<div class="blocEntier">
 
+    <div class="row">
+        <form class="col s12">
+            <label for="activity">Activité</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Activités" id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
+                </div>
             </div>
-        </div>
-        <!-- Calendrier datepicker -->
-        <label for="start">Début</label>
-        <div class="row">
-            <div class="input-field col s12">
-                <div layout-gt-xs="row">
-                    <div flex-gt-xs>
-                        <md-datepicker ng-model="myDate" md-placeholder="Saisir la date"></md-datepicker>
+            <!-- Calendrier datepicker -->
+            <label for="start">Date et heure</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <div layout-gt-xs="row">
+                        <div flex-gt-xs>
+                            <md-datepicker ng-model="myDate" md-placeholder="Saisir la date"></md-datepicker>
+                            <div class="timefield">
+                                <input placeholder="Entrez une heure" type="time" ng-model="startTime">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+    </div>
+    <label for="duration">Durée</label>
+    <div class="row">
+        <div class="input-field col s12">
+            <md-select placeholder="Indiquer la durée du défi" ng-model="duration">
+                <md-option ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
+            </md-select>
         </div>
-                  <label for="duration">Durée</label>
-        <div class="row">
-            <div class="input-field col s12">
-                <md-select placeholder="Indiquer la durée du défi" ng-model="duration">
-                    <md-option  ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
-                </md-select>
-            </div>
-        </div>
-         <div>
+    </div>
+    <div>
         <label for="where">Lieu</label>
         <div class="row">
             <div class="input-field col s12">
-                <input placeholder="Dans quelle ville se déroulera le défi" id="where" type="text" class="validate">
+                <input placeholder="Dans quelle ville se déroulera le défi" id="where" type="text" class="validate" ng-model="lieu">
             </div>
         </div>
-        <div class="bloc-participant" ng-show = "activity.activityName">
-          <div class="bckgrd-participant">
-          <p>Participants</p>
-        </div>
-        <label for="nbGroupe">Nombre de groupe</label>
-        <div class="row">
-            <div class="input-field col s12">
-                <input placeholder="Nombre de groupe" id="nbGroupe" type="text" class="validate">
+        <div class="bloc-participant" ng-show="activity.activityName">
+            <div class="bckgrd-participant">
+                <p>Participants</p>
+            </div>
+            <label for="nbGroupe">Nombre de groupe</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Nombre de groupe" id="nbGroupe" type="text" class="validate" ng-model="activity.numberOfTeam">
+                </div>
+            </div>
+            <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Nombre de participants par groupe" id="nbParticipantGroupe" type="text" class="validate" ng-model="activity.numberOfplayer">
+                </div>
+            </div>
+            <label for="invitation">Invitations</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Invitations" id="invitation" type="text" class="validate">
+                </div>
             </div>
         </div>
-        <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
-        <div class="row">
-            <div class="input-field col s12">
-                <input placeholder="Nombre de participants par groupe" id="nbParticipantGroupe" type="text" class="validate">
-            </div>
-        </div>
-        <label for="invitation">Invitations</label>
-        <div class="row">
-            <div class="input-field col s12">
-                <input placeholder="Invitations" id="invitation" type="text" class="validate">
-            </div>
-        </div>
-      </div>
-        <button class="btn blue" type="button"><span>   Creer le défi    </span></button>
+    </div>
+    <button class="btn blue" type="button" ng-click="valide()"><span>Creer le défi</span></button>
 </div>
 </form>
