@@ -14,21 +14,13 @@
     <md-subheader class="md-no-sticky">
         <div class="photoCat">
             <img src=img/{{activity.photo}}.jpg alt="" class="circle">
+            <p>{{activity.activityName}}</p>
         </div>
     </md-subheader>
 </div>
 <div class="listdscrp">
 
 <md-list>
-  <div class="row">
-      <form class="col s12">
-          <label for="activity">Activité</label>
-          <div class="row">
-              <div class="input-field col s12">
-                  <input disabled id="activité" type="text" class="active" ng-model="activity.activityName">
-              </div>
-          </div>
-        </div>
     <div class="row">
         <form class="col s12">
             <label for="activity">Description</label>
