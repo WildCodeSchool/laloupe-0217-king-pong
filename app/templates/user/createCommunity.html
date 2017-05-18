@@ -1,23 +1,33 @@
 <nav>
     <div class="nav-wrapper">
-        <i class="material-icons" ng-click="goToHome()">close</i></label>
-        <form>
-            <i class="material-icons">close</i>
-    </div>
-    </form>
+      <ul>
+          <li>
+              <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
+          </li>
+          <li>
+              <i class="validate" ng-click="valide()">Valide</i>
+          </li>
+      </ul>
     </div>
 </nav>
 <div class="cadre">
     <md-subheader class="md-no-sticky">
-
         <img src="img/carlin.jpg" alt="" class="circle">
-        <p>Créer un nouveau défi</p>
-
+        <p>Créer une nouvelle communauté</p>
     </md-subheader><br>
 </div>
 <br><br>
 <div class="blocEntier">
-
-        <button class="btn blue" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
-    </div>
-    </form>
+  <label for="communityName">Nom de la communauté</label>
+  <div class="row">
+      <div class="input-field col s12">
+          <input id="communityName" type="text" class="validate" ng-model="communityName">
+      </div>
+  </div>
+  <label for="communityPlace">Lieu de la communauté</label>
+  <div class="row">
+      <div class="input-field col s12">
+          <input id="communityPlace" type="text" class="validate" ng-model="communityPlace">
+      </div>
+  </div>
+</div>
