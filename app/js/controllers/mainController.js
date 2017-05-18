@@ -61,7 +61,7 @@ angular.module('app')
 
 
 
-   
+
 
 
 
@@ -77,6 +77,8 @@ angular.module('app')
       $state.go("user.challenge",{id:$scope.challenge[id]._id});
     };
 
-
+$scope.goCommunity =function() {
+  $state.go("user.community");
+};
 
   });

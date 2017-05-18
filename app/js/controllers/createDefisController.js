@@ -7,26 +7,28 @@ angular.module('app')
             $state.go('user.filterActivity');
         };
 
+
         $scope.sendChallenge = function() {
-          $scope.newChallenge = [];
-          var infoChallenge = {
-            pseudo : $scope.user._id,
-            activity : $scope.activity._id,
-            date : $scope.myDate,
-            time : $scope.startTime,
-            duration : $scope.duration,
-            place : $scope.lieu,
-            groupe : $scope.activity.numberOfTeam,
-            nbrParticipantGroupe : $scope.activity.numberOfplayer,
-            invite : $scope.invite
+            $scope.newChallenge = [];
+            var infoChallenge = {
+                pseudo: $scope.user._id,
+                activity: $scope.activity._id,
+                date: $scope.myDate,
+                time: $scope.startTime,
+                duration: $scope.duration,
+                place: $scope.lieu,
+                groupe: $scope.activity.numberOfTeam,
+                nbrParticipantGroupe: $scope.activity.numberOfplayer,
+                invite: $scope.invite
 
-          };
-          $scope.newChallenge.push(infoChallenge);
-          ChallengeService.create(infoChallenge).then(function(res){
-            $state.go('user.filterActivity');
-        });
+            };
+            $scope.newChallenge.push(infoChallenge);
+            ChallengeService.create(infoChallenge).then(function(res) {
+                $state.go('user.home');
+                sessionStorage.clear();
+            });
 
-      };
+        };
 
         $scope.durations = [
             "15mn",

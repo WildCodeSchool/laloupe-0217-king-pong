@@ -16,7 +16,7 @@ module.exports = (app) => {
     router.put('/user/:id',Auth.hasAuthorization , community.addUser);
 
     router.get('/:id', Auth.hasAuthorization, community.findById);
-    
+
     router.get('/', Auth.hasAuthorization, community.findAll);
 
     router.post('/', community.create);
