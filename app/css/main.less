@@ -1,4 +1,4 @@
-  // Main less file for your application.
+// Main less file for your application.
 // Use `@import` to use other less files
 // relative to 'app/css' or 'vendor/css'.
 // -----------------------------------------------------------------------------
@@ -263,40 +263,91 @@ h1 {
 // **********************Register********************************************
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
+// **********************navbar-home********************************************
+// -----------------------------------------------------------------------------
+
+  .tabs {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .tabs .tab {
+    -webkit-flex-grow: 2;
+    -ms-flex-positive: 2;
+    flex-grow: 2;
+  }
+  .tabs .tab a {
+    padding: 0 12px;
+  }
+
+
+// -----------------------------------------------------------------------------
+// **********************Register********************************************
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // **********************page********************************************
 // -----------------------------------------------------------------------------
-.customPurple{
+
+h2{
+
+  margin-left: 5%;
+  @media screen and (min-width: 1400px) {
+    margin-left: 60px;
+
+  }
+  @media screen and (min-width: 1048px) {
+    margin-left: 3%;
+
+  }
+  @media screen and (min-width: 768px) {
+    margin-left: 4%;
+
+  }
+  @media screen and (max-width: 768px) {
+    margin-left: 4%;
+    font-size: 2.5em;
+
+  }
+}
+
+.section{
+  margin-top: -300px;
+}
+.customPurple {
   background-color: @purple;
 }
-md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar){
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar),
+md-toolbar:not(.md-menu-toolbar) {
   background-color: @purple;
 }
-.xtraLarge{
+
+.xtraLarge {
   height: 70px;
   width: 70px;
   line-height: 70px;
-
 }
 
-.pseudo-sidenav{
+.pseudo-sidenav {
   color: white;
 }
 
-.avatar{
+.avatar {
   width: 130px;
   height: 130px;
   margin-left: 33%;
 }
 
-.side-title{
+.side-title {
   font-size: 2em;
-
 }
-.side-img{
+
+.side-img {
   height: 40px;
   width: 40px;
   background-color: @grey;
 }
+
 .md-datepicker-triangle-button.md-button.md-icon-button {
   top: 0;
 }
@@ -311,18 +362,43 @@ li:active {
   }
   background-color: @purple;
 }
+
+span.badge.round-badge {
+  border-radius: 10px;
+  color: white;
+  float: inherit;
+  padding: 2px 10px;
+  position: relative;
+  top: -5px;
+}
+
+span.badge.nav-badge {
+  border-radius: 10px;
+  color: white;
+  float: inherit;
+  padding-right: 8px;
+  min-width: 30px;
+  min-height: 10px;
+  margin-left: 15px;
+}
+
+.tabs.tabs-transparent .indicator {
+  background-color: rgb(0, 212, 215);
+}
 // -----------------------------------------------------------------------------
 // **********************Carousel***********************************************
 // -----------------------------------------------------------------------------
 
 .swiper-container {
-  width: 100%;
+  // width: 100%;
   height: 300px;
   padding-left: 5%;
-  margin: 20px auto;
-  @media (min-width: 760px) {
+  // margin: 20px auto;
+  @media screen and (min-width: 760px) {
+    margin-left: -10px;
     height: 400px;
   }
+
 }
 
 .row .col .swip {
@@ -335,22 +411,24 @@ li:active {
 .card {
   width: 200px;
   height: 250px;
-@media screen and (min-width: 1025px) and (max-width: 1400px){
-    width: 400px;
-    height: 450px;
+  @media screen and (min-width: 1600px) and (max-width: 2000px) {
+    width: 300px;
+    height: 350px;
   }
-  @media screen and (min-width: 800px) and (max-width: 1024px){
-    width: 180px;
-    height: 200px;
-
+  @media screen and (min-width: 1025px) and (max-width: 1600px) {
+    width: 250px;
+    height: 300px;
   }
-  @media screen and (min-width: 600px) and (max-width: 800px){
-    width: 180px;
-    height: 200px;
-
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    width: 280px;
+    height: 320px;
   }
-  @media screen and (min-width: 320px) and (max-width: 411px) {
-    width: 180px;
+  @media screen and (min-width: 600px) and (max-width: 767px) {
+    width: 250px;
+    height: 300px;
+  }
+  @media screen and (min-width: 320px) and (max-width: 375px) {
+    width: 170px;
     height: 200px;
   }
   @media screen and (max-width: 320px) {
@@ -361,12 +439,31 @@ li:active {
 
 .card-image img {
   height: 200px;
-  @media (max-width: 320px) {
+  @media screen and (min-width: 1600px) and (max-width: 2000px) {
+    height: 300px;
+  }
+  @media screen and (min-width: 1025px) and (max-width: 1600px) {
+    height: 250px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    height: 270px;
+  }
+  @media screen and (min-width: 600px) and (max-width: 767px) {
+    height: 250px;
+  }
+  @media screen and (min-width: 320px) and (max-width: 375px) {
     height: 150px;
   }
-  @media screen and (min-width: 320px) and (max-width: 411px) {
+  @media screen and (max-width: 320px) {
     height: 150px;
   }
+}
+
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+  opacity: 0.00;
+  cursor: auto;
+  pointer-events: none;
 }
 // -----------------------------------------------------------------------------
 // **********************footer***********************************************
@@ -397,20 +494,16 @@ footer {
     list-style: none;
   }
 }
-
-
-
 //invitation //
 
 .participants {
-  margin-left: 20px ;
-  font-size: 15px ;
+  margin-left: 20px;
+  font-size: 15px;
 }
+
 img {
   height: 150px;
 }
-
 // -----------------------------------------------------------------------------
 // **********************footer***********************************************
 // -----------------------------------------------------------------------------
-

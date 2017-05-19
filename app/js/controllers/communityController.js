@@ -9,6 +9,7 @@ angular.module('app')
 
 
     var timer = $timeout(function() {
+      console.log('community');
       CommunityService.getAll().then(function(res) {
         $scope.communitys = res.data;
       });

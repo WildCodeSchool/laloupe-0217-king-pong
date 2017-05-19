@@ -29,7 +29,7 @@ module.exports = function(lineman) {
         less: {
             compile: {
                 options: {
-                    paths: ["vendor/css/angular-material.css", "vendor/css/materialize.css", "app/css/**/*.less"]
+                    paths: [ "vendor/css/materialize.css","vendor/css/angular-material.css", "app/css/**/*.less"]
                 }
             }
         }
