@@ -135,6 +135,17 @@ angular.module('app')
 
                 }
             })
+            .state('user.createCommunity', {
+                url: '/createCommunity',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/createCommunity.html',
+                        controller: 'CreateCommunityController',
+
+                        }
+
+                }
+            })
             .state('user.profile', {
                 url: '/profile',
                 views: {

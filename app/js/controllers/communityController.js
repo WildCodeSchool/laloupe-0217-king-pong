@@ -1,7 +1,12 @@
 angular.module('app')
   .controller('CommunityController', function($scope, CurrentUser, UserService, CommunityService, SessionService, $state,$timeout) {
+    $scope.communityParam = CurrentUser.user().community;
+
+    console.log($scope.communityParam);
+
     var userId = CurrentUser.user()._id;
     $scope.communitys = [];
+
 
     var timer = $timeout(function() {
       console.log('community');
@@ -9,7 +14,6 @@ angular.module('app')
         $scope.communitys = res.data;
       });
     }, 1500);
-
 
 
 

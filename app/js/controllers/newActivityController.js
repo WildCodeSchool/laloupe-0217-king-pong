@@ -4,8 +4,8 @@ angular.module('app')
         ActivityService.getAll().then(function(res) {
             $scope.activity = res.data;
         }, function(err) {});
-        $scope.addActivity = function(index) {
-                  SessionService.set('activity', JSON.stringify($scope.activity[index]));
+        $scope.addActivity = function(activity) {
+                  SessionService.set('activity', JSON.stringify(activity));
             $state.go('user.activityDescription');
         };
         $scope.navigateBefore = function() {
