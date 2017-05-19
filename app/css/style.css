@@ -10,15 +10,12 @@
     float: right;
 }
 
-.md-subheader .md-subheader-inner {
-    height: 150px;
+.md-no-sticky {
+    text-align: center;
+    height: 160px;
     background-color: #eeeeee;
     border-bottom: solid 1px;
     border-color: grey;
-}
-
-.cadre {
-    text-align: center;
 }
 
 .validateButton {
@@ -31,9 +28,54 @@
 }
 
 .bckgrd-participant {
+  margin-bottom: 10px;
     margin-right: -10px;
     padding-top: 10px;
     height: 50px;
     width: auto;
     background-color: #eeeeee;
+}
+
+.circle {
+    height: 80px;
+}
+
+.validate {
+    margin-left: 250px;
+}
+
+.timefield {
+    margin-right: 40px;
+    float: right;
+}
+
+.blocEntier {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.buttonCreateDefi {
+    width: 300px;
+}
+
+.btn.blue {
+    width: 320px;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    background-color: #babcbe !important;
+    color: #807d7d;
+}
+
+.chpsSearch {
+
+    background: white !important;
+    height: 40px;
+    width: 300px;
+    border-radius: 2px;
+    margin-left: 30px;
+    color: #807d7d;
+}
+.nav-wrapper{
+  padding-top: 8px !important;
+
 }

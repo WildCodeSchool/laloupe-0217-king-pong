@@ -187,8 +187,6 @@ angular.module('app')
 
 
 
-
-
     $scope.categories = [];
 
     // CategoryService.getAll().then(function(res){
@@ -203,6 +201,8 @@ angular.module('app')
       });
     };
 
-
+$scope.goCommunity =function() {
+  $state.go("user.community");
+};
 
   });

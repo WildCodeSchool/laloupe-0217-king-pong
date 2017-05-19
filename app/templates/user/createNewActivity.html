@@ -4,22 +4,36 @@
             <li>
                 <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
             </li>
-        </ul>
-        <ul>
             <li>
-                <i class="clickValide" ng-click="valide()">Valide</i>
+                <i class="validate" ng-click="valide()">Valide</i>
             </li>
         </ul>
     </div>
 </nav>
+<div class="cadre">
+      <md-subheader class="md-no-sticky">
+
+          <img src="img/carlin.jpg" alt="" class="circle">
+          <p>Créer une nouvelle activité?</p>
+
+      </md-subheader><br>
+  </div>
 </div>
 <md-list>
     <div class="row">
         <form class="col s12">
-            <label for="activity">Acitivité</label>
+            <label for="activity">Activité</label>
             <div class="row">
                 <div class="input-field col s12">
                     <input id="activity" type="text" class="active" ng-model="activity">
+                </div>
+            </div>
+            <label for="photo">photo</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <md-select placeholder="choisir le type de photo" ng-model="photo">
+                        <md-option ng-repeat="photo in photos" value="{{photo}}">{{photo}}</md-option>
+                    </md-select>
                 </div>
             </div>
             <div class="row">
@@ -51,7 +65,6 @@
                             <input id="playerNumber" type="text" class="validate" ng-model="playerNumber">
                         </div>
                     </div>
-
                     <label for="averageLast">Durée moyenne</label>
                     <div class="row">
                         <div class="input-field col s12">

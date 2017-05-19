@@ -5,6 +5,9 @@ import mongoose from 'mongoose';
 
 const activitySchema = new mongoose.Schema({
 
+  photo: {
+      type: String
+    },
     activityName: {
         type: String
     },

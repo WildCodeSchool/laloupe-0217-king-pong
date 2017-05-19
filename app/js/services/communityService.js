@@ -1,8 +1,11 @@
 angular.module('app')
     .service('CommunityService', function($http) {
         return {
+            create: function(infoCommunity) {
+                return $http.post('/communitys/', infoCommunity);
+            },
             getAll: function() {
-                return $http.get('/communitys');
+                return $http.get('/communitys/');
             },
             getOne: function(id) {
                 return $http.get('/communitys/' + id);
