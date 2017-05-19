@@ -6,6 +6,7 @@ angular.module('app')
   $scope.valide = function() {
     $scope.newCommunity=[];
 
+
     var infoCommunity = {
         name: $scope.communityName,
         location: $scope.communityPlace,
@@ -15,9 +16,8 @@ angular.module('app')
 
     $scope.newCommunity.push(infoCommunity);
   CommunityService.create(infoCommunity).then(function(res) {
-      console.log(res);
-        // $state.go('user.home');
-        // sessionStorage.clear();
+        $state.go('user.home');
+        sessionStorage.clear();
     });
   };
   });
