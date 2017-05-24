@@ -1,5 +1,16 @@
 angular.module('app')
     .controller('CreateDefisController', function($scope, $state, $stateParams, ActivityService, SessionService, ChallengeService, UserService, CurrentUser) {
+//
+      if (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)) {
+        $scope.device = (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)).length
+        ;
+      } else {
+          $scope.device=[];
+      }
+
+console.log($scope.device);
+
+
         $scope.user = CurrentUser.user();
         $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
 

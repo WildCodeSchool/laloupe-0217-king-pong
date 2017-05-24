@@ -54,12 +54,9 @@
     margin-right: 20px;
 }
 
-.buttonCreateDefi {
-    width: 300px;
-}
-
 .btn.blue {
-    width: 320px;
+  width: 100%;
+  min-width: 50px;
     margin-bottom: 10px;
     border-radius: 2px;
     background-color: #babcbe !important;
@@ -78,4 +75,21 @@
 .nav-wrapper{
   padding-top: 8px !important;
 
+}
+.valideButton{
+  margin-left: 80%;
+  margin-right: 10px;
+}
+.gravatar{
+text-align: center;
+  margin-bottom: 30px;
+}
+.checkmodif{
+  margin-left: 20px;
+}
+.buttonSave{
+  margin-left: 20px;
+}
+.row{
+  margin-left: 10px;
 }

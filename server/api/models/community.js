@@ -1,13 +1,9 @@
-import jsonwebtoken from 'jsonwebtoken';
+
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import token from '../token.js';
+
 import user from './user.js';
 
-const hashCode = (s) => s.split("").reduce((a, b) => {
-  a = ((a << 5) - a) + b.charCodeAt(0);
-  a & a;
-}, 0);
+
 
 const communitySchema = new mongoose.Schema({
 

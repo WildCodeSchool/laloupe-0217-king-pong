@@ -204,5 +204,7 @@ angular.module('app')
 $scope.goCommunity =function() {
   $state.go("user.community");
 };
-
+$scope.invitation =function() {
+  $state.go("user.invitation");
+};
   });

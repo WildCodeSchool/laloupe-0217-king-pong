@@ -6,11 +6,10 @@ angular.module('app')
   $scope.valide = function() {
     $scope.newCommunity=[];
 
-
     var infoCommunity = {
         name: $scope.communityName,
         location: $scope.communityPlace,
-        users: CurrentUser.user()._id
+        // users: CurrentUser.user()._id
 
     };
 
