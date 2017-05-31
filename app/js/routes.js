@@ -84,7 +84,7 @@ angular.module('app')
                 }
             })
             .state('user.createDefis', {
-                url: '/createDefis/:activity',
+                url: '/createDefis/:community',
                 views: {
                     'content@': {
                         templateUrl: 'user/createDefis.html',
@@ -141,6 +141,17 @@ angular.module('app')
                     'content@': {
                         templateUrl: 'user/createCommunity.html',
                         controller: 'CreateCommunityController',
+
+                        }
+
+                }
+            })
+            .state('user.invite', {
+                url: '/invite/:community',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/invites.html',
+                        controller: 'InviteController',
 
                         }
 

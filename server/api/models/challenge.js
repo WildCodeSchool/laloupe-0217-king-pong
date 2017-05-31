@@ -40,10 +40,9 @@ const challengeSchema = new mongoose.Schema({
     nbrParticipantGroupe: {
       type: Number,
     },
-    // invite: {
-    //    type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Challenger"
-    //    },
+    invite: {
+       type: String,
+       },
 });
 
 

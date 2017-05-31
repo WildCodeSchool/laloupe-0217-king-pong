@@ -11,6 +11,7 @@ angular.module('app')
     var timer = $timeout(function() {
       CommunityService.getAll().then(function(res) {
         $scope.communitys = res.data;
+        console.log($scope.communitys);
       });
     }, 3000);
 

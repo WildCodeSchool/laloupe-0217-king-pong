@@ -1,11 +1,10 @@
 
 import mongoose from 'mongoose';
 
-import user from './user.js';
+import User from './user.js';
 
 
-
-const communitySchema = new mongoose.Schema({
+const inviteSchema = new mongoose.Schema({
 
   name : {
     type : String,
@@ -15,7 +14,7 @@ const communitySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  users : [{
+  pseudo : [{
     type : mongoose.Schema.Types.ObjectId,
     ref: "User"
   }]
@@ -25,30 +24,29 @@ const communitySchema = new mongoose.Schema({
 
 
 
-let model = mongoose.model('Community', communitySchema);
+let model = mongoose.model('Invite', inviteSchema);
 
-export default class Community {
+export default class Invite {
 
 
   findAll(req, res) {
-    console.log("findAll");
-    model.find({},
-      (err, communitys) => {
-        if (err || !communitys) {
+    model.find(req.params.id,
+      (err, invites) => {
+        if (err || !invites) {
           res.sendStatus(403);
         } else {
-          res.json(communitys);
+          res.json(invites);
         }
       });
   }
 
   findById(req, res) {
-    model.findById(req.params.id).populate("users").exec(
-      (err, community) => {
-        if (err || !community) {
+    model.findById(req.params.id).populate('pseudo').exec(
+      (err, invite) => {
+        if (err || !invite) {
           res.sendStatus(403);
         } else {
-          res.json(community);
+          res.json(invite);
         }
       });
   }

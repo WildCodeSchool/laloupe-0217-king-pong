@@ -177,7 +177,7 @@ export default class User {
     req.body.avatar = 'https://www.gravatar.com/avatar/' + hashMail + '?d=mm';
     model.update({
       _id: req.params.id
-    }, req.body, (err, user) => {
+    }, req.body,{new:true}, (err, user) => {
       if (err || !user) {
         res.status(500).send(err.message);
       } else {
