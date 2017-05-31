@@ -21,7 +21,7 @@ const teamSchema = new mongoose.Schema({
         type: String,
     }],
     maxPlayer: {
-      type: Number
+      type: Object,
     }
 });
 
@@ -63,29 +63,29 @@ export default class Team {
             }
         });
     }
-
-    addUser(req, res) {
-        console.log(req.params, req.body);
-        model.findOneAndUpdate({
-            _id: req.params.id
-        }, {
-            $addToSet: {
-                users: req.body.users
-            }
-        }, {
-            upsert: true
-        }, (err, team) => {
-            if (err || !team) {
-                res.status(404).send(err.message);
-            } else {
-                res.json({
-                    success: true,
-                    team: team,
-
-                });
-            }
-        });
-    }
+    //
+    // addPlayer(req, res) {
+    //     console.log(req.params, req.body);
+    //     model.findOneAndUpdate({
+    //         _id: req.params.id
+    //     }, {
+    //         $addToSet: {
+    //             users: req.body.users
+    //         }
+    //     }, {
+    //         upsert: true
+    //     }, (err, team) => {
+    //         if (err || !team) {
+    //             res.status(404).send(err.message);
+    //         } else {
+    //             res.json({
+    //                 success: true,
+    //                 team: team,
+    //
+    //             });
+    //         }
+    //     });
+    // }
 
 
 

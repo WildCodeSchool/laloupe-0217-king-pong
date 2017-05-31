@@ -8,7 +8,7 @@ module.exports = (app) => {
 
     var team = new Team();
 
-    // router.put('/user/:id', invitation.addUser);
+    // router.put('/user/:id', invitation.addPlayer);
 
     router.get('/:id', team.findById);
     //

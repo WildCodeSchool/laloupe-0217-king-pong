@@ -102,13 +102,15 @@ angular.module('app')
                     var Team = [];
                     var nbrTeam = $scope.activity.numberOfTeam;
                     for(let i = 1; i <= nbrTeam; i++){
+                      Team.push(nbrTeam[i]);
                       TeamService.create({
                           challenge: res.data._id,
                           invite: userP,
-                          players: [],
-                          maxPlayer: player[i]
+                          players: [],  
+                          maxPlayer:nbrPlayer[i]
                       });
                     }
+                    console.log('team', Team);
 
 
 
