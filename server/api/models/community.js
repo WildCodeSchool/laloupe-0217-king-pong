@@ -1,13 +1,9 @@
-import jsonwebtoken from 'jsonwebtoken';
+
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import token from '../token.js';
 import user from './user.js';
 
-const hashCode = (s) => s.split("").reduce((a, b) => {
-  a = ((a << 5) - a) + b.charCodeAt(0);
-  a & a;
-}, 0);
 
 const communitySchema = new mongoose.Schema({
 
@@ -59,34 +55,26 @@ export default class Community {
 
   create(req, res) {
 
-    model.create(req.body,
-      (err, community) => {
-        if (err || !community) {
-                    res.sendStatus(500);
-        } else {
-            res.json(community
-          );
-        }
+      model.create(req.body, (err, community) => {
+          if (err || !community) {
+              res.status(500).send(err.message);
+          } else {
+              res.json({community});
+          }
       });
+
   }
 
   update(req, res) {
-    model.update({
-      _id: req.params.id
-    }, req.body, (err, community) => {
-      if (err || !community) {
-        res.status(500).send(err.message);
-      } else {
-        let tk = jsonwebtoken.sign(community, token, {
-          expiresIn: "24h"
-        });
-        res.json({
-          success: true,
-          community: community,
-          token: tk
-        });
-      }
-    });
+      model.update({
+          _id: req.params.id
+      }, req.body, (err, community) => {
+          if (err || !community) {
+              res.status(500).send(err.message);
+          } else {
+              res.sendStatus(200);
+          }
+      });
   }
 
   addUser(req,res){
@@ -94,8 +82,7 @@ export default class Community {
     model.findOneAndUpdate({_id:req.params.id}, {$addToSet:{users:req.body.users}},{upsert:true}, (err,community)=>{
       if (err || !community) {
         res.status(404).send(err.message);
-    }
-  else{
+    }else{
     res.json({
       success: true,
       community: community,
@@ -105,13 +92,13 @@ export default class Community {
 });
 }
 
-  delete(req, res) {
-    model.findByIdAndRemove(req.params.id, (err) => {
-      if (err) {
-        res.status(500).send(err.message);
-      } else {
-        res.sendStatus(200);
-      }
-    });
-  }
+    delete(req, res) {
+      model.findByIdAndRemove(req.params.id, (err) => {
+        if (err) {
+          res.status(500).send(err.message);
+        } else {
+          res.sendStatus(200);
+        }
+      });
+    }
 }

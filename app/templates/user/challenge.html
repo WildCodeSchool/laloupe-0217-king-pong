@@ -27,7 +27,7 @@
                     <span class="title">Date</span>
                     <div class="row">
                         <div class="col s12 grey-text text-lighten-1">
-                            <p>{{challenges.}}
+                            <p>{{challenges.date}}
                             </p>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                     <span class="title">Activité</span>
                     <div class="row">
                         <div class="col s6">
-                            <p class="grey-text text-lighten-1">{{challenges.p}}</p>
+                            <p class="grey-text text-lighten-1">{{challenges.activity}}</p>
                         </div>
                         <div class="col s6">
                             <a href="#!" class="secondary-content"><i class="material-icons">k<i class="material-icons">keyboard_arrow_right</i></i></a>
@@ -70,9 +70,9 @@
                         <div class="col s12">
                             <span class="team grey-text text-lighten-1">Equipe 1</span>
                             </br>
+                            </br>
 
-                            <!-- <div class="row">
-                    <div class="col s12"> -->
+
                             <div class="chip">
                                 <img src="./img/olive.jpg" alt="Contact Person"> Olive
                             </div>
@@ -88,6 +88,7 @@
                     <div class="row">
                         <div class="col s12">
                             <span class="team grey-text text-lighten-1">Equipe 2</span>
+                            </br>
                             </br>
 
                             <!-- <div class="row">
@@ -105,5 +106,45 @@
         </ul>
 </div>
 </div>
+</div>
+<div class="validationInvite">
+    <div class="row">
+        <div class="col s2 offset-s8">
+            <a class="refuser" href data-target='modal1'>REFUSER</a>
+        </div>
+        <div class="col s2">
+            <a class="refuser" href data-target='modal2'ng-click="addToChallenge(user._id)">ACCEPTER</p>
+      </div>
+</div>
+
+<div class="row section">
+  <div class="col">
+    </div>
+    </div>
+    <!-- Modal Structure annuler-->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Refuser l'invitation</h4>
+            <p>Etes vous sûre de vouloir refuser l'invitation ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class=" modal-action modal-close waves-effect waves-green btn-flat">Annuler</a>
+            <a class=" modal-action modal-close waves-effect waves-green btn-flat">Refuser</a>
+        </div>
+    </div>
+    <!--Modal Structure Refuser-->
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <h4>Choix de l'équipe</h4>
+        </div>
+        <ul class="collection">
+  <a class="collection-item">Equipe 1</a>
+  <a class="collection-item">Equipe 2</a>
+
+</ul>
+    </div>
+
+
+
 </div>
 </form>

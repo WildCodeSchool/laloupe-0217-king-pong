@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import challenge from './challenge.js';
 import Community from './community.js';
 import User from './user.js';
 import Activity from './activity.js';
+
 
 
 
@@ -40,10 +40,12 @@ const challengeSchema = new mongoose.Schema({
     nbrParticipantGroupe: {
       type: Number,
     },
-    // invite: {
-    //    type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Challenger"
-    //    },
+    teams:[{team :[{
+      player: {
+      type: String, 
+      },
+    }]
+}]
 });
 
 
@@ -63,7 +65,7 @@ export default class Challenge {
     }
 
     findById(req, res) {
-        model.findById(req.params.id).populate("User", "Community", "Activity", "Challenger").exec(
+        model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
             (err, challenge) => {
                 if (err || !challenge) {
                     res.sendStatus(403);
@@ -80,13 +82,27 @@ export default class Challenge {
                 console.log(err);
                 res.status(500).send(err.message);
             } else {
-                res.json({
-                    challenge
-                });
-            }
+            res.json(challenge);
+              }
         });
-
     }
+
+    addUser(req,res){
+      console.log(req.params,req.body);
+      model.findOneAndUpdate({_id:req.params.id}, {$addToSet:{users:req.body.users}},{upsert:true}, (err,challenge)=>{
+        if (err || !challenge) {
+          res.status(404).send(err.message);
+      }else{
+      res.json({
+        success: true,
+        challenge: challenge,
+
+      });
+    }
+  });
+  }
+
+
 
     update(req, res) {
         model.update({
@@ -108,4 +124,6 @@ export default class Challenge {
             }
         });
     }
+
+
 }
