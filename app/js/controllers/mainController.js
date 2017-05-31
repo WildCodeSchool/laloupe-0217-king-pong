@@ -6,12 +6,12 @@ angular.module('app')
     $scope.table = [{swiper:"",image:""}];
 
     $scope.onReadySwiper = function (swiper) {
-      console.log(swiper);
+      // console.log(swiper);
       var id = swiper.params.index;
       var swiper1 = swiper.params.swiperId;
       var image1 = swiper.imagesLoaded;
       $scope.table[id] = {'swiper' : swiper1,'image' : image1};
-      console.log($scope.table);
+      // console.log($scope.table);
 
 
     };
@@ -64,11 +64,11 @@ angular.module('app')
     UserService.getOne(userId).then(function(res) {
       $scope.communitys = res.data.community;
       $scope.community = $scope.communitys[($scope.communitys.length - 1)];
+      console.log($scope.communitys);
     });
 
-
+var communitySelect;
     $scope.selected = function(index) {};
-
 
     function buildToggler(navID) {
       return function() {

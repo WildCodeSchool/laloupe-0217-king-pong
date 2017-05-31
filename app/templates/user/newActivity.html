@@ -5,8 +5,13 @@
             <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
         </li>
             <div>
-            <li class="chpsSearch">
-              <input  type="text" placeholder="Filtrer les activites" ng-model="filtre">
+            <li>
+              <form>
+                <div class="input-field center ">
+                  <input  id="search" type="search" ng-model='filtre'>
+                      <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                </div>
+              </form>
             </li>
             </div>
     </ul>

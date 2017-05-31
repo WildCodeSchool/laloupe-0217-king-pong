@@ -9,7 +9,7 @@ angular.module('app')
       }
 
 console.log($scope.device);
-
+        $scope.community = $stateParams.community;
 
         $scope.user = CurrentUser.user();
         $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
@@ -30,11 +30,12 @@ console.log($scope.device);
                 place: $scope.lieu,
                 groupe: $scope.activity.numberOfTeam,
                 nbrParticipantGroupe: $scope.activity.numberOfplayer,
-                invite: $scope.invite
+                // invite: [$scope.invite]
 
             };
+
             $scope.newChallenge.push(infoChallenge);
-            ChallengeService.create(infoChallenge).then(function(res) {
+            ChallengeService.create(infoChallenge,$scope.invite).then(function(res) {
                 $state.go('user.home');
                 sessionStorage.clear();
             });
@@ -55,6 +56,8 @@ console.log($scope.device);
             $state.go('user.home');
         };
 
-
+        $scope.navigateTo = function() {
+            $state.go('user.invite', {community: $scope.community});
+        };
 
     });

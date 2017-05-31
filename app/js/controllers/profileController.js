@@ -4,6 +4,10 @@ angular.module('app')
         var userId = CurrentUser.user()._id;
         console.log( CurrentUser.user().pseudo);
 
+        $scope.goToHome = function() {
+            $state.go('user.home');
+        };
+
         $scope.user = CurrentUser.user();
         $scope.pseudo = CurrentUser.user().pseudo;
         $scope.avatar = CurrentUser.user().avatar;
@@ -27,6 +31,7 @@ angular.module('app')
             console.log(res.data);
 
                 });
+
           };
 
     });
