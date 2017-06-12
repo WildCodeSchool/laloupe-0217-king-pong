@@ -146,12 +146,25 @@ angular.module('app')
 
                 }
             })
-            .state('user.invite', {
-                url: '/invite/:community',
+
+            .state('user.resum', {
+                url: '/resum/:id',
                 views: {
                     'content@': {
-                        templateUrl: 'user/invites.html',
-                        controller: 'InviteController',
+                        templateUrl: 'user/resum.html',
+                        controller: 'ResumController',
+
+                        }
+
+                }
+            })
+            .state('user.arbitrage', {
+                url: '/arbitrage/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/arbitrage.html',
+                        controller: 'ArbitrageController',
+
 
                         }
 

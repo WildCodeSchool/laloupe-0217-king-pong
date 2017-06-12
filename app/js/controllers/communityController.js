@@ -3,7 +3,6 @@ angular.module('app')
     $scope.communityParam = CurrentUser.user().community.length;
 
     console.log($scope.communityParam);
-
     var userId = CurrentUser.user()._id;
     $scope.communitys = [];
 
@@ -12,7 +11,9 @@ angular.module('app')
       CommunityService.getAll().then(function(res) {
         $scope.communitys = res.data;
       });
+
     }, 3000);
+
 
 
 

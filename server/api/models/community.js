@@ -60,9 +60,7 @@ export default class Community {
         if (err || community) {
           res.sendStatus(500);
         } else {
-
           res.json(community);
-
         }
       });
   }

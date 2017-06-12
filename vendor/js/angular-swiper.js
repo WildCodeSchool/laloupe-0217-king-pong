@@ -36,7 +36,6 @@
       },
       controller: ["$scope", "$element", "$timeout", function(e, r, a) {
         var n = t();
-        console.log(e);
         e.swiper_uuid = n;
         var s = {
           slidesPerView: e.slidesPerView || 1,
