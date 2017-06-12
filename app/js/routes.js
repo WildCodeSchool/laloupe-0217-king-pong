@@ -84,7 +84,7 @@ angular.module('app')
                 }
             })
             .state('user.createDefis', {
-                url: '/createDefis/:community',
+                url: '/createDefis/:community/:invites',
                 views: {
                     'content@': {
                         templateUrl: 'user/createDefis.html',
