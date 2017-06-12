@@ -16,18 +16,18 @@
         <p>Créer une nouvelle communauté</p>
     </md-subheader><br>
 </div>
-<br><br>
 <div class="blocEntier">
-  <label for="communityName">Nom de la communauté</label>
   <div class="row">
-      <div class="input-field col s12">
+    <form class="col s12">
+        <div class="input-field col s7">
           <input id="communityName" type="text" class="validate" ng-model="communityName">
+          <label for="communityName">Nom de la communauté</label>
+        </div>
       </div>
-  </div>
-  <label for="communityPlace">Lieu de la communauté</label>
   <div class="row">
-      <div class="input-field col s12">
+        <div class="input-field col s7">
           <input id="communityPlace" type="text" class="validate" ng-model="communityPlace">
+          <label for="communityPlace">Lieu de la communauté</label>
       </div>
   </div>
-</div>
+</form>

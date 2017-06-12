@@ -3,6 +3,7 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   var axis = $window.pageYOffset;
   $scope.showButton = true;
 
+
   angular.element($window).bind("scroll", function() {
     if (axis < $window.pageYOffset) {
       $scope.showButton = false;
@@ -45,6 +46,7 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   $scope.onSwipeRight = function(ev) {
     $mdSidenav('right').close().then(function() {
       $log.debug("close RIGHT is done");
+
     });
   };
 
@@ -66,6 +68,7 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   });
 
   $scope.selected = function(index) {};
+
 
   // sub navbar
   $(document).ready(function() {
@@ -503,3 +506,4 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   refactoring($scope.communityDefies);
 
 });
+

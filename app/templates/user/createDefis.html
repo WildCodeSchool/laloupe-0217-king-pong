@@ -1,6 +1,6 @@
 <nav>
     <div class="nav-wrapper">
-        <i class="material-icons" ng-click="goToHome()">close</i></label>
+        <i class="material-icons" ng-click="goToHome()">close</i>
         <form>
             <i class="material-icons">close</i>
     </div>
@@ -20,66 +20,68 @@
 
     <div class="row">
         <form class="col s12">
-            <label for="activity">Activité</label>
             <div class="row">
+                <label for="activity">Activité</label>
                 <div class="input-field col s12">
-                    <input placeholder="Activités" id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
+                    <input id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
                 </div>
             </div>
             <!-- Calendrier datepicker -->
-            <label for="start">Date et heure</label>
             <div class="row">
+                <label for="start">Date et heure</label>
                 <div class="input-field col s12">
                     <div layout-gt-xs="row">
                         <div flex-gt-xs>
                             <md-datepicker ng-model="myDate" md-placeholder="Saisir la date"></md-datepicker>
                             <div class="timefield">
                                 <input placeholder="Entrez une heure" type="time" ng-model="startTime">
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
     </div>
-    <label for="duration">Durée</label>
     <div class="row">
         <div class="input-field col s12">
             <md-select placeholder="Indiquer la durée du défi" ng-model="duration">
                 <md-option ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
+                <label for="duration">Durée</label>
             </md-select>
         </div>
     </div>
     <div>
-        <label for="where">Lieu</label>
         <div class="row">
             <div class="input-field col s12">
-                <input placeholder="Dans quelle ville se déroulera le défi" id="where" type="text" class="validate" ng-model="lieu">
+                <input id="where" type="text" class="validate" ng-model="lieu">
+                <label for="where">Lieu</label>
             </div>
         </div>
         <div class="bloc-participant" ng-show="activity.activityName">
             <div class="bckgrd-participant">
                 <p>Participants</p>
             </div>
-            <label for="nbGroupe">Nombre de groupe</label>
             <div class="row">
                 <div class="input-field col s12">
-                    <input placeholder="Nombre de groupe" id="nbGroupe" type="text" class="validate" ng-model="activity.numberOfTeam">
+                    <input id="nbGroupe" type="number" class="validate" ng-model="activity.numberOfTeam">
+                    <label for="nbGroupe">Nombre de groupe</label>
                 </div>
             </div>
-            <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
             <div class="row">
                 <div class="input-field col s12">
-                    <input placeholder="Nombre de participants par groupe" id="nbParticipantGroupe" type="text" class="validate" ng-model="activity.numberOfplayer">
+                    <input id="nbParticipantGroupe" type="number" class="validate" ng-model="activity.numberOfplayer">
+                    <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
                 </div>
             </div>
-            <label for="invitation">Invitations</label>
             <div class="row">
                 <div class="input-field col s12">
-                    <input placeholder="Invitations" id="invitation" type="text" class="validate" ng-model="invite">
-                </div>
+                    <input placeholder="choisissez vos invités" id="invitation" type="text" ng-model="invite">
+                    <label for="invitation">Invitations</label>
+                    <div class="inviteNavigate">
+                    <i class="material-icons" ng-click = "navigateTo()">></i>
+                  </div>
             </div>
         </div>
         <button class="btn blue" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
     </div>
-    </form>
+</div>
+</form>

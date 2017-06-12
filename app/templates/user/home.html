@@ -60,6 +60,7 @@
         <h2>Invitation<span class="badge red round-badge">{{invitations.length}}</span></h2>
             </div>
 
+
             <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" slides-per-view="5" space-between="20" initial-slide="0">
               <ks-swiper-slide class="swiper-slide " ng-repeat="challenge in invitations track by $index">
                 <div class="card z-depth-2">
@@ -98,6 +99,7 @@
               </a>
             </div>
 </div>
+
 </div>
 
 <div class="row section arbitrages" ng-if="!arbitrages.length == 0" style="position: relative">

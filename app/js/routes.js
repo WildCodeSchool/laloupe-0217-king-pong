@@ -84,7 +84,7 @@ angular.module('app')
                 }
             })
             .state('user.createDefis', {
-                url: '/createDefis/:activity',
+                url: '/createDefis/:community',
                 views: {
                     'content@': {
                         templateUrl: 'user/createDefis.html',
@@ -146,6 +146,7 @@ angular.module('app')
 
                 }
             })
+
             .state('user.resum', {
                 url: '/resum/:id',
                 views: {
@@ -163,6 +164,7 @@ angular.module('app')
                     'content@': {
                         templateUrl: 'user/arbitrage.html',
                         controller: 'ArbitrageController',
+
 
                         }
 

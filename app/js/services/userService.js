@@ -13,7 +13,7 @@ angular.module('app')
       getEmail: function(email) {
         return $http.get('/users/mail/' + email);
       },
-      update: function(id, user) {
+      update: function(id,user) {
         return $http.put('/users/' + id, user);
       },
       addCommunity: function(id, community) {
