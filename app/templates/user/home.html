@@ -5,13 +5,13 @@
     <a href class="button-collapse md-primary right" ng-click="toggleRight()" ng-hide="isOpenRight()"><i class="material-icons">menu</i></a>
   </div>
 
-    <div class="nav-content">
-      <ul class="tabs tabs-transparent ulCenter ">
-        <li class="tab "><a href>Defi<span class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></a></li>
-        <li class="tab "><a href>Classement</a></li>
-        <div class="indicator"></div>
-      </ul>
-    </div>
+  <div class="nav-content">
+    <ul class="tabs tabs-transparent ulCenter ">
+      <li class="tab "><a href>Defi<span class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></a></li>
+      <li class="tab "><a href>Classement</a></li>
+      <div class="indicator"></div>
+    </ul>
+  </div>
 
 
 </nav>
@@ -32,7 +32,7 @@
             </div>
             <md-divider ng-if="!$last"></md-divider>
           </md-list-item>
-          <md-list-item ng-click="goCommunity()" class="md-3-line">
+          <md-list-item ui-sref='user.community' class="md-3-line">
             <img  src="./img/people.png" class="md-avatar side-img"></i>
                 <div class="md-list-item-text">
                 <h2 class="side-title">Community</h2>
@@ -58,33 +58,46 @@
   <div class="col s12 ">
     <div class="invitation ">
         <h2>Invitation<span class="badge red round-badge">{{invitations.length}}</span></h2>
-    </div>
+            </div>
 
-    <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper'  override-parameters="slideOption" slides-per-view="5" space-between="20" initial-slide="0">
-      <ks-swiper-slide class="swiper-slide " ng-repeat="challenge in invitations track by $index">
-        <div class="card z-depth-2">
-          <div class="card-image">
-            <img class="" ng-src="{{challenge.url}}">
-              <span class="card-title"><h3>{{challenge.name}}</h3></span>
-              <span class="card-title"><p>{{challenge.activity}}</p></span>
-          </div>
-          <div class="card-content">
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">{{challenge.activity}}<i class="material-icons right">close</i></span>
-            <p>Here is some more information about this product that is only revealed once clicked on.</p>
-          </div>
-        </div>
-      </ks-swiper-slide>
-      <ks-swiper-slide>
-      </ks-swiper-slide>
-    </ks-swiper-container>
-    <div class="fixed-action-btn">
-      <a ui-sref='user.createDefis' class="btn-floating btn-large z-depth-4">
-        <i class="large material-icons ">add</i>
-      </a>
-    </div>
-  </div>
+            <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" slides-per-view="5" space-between="20" initial-slide="0">
+              <ks-swiper-slide class="swiper-slide " ng-repeat="challenge in invitations track by $index">
+                <div class="card z-depth-2">
+                  <div ng-click="goToInvitation(challenge._id)" class="card-image">
+                    <img class="challengeImage" ng-src="{{challenge.url}}">
+                    <span class="card-title challengeTitle"><h3>{{challenge.name}}</h3></span>
+                    <span class="card-title challengeStart"><p>Dans {{challenge.start}}</p></span>
+                    <span class="card-title challengeDuration"><p>{{challenge.duration}}</p></span>
+                  </div>
+                  <div class="card-content">
+                    <ul>
+                      <li ng-repeat="player in challenge.nbPlayer | limitTo:3 track by $index ">
+
+                          <img class='circle' src="{{player}}" alt="Contact Person">
+
+                      </li>
+                      <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
+
+                          <p class="plus">+{{challenge.nbPlayer.length -3}}</p>
+
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">{{challenge.activity}}<i class="material-icons right">close</i></span>
+                    <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                  </div>
+                </div>
+              </ks-swiper-slide>
+              <ks-swiper-slide>
+              </ks-swiper-slide>
+            </ks-swiper-container>
+            <div class="fixed-action-btn animate-show-hide" ng-show="showButton">
+              <a ui-sref='user.createDefis' class="btn-floating btn-large z-depth-4">
+                <i class="large material-icons ">add</i>
+              </a>
+            </div>
+</div>
 </div>
 
 <div class="row section arbitrages" ng-if="!arbitrages.length == 0" style="position: relative">
@@ -93,15 +106,28 @@
       <h2>Arbitrage<span class="badge red round-badge">{{arbitrages.length}}</span></h2>
     </div>
 
-    <ks-swiper-container on-ready="onReadySwiper(swiper)" class="swiper-container" show-nav-buttons="true" override-parameters="slideOption"  initial-slide="0">
+    <ks-swiper-container on-ready="onReadySwiper(swiper)" class="swiper-container" show-nav-buttons="true" override-parameters="slideOption" initial-slide="0">
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in arbitrages track by $index">
         <div class="card">
-          <div class="card-image">
+          <div ng-click="goToArbitrage(challenge._id)" class="card-image">
             <img class="" ng-src="{{challenge.url}}">
-            <span class="card-title"><h3>{{challenge.name}}</h3></span>
-            <span class="card-title"><p>{{challenge.activity}}</p></span>
+            <span class="card-title challengeTitle"><h3>{{challenge.name}}</h3></span>
+            <span class="card-title challengeStart"><p>Dans {{challenge.start}}</p></span>
+            <span class="card-title challengeDuration"><p>{{challenge.duration}}</p></span>
           </div>
           <div class="card-content">
+            <ul>
+              <li ng-repeat="player in challenge.nbPlayer | limitTo:3 track by $index ">
+
+                  <img class='circle' src="{{player}}" alt="Contact Person">
+
+              </li>
+              <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
+
+                  <p class="plus">+{{challenge.nbPlayer.length -3}}</p>
+
+              </li>
+            </ul>
           </div>
           <div class="card-reveal">
             <span class="card-title grey-text text-darken-4">{{challenge.activity}}<i class="material-icons right">close</i></span>
@@ -114,23 +140,36 @@
     </ks-swiper-container>
   </div>
 </div>
-<div class="row section myDefies" ng-if="!defies.length == 0">
+<div class="row section myDefies" ng-if="!playerChallenges.length == 0">
   <div class="col s12 ">
     <div class="futurDefies">
       <h2>Mes défis à venir</h2>
     </div>
-    <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper'  override-parameters="slideOption" initial-slide="0">
-      <ks-swiper-slide class="swiper-slide" ng-repeat="defy in defies track by $index">
+    <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" initial-slide="0">
+      <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in playerChallenges track by $index">
         <div class="card">
-          <div class="card-image">
-            <img class="" ng-src="{{defy.url}}">
-            <span class="card-title"><h3>{{defy.name}}</h3></span>
-            <span class="card-title"><p>{{defy.activity}}</p></span>
+          <div ng-click="goToResum(challenge._id)" class="card-image">
+            <img class="" ng-src="{{challenge.url}}">
+            <span class="card-title challengeTitle"><h3>{{challenge.name}}</h3></span>
+            <span class="card-title challengeStart"><p>Dans {{challenge.start}}</p></span>
+            <span class="card-title challengeDuration"><p>{{challenge.duration}}</p></span>
           </div>
           <div class="card-content">
+            <ul>
+              <li ng-repeat="player in challenge.nbPlayer | limitTo:3 track by $index ">
+
+                  <img class='circle' src="{{player}}" alt="Contact Person">
+
+              </li>
+              <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
+
+                  <p class="plus">+{{challenge.nbPlayer.length -3}}</p>
+
+              </li>
+            </ul>
           </div>
           <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">{{defy.activity}}<i class="material-icons right">close</i></span>
+            <span class="card-title grey-text text-darken-4">{{challenge.activity}}<i class="material-icons right">close</i></span>
             <p>Here is some more information about this product that is only revealed once clicked on.</p>
           </div>
         </div>
@@ -145,18 +184,31 @@
     <div class="communityDefies">
       <h2>Dans ma communauté</h2>
     </div>
-    <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper'  override-parameters="slideOption" initial-slide="0">
-      <ks-swiper-slide class="swiper-slide" ng-repeat="defy in communityDefies track by $index">
+    <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" initial-slide="0">
+      <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in communityDefies track by $index">
         <div class="card">
-          <div class="card-image">
-            <img class="" ng-src="{{defy.url}}">
-            <span class="card-title"><h3>{{defy.name}}</h3></span>
-            <span class="card-title"><p>{{defy.activity}}</p></span>
+          <div ng-click="goToResum(challenge._id)" class="card-image">
+            <img class="" ng-src="{{challenge.url}}">
+            <span class="card-title challengeTitle"><h3>{{challenge.name}}</h3></span>
+            <span class="card-title challengeStart"><p>Dans {{challenge.start}}</p></span>
+            <span class="card-title challengeDuration"><p>{{challenge.duration}}</p></span>
           </div>
           <div class="card-content">
+            <ul>
+              <li ng-repeat="player in challenge.nbPlayer | limitTo:3 track by $index ">
+
+                  <img class='circle' src="{{player}}" alt="Contact Person">
+
+              </li>
+              <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
+
+                  <p class="plus">+{{challenge.nbPlayer.length -3}}</p>
+
+              </li>
+            </ul>
           </div>
           <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">{{defy.activity}}<i class="material-icons right">close</i></span>
+            <span class="card-title grey-text text-darken-4">{{challenge.activity}}<i class="material-icons right">close</i></span>
             <p>Here is some more information about this product that is only revealed once clicked on.</p>
           </div>
         </div>

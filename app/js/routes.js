@@ -146,6 +146,28 @@ angular.module('app')
 
                 }
             })
+            .state('user.resum', {
+                url: '/resum/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/resum.html',
+                        controller: 'ResumController',
+
+                        }
+
+                }
+            })
+            .state('user.arbitrage', {
+                url: '/arbitrage/:id',
+                views: {
+                    'content@': {
+                        templateUrl: 'user/arbitrage.html',
+                        controller: 'ArbitrageController',
+
+                        }
+
+                }
+            })
             .state('user.profile', {
                 url: '/profile',
                 views: {
