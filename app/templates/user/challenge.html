@@ -1,0 +1,109 @@
+<nav>
+    <div class="nav-wrapper">
+        <i class="material-icons" ng-click="goToHome()">close</i></label>
+        <form>
+            <i class="material-icons">close</i>
+    </div>
+    <div class="cadre">
+        <md-subheader class="md-no-sticky">
+        </md-subheader><br>
+    </div>
+    </form>
+    </div>
+</nav>
+<div class="cadre">
+    <md-subheader class="md-no-sticky">
+        <div class="photoCat">
+            <img src="img/echec.jpg" alt="" class="circle">
+        </div>
+    </md-subheader><br>
+</div>
+<br><br>
+<div class="row">
+    <form class="col s12">
+        <ul class="collection">
+            <li ng-repeat="x in challenges">
+                <li class="collection-item">
+                    <span class="title">Date</span>
+                    <div class="row">
+                        <div class="col s12 grey-text text-lighten-1">
+                            <p>{{challenges.}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li class="collection-item">
+                    <span class="title ">Durée</span>
+                    <div class="row">
+                        <div class="col s12 ">
+                            <p class="grey-text text-lighten-1">{{challenges.duration}}h</p>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="collection-item">
+                    <span class="title">Activité</span>
+                    <div class="row">
+                        <div class="col s6">
+                            <p class="grey-text text-lighten-1">{{challenges.p}}</p>
+                        </div>
+                        <div class="col s6">
+                            <a href="#!" class="secondary-content"><i class="material-icons">k<i class="material-icons">keyboard_arrow_right</i></i></a>
+                        </div>
+                    </div>
+                </li>
+                <li class="collection-item">
+                    <span class="title">Lieu</span>
+                    <div class="row">
+                        <div class="col s12 grey-text text-lighten-1">
+                            <p>{{challenges.place}}</p>
+                            <a href="#!" class="secondary-content"></a>
+                        </div>
+                    </div>
+                </li>
+                <li class="participants">
+                    <span class="title">Participants</span>
+                </li>
+                </br>
+                <li class="collection-item">
+                    <div class="row">
+                        <div class="col s12">
+                            <span class="team grey-text text-lighten-1">Equipe 1</span>
+                            </br>
+
+                            <!-- <div class="row">
+                    <div class="col s12"> -->
+                            <div class="chip">
+                                <img src="./img/olive.jpg" alt="Contact Person"> Olive
+                            </div>
+                            <div class="chip">
+                                <img src="./img/olive.jpg" alt="Contact Person"> Tom
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+                </br>
+                <li class="collection-item">
+                    <div class="row">
+                        <div class="col s12">
+                            <span class="team grey-text text-lighten-1">Equipe 2</span>
+                            </br>
+
+                            <!-- <div class="row">
+    <div class="col s12"> -->
+                            <div class="chip">
+                                <img src="./img/olive.jpg" alt="Contact Person"> Olive
+                            </div>
+                            <div class="chip">
+                                <img src="./img/olive.jpg" alt="Contact Person"> Tom
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+        </ul>
+</div>
+</div>
+</div>
+</form>

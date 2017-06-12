@@ -32,6 +32,7 @@ angular.module('app')
             },
             logout: function() {
                 LocalService.unset('auth_token');
+                LocalService.unset('user');
             },
             register: function(formData) {
                 LocalService.unset('auth_token');

@@ -1,0 +1,119 @@
+.md-datepicker-input-container {
+    position: relative;
+    border-bottom-width: 1px;
+    border-bottom-style: none !important;
+    display: inline-block;
+    width: auto;
+}
+
+.btn-floating.btn-large {
+    float: right;
+}
+
+.md-no-sticky {
+    text-align: center;
+    height: 160px;
+    background-color: #eeeeee;
+    border-bottom: solid 1px;
+    border-color: grey;
+}
+
+.validateButton {
+    color: red;
+    margin-right: 10px;
+}
+
+.clickValide {
+    margin-left: 300px;
+}
+
+.bckgrd-participant {
+    margin-bottom: 10px;
+    margin-right: -10px;
+    padding-top: 10px;
+    height: 50px;
+    width: auto;
+    background-color: #eeeeee;
+}
+
+.circle {
+    height: 80px;
+}
+
+.validate {
+    margin-left: 250px;
+}
+
+.timefield {
+    margin-right: 40px;
+    float: right;
+}
+
+.blocEntier {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.btn.blue {
+    width: 100%;
+    min-width: 50px;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    background-color: #babcbe !important;
+    color: #807d7d;
+}
+
+.chpsSearch {
+    background: white !important;
+    height: 40px;
+    width: 300px;
+    border-radius: 2px;
+    margin-left: 30px;
+    color: #807d7d;
+}
+
+.nav-wrapper {
+    padding-top: 8px !important;
+}
+
+.valideButton {
+    margin-left: 80%;
+    margin-right: 10px;
+}
+
+.gravatar {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.checkmodif {
+    margin-left: 20px;
+}
+
+.buttonSave {
+    margin-left: 20px;
+}
+
+.row {
+    margin-left: 10px;
+}
+
+.loupe {
+    margin-left: 90%;
+}
+
+.inviteNavigate {
+    margin-left: 90%;
+}
+
+#inviteAlign {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px;
+}
+.checkBox{
+  margin-top: 20px;
+}
+.invitePseudo{
+  margin-top: 20px;
+}

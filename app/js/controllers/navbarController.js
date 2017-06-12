@@ -1,10 +1,5 @@
 angular.module('app')
-    .controller('NavbarController', function($scope, Auth, CurrentUser) {
-        $scope.isCollapsed = true;
-        $scope.auth = Auth;
-        $scope.user = CurrentUser.user();
+  .controller('NavbarController', function($scope, Auth, CurrentUser, $timeout, $mdSidenav) {
+    
 
-        $scope.logout = function() {
-            Auth.logout();
-        };
-    });
+  });
