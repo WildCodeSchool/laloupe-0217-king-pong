@@ -41,7 +41,7 @@ const challengeSchema = new mongoose.Schema({
       type: Number,
     },
     invite: {
-       type: String,
+       type: Array,
        },
 });
 
@@ -62,7 +62,7 @@ export default class Challenge {
     }
 
     findById(req, res) {
-        model.findById(req.params.id).populate("User", "Community", "Activity", "Challenger").exec(
+        model.findById(req.params.id).populate("users", "Community", "Activity", "Challenger").exec(
             (err, challenge) => {
                 if (err || !challenge) {
                     res.sendStatus(403);

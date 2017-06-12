@@ -16,7 +16,7 @@
     </md-subheader><br>
 </div>
 <br><br>
-<div class="blocEntier">
+<div class="blocEntier ng-show" ng-hide="myVarBefore">
 
     <div class="row">
         <form class="col s12">
@@ -74,14 +74,43 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input placeholder="choisissez vos invités" id="invitation" type="text" ng-model="invite">
-                    <label for="invitation">Invitations</label>
+                    <h>Invitations</h>
+                    <label for="invit"   ></label>
+                  <ul ng-repeat="user in invite">
+                    <li>
+                    <img src="{{user.avatar}}">
+                    </li>
+                  </ul>
                     <div class="inviteNavigate">
-                    <i class="material-icons" ng-click = "navigateTo()">></i>
-                  </div>
+                        <i class="material-icons" ng-click="toggle()">></i>
+                    </div>
+                </div>
             </div>
         </div>
-        <button class="btn blue" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
     </div>
+    <button class="btn blue" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
+</div>
+</div>
+<md-list-item class="md-3-line" ng-repeat="guest in communitys">
+    <div class="md-list-item-text">
+        <div id="inviteAlign" ng-show="myVarBefore">
+            <div classs="inviteAvatar">
+                <img src="{{guest.avatar}}" class="circle" alt="">
+            </div>
+            <div class="invitePseudo">
+                {{guest.pseudo}}
+            </div>
+            <div class="checkBox">
+                <p>
+                    <input type="checkbox" id="{{guest.pseudo}}" ng-model="guest.isChecked" />
+                    <label for="{{guest.pseudo}}"></label>
+                </p>
+            </div>
+        </div>
+    </div>
+</md-list-item>
+<div class="btn-invite" ng-show="myVarBefore">
+    <a class="btn-floating btn-large waves-effect waves-light btn" ng-click="addInvite()">
+        <i class="material-icons">add</i></a>
 </div>
 </form>

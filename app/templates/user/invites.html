@@ -19,36 +19,27 @@
     </div>
 </md-toolbar>
 <br>
-<!-- <div ng-repeat="community in communitys">
-
-  <input type="checkbox" checklist-model="community" id="{{community.pseudo}}" checklist-value="community.pseudo"> <h1>{{community.pseudo}}</h1>
-  <label for="{{community.pseudo}}"></label>
-</label>
-</div> -->
-
-<md-list-item class="md-2-line" ng-repeat="community in communitys" )>
+<md-list-item class="md-3-line" ng-repeat="guest in communitys">
     <div class="md-list-item-text">
-        <div class="inviteAlign">
+        <div id="inviteAlign">
             <div classs="inviteAvatar">
-                <img src="{{community.avatar}}" class="circle" alt="">
+                <img src="{{guest.avatar}}" class="circle" alt="">
             </div>
             <div class="invitePseudo">
-                    <div>
-                        {{community.pseudo}}
+                        {{guest.pseudo}}
                       </div>
-                            <div>
+                            <div class="checkBox">
                               <p>
-                                <input type="checkbox" id="{{community.pseudo}}" ng-model="invite"/>
-                                <label for="{{community.pseudo}}"></label>
-                          </p>
+                                <input type="checkbox" id="{{guest.pseudo}}" ng-model="guest.check"/>
+                                <label for="{{guest.pseudo}}"></label>
+                                </p>
                         </div>
                         </div>
                       </div>
                     </div>
 </md-list-item>
-</md-list>
-<div class="fixed-action-btn" ng-if="communityParam !=0">
-    <a ui-sref='user.inv' class="btn-floating btn-large customPurple z-depth-4" ng-click="addInvite()">
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large customPurple z-depth-4" ng-click="addInvite()">
         <i class="large material-icons ">add</i>
     </a>
 </div>
