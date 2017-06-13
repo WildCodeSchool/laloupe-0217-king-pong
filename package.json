@@ -17,6 +17,7 @@
     "lineman": "~0.37.0",
     "lineman-angular": "^0.3.0",
     "lineman-less": "^0.1.0",
-    "md5": "^2.2.1"
+    "md5": "^2.2.1",
+    "nodemailer": "^4.0.1"
   }
 }
