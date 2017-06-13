@@ -1,4 +1,4 @@
-<nav class="nav-extended">
+<!-- <nav class="nav-extended">
   <div class="nav-wrapper">
     <select class="brand-logo select center" ng-options="community.name for community in communitys" ng-model="community" ng-change="selected(community)">
       </select>
@@ -7,8 +7,8 @@
 
   <div class="nav-content">
     <ul class="tabs tabs-transparent ulCenter ">
-      <li class="tab "><a href>Defi<span class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></a></li>
-      <li class="tab "><a href>Classement</a></li>
+      <li class="tab "><a ui-sref="user.home">Defi<span class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></a></li>
+      <li class="tab "><a ui-sref="user.rank">Classement</a></li>
       <div class="indicator"></div>
     </ul>
   </div>
@@ -51,7 +51,7 @@
       </md-content>
     </md-sidenav>
   </section>
-</div>
+</div> -->
 
 
 <div class="row invitations "  ng-if="!invitations.length == 0">
@@ -79,7 +79,8 @@
                       </li>
                       <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
 
-                          <p class="plus">+{{challenge.nbPlayer.length -3}}</p>
+                          <img class='circle greyCircle' src="./img/userGrey.jpg" alt="Contact Person"><span class="plus">+{{challenge.nbPlayer.length -3}}</span>
+
 
                       </li>
                     </ul>
@@ -94,7 +95,7 @@
               </ks-swiper-slide>
             </ks-swiper-container>
             <div class="fixed-action-btn animate-show-hide" ng-show="showButton">
-              <a ui-sref='user.createDefis' class="btn-floating btn-large z-depth-4">
+              <a ng-click="toCreate()" class="btn-floating btn-large z-depth-4">
                 <i class="large material-icons ">add</i>
               </a>
             </div>

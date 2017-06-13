@@ -1,5 +1,5 @@
-angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window) {
-
+angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window,LocalService) {
+//button
   var axis = $window.pageYOffset;
   $scope.showButton = true;
 
@@ -14,6 +14,11 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     }
     $scope.$apply();
   });
+  var community = JSON.parse(LocalService.get('community') || "[]");
+  console.log('community',community);
+  $scope.toCreate = function(){
+    $state.go('user.createDefis',{community: community._id});
+  };
 
   function refactoring(array) {
     array.map(function(invitation) {
@@ -32,48 +37,48 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   var userId = CurrentUser.user()._id;
   $scope.user = CurrentUser.user();
 
-  function buildToggler(navID) {
-    return function() {
-      $mdSidenav(navID).toggle().then(function() {
-        $log.debug("toggle " + navID + " is done");
-      });
-    };
-  }
+  // // sidenav
+  // function buildToggler(navID) {
+  //   return function() {
+  //     $mdSidenav(navID).toggle().then(function() {
+  //       $log.debug("toggle " + navID + " is done");
+  //     });
+  //   };
+  // }
+  //
+  // $scope.onSwipeLeft = buildToggler('right');
+  //
+  // $scope.onSwipeRight = function(ev) {
+  //   $mdSidenav('right').close().then(function() {
+  //     $log.debug("close RIGHT is done");
+  //
+  //   });
+  // };
+  //
+  // $scope.toggleRight = buildToggler('right');
+  // $scope.isOpenRight = function() {
+  //   return $mdSidenav('right').isOpen();
+  // };
+  //
+  // $scope.logout = function() {
+  //   Auth.logout();
+  //   $state.go('anon.login');
+  // };
 
-  // sidenav
-  $scope.onSwipeLeft = buildToggler('right');
-
-  $scope.onSwipeRight = function(ev) {
-    $mdSidenav('right').close().then(function() {
-      $log.debug("close RIGHT is done");
-
-    });
-  };
-
-  $scope.toggleRight = buildToggler('right');
-  $scope.isOpenRight = function() {
-    return $mdSidenav('right').isOpen();
-  };
-
-  $scope.logout = function() {
-    Auth.logout();
-    $state.go('anon.login');
-  };
-
-  // select
-  $scope.communitys = [];
-  UserService.getOne(userId).then(function(res) {
-    $scope.communitys = res.data.community;
-    $scope.community = $scope.communitys[($scope.communitys.length - 1)];
-  });
-
-  $scope.selected = function(index) {};
-
-
-  // sub navbar
-  $(document).ready(function() {
-    $('ul.tabs').tabs();
-  });
+  // // select
+  // $scope.communitys = [];
+  // UserService.getOne(userId).then(function(res) {
+  //   $scope.communitys = res.data.community;
+  //   $scope.community = $scope.communitys[($scope.communitys.length - 1)];
+  // });
+  //
+  // $scope.selected = function(index) {};
+  //
+  //
+  // // sub navbar
+  // $(document).ready(function() {
+  //   $('ul.tabs').tabs();
+  // });
 
   // slider options
   $scope.slideOption = {
@@ -506,4 +511,3 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   refactoring($scope.communityDefies);
 
 });
-

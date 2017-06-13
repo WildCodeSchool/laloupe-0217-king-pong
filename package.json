@@ -30,8 +30,9 @@
     "morgan": "",
     "nodemailer": "^4.0.1",
     "nodemailer-express-handlebars": "^2.0.0",
-    "request": "^2.81.0",  "babel-cli": "^6.9.0",
-      "babel-core": "^6.9.0",
-      "babel-preset-es2015": "^6.9.0"
+    "request": "^2.81.0",
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0"
   }
 }
