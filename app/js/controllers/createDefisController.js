@@ -6,7 +6,11 @@ angular.module('app')
     } else {
       $scope.device = [];
     }
+
+
     var community = $stateParams.community;
+
+    console.log(community);
     CommunityService.getOne(community).then(function(res) {
       res.data.users.forEach(function(user) {
         user.check = false;
