@@ -1,4 +1,4 @@
-angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window,LocalService) {
+angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window,LocalService,InviteyService) {
 
   // variables
   var userId = CurrentUser.user()._id;
@@ -145,6 +145,8 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
       id: id
     });
   };
+  //Service
+  // InviteyService.
 
   // variables hard code
   $scope.invitations = [{

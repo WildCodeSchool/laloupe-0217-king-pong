@@ -43,10 +43,6 @@ const challengeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Team",
 
-    }],
-
-    players: [{
-        type: Object,
     }]
 });
 
@@ -82,16 +78,17 @@ export default class Challenge {
     }
     create(req, res) {
         model.create(req.body.infoChallenge, (err, challenge) => {
+          console.log(challenge);
             req.body.teams.forEach((equipe) => {
                 let teamInfos = {
                     challenge: challenge._id,
                     maxPlayer: challenge.maxPlayers
                 }; //toujours vérifier ce que l'on envoie en parametre
-                team.createWithoutRequest(teamInfos, (err, res) => {
+                team.create(teamInfos, (err, res) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        model.findByIdAndUpdate(challenge._id, {
+                        model.findByIdAndUpdate({id:challenge._id}, {
                             $addToSet: {
                                 teams: res._id
                             }
