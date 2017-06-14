@@ -11,7 +11,6 @@ angular.module('app')
 
     var community = $stateParams.community;
 
-
     $scope.user = CurrentUser.user();
     $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
 
@@ -74,12 +73,13 @@ angular.module('app')
         place: $scope.lieu,
         maxPlayers: $scope.activity.numberOfplayer,
 
-
       };
       var totalInfo = {
         infoChallenge: infoChallenge,
         teams: Team,
+
         invite:["a","b","c"]
+
       };
 
       console.log('max players : ', totalInfo);
@@ -95,25 +95,30 @@ angular.module('app')
     $scope.myVarBefore = false;
     $scope.toggle = function() {
       $scope.myVarBefore = !$scope.myVarBefore;
-};
-CommunityService.getOne(community).then(function(res) {
-  res.data.users.forEach(function(users) {
-    users.check = false;
-  });
-  });
-$scope.addInvite = function() {
-$scope.invite = [];
-$scope.myVarBefore = true;
-$scope.invite = $scope.communitys.filter(function(users) {
-  return users.isChecked;
-});
-$scope.invite = $scope.invite.map(function(users) {
-  return users.pseudo;
-});
-$scope.myVarBefore = !$scope.myVarBefore;
-console.log($scope.invite);
-};
 
+
+    };
+    CommunityService.getOne(community).then(function(res) {
+      res.data.users.forEach(function(users) {
+        users.check = false;
+      });
+
+    });
+    $scope.addInvite = function() {
+      $scope.invite = [];
+      $scope.myVarBefore = true;
+      $scope.invite = $scope.communitys.filter(function(users) {
+
+        return users.isChecked;
+      });
+      $scope.invite = $scope.invite.map(function(users) {
+
+        return users.pseudo;
+      });
+
+      $scope.myVarBefore = !$scope.myVarBefore;
+      console.log($scope.invite);
+    };
 
 
   });
