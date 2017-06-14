@@ -1,57 +1,4 @@
-<nav class="nav-extended">
-  <div class="nav-wrapper">
-    <select class="brand-logo select center" ng-options="community.name for community in communitys" ng-model="community" ng-change="selected(community)">
-      </select>
-    <a href class="button-collapse md-primary right" ng-click="toggleRight()" ng-hide="isOpenRight()"><i class="material-icons">menu</i></a>
-  </div>
 
-  <div class="nav-content">
-    <ul class="tabs tabs-transparent ulCenter ">
-      <li class="tab "><a href>Defi<span class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></a></li>
-      <li class="tab "><a href>Classement</a></li>
-      <div class="indicator"></div>
-    </ul>
-  </div>
-
-
-</nav>
-
-<div ng-cloak md-swipe-right="onSwipeRight()">
-  <section layout="row" flex>
-    <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" md-swipe-right="onSwipeRight()">
-      <md-toolbar class="md-theme-light">
-        <img class="center circle avatar" src="{{user.avatar}}" alt="">
-        <b class="center pseudo-sidenav">{{user.pseudo}}</b>
-      </md-toolbar>
-      <md-content layout-padding>
-        <md-list>
-          <md-list-item ui-sref='user.profile' class="md-3-line">
-            <img src="./img/person.png" class="md-avatar side-img"></i>
-            <div class="md-list-item-text">
-              <h2 class="side-title">Profile</h4>
-            </div>
-            <md-divider ng-if="!$last"></md-divider>
-          </md-list-item>
-          <md-list-item ui-sref='user.community' class="md-3-line">
-            <img  src="./img/people.png" class="md-avatar side-img"></i>
-                <div class="md-list-item-text">
-                <h2 class="side-title">Community</h2>
-            </div>
-            <md-divider ng-if="!$last"></md-divider>
-          </md-list-item>
-          <md-list-item ng-click="logout()" class="md-3-line">
-            <img src="./img/exit.png" class="md-avatar side-img"></i>
-            <div class="md-list-item-text">
-              <h2 class="side-title">LogOut</h4>
-              <span></span>
-            </div>
-            <md-divider ng-if="!$last"></md-divider>
-          </md-list-item>
-        </md-list>
-      </md-content>
-    </md-sidenav>
-  </section>
-</div>
 
 
 <div class="row invitations "  ng-if="!invitations.length == 0">
@@ -79,7 +26,8 @@
                       </li>
                       <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
 
-                          <p class="plus">+{{challenge.nbPlayer.length -3}}</p>
+                          <img class='circle greyCircle' src="./img/userGrey.jpg" alt="Contact Person"><span class="plus">+{{challenge.nbPlayer.length -3}}</span>
+
 
                       </li>
                     </ul>
@@ -94,7 +42,7 @@
               </ks-swiper-slide>
             </ks-swiper-container>
             <div class="fixed-action-btn animate-show-hide" ng-show="showButton">
-              <a ui-sref='user.createDefis' class="btn-floating btn-large z-depth-4">
+              <a ng-click="toCreate()" class="btn-floating btn-large z-depth-4">
                 <i class="large material-icons ">add</i>
               </a>
             </div>

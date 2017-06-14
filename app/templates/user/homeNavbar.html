@@ -1,0 +1,50 @@
+<nav class="nav-extended">
+  <div class="nav-wrapper">
+    <select class="brand-logo select center" ng-options="community.name for community in communitys" ng-model="community" ng-change="selected(community)">
+      </select>
+    <a href class="button-collapse md-primary right" ng-click="toggleRight()" ng-hide="isOpenRight()"><i class="material-icons">menu</i></a>
+  </div>
+  <md-tabs md-selected="selectedIndex" md-stretch-tabs="always">
+    <md-tab ui-sref="user.home" >Défi<span class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></md-tab>
+    <md-tab ui-sref="user.rank">Classement</md-tab>
+  </md-tabs>
+</nav>
+
+
+
+<div ng-cloak md-swipe-right="onSwipeRight()">
+  <section layout="row" flex>
+    <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" md-swipe-right="onSwipeRight()">
+      <md-toolbar class="md-theme-light">
+        <img class="center circle avatar" src="{{user.avatar}}" alt="">
+        <b class="center pseudo-sidenav">{{user.pseudo}}</b>
+      </md-toolbar>
+      <md-content layout-padding>
+        <md-list>
+          <md-list-item ui-sref='user.profile' class="md-3-line">
+            <img src="./img/person.png" class="md-avatar side-img"></i>
+            <div class="md-list-item-text">
+              <h2 class="side-title">Profile</h4>
+            </div>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+          <md-list-item ui-sref='user.community' class="md-3-line">
+            <img  src="./img/people.png" class="md-avatar side-img"></i>
+                <div class="md-list-item-text">
+                <h2 class="side-title">Community</h2>
+            </div>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+          <md-list-item ng-click="logout()" class="md-3-line">
+            <img src="./img/exit.png" class="md-avatar side-img"></i>
+            <div class="md-list-item-text">
+              <h2 class="side-title">LogOut</h4>
+              <span></span>
+            </div>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+        </md-list>
+      </md-content>
+    </md-sidenav>
+  </section>
+</div>
