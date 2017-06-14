@@ -25,7 +25,7 @@ const invitationSchema = new mongoose.Schema({
 let model = mongoose.model('Invitation', invitationSchema);
 
 
-var mailer = nodemailer.createTransport("SMTP", {
+var mailer = nodemailer.createTransport({
     service: "Gmail",
     auth: {
         user: "nailletine.lajoie19@gmail.com",
