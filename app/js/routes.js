@@ -79,7 +79,7 @@ angular.module('app')
         views: {
           'navbar@': {
             templateUrl: 'user/homeNavbar.html',
-            controller: 'HomeNavbarController'
+            controller: 'MainController'
           },
           'content@': {
             templateUrl: 'user/home.html',
@@ -179,11 +179,11 @@ angular.module('app')
         views: {
           'navbar@': {
             templateUrl: 'user/homeNavbar.html',
-            controller: 'HomeNavbarController'
+            controller: 'MainController'
           },
           'content@': {
             templateUrl: 'user/rank.html',
-            controller: 'RankController',
+            controller: 'MainController',
 
 
           }
