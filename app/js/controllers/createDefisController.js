@@ -1,10 +1,25 @@
 angular.module('app')
-  .controller('CreateDefisController', function($scope, $state, $stateParams, ActivityService, SessionService, ChallengeService, TeamService, UserService, CurrentUser) {
+  .controller('CreateDefisController', function($scope, $state, $stateParams, ActivityService, SessionService, ChallengeService, TeamService, UserService, CurrentUser, CommunityService) {
+
+
+    if (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)) {
+      $scope.device = (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)).length;
+      $scope.device = (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)).length;
+    } else {
+      $scope.device = [];
+    }
+
+    var community = $stateParams.community;
+
+      $scope.communitys = res.data.users;
+      console.log('res community', $scope.communitys);
+    });
     $scope.user = CurrentUser.user();
     $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
 
 
-    var community = "59147355f7648274a0c270e8";
+
+    // var community = "59147355f7648274a0c270e8";
 
     console.log('nombre de joueurs par équipe : ', $scope.activity.numberOfplayer);
     console.log('nombre d\'équipe : ', $scope.activity.numberOfTeam);
@@ -106,21 +121,21 @@ angular.module('app')
       res.data.users.forEach(function(users) {
         users.check = false;
       });
-    
+
+    });
+    $scope.addInvite = function() {
+      $scope.invite = [];
+      $scope.myVarBefore = true;
+      $scope.invite = $scope.communitys.filter(function(users) {
+
+        return users.isChecked;
+      });
+      $scope.invite = $scope.invite.map(function(users) {
+
+        return users.pseudo;
+      });
+      $scope.myVarBefore = !$scope.myVarBefore;
+      console.log($scope.invite);
+    };
+
   });
-$scope.addInvite = function() {
-$scope.invite = [];
-$scope.myVarBefore = true;
-$scope.invite = $scope.communitys.filter(function(users) {
-
-  return users.isChecked;
-});
-$scope.invite = $scope.invite.map(function(users) {
-
-  return users.pseudo;
-});
-$scope.myVarBefore = !$scope.myVarBefore;
-console.log($scope.invite);
-};
-
-});
