@@ -3,6 +3,7 @@ import Community from './community.js';
 import User from './user.js';
 import Activity from './activity.js';
 import Team from './team';
+import Invitation from './invitation';
 
 
 
@@ -105,7 +106,7 @@ export default class Challenge {
                                         player: player._id,
                                         challenge: challenge._id
                                     };
-                                    invitation.createInviteWithoutInvite(newInvitation, (err, res) => {
+                                    invitation.createInviteWithoutRequest(newInvitation, (err, res) => {
                                         if (err) {
                                             console.log('envoi non effectué pour le joueur', player._id);
                                         } else {

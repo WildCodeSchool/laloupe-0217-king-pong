@@ -24,27 +24,25 @@ const invitationSchema = new mongoose.Schema({
 let model = mongoose.model('Invitation', invitationSchema);
 
 
-var smtpTransport = mailer.createTransport("SMTP",{
-					service: "Gmail",
-					auth: {
-						user: "nailletine.lajoie19@gmail.com",
-						pass: ""
-					}
-				});
+// var smtpTransport = mailer.createTransport("SMTP", {
+//     service: "Gmail",
+//     auth: {
+//         user: "nailletine.lajoie19@gmail.com",
+//         pass: ""
+//     }
+// });
+//
+//
+// var mail = {
+//     from: "nailletine.lajoie19@gmail.com",
+//     to: "davidveiga.pereira@gmail.com",
+//     subject: "mailtest",
+//     html: "leCorpsDeVotreMessageEnHTML",
+//     attachments: [{
+//         filePath: 'leCheminDuFichierAEnvoyer'
+//     }, ]
+// };
 
-
-        var mail = {
-  					from: "nailletine.lajoie19@gmail.com",
-  					to: "davidveiga.pereira@gmail.com",
-  					subject: "mailtest",
-  					html: "leCorpsDeVotreMessageEnHTML",
-            attachments: [
-						{
-						  filePath: 'leCheminDuFichierAEnvoyer'
-						},
-					]
-				};
-  				};
 
 
 
@@ -75,39 +73,61 @@ export default class Activity {
         });
     }
 
-    createInvite(req, res) {
-        model.create(req.body, (err,invitation) => {
+    createInviteWithoutRequest(invite, callback) {
+        model.create(invite, (err, invitation) => {
             if (err || !invitation) {
                 res.status(500).send(err.message);
             } else {
-              req.bodyteams.forEach((players)=> {
-                let playerInfos = {player:player.id};
-                smtpTransport.sendMail(mail, function(error, response){
-					if(error){
-						console.log("Erreur lors de l'envoie du mail!");
-						console.log(error);
-					}else{
-						console.log("Mail envoyé avec succès!");
-					}
-					smtpTransport.close();
-				});
-
-              }
-                // res.json({
-                //     invitation
-                // });
-
+                req.bodyteams.forEach((players) => {
+                    let playerInfos = {
+                        player: player.id
+                    };
+                    smtpTransport.sendMail(mail, function(error, response) {
+                        if (error) {
+                            console.log("Erreur lors de l'envoie du mail!");
+                            console.log(error);
+                        } else {
+                            console.log("Mail envoyé avec succès!");
+                        }
+                        smtpTransport.close();
+                    });
+                });
+                callback();
+            }
         });
-
     }
-    delete(req, res){
-        model.findByIdAndRemove(req.params.id, (err) => {
-          if (err){
-            res.status(500).send(err.message);
-          }else{
-            res.status(200);
-          }
-        });
-      }
 
+    create(req, res) {
+        model.create(req.body, (err, invitation) => {
+            if (err || !invitation) {
+                res.status(500).send(err.message);
+            } else {
+                req.bodyteams.forEach((players) => {
+                    let playerInfos = {
+                        player: player.id
+                    };
+                    smtpTransport.sendMail(mail, function(error, response) {
+                        if (error) {
+                            console.log("Erreur lors de l'envoie du mail!");
+                            console.log(error);
+                        } else {
+                            console.log("Mail envoyé avec succès!");
+                        }
+                        smtpTransport.close();
+                    });
+
+                });
+            }
+        });
+    }
+
+    delete(req, res) {
+        model.findByIdAndRemove(req.params.id, (err) => {
+            if (err) {
+                res.status(500).send(err.message);
+            } else {
+                res.status(200);
+            }
+        });
+    }
 }
