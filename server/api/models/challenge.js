@@ -55,7 +55,8 @@ const challengeSchema = new mongoose.Schema({
 let model = mongoose.model('Challenge', challengeSchema);
 var invitation = new Invitation();
 var team = new Team();
-console.log('team', team.createWithoutRequest);
+
+
 export default class Challenge {
 
     findAll(req, res) {
