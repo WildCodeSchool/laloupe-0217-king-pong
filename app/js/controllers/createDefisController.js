@@ -11,7 +11,6 @@ angular.module('app')
 
     var community = $stateParams.community;
 
-      
     $scope.user = CurrentUser.user();
     $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
 
@@ -79,32 +78,15 @@ angular.module('app')
         infoChallenge: infoChallenge,
         teams: Team,
 
-        // players : player
+        invite:["a","b","c"]
+
       };
 
       console.log('max players : ', totalInfo);
 
 
       ChallengeService.create(totalInfo);
-      // .then(function(res) {
-      //         var userP = [{
-      //                 id: "1",
-      //                 nom: "nail",
-      //             },
-      //
-      //             {
-      //                 id: "2",
-      //                 nom: "fifi"
-      //             },
-      //         ];
-      //
-      //         $state.go('user.filterActivity');
-      //     });
-      // };
-      // $scope.navigateTo = function() {
-      //     $state.go('user.invite', {
-      //         community: $scope.community
-      //     });
+
 
     };
     $scope.goToHome = function() {
@@ -113,6 +95,7 @@ angular.module('app')
     $scope.myVarBefore = false;
     $scope.toggle = function() {
       $scope.myVarBefore = !$scope.myVarBefore;
+
 
     };
     CommunityService.getOne(community).then(function(res) {
@@ -136,5 +119,6 @@ angular.module('app')
       $scope.myVarBefore = !$scope.myVarBefore;
       console.log($scope.invite);
     };
+
 
   });
