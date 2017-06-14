@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import user from './user.js';
 
 
-
 const communitySchema = new mongoose.Schema({
 
   name : {
@@ -55,33 +54,26 @@ export default class Community {
 
   create(req, res) {
 
-    model.create(req.body,
-      (err, community) => {
-        if (err || community) {
-          res.sendStatus(500);
-        } else {
-          res.json(community);
-        }
+      model.create(req.body, (err, community) => {
+          if (err || !community) {
+              res.status(500).send(err.message);
+          } else {
+              res.json({community});
+          }
       });
+
   }
 
   update(req, res) {
-    model.update({
-      _id: req.params.id
-    }, req.body, (err, community) => {
-      if (err || !community) {
-        res.status(500).send(err.message);
-      } else {
-        let tk = jsonwebtoken.sign(community, token, {
-          expiresIn: "24h"
-        });
-        res.json({
-          success: true,
-          community: community,
-          token: tk
-        });
-      }
-    });
+      model.update({
+          _id: req.params.id
+      }, req.body, (err, community) => {
+          if (err || !community) {
+              res.status(500).send(err.message);
+          } else {
+              res.sendStatus(200);
+          }
+      });
   }
 
   addUser(req, res) {
@@ -97,23 +89,23 @@ export default class Community {
     }, (err, community) => {
       if (err || !community) {
         res.status(404).send(err.message);
-      } else {
-        res.json({
-          success: true,
-          community: community,
+    }else{
+    res.json({
+      success: true,
+      community: community,
 
         });
       }
     });
   }
 
-  delete(req, res) {
-    model.findByIdAndRemove(req.params.id, (err) => {
-      if (err) {
-        res.status(500).send(err.message);
-      } else {
-        res.sendStatus(200);
-      }
-    });
-  }
+    delete(req, res) {
+      model.findByIdAndRemove(req.params.id, (err) => {
+        if (err) {
+          res.status(500).send(err.message);
+        } else {
+          res.sendStatus(200);
+        }
+      });
+    }
 }

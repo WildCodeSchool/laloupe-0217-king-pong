@@ -1,53 +1,61 @@
 import mongoose from 'mongoose';
-import challenge from './challenge.js';
 import Community from './community.js';
 import User from './user.js';
 import Activity from './activity.js';
+import Team from './team';
+import Invitation from './invitation';
+
 
 
 
 
 const challengeSchema = new mongoose.Schema({
 
+
     community: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Community"
     },
     pseudo: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        type: String
     },
     activity: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Activity"
     },
     date: {
-        type: Date,
+        type: Date
     },
     time: {
-        type: Date,
+        type: Date
     },
 
     duration: {
-        type: String,
+        type: String
     },
     place: {
-        type: String,
+        type: String
     },
-    groupe: {
-      type: Number,
+    maxPlayers: {
+        type: Number,
     },
-    nbrParticipantGroupe: {
-      type: Number,
-    },
-    invite: {
-       type: Array,
-       },
+    teams: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Team",
+
+    }],
+
+    players: [{
+        type: Object,
+    }]
 });
 
 
 
 let model = mongoose.model('Challenge', challengeSchema);
+var invitation = new Invitation();
+var team = new Team();
+
 
 export default class Challenge {
 
@@ -62,30 +70,85 @@ export default class Challenge {
     }
 
     findById(req, res) {
-        model.findById(req.params.id).populate("users", "Community", "Activity", "Challenger").exec(
+        model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
             (err, challenge) => {
                 if (err || !challenge) {
                     res.sendStatus(403);
                 } else {
                     res.json(challenge);
                 }
+
             });
     }
-
     create(req, res) {
-        console.log('creating', req.body);
-        model.create(req.body, (err, challenge) => {
+        model.create(req.body.infoChallenge, (err, challenge) => {
+            req.body.teams.forEach((equipe) => {
+                let teamInfos = {
+                    challenge: challenge._id,
+                    maxPlayer: challenge.maxPlayers
+                }; //toujours vérifier ce que l'on envoie en parametre
+                team.createWithoutRequest(teamInfos, (err, res) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        model.findByIdAndUpdate(challenge._id, {
+                            $addToSet: {
+                                teams: res._id
+                            }
+                        }, {
+                            upsert: true,
+                            new: true
+                        }, (err, result) => {
+                            if (err || !result) {
+                                console.log(err);
+                            } else {
+                                challenge.players.forEach((player) => {
+                                    let newInvitation = {
+                                        player: player._id,
+                                        challenge: challenge._id
+                                    };
+                                    invitation.createInviteWithoutRequest(newInvitation, (err, res) => {
+                                        if (err) {
+                                            console.log('envoi non effectué pour le joueur', player._id);
+                                        } else {
+                                            console.log('invitation envoyé au joueur', player._id);
+                                        }
+                                    });
+                                    console.log('ok');
+                                    res.json({ok:true});
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    }
+
+    addUser(req, res) {
+        console.log(req.params, req.body);
+        model.findOneAndUpdate({
+            _id: req.params.id
+        }, {
+            $addToSet: {
+                users: req.body.users
+            }
+        }, {
+            upsert: true
+        }, (err, challenge) => {
             if (err || !challenge) {
-                console.log(err);
-                res.status(500).send(err.message);
+                res.status(404).send(err.message);
             } else {
                 res.json({
-                    challenge
+                    success: true,
+                    challenge: challenge,
+
                 });
             }
         });
-
     }
+
+
 
     update(req, res) {
         model.update({
@@ -107,4 +170,6 @@ export default class Challenge {
             }
         });
     }
+
+
 }

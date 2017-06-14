@@ -9,13 +9,13 @@ module.exports = (app) => {
     var challenge = new Challenge();
 
     router.get('/:id', challenge.findById);
-
+    //
     router.put('/:id', challenge.update);
-
+    //
     router.delete('/:id', challenge.delete);
-
-    router.post('/',challenge.create);
-
+    // //
+        router.post('/',challenge.create);
+    //
     router.get('/', challenge.findAll);
 
     app.use('/challenges', router);
