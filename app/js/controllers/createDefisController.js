@@ -60,7 +60,7 @@ angular.module('app')
                 duration: $scope.duration,
                 place: $scope.lieu,
                 maxPlayers:$scope.activity.numberOfplayer,
-              
+
               };
               var totalInfo = {
             infoChallenge : infoChallenge,
@@ -73,24 +73,31 @@ angular.module('app')
 
 
             ChallengeService.create(totalInfo);
-            // .then(function(res) {
-        //         var userP = [{
-        //                 id: "1",
-        //                 nom: "nail",
-        //             },
-        //
-        //             {
-        //                 id: "2",
-        //                 nom: "fifi"
-        //             },
-        //         ];
-        //
-        //         $state.go('user.filterActivity');
-        //     });
-        // };
-        // $scope.navigateTo = function() {
-        //     $state.go('user.invite', {
-        //         community: $scope.community
-        //     });
+
         };
+        $scope.goToHome = function() {
+      $state.go('user.home');
+    };
+    $scope.myVarBefore = false;
+    $scope.toggle = function() {
+      $scope.myVarBefore = !$scope.myVarBefore;
+};
+CommunityService.getOne(community).then(function(res) {
+  res.data.users.forEach(function(users) {
+    users.check = false;
+  });
+  });
+$scope.addInvite = function() {
+$scope.invite = [];
+$scope.myVarBefore = true;
+$scope.invite = $scope.communitys.filter(function(users) {
+  return users.isChecked;
+});
+$scope.invite = $scope.invite.map(function(users) {
+  return users.pseudo;
+});
+$scope.myVarBefore = !$scope.myVarBefore;
+console.log($scope.invite);
+};
+
     });

@@ -25,11 +25,11 @@ const invitationSchema = new mongoose.Schema({
 let model = mongoose.model('Invitation', invitationSchema);
 
 
-var mailer = nodemailer.createTransport("SMTP", {
+var mailer = nodemailer.createTransport({
     service: "Gmail",
     auth: {
         user: "nailletine.lajoie19@gmail.com",
-        pass: ""
+        pass: "qrz3xiry"
     }
 });
 
@@ -117,8 +117,8 @@ export default class Activity {
                     subject: 'Any Subject',
                     template: 'email_body',
                     context: {
-                        variable1: 'value1',
-                        variable2: 'value2'
+                        variable1: reg.body.player,
+                        variable2: req.body.date
                     }
                 }, function(error, response) {
                     console.log('mail sent to ' + to);
