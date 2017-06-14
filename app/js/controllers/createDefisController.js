@@ -11,9 +11,7 @@ angular.module('app')
 
     var community = $stateParams.community;
 
-      $scope.communitys = res.data.users;
-      console.log('res community', $scope.communitys);
-    });
+      
     $scope.user = CurrentUser.user();
     $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
 
@@ -134,6 +132,7 @@ angular.module('app')
 
         return users.pseudo;
       });
+
       $scope.myVarBefore = !$scope.myVarBefore;
       console.log($scope.invite);
     };
