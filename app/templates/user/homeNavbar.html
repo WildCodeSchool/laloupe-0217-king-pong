@@ -4,17 +4,9 @@
       </select>
     <a href class="button-collapse md-primary right" ng-click="toggleRight()" ng-hide="isOpenRight()"><i class="material-icons">menu</i></a>
   </div>
-
-  <!-- <div class="nav-content">
-    <ul class="tabs tabs-transparent ulCenter ">
-      <li class="tab " id='user.home'><a ui-sref="user.home">Defi<span class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></a></li>
-      <li class="tab " id='user.rank'><a ui-sref="user.rank">Classement</a></li>
-      <div class="indicator"></div>
-    </ul>
-  </div> -->
-  <md-tabs md-stretch-tabs="always">
-    <md-tab label="Tab #1"></md-tab>
-    <md-tab label="Tab #2"></md-tab>
+  <md-tabs md-selected="selectedIndex" md-stretch-tabs="always">
+    <md-tab ui-sref="user.home" >Défi<span class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></md-tab>
+    <md-tab ui-sref="user.rank">Classement</md-tab>
   </md-tabs>
 </nav>
 
