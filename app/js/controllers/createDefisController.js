@@ -60,14 +60,17 @@ angular.module('app')
                 duration: $scope.duration,
                 place: $scope.lieu,
                 maxPlayers:$scope.activity.numberOfplayer,
-              
+
               };
               var totalInfo = {
             infoChallenge : infoChallenge,
                 teams : Team,
 
+
+
                 // players : player
               };
+
 
               console.log('max players : ', totalInfo);
 
@@ -93,4 +96,5 @@ angular.module('app')
         //         community: $scope.community
         //     });
         };
+        
     });
