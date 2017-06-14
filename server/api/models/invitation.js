@@ -13,11 +13,11 @@ const invitationSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Challenge"
     },
-    player: {
+    player: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
 
-    }
+    }]
 
 });
 
