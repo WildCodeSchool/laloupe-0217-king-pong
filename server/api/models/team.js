@@ -8,6 +8,7 @@ const teamSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Challenge"
     },
+
     players: [{
              type: mongoose.Schema.Types.ObjectId,
              ref: "User"
@@ -50,15 +51,12 @@ export default class Team {
 
     create(req, res) {
         console.log('creating', req);
-        model.create(req, (err, team) => {
-            if (err || !team) {
-                console.log(err);
-                res.status(500).send(err.message);
-            } else {
+        model.create(req, team => {
+
+              return team;
                 // res.json(team);
-                console.log('ok');
-            }
-        });
+            });
+
     }
     //
     // addPlayer(req, res) {
