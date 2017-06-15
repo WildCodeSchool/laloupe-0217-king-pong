@@ -11,6 +11,15 @@ angular.module('app')
 
     var community = $stateParams.community;
 
+
+    CommunityService.getOne(community).then(function(res) {
+      res.data.users.forEach(function(user) {
+        user.check = false;
+      });
+      $scope.communitys = res.data.users;
+      console.log('res community', $scope.communitys);
+});
+
     $scope.user = CurrentUser.user();
     $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
 
@@ -87,6 +96,7 @@ angular.module('app')
 
 
       ChallengeService.create(totalInfo);
+      $state.go('user.home');
 
 
     };
@@ -114,7 +124,7 @@ angular.module('app')
       });
       $scope.invite = $scope.invite.map(function(users) {
 
-        return users.pseudo;
+        return users;
       });
 
       $scope.myVarBefore = !$scope.myVarBefore;
