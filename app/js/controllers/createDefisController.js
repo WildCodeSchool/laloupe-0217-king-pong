@@ -32,7 +32,7 @@ angular.module('app')
     ];
 
     $scope.filterActivity = function() {
-      $state.go('user.filterActivity');
+      $state.go('user.filterActivity',{community:$stateParams.community});
     };
 
     $scope.sendChallenge = function() {

@@ -6,11 +6,11 @@ angular.module('app')
 
 
         $scope.navigateBefore = function() {
-            $state.go('user.filterActivity');
+            $state.go('user.filterActivity',{community:$stateParams.community});
         };
 
         $scope.valide = function() {
-            $state.go('user.createDefis');
+            $state.go('user.createDefis',{community:$stateParams.community});
         };
         console.log($scope.activity);
     });

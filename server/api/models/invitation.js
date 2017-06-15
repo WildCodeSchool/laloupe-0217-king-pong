@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import Challenge from './challenge.js';
-import {config} from '../../mail.js';
+import {
+  config
+} from '../../mail.js';
 import nodemailer from 'nodemailer';
 import hbs from 'nodemailer-express-handlebars';
 import moment from 'moment';
@@ -43,8 +45,8 @@ moment.locale('fr');
 
 
 function invitationAsync(invitation, mailer, i, ok, err, callback) {
-    let activityName = invitation.challenge.activity.activityName;
-    let challenge = invitation.challenge;
+  let activityName = invitation.challenge.activity.activityName;
+  let challenge = invitation.challenge;
   if (i <= invitation.player.length - 1) {
     mailer.use('compile', hbs(options));
     mailer.sendMail({
@@ -53,14 +55,14 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
       subject: 'invitation au défi' + activityName,
       template: 'email_body',
       context: {
-        id:invitation._id,
+        id: invitation._id,
         invite: invitation.player[i].pseudo,
         date: moment(challenge.date).format('LL'),
         time: moment(challenge.time).format('LT'),
         duration: challenge.duration,
         place: challenge.place,
         author: challenge.author,
-        activity:activityName
+        activity: activityName
       }
     }, function(error, response) {
       if (error) {
@@ -68,7 +70,7 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
         console.log(error);
       } else {
         ok.push(invitation.player[i]);
-        console.log('mail sent to ');
+        console.log('mail sent to '+ invitation.player[i].email);
         mailer.close();
       }
       invitationAsync(invitation, mailer, i + 1, ok, err, callback);
@@ -105,30 +107,34 @@ export default class Activity {
         res.sendStatus(403);
       } else {
         res.json(invitation);
-        console.log(res.json);
       }
     });
   }
 
   create(req, res) {
     model.create(req, (err, invitation) => {
-        if (err) {
-          res.sendStatus(500);
+      if (err) {
+        res.sendStatus(500);
 
-          console.log(err);
-        } else {
-          model.findById({
-              _id: invitation._id
-            }).populate('player')
-            .populate({path:'challenge',populate:{path:'activity'}})
-            .exec((err, result) => {
-                if (err || !result) {
-                  res.sendStatus(500);
+        console.log(err);
+      } else {
+        model.findById({
+            _id: invitation._id
+          }).populate('player')
+          .populate({
+            path: 'challenge',
+            populate: {
+              path: 'activity'
+            }
+          })
+          .exec((err, result) => {
+            if (err || !result) {
+              res.sendStatus(500);
 
-                  console.log(err);
-                } else {
+              console.log(err);
+            } else {
 
-                 console.log(result); invitationAsync(result, mailer, 0, [], [], function(ok, err) {
+              invitationAsync(result, mailer, 0, [], [], function(ok, err) {
                 res({
                   status: 'mail send ' + ok.length + ' of ' + req.player.length
                 });
@@ -136,48 +142,48 @@ export default class Activity {
               });
             }
 
-        });
+          });
 
-    }
-  });
-}
+      }
+    });
+  }
 
-// create(req, res) {
-//     model.create(req.body, (err, invitation) => {
-//         if (err || !invitation) {
-//             res.status(500).send(err.message);
-//         } else {
-//             // req.body.teams.forEach((player) => {
-//             //     let playerInfos = {
-//             //         player: player.id
-//             //     };
-//             mailer.use('compile', hbs(options));
-//             mailer.sendMail({
-//                 from: 'king-Pong@mail.com',
-//                 to: 'nailletine.lajoie19@gmail.com',
-//                 subject: 'Any Subject',
-//                 template: 'email_body',
-//                 context: {
-//                     variable1: reg.body.player,
-//                     variable2: req.body.date
-//                 }
-//             }, function(error, response) {
-//                 console.log('mail sent to ' + to);
-//                 mailer.close();
-//
-//             });
-//
-//         }
-//     });
-// }
+  // create(req, res) {
+  //     model.create(req.body, (err, invitation) => {
+  //         if (err || !invitation) {
+  //             res.status(500).send(err.message);
+  //         } else {
+  //             // req.body.teams.forEach((player) => {
+  //             //     let playerInfos = {
+  //             //         player: player.id
+  //             //     };
+  //             mailer.use('compile', hbs(options));
+  //             mailer.sendMail({
+  //                 from: 'king-Pong@mail.com',
+  //                 to: 'nailletine.lajoie19@gmail.com',
+  //                 subject: 'Any Subject',
+  //                 template: 'email_body',
+  //                 context: {
+  //                     variable1: reg.body.player,
+  //                     variable2: req.body.date
+  //                 }
+  //             }, function(error, response) {
+  //                 console.log('mail sent to ' + to);
+  //                 mailer.close();
+  //
+  //             });
+  //
+  //         }
+  //     });
+  // }
 
-delete(req, res) {
-  model.findByIdAndRemove(req.params.id, (err) => {
-    if (err) {
-      res.status(500).send(err.message);
-    } else {
-      res.status(200);
-    }
-  });
-}
+  delete(req, res) {
+    model.findByIdAndRemove(req.params.id, (err) => {
+      if (err) {
+        res.status(500).send(err.message);
+      } else {
+        res.status(200);
+      }
+    });
+  }
 }
