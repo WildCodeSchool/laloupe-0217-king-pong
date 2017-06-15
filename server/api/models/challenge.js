@@ -52,20 +52,16 @@ const challengeSchema = new mongoose.Schema({
 
 function teamAsynchrome(teams, infos,author, i, array, request, callback) {
   if (i === 0 ){
-    console.log('ici',i);
     infos.players = [author];
-    console.log('info',infos);
   }
   if (i <= teams.length - 1) {
     request.create(infos, (res) => {
       array.push(res);
       delete infos.players;
-      console.log(infos);
       teamAsynchrome(teams, infos,author, i + 1, array, request, callback);
     });
 
   } else {
-    console.log('fini');
     callback(array);
   }
 }
@@ -127,7 +123,6 @@ export default class Challenge {
             };
             invitation.create(invitations, (response) => {
               mail = response;
-              console.log('ok', response);
               res.json({
                 mail: response,
                 challenge: challenge,

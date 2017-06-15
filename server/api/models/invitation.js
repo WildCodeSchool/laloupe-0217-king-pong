@@ -1,14 +1,11 @@
 import mongoose from 'mongoose';
 import Challenge from './challenge.js';
-// import User from './user.js';
+import {config} from '../../mail.js';
 import nodemailer from 'nodemailer';
 import hbs from 'nodemailer-express-handlebars';
-import moment from 'moment'
+import moment from 'moment';
 
 const invitationSchema = new mongoose.Schema({
-
-
-
   challenge: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Challenge"
@@ -16,9 +13,7 @@ const invitationSchema = new mongoose.Schema({
   player: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
-
   }]
-
 });
 
 
@@ -28,8 +23,8 @@ let model = mongoose.model('Invitation', invitationSchema);
 var mailer = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "djo.moutier@gmail.com",
-    pass: "19mars1985"
+    user: config.email,
+    pass: config.pass
   }
 });
 
@@ -44,6 +39,7 @@ var options = {
   viewPath: './api/views/email/',
   extName: '.hbs'
 };
+moment.locale('fr');
 
 
 function invitationAsync(invitation, mailer, i, ok, err, callback) {
@@ -59,8 +55,8 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
       context: {
         id:invitation._id,
         invite: invitation.player[i].pseudo,
-        date: challenge.date,
-        time: challenge.time,
+        date: moment(challenge.date).format('LL'),
+        time: moment(challenge.time).format('LT'),
         duration: challenge.duration,
         place: challenge.place,
         author: challenge.author,
