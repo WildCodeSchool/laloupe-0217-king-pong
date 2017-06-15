@@ -11,7 +11,6 @@ angular.module('app')
 
     var community = $stateParams.community;
 
-
     $scope.user = CurrentUser.user();
     $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
 
@@ -33,7 +32,7 @@ angular.module('app')
     ];
 
     $scope.filterActivity = function() {
-      $state.go('user.filterActivity');
+      $state.go('user.filterActivity',{community:$stateParams.community});
     };
 
     $scope.sendChallenge = function() {
@@ -66,6 +65,7 @@ angular.module('app')
 
       var infoChallenge = {
         community: community,
+        author: $scope.user._id,
         pseudo: $scope.user.pseudo,
         activity: $scope.activity._id,
         date: $scope.myDate,
@@ -79,32 +79,15 @@ angular.module('app')
         infoChallenge: infoChallenge,
         teams: Team,
 
-        // players : player
+        invite:["58ff7e5aee9fa934131d1e40","59003d1d65bddb1575f74eed","590e0e27a3a7f229c97369f3"]
+
       };
 
       console.log('max players : ', totalInfo);
 
 
       ChallengeService.create(totalInfo);
-      // .then(function(res) {
-      //         var userP = [{
-      //                 id: "1",
-      //                 nom: "nail",
-      //             },
-      //
-      //             {
-      //                 id: "2",
-      //                 nom: "fifi"
-      //             },
-      //         ];
-      //
-      //         $state.go('user.filterActivity');
-      //     });
-      // };
-      // $scope.navigateTo = function() {
-      //     $state.go('user.invite', {
-      //         community: $scope.community
-      //     });
+
 
     };
     $scope.goToHome = function() {
@@ -113,6 +96,7 @@ angular.module('app')
     $scope.myVarBefore = false;
     $scope.toggle = function() {
       $scope.myVarBefore = !$scope.myVarBefore;
+
 
     };
     CommunityService.getOne(community).then(function(res) {
@@ -136,5 +120,6 @@ angular.module('app')
       $scope.myVarBefore = !$scope.myVarBefore;
       console.log($scope.invite);
     };
+
 
   });
