@@ -139,6 +139,17 @@ angular.module('app')
 
         }
       })
+      .state('user.invitations', {
+        url: '/invitations/:invitation',
+        views: {
+          'content@': {
+            templateUrl: 'user/invitations.html',
+            controller: 'InvitationsController',
+
+          }
+
+        }
+      })
       .state('user.createCommunity', {
         url: '/createCommunity',
         views: {

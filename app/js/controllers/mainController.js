@@ -134,9 +134,8 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
 
   // cards buttons
   $scope.goToInvitation = function(id) {
-    $state.go("user.invitation", {
-      id: id
-    });
+
+    $state.go("user.invitations", {id: id});
   };
   $scope.goToArbitrage = function(id) {
     $state.go("user.arbitrage", {
@@ -151,7 +150,8 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   //Service
 
   InviteService.getByUser({player:userId,community:currentCommunity}).then(function(res){
-    console.log(res);
+    $scope.invitations = res.data;
+    console.log(res.data);
 
   });
 

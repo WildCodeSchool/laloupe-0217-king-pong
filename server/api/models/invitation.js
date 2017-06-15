@@ -19,11 +19,11 @@ const invitationSchema = new mongoose.Schema({
   }]
 });
 
-
+//models
 let model = mongoose.model('Invitation', invitationSchema);
 let team = new Team();
 
-
+//variables
 var mailer = nodemailer.createTransport({
   service: "Gmail",
   auth: {
@@ -43,6 +43,8 @@ var options = {
   viewPath: './api/views/email/',
   extName: '.hbs'
 };
+
+//functions
 moment.locale('fr');
 
 
@@ -87,18 +89,20 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
 function filterInvitaions(invitations, player, community, callback) {
   let array = [];
   invitations.map((invitation) => {
+    console.log('invite',invitation);
     let players = invitation.player;
     players.map(user => {
       if (user == player && invitation.challenge.community == community) {
         array.push(invitation);
       }
+
     });
   });
   callback(array);
 }
 
 
-
+//methods
 export default class Activity {
 
   findAll(req, res) {
@@ -124,17 +128,24 @@ export default class Activity {
   }
 
   findByUserAndCommunity(req, res) {
-    console.log('ici', req.query);
     model.find({})
-      .populate('challenge').exec(
+      .populate({path: 'challenge',
+      populate: {
+        path: 'activity teams',
+        populate:{
+          path:'players',
+          select:'pseudo avatar'
+        }
+      }})
+      .exec(
         (err, invitations) => {
           if (err || !invitations) {
             res.sendStatus(404);
           } else {
             filterInvitaions(invitations, req.query.player, req.query.community, function(result) {
-              res.json({
-                invitations: result
-              });
+              res.json(
+                 result
+              );
             });
           }
         });

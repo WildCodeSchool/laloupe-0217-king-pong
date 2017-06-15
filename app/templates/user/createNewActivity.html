@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="input-field col s12">
                     <md-select placeholder="choisir le type de photo" ng-model="photo">
-                        <md-option ng-repeat="photo in photos" value="{{photo}}">{{photo}}</md-option>
+                        <md-option ng-repeat="photo in photos" value="{{photo.value}}">{{photo.name}}</md-option>
                     </md-select>
                 </div>
             </div>

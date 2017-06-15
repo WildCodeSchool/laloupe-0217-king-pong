@@ -6,13 +6,13 @@
 
 
     <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" slides-per-view="5" space-between="20" initial-slide="0">
-      <ks-swiper-slide class="swiper-slide " ng-repeat="challenge in invitations track by $index">
+      <ks-swiper-slide class="swiper-slide " ng-repeat="invitation in invitations track by $index">
         <div class="card z-depth-2">
-          <div ng-click="goToInvitation(challenge._id)" class="card-image">
-            <img class="challengeImage" ng-src="{{challenge.url}}">
-            <span class="card-title challengeTitle"><h3>{{challenge.name}}</h3></span>
-            <span class="card-title challengeStart"><p>Dans {{challenge.start}}</p></span>
-            <span class="card-title challengeDuration"><p>{{challenge.duration}}</p></span>
+          <div ng-click="goToInvitation(invitation)" class="card-image">
+            <img class="challengeImage" ng-src="{{invitation.challenge.activity.photo}}">
+            <span class="card-title challengeTitle"><h3>{{invitation.challenge.activity.activityName}}</h3></span>
+            <span class="card-title challengeStart"><p>Dans {{invitation.challenge.start}}</p></span>
+            <span class="card-title challengeDuration"><p>{{invitation.challenge.duration}}</p></span>
           </div>
           <div class="card-content">
             <ul>

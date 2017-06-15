@@ -78,7 +78,10 @@
                     <label for="invit"   ></label>
                   <ul ng-repeat="user in invite">
                     <li>
-                    <img src="{{user.avatar}}">
+                      <div class="chip">
+       <img src="{{user.avatar}}" alt="Contact Person">
+      {{user.pseudo}}
+     </div>
                     </li>
                   </ul>
                     <div class="inviteNavigate">

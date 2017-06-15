@@ -14,31 +14,46 @@ const challengeSchema = new mongoose.Schema({
 
   community: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Community"
+    ref: "Community",
+    required:true
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    required:true
+
   },
   activity: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Activity"
+    ref: "Activity",
+    required:true
+
   },
   date: {
-    type: Date
+    type: Date,
+    required:true
+
   },
   time: {
-    type: Date
+    type: Date,
+    required:true
+
   },
 
   duration: {
-    type: String
+    type: String,
+    required:true
+
   },
   place: {
-    type: String
+    type: String,
+    required:true
+
   },
   maxPlayers: {
     type: Number,
+    required:true
+
   },
   teams: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -47,6 +62,7 @@ const challengeSchema = new mongoose.Schema({
   }]
 });
 
+//function
 function teamAsynchrome(teams, infos,author, i, array, request, callback) {
   if (i === 0 ){
     infos.players = [author];
@@ -63,12 +79,12 @@ function teamAsynchrome(teams, infos,author, i, array, request, callback) {
   }
 }
 
-
+//models
 let model = mongoose.model('Challenge', challengeSchema);
 var invitation = new Invitation();
 var team = new Team();
 
-
+//method
 export default class Challenge {
 
   findAll(req, res) {

@@ -23,9 +23,9 @@ const teamSchema = new mongoose.Schema({
 });
 
 
-
+//models
 let model = mongoose.model('Team', teamSchema);
-
+//methods
 export default class Team {
 
   findAll(req, res) {

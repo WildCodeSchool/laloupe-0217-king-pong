@@ -95,8 +95,9 @@ angular.module('app')
 
     });
 
-    // TODO: unset session service when quit create defy
+    // TODO: unset sessionservice when quit create defy
     // TODO: limit invitation au max player -1 en comptant le créateur du defy
     // TODO: required sur l'ensemble du formulaire pour ne pas envoyer de champ vide
-
+    // TODO: ne pas mettre une date antérieur à celle en cours
+    // TODO: le date picker est à la date actuel(facultatif)
   });
