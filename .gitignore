@@ -7,3 +7,4 @@ node_modules
 /generated
 
 .sass-cache
+mail.js

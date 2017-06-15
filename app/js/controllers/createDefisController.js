@@ -32,7 +32,7 @@ angular.module('app')
     ];
 
     $scope.filterActivity = function() {
-      $state.go('user.filterActivity');
+      $state.go('user.filterActivity',{community:$stateParams.community});
     };
 
     $scope.sendChallenge = function() {
@@ -65,6 +65,7 @@ angular.module('app')
 
       var infoChallenge = {
         community: community,
+        author: $scope.user._id,
         pseudo: $scope.user.pseudo,
         activity: $scope.activity._id,
         date: $scope.myDate,
@@ -78,7 +79,7 @@ angular.module('app')
         infoChallenge: infoChallenge,
         teams: Team,
 
-        invite:["a","b","c"]
+        invite:["58ff7e5aee9fa934131d1e40","59003d1d65bddb1575f74eed","590e0e27a3a7f229c97369f3"]
 
       };
 

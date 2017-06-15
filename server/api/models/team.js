@@ -49,12 +49,17 @@ export default class Team {
             });
     }
 
-    create(req, res) {
-        console.log('creating', req);
-        model.create(req, team => {
-
-              return team;
-                // res.json(team);
+    create(req,res) {
+        model.create(req, (err, team) => {
+          if (err) {
+              res.sendStatus(500);
+              console.log(err);
+          } else {
+              res(team._id);
+          }
+          // console.log('creating', req);
+          //       // res.json(team);
+          //       return team;
             });
 
     }

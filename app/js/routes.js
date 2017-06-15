@@ -97,7 +97,7 @@ angular.module('app')
         }
       })
       .state('user.activityDescription', {
-        url: '/activityDescription/:activity',
+        url: '/activityDescription/:activity/:community',
 
         views: {
           'content@': {
@@ -118,7 +118,7 @@ angular.module('app')
 
 
       .state('user.filterActivity', {
-        url: '/filteractivity',
+        url: '/filteractivity/:community',
         views: {
           'content@': {
             templateUrl: 'user/newActivity.html',
@@ -129,7 +129,7 @@ angular.module('app')
         }
       })
       .state('user.createActivity', {
-        url: '/createactivity',
+        url: '/createactivity/:community',
         views: {
           'content@': {
             templateUrl: 'user/createNewActivity.html',
