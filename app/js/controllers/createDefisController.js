@@ -96,6 +96,7 @@ angular.module('app')
 
 
       ChallengeService.create(totalInfo);
+      $state.go('user.home');
 
 
     };
@@ -123,7 +124,7 @@ angular.module('app')
       });
       $scope.invite = $scope.invite.map(function(users) {
 
-        return users.pseudo;
+        return users;
       });
 
       $scope.myVarBefore = !$scope.myVarBefore;

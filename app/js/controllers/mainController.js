@@ -131,9 +131,8 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
 
   // cards buttons
   $scope.goToInvitation = function(id) {
-    $state.go("user.invitation", {
-      id: id
-    });
+
+    $state.go("user.invitations", {id: id});
   };
   $scope.goToArbitrage = function(id) {
     $state.go("user.arbitrage", {
