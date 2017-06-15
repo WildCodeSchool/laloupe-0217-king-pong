@@ -1,8 +1,13 @@
-angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window) {
+angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window,LocalService,InviteyService) {
 
+  // variables
+  var userId = CurrentUser.user()._id;
+  $scope.user = CurrentUser.user();
+  $scope.community = {};
+
+//button
   var axis = $window.pageYOffset;
   $scope.showButton = true;
-
 
   angular.element($window).bind("scroll", function() {
     if (axis < $window.pageYOffset) {
@@ -14,6 +19,12 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     }
     $scope.$apply();
   });
+
+
+  $scope.toCreate = function(){
+    let community = JSON.parse(LocalService.get('community'));
+    $state.go('user.createDefis',{community: community._id});
+  };
 
   function refactoring(array) {
     array.map(function(invitation) {
@@ -28,10 +39,8 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     return array;
   }
 
-  // variables
-  var userId = CurrentUser.user()._id;
-  $scope.user = CurrentUser.user();
 
+  // sidenav
   function buildToggler(navID) {
     return function() {
       $mdSidenav(navID).toggle().then(function() {
@@ -40,7 +49,6 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     };
   }
 
-  // sidenav
   $scope.onSwipeLeft = buildToggler('right');
 
   $scope.onSwipeRight = function(ev) {
@@ -64,16 +72,29 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   $scope.communitys = [];
   UserService.getOne(userId).then(function(res) {
     $scope.communitys = res.data.community;
-    $scope.community = $scope.communitys[($scope.communitys.length - 1)];
+      $scope.community = $scope.communitys[$scope.communitys.length-1];
+      LocalService.set('community',JSON.stringify($scope.community));
   });
 
-  $scope.selected = function(index) {};
+  $scope.selected = function(community) {
+    LocalService.set('community',JSON.stringify(community));
+
+
+
+
+  };
 
 
   // sub navbar
   $(document).ready(function() {
     $('ul.tabs').tabs();
   });
+  if ($state.current.name === 'user.home'){
+    $scope.selectedIndex = 0;
+  }else{
+    $scope.selectedIndex = 1;
+  }
+
 
   // slider options
   $scope.slideOption = {
@@ -110,9 +131,8 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
 
   // cards buttons
   $scope.goToInvitation = function(id) {
-    $state.go("user.invitation", {
-      id: id
-    });
+
+    $state.go("user.invitations", {id: id});
   };
   $scope.goToArbitrage = function(id) {
     $state.go("user.arbitrage", {
@@ -124,6 +144,8 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
       id: id
     });
   };
+  //Service
+  // InviteyService.
 
   // variables hard code
   $scope.invitations = [{
@@ -506,4 +528,3 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   refactoring($scope.communityDefies);
 
 });
-

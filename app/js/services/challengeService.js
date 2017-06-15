@@ -15,5 +15,8 @@ angular.module('app')
             getOne: function(id) {
                 return $http.get('/challenges/' + id);
             },
+            addUser: function(id, user) {
+                return $http.put('/challenges/user/' + id, user);
+            },
         };
     });
