@@ -50,11 +50,18 @@ const challengeSchema = new mongoose.Schema({
   }]
 });
 
-function teamAsynchrome(teams, infos, i, array, request, callback) {
+function teamAsynchrome(teams, infos,author, i, array, request, callback) {
+  if (i === 0 ){
+    console.log('ici',i);
+    infos.players = [author];
+    console.log('info',infos);
+  }
   if (i <= teams.length - 1) {
     request.create(infos, (res) => {
       array.push(res);
-      teamAsynchrome(teams, infos, i + 1, array, request, callback);
+      delete infos.players;
+      console.log(infos);
+      teamAsynchrome(teams, infos,author, i + 1, array, request, callback);
     });
 
   } else {
@@ -96,11 +103,12 @@ export default class Challenge {
     let challenge = {},
       mail = {};
     model.create(req.body.infoChallenge, (err, challenge) => {
+      let author = challenge.author;
       let teamInfos = {
         challenge: challenge._id,
         maxPlayer: challenge.maxPlayers
       };
-      teamAsynchrome(req.body.teams, teamInfos, 0, [], team, function(teams) {
+      teamAsynchrome(req.body.teams, teamInfos,author, 0, [], team, function(teams) {
         model.findOneAndUpdate({
           _id: challenge._id
         }, {
