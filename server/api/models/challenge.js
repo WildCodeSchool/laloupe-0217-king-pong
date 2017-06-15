@@ -95,6 +95,7 @@ export default class Challenge {
   create(req, res) {
     let challenge = {},
       mail = {};
+      console.log('creation');
     model.create(req.body.infoChallenge, (err, challenge) => {
       if(err){
         res.status(500).send(err.message);
@@ -105,6 +106,7 @@ export default class Challenge {
         maxPlayer: challenge.maxPlayers
       };
       teamAsynchrome(req.body.teams, teamInfos,author, 0, [], team, function(teams) {
+        console.log("team");
         model.findOneAndUpdate({
           _id: challenge._id
         }, {
@@ -117,13 +119,14 @@ export default class Challenge {
             res.sendStatus(404);
             console.log(err);
           } else {
+            console.log('update');
             challenge = result;
             let invitations = {
               challenge: challenge._id,
               player: req.body.invite
             };
             invitation.create(invitations, (response) => {
-              mail = response;
+              console.log('invite');
               res.json({
                 mail: response,
                 challenge: challenge,

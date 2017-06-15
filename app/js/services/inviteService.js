@@ -1,23 +1,27 @@
 angular.module('app')
-    .service('InviteyService', function($http) {
+    .service('InviteService', function($http) {
         return {
             create: function(infoCommunity) {
-                return $http.post('/invite/', infoCommunity);
+                return $http.post('/invitations/', infoCommunity);
             },
             getAll: function() {
-                return $http.get('/invite/');
+                return $http.get('/invitations/');
             },
             getOne: function(id) {
-                return $http.get('invite/' + id);
+                return $http.get('/invitations/' + id);
+            },
+            getByUser: function(params) {
+              console.log(params);
+                return $http.get('/invitations/user/' ,{params:params});
             },
             update: function(id, user) {
-                return $http.put('/invites/' + id, user);
+                return $http.put('/invitations/' + id, user);
             },
             addUser: function(id, user) {
-                return $http.put('/invite/user/' + id, user);
+                return $http.put('/invitations/user/' + id, user);
             },
             delete: function(id) {
-                return $http.delete('/invite/' + id);
+                return $http.delete('/invitations/' + id);
             }
         };
     });

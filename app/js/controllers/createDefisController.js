@@ -15,6 +15,7 @@ angular.module('app')
     $scope.activity = JSON.parse(SessionService.get('activity') || '[]');
     $scope.durations = ["15 mn ", "30mn", "45mn", "1h00", "1h15", "1h30", "1h45", "2h00"];
     $scope.myVarBefore = false;
+    $scope.invite = [];
 
 
 
@@ -26,11 +27,15 @@ angular.module('app')
     };
 
     $scope.sendChallenge = function() {
-      var Team = [];
+      var team = [];
       var nbrTeam = $scope.activity.numberOfTeam;
       for (let i = 1; i <= nbrTeam; i++) {
-        Team.push([]);
+        team.push([]);
       }
+      var guest = [];
+      $scope.invite.forEach(user=>{
+        guest.push(user._id);
+      });
 
       var infoChallenge = {
         community: community,
@@ -45,13 +50,14 @@ angular.module('app')
       };
       var totalInfo = {
         infoChallenge: infoChallenge,
-        teams: Team,
-        invite: ["58ff7e5aee9fa934131d1e40", "59003d1d65bddb1575f74eed", "590e0e27a3a7f229c97369f3"]
+        teams: team,
+        invite: guest
       };
 
       ChallengeService.create(totalInfo).then((res) => {
         console.log(res);
       });
+      $state.go('user.home');
     };
 
     $scope.goToHome = function() {
@@ -72,7 +78,7 @@ angular.module('app')
       });
       $scope.invite = $scope.invite.map(function(users) {
 
-        return users.pseudo;
+        return users;
       });
 
       $scope.myVarBefore = !$scope.myVarBefore;
@@ -81,12 +87,16 @@ angular.module('app')
 
     //service
     CommunityService.getOne(community).then(function(res) {
+      console.log(res);
       res.data.users.forEach(function(users) {
         users.check = false;
       });
+      $scope.communitys = res.data.users;
 
     });
 
     // TODO: unset session service when quit create defy
+    // TODO: limit invitation au max player -1 en comptant le créateur du defy
+    // TODO: required sur l'ensemble du formulaire pour ne pas envoyer de champ vide
 
   });
