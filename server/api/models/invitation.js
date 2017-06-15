@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import Challenge from './challenge.js';
-import {
-  config
-} from '../../mail.js';
+import { config } from '../../mail.js';
 import nodemailer from 'nodemailer';
 import hbs from 'nodemailer-express-handlebars';
 import moment from 'moment';
@@ -61,7 +59,7 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
         time: moment(challenge.time).format('LT'),
         duration: challenge.duration,
         place: challenge.place,
-        author: challenge.author,
+        author: challenge.author.pseudo,
         activity: activityName
       }
     }, function(error, response) {
@@ -70,7 +68,7 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
         console.log(error);
       } else {
         ok.push(invitation.player[i]);
-        console.log('mail sent to '+ invitation.player[i].email);
+        console.log('mail sent to ' + invitation.player[i].email);
         mailer.close();
       }
       invitationAsync(invitation, mailer, i + 1, ok, err, callback);
@@ -120,20 +118,25 @@ export default class Activity {
       } else {
         model.findById({
             _id: invitation._id
-          }).populate('player')
+          }).populate({ path: 'player', select: 'email pseudo' })
           .populate({
             path: 'challenge',
             populate: {
               path: 'activity'
-            }
-          })
+          }})
+          .populate({
+            path: 'challenge',
+            populate: {
+              path: 'author',
+              select:'pseudo'
+          }})
           .exec((err, result) => {
             if (err || !result) {
               res.sendStatus(500);
 
               console.log(err);
             } else {
-
+console.log(result);
               invitationAsync(result, mailer, 0, [], [], function(ok, err) {
                 res({
                   status: 'mail send ' + ok.length + ' of ' + req.player.length
