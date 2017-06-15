@@ -20,9 +20,6 @@ const challengeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   },
-  pseudo: {
-    type: String
-  },
   activity: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Activity"
@@ -99,6 +96,9 @@ export default class Challenge {
     let challenge = {},
       mail = {};
     model.create(req.body.infoChallenge, (err, challenge) => {
+      if(err){
+        res.status(500).send(err.message);
+      }else{
       let author = challenge.author;
       let teamInfos = {
         challenge: challenge._id,
@@ -114,6 +114,7 @@ export default class Challenge {
           new: true
         }, (err, result) => {
           if (err || !result) {
+            res.sendStatus(404);
             console.log(err);
           } else {
             challenge = result;
@@ -134,6 +135,7 @@ export default class Challenge {
         });
 
       });
+      }
     });
   }
 

@@ -113,7 +113,6 @@ export default class Activity {
     model.create(req, (err, invitation) => {
       if (err) {
         res.sendStatus(500);
-
         console.log(err);
       } else {
         model.findById({
@@ -133,13 +132,12 @@ export default class Activity {
           .exec((err, result) => {
             if (err || !result) {
               res.sendStatus(500);
-
               console.log(err);
             } else {
-console.log(result);
               invitationAsync(result, mailer, 0, [], [], function(ok, err) {
                 res({
-                  status: 'mail send ' + ok.length + ' of ' + req.player.length
+                  status: 'mail send ' + ok.length + ' of ' + req.player.length,
+                  error:err
                 });
 
               });
