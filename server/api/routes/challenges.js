@@ -8,6 +8,8 @@ module.exports = (app) => {
 
     var challenge = new Challenge();
 
+    router.get('/user/', challenge.findByUSerAndCommunity);
+
     router.get('/:id', challenge.findById);
     //
     router.put('/:id', challenge.update);

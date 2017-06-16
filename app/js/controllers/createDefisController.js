@@ -100,4 +100,6 @@ angular.module('app')
     // TODO: required sur l'ensemble du formulaire pour ne pas envoyer de champ vide
     // TODO: ne pas mettre une date antérieur à celle en cours
     // TODO: le date picker est à la date actuel(facultatif)
+    // TODO: supprimer l'author de la liste des inviter
+    
   });

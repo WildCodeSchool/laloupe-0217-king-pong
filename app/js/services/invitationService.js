@@ -1,5 +1,5 @@
 angular.module('app')
-    .service('InviteService', function($http) {
+    .service('InvitationService', function($http) {
         return {
             create: function(infoCommunity) {
                 return $http.post('/invitations/', infoCommunity);
@@ -11,7 +11,6 @@ angular.module('app')
                 return $http.get('/invitations/' + id);
             },
             getByUser: function(params) {
-              console.log(params);
                 return $http.get('/invitations/user/' ,{params:params});
             },
             update: function(id, user) {

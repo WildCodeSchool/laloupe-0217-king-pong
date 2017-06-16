@@ -7,6 +7,7 @@ import Team from './team.js';
 import nodemailer from 'nodemailer';
 import hbs from 'nodemailer-express-handlebars';
 import moment from 'moment';
+import _ from 'lodash';
 
 const invitationSchema = new mongoose.Schema({
   challenge: {
@@ -88,15 +89,21 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
 
 function filterInvitaions(invitations, player, community, callback) {
   let array = [];
+
   invitations.map((invitation) => {
-    console.log('invite',invitation);
     let players = invitation.player;
+    let date = invitation.challenge.date;
+    let diff = moment(date).fromNow();
     players.map(user => {
       if (user == player && invitation.challenge.community == community) {
-        array.push(invitation);
+        array.push({
+          invitation,
+          diff
+        });
       }
 
     });
+
   });
   callback(array);
 }
@@ -129,14 +136,22 @@ export default class Activity {
 
   findByUserAndCommunity(req, res) {
     model.find({})
-      .populate({path: 'challenge',
-      populate: {
-        path: 'activity teams',
-        populate:{
-          path:'players',
-          select:'pseudo avatar'
+      .populate({
+        path: 'challenge',
+        populate: {
+          path: 'activity'
         }
-      }})
+      })
+      .populate({
+        path: 'challenge',
+        populate: {
+          path: 'teams',
+          populate: {
+            path: 'players',
+            select:'avatar ps'
+          }
+        }
+      })
       .exec(
         (err, invitations) => {
           if (err || !invitations) {
@@ -144,7 +159,7 @@ export default class Activity {
           } else {
             filterInvitaions(invitations, req.query.player, req.query.community, function(result) {
               res.json(
-                 result
+                result
               );
             });
           }

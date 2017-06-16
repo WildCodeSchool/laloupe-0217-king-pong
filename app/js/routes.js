@@ -140,7 +140,7 @@ angular.module('app')
         }
       })
       .state('user.invitations', {
-        url: '/invitations/:invitation',
+        url: '/invitations/:id',
         views: {
           'content@': {
             templateUrl: 'user/invitations.html',
