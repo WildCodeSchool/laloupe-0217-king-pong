@@ -23,7 +23,7 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
 
 
   $scope.toCreate = function(){
-    let community = JSON.parse(LocalService.get('community'));
+    var community = JSON.parse(LocalService.get('community'));
     $state.go('user.createDefis',{community: community._id});
   };
 
@@ -173,7 +173,7 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     });
     console.log('finish',finish);
     console.log('not',notFinish);
-    callback({finish,notFinish});
+    callback({finish:finish,notFinish:notFinish});
   }
 
 

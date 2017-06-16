@@ -29,11 +29,11 @@ angular.module('app')
     $scope.sendChallenge = function() {
       var team = [];
       var nbrTeam = $scope.activity.numberOfTeam;
-      for (let i = 1; i <= nbrTeam; i++) {
+      for (var i = 1; i <= nbrTeam; i++) {
         team.push([]);
       }
       var guest = [];
-      $scope.invite.forEach(user=>{
+      $scope.invite.forEach(function(user){
         guest.push(user._id);
       });
 
@@ -54,7 +54,7 @@ angular.module('app')
         invite: guest
       };
 
-      ChallengeService.create(totalInfo).then((res) => {
+      ChallengeService.create(totalInfo).then(function(res){
         console.log(res);
       });
       $state.go('user.home');
@@ -101,5 +101,5 @@ angular.module('app')
     // TODO: ne pas mettre une date antérieur à celle en cours
     // TODO: le date picker est à la date actuel(facultatif)
     // TODO: supprimer l'author de la liste des inviter
-    
+
   });
