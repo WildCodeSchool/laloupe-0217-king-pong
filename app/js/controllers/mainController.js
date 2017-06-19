@@ -1,12 +1,12 @@
-angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window,LocalService,InvitationService,ChallengeService) {
+angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window, LocalService, InvitationService, ChallengeService) {
 
   // variables
   var userId = CurrentUser.user()._id;
-  var currentCommunity= CurrentUser.user().community[CurrentUser.user().community.length-1] ;
+  var currentCommunity = CurrentUser.user().community[CurrentUser.user().community.length - 1];
   $scope.user = CurrentUser.user();
   $scope.community = {};
 
-//button
+  //button
   var axis = $window.pageYOffset;
   $scope.showButton = true;
 
@@ -22,9 +22,11 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   });
 
 
-  $scope.toCreate = function(){
+  $scope.toCreate = function() {
     var community = JSON.parse(LocalService.get('community'));
-    $state.go('user.createDefis',{community: community._id});
+    $state.go('user.createDefis', {
+      community: community._id
+    });
   };
 
 
@@ -41,7 +43,7 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     return array;
   }
 
-  function refactoring(array) {
+  function refactoring(array, callback) {
     array.map(function(element) {
       element.challenge.nbPlayer = [];
       element.challenge.teams.map(function(team) {
@@ -51,7 +53,7 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
       });
       return element;
     });
-    return array;
+    callback(array);
   }
 
 
@@ -87,13 +89,13 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   $scope.communitys = [];
   UserService.getOne(userId).then(function(res) {
     $scope.communitys = res.data.community;
-      $scope.community = $scope.communitys[$scope.communitys.length-1];
-      LocalService.set('community',JSON.stringify($scope.community));
+    $scope.community = $scope.communitys[$scope.communitys.length - 1];
+    LocalService.set('community', JSON.stringify($scope.community));
   });
 
   $scope.selected = function(community) {
     currentCommunity = community;
-    LocalService.set('community',JSON.stringify(community));
+    LocalService.set('community', JSON.stringify(community));
   };
 
 
@@ -101,9 +103,9 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   $(document).ready(function() {
     $('ul.tabs').tabs();
   });
-  if ($state.current.name === 'user.home'){
+  if ($state.current.name === 'user.home') {
     $scope.selectedIndex = 0;
-  }else{
+  } else {
     $scope.selectedIndex = 1;
   }
 
@@ -145,7 +147,9 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   $scope.goToInvitation = function(object) {
     console.log(object);
 
-    $state.go("user.invitations", {id: object.invitation._id});
+    $state.go("user.invitations", {
+      id: object.invitation._id
+    });
   };
   $scope.goToArbitrage = function(id) {
     $state.go("user.arbitrage", {
@@ -160,161 +164,56 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   //Service
   var today = new Date();
 
-  function filterDate(items,callback){
+  function filterDate(items, callback) {
     var finish = [];
-    var notFinish= [];
+    var notFinish = [];
     items.map(function(element) {
       var date = element.diff;
       if (/^dans/.test(date)) {
         notFinish.push(element);
-      }else{
+      } else {
         finish.push(element);
       }
     });
-    console.log('finish',finish);
-    console.log('not',notFinish);
-    callback({finish:finish,notFinish:notFinish});
+    callback({
+      finish: finish,
+      notFinish: notFinish
+    });
   }
 
 
-  InvitationService.getByUser({player:userId,community:currentCommunity}).then(function(res){
+  InvitationService.getByUser({
+    player: userId,
+    community: currentCommunity
+  }).then(function(res) {
     $scope.invitations = res.data;
     refactoringInvitations($scope.invitations);
 
   });
-  ChallengeService.getByUser({player:userId,community:currentCommunity}).then(function(res){
-    console.log(res.data);
-    filterDate(res.data,function(result){
-      $scope.arbitrages = result.finish;
-      $scope.playerChallenges= result.notFinish;
+  ChallengeService.getByUser({
+    player: userId,
+    community: currentCommunity
+  }).then(function(res) {
+    console.log('1', res.data);
+    refactoring(res.data, function(newData) {
+      filterDate(newData, function(result) {
+        $scope.arbitrages = result.finish;
+        $scope.playerChallenges = result.notFinish;
+      });
+
     });
-    refactoring($scope.arbitrages);
-    refactoring($scope.playerChallenges);
   });
 
-// TODO: supprimer les defy passé
+  ChallengeService.getByCommunity(currentCommunity).then(function(res) {
+    console.log('2', res.data);
+    refactoring(res.data, function(newData) {
+      filterDate(newData, function(result) {
+        $scope.communityDefies = result.notFinish;
+      });
+    });
+  });
 
-  // variables hard code
+  // TODO: supprimer les defy passé
 
-
-  $scope.communityDefies = [{
-      name: 'Foot',
-      activity: 'Sport Extérieur',
-      url: './img/foot.jpg',
-      start: '15h',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'PinPong',
-      activity: 'Sport Intérieur',
-      url: './img/ping-pong.jpg',
-      start: '5 jours',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'PinPong',
-      activity: 'Sport Intérieur',
-      url: './img/ping-pong.jpg',
-      start: '5 jours',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    },  {
-      name: 'PinPong',
-      activity: 'Sport Intérieur',
-      url: './img/ping-pong.jpg',
-      start: '5 jours',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Fifa',
-      activity: 'E-Sport',
-      url: './img/jeuxVideo.jpg',
-      start: '1jours',
-      duration: '1H45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Echec',
-      activity: 'Jeux Société',
-      url: './img/echec.jpg',
-      start: '2h',
-      duration: '1H',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }
-
-  ];
-
-  // refactoring($scope.communityDefies);
 
 });

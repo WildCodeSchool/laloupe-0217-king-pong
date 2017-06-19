@@ -21,9 +21,9 @@
                 <img class='circle' src="{{player}}" alt="Contact Person">
 
               </li>
-              <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
+              <li ng-if="invitation.invitation.challenge.nbPlayer.length > 3" style="background-color:@grey">
 
-                <img class='circle greyCircle' src="./img/userGrey.jpg" alt="Contact Person"><span class="plus">+{{challenge.nbPlayer.length -3}}</span>
+                <img class='circle greyCircle' src="./img/userGrey.jpg" alt="Contact Person"><span class="plus">+{{invitation.invitation.challenge.nbPlayer.length -3}}</span>
 
 
               </li>
@@ -69,9 +69,9 @@
                 <img class='circle' src="{{player}}" alt="Contact Person">
 
               </li>
-              <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
+              <li ng-if="challenge.challenge.nbPlayer.length > 3 " style="background-color:@grey">
 
-                <p class="plus">+{{challenge.nbPlayer.length -3}}</p>
+                <img class='circle greyCircle' src="./img/userGrey.jpg" alt="Contact Person"><span class="plus">+{{challenge.challenge.nbPlayer.length -3}}</span>
 
               </li>
             </ul>
@@ -108,9 +108,9 @@
                 <img class='circle' src="{{player}}" alt="Contact Person">
 
               </li>
-              <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
+              <li ng-if="challenge.challenge.nbPlayer.length > 3 " style="background-color:@grey">
 
-                <p class="plus">+{{challenge.nbPlayer.length -3}}</p>
+                <img class='circle greyCircle' src="./img/userGrey.jpg" alt="Contact Person"><span class="plus">+{{challenge.challenge.nbPlayer.length -3}}</span>
 
               </li>
             </ul>
@@ -135,21 +135,21 @@
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in communityDefies track by $index">
         <div class="card">
           <div ng-click="goToResum(challenge._id)" class="card-image">
-            <img class="" ng-src="{{challenge.url}}">
-            <span class="card-title challengeTitle"><h3>{{challenge.name}}</h3></span>
-            <span class="card-title challengeStart"><p>Dans {{challenge.start}}</p></span>
-            <span class="card-title challengeDuration"><p>{{challenge.duration}}</p></span>
+            <img class="" ng-src="{{challenge.challenge.activity.photo}}">
+            <span class="card-title challengeTitle"><h3>{{challenge.challenge.activity.activityName}}</h3></span>
+            <span class="card-title challengeStart"><p>{{challenge.diff}}</p></span>
+            <span class="card-title challengeDuration"><p>{{challenge.challenge.duration}}</p></span>
           </div>
           <div class="card-content">
             <ul>
-              <li ng-repeat="player in challenge.nbPlayer | limitTo:3 track by $index ">
+              <li ng-repeat="player in challenge.challenge.nbPlayer | limitTo:3 track by $index ">
 
                 <img class='circle' src="{{player}}" alt="Contact Person">
 
               </li>
-              <li ng-if="challenge.nbPlayer.length > 3 " style="background-color:@grey">
+              <li ng-if="challenge.challenge.nbPlayer.length > 3 " style="background-color:@grey">
 
-                <p class="plus">+{{challenge.nbPlayer.length -3}}</p>
+                <img class='circle greyCircle' src="./img/userGrey.jpg" alt="Contact Person"><span class="plus">+{{challenge.challenge.nbPlayer.length -3}}</span>
 
               </li>
             </ul>

@@ -84,17 +84,26 @@ function teamAsynchrome(teams, infos, author, i, array, request, callback) {
 function filterUser(challenges,user,callback){
   let array =[];
   challenges.map(challenge =>{
-    let date = challenge.date;
-    let diff = moment(date).fromNow();
-    challenge.teams.map(team =>{
+      challenge.teams.map(team =>{
       team.players.map( player =>{
         if (player._id == user){
-          array.push({challenge,diff});
+          array.push(challenge);
         }
       });
     });
   });
   callback(array);
+  console.log(array);
+}
+
+function timeDiff(challenges,callback){
+let data =[];
+  challenges.map(challenge=>{
+    let date = challenge.date;
+    let diff = moment(date).fromNow();
+    data.push({challenge,diff});
+  });
+  callback(data);
 }
 
 //models
@@ -126,6 +135,33 @@ export default class Challenge {
 
       });
   }
+  findByCommunity(req, res) {
+    model.find(req.params.community
+    ).populate('activity')
+    .populate({
+      path: 'author',
+      select: 'avatar pseudo'
+    })
+    .populate({
+      path: 'teams',
+      populate: {
+        path: 'players',
+        select: 'avatar pseudo'
+      }
+    })
+    .exec(
+      (err, challenges) => {
+        if (err || !challenges) {
+          res.sendStatus(403);
+        } else {
+          timeDiff(challenges,(results)=>{
+
+            res.json(results);
+          });
+        }
+
+      });
+  }
   findByUSerAndCommunity(req, res) {
     console.log('ici',req.query);
     model.find({
@@ -149,7 +185,11 @@ export default class Challenge {
             res.sendStatus(403);
           } else {
             filterUser(challenges,req.query.player,function(result){
-              res.json(result);
+              console.log(result);
+              timeDiff(result, (results)=>{
+
+                res.json(results);
+              });
 
             });
 

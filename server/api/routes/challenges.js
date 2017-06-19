@@ -10,7 +10,7 @@ module.exports = (app) => {
 
     router.get('/user/', challenge.findByUSerAndCommunity);
 
-    router.get('/:id', challenge.findById);
+    router.get('/community/:community', challenge.findByCommunity);
     //
     router.put('/:id', challenge.update);
     //
