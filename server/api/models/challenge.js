@@ -93,7 +93,6 @@ function filterUser(challenges,user,callback){
     });
   });
   callback(array);
-  console.log(array);
 }
 
 function timeDiff(challenges,callback){
@@ -136,7 +135,8 @@ export default class Challenge {
       });
   }
   findByCommunity(req, res) {
-    model.find(req.params.community
+    console.log(req.params);
+    model.find({community:req.params.community}
     ).populate('activity')
     .populate({
       path: 'author',
@@ -154,6 +154,7 @@ export default class Challenge {
         if (err || !challenges) {
           res.sendStatus(403);
         } else {
+          console.log(challenges);
           timeDiff(challenges,(results)=>{
 
             res.json(results);
@@ -163,7 +164,6 @@ export default class Challenge {
       });
   }
   findByUSerAndCommunity(req, res) {
-    console.log('ici',req.query);
     model.find({
         community: req.query.community
       })
@@ -185,7 +185,6 @@ export default class Challenge {
             res.sendStatus(403);
           } else {
             filterUser(challenges,req.query.player,function(result){
-              console.log(result);
               timeDiff(result, (results)=>{
 
                 res.json(results);
@@ -200,7 +199,6 @@ export default class Challenge {
   create(req, res) {
     let challenge = {},
       mail = {};
-    console.log('creation');
     model.create(req.body.infoChallenge, (err, challenge) => {
       if (err) {
         res.status(500).send(err.message);
@@ -211,7 +209,6 @@ export default class Challenge {
           maxPlayer: challenge.maxPlayers
         };
         teamAsynchrome(req.body.teams, teamInfos, author, 0, [], team, function(teams) {
-          console.log("team");
           model.findOneAndUpdate({
             _id: challenge._id
           }, {
@@ -222,16 +219,13 @@ export default class Challenge {
           }, (err, result) => {
             if (err || !result) {
               res.sendStatus(404);
-              console.log(err);
             } else {
-              console.log('update');
               challenge = result;
               let invitations = {
                 challenge: challenge._id,
                 player: req.body.invite
               };
               invitation.create(invitations, (response) => {
-                console.log('invite');
                 res.json({
                   mail: response,
                   challenge: challenge,

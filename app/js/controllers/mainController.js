@@ -1,10 +1,16 @@
-angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window, LocalService, InvitationService, ChallengeService) {
+angular.module('app').controller('MainController', function($scope, Auth, CurrentUser, $log, $state, $window, LocalService, SharingDataService) {
 
   // variables
   var userId = CurrentUser.user()._id;
   var currentCommunity = CurrentUser.user().community[CurrentUser.user().community.length - 1];
+  var today = new Date();
+  var datas = {};
   $scope.user = CurrentUser.user();
   $scope.community = {};
+  $scope.invitations = {};
+  $scope.arbitrages = {};
+  $scope.playerChallenges = {};
+  $scope.communityDefies = {};
 
   //button
   var axis = $window.pageYOffset;
@@ -21,7 +27,6 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     $scope.$apply();
   });
 
-
   $scope.toCreate = function() {
     var community = JSON.parse(LocalService.get('community'));
     $state.go('user.createDefis', {
@@ -29,85 +34,121 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     });
   };
 
+  // //functions
+  //   function refactoringInvitations(array) {
+  //     array.map(function(element) {
+  //       element.invitation.challenge.nbPlayer = [];
+  //       element.invitation.challenge.teams.map(function(team) {
+  //         team.players.map(function(player) {
+  //           element.invitation.challenge.nbPlayer.push(player.avatar);
+  //         });
+  //       });
+  //       return element;
+  //     });
+  //     return array;
+  //   }
+  //
+  //   function refactoring(array, callback) {
+  //     array.map(function(element) {
+  //       element.challenge.nbPlayer = [];
+  //       element.challenge.teams.map(function(team) {
+  //         team.players.map(function(player) {
+  //           element.challenge.nbPlayer.push(player.avatar);
+  //         });
+  //       });
+  //       return element;
+  //     });
+  //     callback(array);
+  //   }
+  //
+  //   function filterDate(items, callback) {
+  //     var finish = [];
+  //     var notFinish = [];
+  //     items.map(function(element) {
+  //       var date = element.diff;
+  //       if (/^dans/.test(date)) {
+  //         notFinish.push(element);
+  //       } else {
+  //         finish.push(element);
+  //       }
+  //     });
+  //     callback({
+  //       finish: finish,
+  //       notFinish: notFinish
+  //     });
+  //   }
 
-  function refactoringInvitations(array) {
-    array.map(function(element) {
-      element.invitation.challenge.nbPlayer = [];
-      element.invitation.challenge.teams.map(function(team) {
-        team.players.map(function(player) {
-          element.invitation.challenge.nbPlayer.push(player.avatar);
-        });
-      });
-      return element;
-    });
-    return array;
-  }
-
-  function refactoring(array, callback) {
-    array.map(function(element) {
-      element.challenge.nbPlayer = [];
-      element.challenge.teams.map(function(team) {
-        team.players.map(function(player) {
-          element.challenge.nbPlayer.push(player.avatar);
-        });
-      });
-      return element;
-    });
-    callback(array);
-  }
+  $scope.$watch(function () { return SharingDataService.getInvitations();}, function (newValue, oldValue) {
+   $scope.invitations = newValue;
+ });
+  $scope.$watch(function () { return SharingDataService.getArbitrages();}, function (newValue, oldValue) {
+   $scope.arbitrages = newValue;
+ });
+  $scope.$watch(function () { return SharingDataService.getPlayerDefies();}, function (newValue, oldValue) {
+   $scope.playerChallenges = newValue;
+ });
+  $scope.$watch(function () { return SharingDataService.getCommunity();}, function (newValue, oldValue) {
+   $scope.communityDefies = newValue;
+ });
+      
 
 
-  // sidenav
-  function buildToggler(navID) {
-    return function() {
-      $mdSidenav(navID).toggle().then(function() {
-        $log.debug("toggle " + navID + " is done");
-      });
-    };
-  }
 
-  $scope.onSwipeLeft = buildToggler('right');
 
-  $scope.onSwipeRight = function(ev) {
-    $mdSidenav('right').close().then(function() {
-      $log.debug("close RIGHT is done");
 
-    });
-  };
-
-  $scope.toggleRight = buildToggler('right');
-  $scope.isOpenRight = function() {
-    return $mdSidenav('right').isOpen();
-  };
-
-  $scope.logout = function() {
-    Auth.logout();
-    $state.go('anon.login');
-  };
-
-  // select
-  $scope.communitys = [];
-  UserService.getOne(userId).then(function(res) {
-    $scope.communitys = res.data.community;
-    $scope.community = $scope.communitys[$scope.communitys.length - 1];
-    LocalService.set('community', JSON.stringify($scope.community));
-  });
-
-  $scope.selected = function(community) {
-    currentCommunity = community;
-    LocalService.set('community', JSON.stringify(community));
-  };
+  // // sidenav
+  // function buildToggler(navID) {
+  //   return function() {
+  //     $mdSidenav(navID).toggle().then(function() {
+  //       $log.debug("toggle " + navID + " is done");
+  //     });
+  //   };
+  // }
+  //
+  // $scope.onSwipeLeft = buildToggler('right');
+  //
+  // $scope.onSwipeRight = function(ev) {
+  //   $mdSidenav('right').close().then(function() {
+  //     $log.debug("close RIGHT is done");
+  //
+  //   });
+  // };
+  //
+  // $scope.toggleRight = buildToggler('right');
+  // $scope.isOpenRight = function() {
+  //   return $mdSidenav('right').isOpen();
+  // };
+  //
+  // $scope.logout = function() {
+  //   Auth.logout();
+  //   $state.go('anon.login');
+  // };
+  //
+  // // select
+  // $scope.communitys = [];
+  // UserService.getOne(userId).then(function(res) {
+  //   $scope.communitys = res.data.community;
+  //   $scope.community = $scope.communitys[$scope.communitys.length - 1];
+  //   LocalService.set('community', JSON.stringify($scope.community));
+  // });
+  //
+  // $scope.selected = function(community) {
+  //   currentCommunity = community;
+  //   LocalService.set('community', JSON.stringify(community));
+  //   launchServices(userId, community._id);
+  //
+  // };
 
 
   // sub navbar
-  $(document).ready(function() {
-    $('ul.tabs').tabs();
-  });
-  if ($state.current.name === 'user.home') {
-    $scope.selectedIndex = 0;
-  } else {
-    $scope.selectedIndex = 1;
-  }
+  // $(document).ready(function() {
+  //   $('ul.tabs').tabs();
+  // });
+  // if ($state.current.name === 'user.home') {
+  //   $scope.selectedIndex = 0;
+  // } else {
+  //   $scope.selectedIndex = 1;
+  // }
 
 
   // slider options
@@ -162,58 +203,38 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     });
   };
   //Service
-  var today = new Date();
-
-  function filterDate(items, callback) {
-    var finish = [];
-    var notFinish = [];
-    items.map(function(element) {
-      var date = element.diff;
-      if (/^dans/.test(date)) {
-        notFinish.push(element);
-      } else {
-        finish.push(element);
-      }
-    });
-    callback({
-      finish: finish,
-      notFinish: notFinish
-    });
-  }
-
-
-  InvitationService.getByUser({
-    player: userId,
-    community: currentCommunity
-  }).then(function(res) {
-    $scope.invitations = res.data;
-    refactoringInvitations($scope.invitations);
-
-  });
-  ChallengeService.getByUser({
-    player: userId,
-    community: currentCommunity
-  }).then(function(res) {
-    console.log('1', res.data);
-    refactoring(res.data, function(newData) {
-      filterDate(newData, function(result) {
-        $scope.arbitrages = result.finish;
-        $scope.playerChallenges = result.notFinish;
-      });
-
-    });
-  });
-
-  ChallengeService.getByCommunity(currentCommunity).then(function(res) {
-    console.log('2', res.data);
-    refactoring(res.data, function(newData) {
-      filterDate(newData, function(result) {
-        $scope.communityDefies = result.notFinish;
-      });
-    });
-  });
-
-  // TODO: supprimer les defy passé
-
-
+  //   function launchServices(userId, currentCommunity){
+  //   InvitationService.getByUser({
+  //     player: userId,
+  //     community: currentCommunity
+  //   }).then(function(res) {
+  //     console.log(res.data);
+  //     $scope.invitations = res.data;
+  //     refactoringInvitations($scope.invitations);
+  //
+  //   });
+  //   ChallengeService.getByUser({
+  //     player: userId,
+  //     community: currentCommunity
+  //   }).then(function(res) {
+  //     refactoring(res.data, function(newData) {
+  //       filterDate(newData, function(result) {
+  //         $scope.arbitrages = result.finish;
+  //         $scope.playerChallenges = result.notFinish;
+  //       });
+  //
+  //     });
+  //   });
+  //
+  //   ChallengeService.getByCommunity(currentCommunity).then(function(res) {
+  //     refactoring(res.data, function(newData) {
+  //       filterDate(newData, function(result) {
+  //         $scope.communityDefies = result.notFinish;
+  //       });
+  //     });
+  //   });
+  //
+  // }
+  //   // TODO: supprimer les defy passé
+  // launchServices(userId, currentCommunity,null);
 });
