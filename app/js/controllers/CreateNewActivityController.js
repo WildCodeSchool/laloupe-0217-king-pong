@@ -9,14 +9,15 @@ angular.module('app')
             'Gagnant / Match nul / Perdant'
         ];
         $scope.photos = [
-            'foot',
-            'echec',
-            'petanque',
-            'basket',
-            'sport_de_plein_air',
-            'sport en salle',
-            'activite_de_plein_air',
-            'jeux_de_societe'
+            {name:'ping pong',value:'./img/pin-pong.jpg'},
+            {name:'foot',value:'./img/foot.jpg'},
+            {name:'echec',value:'./img/echec.jpg'},
+            {name:'petanque',value:'./petanque.jpg'},
+            {name:'basket',value:'./basket.jpg'},
+            {name:'sport de plein air',value:'./air.jpg'},
+            {name:'sport en salle',value:'./sport_en_salle.jpg'},
+            {name:'jeux vidéo',value:'jeuxVideo.jpg'},
+            {name:'jeux de societe',value:'jeux_de_societe.jpg'}
             ];
         $scope.valide = function() {
             $scope.newActivity = [];
