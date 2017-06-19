@@ -1,8 +1,14 @@
-angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window) {
+angular.module('app').controller('MainController', function($scope, Auth, $timeout, $mdSidenav, UserService, CurrentUser, $log, CommunityService, $state, $window, LocalService, InvitationService, ChallengeService) {
 
+  // variables
+  var userId = CurrentUser.user()._id;
+  var currentCommunity = CurrentUser.user().community[CurrentUser.user().community.length - 1];
+  $scope.user = CurrentUser.user();
+  $scope.community = {};
+
+  //button
   var axis = $window.pageYOffset;
   $scope.showButton = true;
-
 
   angular.element($window).bind("scroll", function() {
     if (axis < $window.pageYOffset) {
@@ -15,23 +21,43 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     $scope.$apply();
   });
 
-  function refactoring(array) {
-    array.map(function(invitation) {
-      invitation.nbPlayer = [];
-      invitation.players.forEach(function(teams) {
-        teams.team.forEach(function(player) {
-          invitation.nbPlayer.push(player.joueur.avatar);
+
+  $scope.toCreate = function() {
+    var community = JSON.parse(LocalService.get('community'));
+    $state.go('user.createDefis', {
+      community: community._id
+    });
+  };
+
+
+  function refactoringInvitations(array) {
+    array.map(function(element) {
+      element.invitation.challenge.nbPlayer = [];
+      element.invitation.challenge.teams.map(function(team) {
+        team.players.map(function(player) {
+          element.invitation.challenge.nbPlayer.push(player.avatar);
         });
       });
-      return invitation;
+      return element;
     });
     return array;
   }
 
-  // variables
-  var userId = CurrentUser.user()._id;
-  $scope.user = CurrentUser.user();
+  function refactoring(array, callback) {
+    array.map(function(element) {
+      element.challenge.nbPlayer = [];
+      element.challenge.teams.map(function(team) {
+        team.players.map(function(player) {
+          element.challenge.nbPlayer.push(player.avatar);
+        });
+      });
+      return element;
+    });
+    callback(array);
+  }
 
+
+  // sidenav
   function buildToggler(navID) {
     return function() {
       $mdSidenav(navID).toggle().then(function() {
@@ -40,7 +66,6 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
     };
   }
 
-  // sidenav
   $scope.onSwipeLeft = buildToggler('right');
 
   $scope.onSwipeRight = function(ev) {
@@ -64,16 +89,26 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   $scope.communitys = [];
   UserService.getOne(userId).then(function(res) {
     $scope.communitys = res.data.community;
-    $scope.community = $scope.communitys[($scope.communitys.length - 1)];
+    $scope.community = $scope.communitys[$scope.communitys.length - 1];
+    LocalService.set('community', JSON.stringify($scope.community));
   });
 
-  $scope.selected = function(index) {};
+  $scope.selected = function(community) {
+    currentCommunity = community;
+    LocalService.set('community', JSON.stringify(community));
+  };
 
 
   // sub navbar
   $(document).ready(function() {
     $('ul.tabs').tabs();
   });
+  if ($state.current.name === 'user.home') {
+    $scope.selectedIndex = 0;
+  } else {
+    $scope.selectedIndex = 1;
+  }
+
 
   // slider options
   $scope.slideOption = {
@@ -109,9 +144,11 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
   };
 
   // cards buttons
-  $scope.goToInvitation = function(id) {
-    $state.go("user.invitation", {
-      id: id
+  $scope.goToInvitation = function(object) {
+    console.log(object);
+
+    $state.go("user.invitations", {
+      id: object.invitation._id
     });
   };
   $scope.goToArbitrage = function(id) {
@@ -124,386 +161,59 @@ angular.module('app').controller('MainController', function($scope, Auth, $timeo
       id: id
     });
   };
+  //Service
+  var today = new Date();
 
-  // variables hard code
-  $scope.invitations = [{
-      name: 'Foot',
-      activity: 'Sport Extérieur',
-      url: './img/foot.jpg',
-      start: '15h',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }, {
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }, {
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }, {
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'PinPong',
-      activity: 'Sport Intérieur',
-      url: './img/ping-pong.jpg',
-      start: '5 jours',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Fifa',
-      activity: 'E-Sport',
-      url: './img/jeuxVideo.jpg',
-      start: '1jours',
-      duration: '1H45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Echec',
-      activity: 'Jeux Société',
-      url: './img/echec.jpg',
-      start: '2h',
-      duration: '1H',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }
-
-  ];
-
-  refactoring($scope.invitations);
+  function filterDate(items, callback) {
+    var finish = [];
+    var notFinish = [];
+    items.map(function(element) {
+      var date = element.diff;
+      if (/^dans/.test(date)) {
+        notFinish.push(element);
+      } else {
+        finish.push(element);
+      }
+    });
+    callback({
+      finish: finish,
+      notFinish: notFinish
+    });
+  }
 
 
+  InvitationService.getByUser({
+    player: userId,
+    community: currentCommunity
+  }).then(function(res) {
+    $scope.invitations = res.data;
+    refactoringInvitations($scope.invitations);
 
-  $scope.arbitrages = [{
-      name: 'Foot',
-      activity: 'Sport Extérieur',
-      url: './img/foot.jpg',
-      start: '15h',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'PinPong',
-      activity: 'Sport Intérieur',
-      url: './img/ping-pong.jpg',
-      start: '5 jours',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Fifa',
-      activity: 'E-Sport',
-      url: './img/jeuxVideo.jpg',
-      start: '1jours',
-      duration: '1H45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Echec',
-      activity: 'Jeux Société',
-      url: './img/echec.jpg',
-      start: '2h',
-      duration: '1H',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }
+  });
+  ChallengeService.getByUser({
+    player: userId,
+    community: currentCommunity
+  }).then(function(res) {
+    console.log('1', res.data);
+    refactoring(res.data, function(newData) {
+      filterDate(newData, function(result) {
+        $scope.arbitrages = result.finish;
+        $scope.playerChallenges = result.notFinish;
+      });
 
-  ];
-  refactoring($scope.arbitrages);
+    });
+  });
 
-  $scope.playerChallenges = [{
-      name: 'Foot',
-      activity: 'Sport Extérieur',
-      url: './img/foot.jpg',
-      start: '15h',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'PinPong',
-      activity: 'Sport Intérieur',
-      url: './img/ping-pong.jpg',
-      start: '5 jours',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Fifa',
-      activity: 'E-Sport',
-      url: './img/jeuxVideo.jpg',
-      start: '1jours',
-      duration: '1H45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Echec',
-      activity: 'Jeux Société',
-      url: './img/echec.jpg',
-      start: '2h',
-      duration: '1H',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }
+  ChallengeService.getByCommunity(currentCommunity).then(function(res) {
+    console.log('2', res.data);
+    refactoring(res.data, function(newData) {
+      filterDate(newData, function(result) {
+        $scope.communityDefies = result.notFinish;
+      });
+    });
+  });
 
-  ];
+  // TODO: supprimer les defy passé
 
-  refactoring($scope.playerChallenges);
-
-  $scope.communityDefies = [{
-      name: 'Foot',
-      activity: 'Sport Extérieur',
-      url: './img/foot.jpg',
-      start: '15h',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'PinPong',
-      activity: 'Sport Intérieur',
-      url: './img/ping-pong.jpg',
-      start: '5 jours',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'PinPong',
-      activity: 'Sport Intérieur',
-      url: './img/ping-pong.jpg',
-      start: '5 jours',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    },  {
-      name: 'PinPong',
-      activity: 'Sport Intérieur',
-      url: './img/ping-pong.jpg',
-      start: '5 jours',
-      duration: '45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Fifa',
-      activity: 'E-Sport',
-      url: './img/jeuxVideo.jpg',
-      start: '1jours',
-      duration: '1H45 min',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }, {
-      name: 'Echec',
-      activity: 'Jeux Société',
-      url: './img/echec.jpg',
-      start: '2h',
-      duration: '1H',
-      players: [{
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }, {
-        team: [{
-          joueur: {
-            avatar: './img/olive.jpg'
-          }
-        }]
-      }]
-    }
-
-  ];
-
-  refactoring($scope.communityDefies);
 
 });
-
