@@ -17,7 +17,7 @@ angular.module('app')
     var today = new Date();
     $scope.user = CurrentUser.user();
     $scope.community = {};
-
+    $scope.sumDefies = Number;
 
     //tabs initialization
     $(document).ready(function() {
@@ -79,6 +79,13 @@ angular.module('app')
       SharingDataService.sendCommunity(community._id);
       $state.reload('main.home');
     };
+
+
+    $scope.$watch(function() {
+      return SharingDataService.getSum();
+    }, function(newValue, oldValue) {
+      $scope.sumDefies = newValue;
+    });
 
 
   });

@@ -58,17 +58,13 @@ angular.module('app').controller('MainController', function($scope, $timeout, Cu
 
 
   function launchServices(userId, community) {
-
-
-    data = [];
-
-
     InvitationService.getByUser({
       player: userId,
       community: community
     }).then(function(res) {
       $scope.invitations = res.data;
       refactoringInvitations($scope.invitations);
+      SharingDataService.sendSumA($scope.invitations.length);
     });
 
 
@@ -80,6 +76,7 @@ angular.module('app').controller('MainController', function($scope, $timeout, Cu
         filterDate(newData, function(result) {
           $scope.arbitrages = result.finish;
           $scope.playerChallenges = result.notFinish;
+            SharingDataService.sendSumB($scope.arbitrages.length);
         });
       });
     });
@@ -92,6 +89,7 @@ angular.module('app').controller('MainController', function($scope, $timeout, Cu
         });
       });
     });
+    
   }
 
 
