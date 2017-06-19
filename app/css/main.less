@@ -113,6 +113,8 @@ md-tabs {
     background-color: @purple;
   }
 }
+
+
 // -----------------------------------------------------------------------------
 // **********************Navbar********************************************
 // -----------------------------------------------------------------------------
@@ -270,20 +272,14 @@ h1 {
 // **********************navbar-home********************************************
 // -----------------------------------------------------------------------------
 
-.tabs {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
 
-.tabs .tab {
-  -webkit-flex-grow: 2;
-  -ms-flex-positive: 2;
-  flex-grow: 2;
-}
 
-.tabs .tab a {
-  padding: 0 12px;
+md-tabs md-ink-bar  {
+    color: @purple!important;
+    background-color:rgb(0, 212, 215) !important;
+}
+md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
+  color: white !important;
 }
 // -----------------------------------------------------------------------------
 // **********************Register********************************************
@@ -382,9 +378,6 @@ span.badge.nav-badge {
   margin-left: 15px;
 }
 
-.tabs.tabs-transparent .indicator {
-  background-color: rgb(0, 212, 215);
-}
 
 .animate-show-hide.ng-hide {
   opacity: 0;
