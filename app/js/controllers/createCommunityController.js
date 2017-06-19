@@ -15,7 +15,7 @@ angular.module('app')
 
     $scope.newCommunity.push(infoCommunity);
   CommunityService.create(infoCommunity).then(function(res) {
-        $state.go('user.home');
+        $state.go('main.home');
         sessionStorage.clear();
     });
   };

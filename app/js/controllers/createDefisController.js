@@ -57,11 +57,11 @@ angular.module('app')
       ChallengeService.create(totalInfo).then(function(res){
         console.log(res);
       });
-      $state.go('user.home');
+      $state.go('main.home');
     };
 
     $scope.goToHome = function() {
-      $state.go('user.home');
+      $state.go('main.home');
     };
 
     $scope.toggle = function() {

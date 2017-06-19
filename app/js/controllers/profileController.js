@@ -5,7 +5,7 @@ angular.module('app')
         console.log( CurrentUser.user().pseudo);
 
         $scope.goToHome = function() {
-            $state.go('user.home');
+            $state.go('main.home');
         };
 
         $scope.user = CurrentUser.user();
