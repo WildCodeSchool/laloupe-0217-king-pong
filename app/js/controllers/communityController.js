@@ -12,7 +12,7 @@ angular.module('app')
         $scope.communitys = res.data;
       });
 
-    }, 3000);
+    }, 500);
 
 
 

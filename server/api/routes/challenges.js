@@ -8,7 +8,9 @@ module.exports = (app) => {
 
     var challenge = new Challenge();
 
-    router.get('/:id', challenge.findById);
+    router.get('/user/', challenge.findByUSerAndCommunity);
+
+    router.get('/community/:community', challenge.findByCommunity);
     //
     router.put('/:id', challenge.update);
     //

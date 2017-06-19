@@ -9,6 +9,8 @@ module.exports = (app) => {
 
     var invitation = new Invitation();
 
+    router.get('/user/', invitation.findByUserAndCommunity);
+
     router.get('/:id', invitation.findById);
     //
     // router.put('/:id', invitation.update);
@@ -19,6 +21,6 @@ module.exports = (app) => {
 
     router.get('/', invitation.findAll);
 
-    app.use('/challenges', router);
+    app.use('/invitations', router);
 
 };
