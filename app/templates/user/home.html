@@ -57,7 +57,7 @@
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in arbitrages track by $index" >
         <div class="card">
           <div ng-click="goToArbitrage(challenge._id)" class="card-image">
-            <img class="" ng-src="{{challenge.challenge.activity.photo}}">
+            <img class="challengeImage" ng-src="{{challenge.challenge.activity.photo}}">
             <span class="card-title challengeTitle"><h3>{{challenge.challenge.activity.activityName}}</h3></span>
             <span class="card-title challengeStart"><p>{{challenge.diff}}</p></span>
             <span class="card-title challengeDuration"><p>{{challenge.challenge.duration}}</p></span>
@@ -96,7 +96,7 @@
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in playerChallenges track by $index">
         <div class="card">
           <div ng-click="goToResum(challenge._id)" class="card-image">
-            <img class="" ng-src="{{challenge.challenge.activity.photo}}">
+            <img class="challengeImage" ng-src="{{challenge.challenge.activity.photo}}">
             <span class="card-title challengeTitle"><h3>{{challenge.challenge.activity.activityName}}</h3></span>
             <span class="card-title challengeStart"><p>{{challenge.diff}}</p></span>
             <span class="card-title challengeDuration"><p>{{challenge.challenge.duration}}</p></span>
@@ -135,7 +135,7 @@
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in communityDefies track by $index">
         <div class="card">
           <div ng-click="goToResum(challenge._id)" class="card-image">
-            <img class="" ng-src="{{challenge.challenge.activity.photo}}">
+            <img class="challengeImage" ng-src="{{challenge.challenge.activity.photo}}">
             <span class="card-title challengeTitle"><h3>{{challenge.challenge.activity.activityName}}</h3></span>
             <span class="card-title challengeStart"><p>{{challenge.diff}}</p></span>
             <span class="card-title challengeDuration"><p>{{challenge.challenge.duration}}</p></span>
