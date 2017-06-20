@@ -73,29 +73,30 @@ function teamAsynchrome(teams, infos, request, callback) {
       array.push(res);
       delete infos.players;
     });
-
   });
   callback(null, array);
 }
 
-function filterUser(challenges, user, callback) {
+function userFilter(challenges, user) {
   let array = [];
-  challenges.forEach(challenge => {
-    challenge.teams.forEach(team => {
-      team.players.forEach(player => {
+  _.forEach(challenges, (challenge) => {
+    _.forEach(challenge.teams, (team) => {
+      _.forEach(team.players, (player) => {
         if (player._id == user) {
           array.push(challenge);
         }
       });
     });
   });
-  callback(null, array);
+  return array;
 }
+
 
 function timeDiff(challenges) {
   return _.map(challenges, (challenge) => {
-    challenge.diff = moment(challenge.date).fromNow();
-    return challenge;
+    return _.assign({
+      diff: moment(challenge.date).fromNow()
+    }, challenge._doc);
   });
 }
 
@@ -117,19 +118,18 @@ export default class Challenge {
     });
   }
 
-  findById(req, res) {
-    model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
-      (err, challenge) => {
-        if (err || !challenge) {
-          res.sendStatus(403);
-        } else {
-          res.json(challenge);
-        }
-
-      });
-  }
+  // findById(req, res) {
+  //   model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
+  //     (err, challenge) => {
+  //       if (err || !challenge) {
+  //         res.sendStatus(403);
+  //       } else {
+  //         res.json(challenge);
+  //       }
+  //
+  //     });
+  // }
   findByCommunity(req, res) {
-    console.log(req.params);
     model.find({
         community: req.params.community
       }).populate('activity')
@@ -149,12 +149,8 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            timeDiff(challenges);
-
-              res.json(challenges);
-
+            res.json(timeDiff(challenges));
           }
-
         });
   }
   findByUSerAndCommunity(req, res) {
@@ -178,17 +174,10 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            filterUser(challenges, req.query.player, function(err, result) {
-              timeDiff(result);
-              console.log(result);
-              res.json(result);
-
-
-            });
-
+            res.json(timeDiff(userFilter(challenges, req.query.player)));
           }
-
-        });
+        }
+      );
   }
   create(req, res) {
     let challenge = {},
