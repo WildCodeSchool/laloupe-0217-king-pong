@@ -1,6 +1,9 @@
-angular.module('app').controller('MainController', function($scope, $timeout, CurrentUser, $state, $window, LocalService, SharingDataService, InvitationService, ChallengeService) {
+angular.module('app').controller('MainController', function($scope,$rootScope,$log, $timeout, CurrentUser, $state, $window, LocalService, SharingDataService, InvitationService, ChallengeService) {
 
+  $scope.onReadySwiper = function (swiper) {
 
+      console.log(swiper);
+    };
   // variables
   var userId = CurrentUser.user()._id;
   $scope.community = {};
@@ -89,7 +92,7 @@ angular.module('app').controller('MainController', function($scope, $timeout, Cu
         });
       });
     });
-    
+
   }
 
 
