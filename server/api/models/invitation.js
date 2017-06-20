@@ -82,7 +82,7 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
     });
 
   } else {
-    callback(ok, err);
+    callback(err, ok);
   }
 
 }
@@ -148,7 +148,7 @@ export default class Activity {
           path: 'teams',
           populate: {
             path: 'players',
-            select:'avatar ps'
+            select: 'avatar ps'
           }
         }
       })
@@ -233,7 +233,7 @@ export default class Activity {
               res.sendStatus(500);
               console.log(err);
             } else {
-              invitationAsync(result, mailer, 0, [], [], function(ok, err) {
+              invitationAsync(result, mailer, 0, [], [], function(err, ok) {
                 res({
                   status: 'mail send ' + ok.length + ' of ' + req.player.length,
                   error: err

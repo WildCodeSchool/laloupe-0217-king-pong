@@ -1,7 +1,7 @@
-<div class="row invitations " ng-if="!invitations.length == 0">
+<div class="row invitations " ng-if="invitations.length !== 0">
   <div class="col s12 ">
     <div class="invitation ">
-      <h2>Invitation<span class="badge red round-badge">{{invitations.length}}</span></h2>
+      <h2>Invitation<span ng-if="invitations.length !== 0" class="badge red round-badge">{{invitations.length}}</span></h2>
     </div>
 
 
@@ -42,22 +42,22 @@
 
 </div>
 <div class="fixed-action-btn animate-show-hide" ng-show="showButton">
-  <a ng-click="toCreate()" class="btn-floating btn-large z-depth-4">
+  <a ng-click="toCreate()" class="btn-floating btn-large blue darken-1 z-depth-4">
     <i class="large material-icons ">add</i>
   </a>
 </div>
 
-<div class="row arbitrages" ng-class="{'section':invitations.length > 0 }" ng-if="!arbitrages.length == 0" style="position: relative">
+<div class="row arbitrages" ng-class="{'section':invitations.length > 0 }" ng-if="arbitrages.length !== 0" style="position: relative">
   <div class="col s12 ">
     <div class="arbitrage">
-      <h2>Arbitrage<span class="badge red round-badge">{{arbitrages.length}}</span></h2>
+      <h2>Arbitrage<span ng-if="arbitrages.length !== 0" class="badge red round-badge">{{arbitrages.length}}</span></h2>
     </div>
 
     <ks-swiper-container on-ready="onReadySwiper(swiper)" class="swiper-container" show-nav-buttons="true" override-parameters="slideOption" initial-slide="0">
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in arbitrages track by $index" >
         <div class="card">
           <div ng-click="goToArbitrage(challenge._id)" class="card-image">
-            <img class="" ng-src="{{challenge.challenge.activity.photo}}">
+            <img class="challengeImage" ng-src="{{challenge.challenge.activity.photo}}">
             <span class="card-title challengeTitle"><h3>{{challenge.challenge.activity.activityName}}</h3></span>
             <span class="card-title challengeStart"><p>{{challenge.diff}}</p></span>
             <span class="card-title challengeDuration"><p>{{challenge.challenge.duration}}</p></span>
@@ -87,7 +87,7 @@
     </ks-swiper-container>
   </div>
 </div>
-<div class="row myDefies" ng-class="{'section':invitations.length > 0 }" ng-if="!playerChallenges.length == 0">
+<div class="row myDefies" ng-class="{'section':invitations.length > 0 }" ng-if="playerChallenges.length !== 0">
   <div class="col s12 ">
     <div class="futurDefies">
       <h2>Mes défis à venir</h2>
@@ -96,7 +96,7 @@
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in playerChallenges track by $index">
         <div class="card">
           <div ng-click="goToResum(challenge._id)" class="card-image">
-            <img class="" ng-src="{{challenge.challenge.activity.photo}}">
+            <img class="challengeImage" ng-src="{{challenge.challenge.activity.photo}}">
             <span class="card-title challengeTitle"><h3>{{challenge.challenge.activity.activityName}}</h3></span>
             <span class="card-title challengeStart"><p>{{challenge.diff}}</p></span>
             <span class="card-title challengeDuration"><p>{{challenge.challenge.duration}}</p></span>
@@ -126,7 +126,7 @@
     </ks-swiper-container>
   </div>
 </div>
-<div class="row inMyCommunity" ng-class="{'section':invitations.length > 0 }" ng-if="!communityDefies.length == 0">
+<div class="row inMyCommunity" ng-class="{'section':invitations.length > 0 }" ng-if="communityDefies.length !== 0">
   <div class="col s12 ">
     <div class="communityDefies">
       <h2>Dans ma communauté</h2>
@@ -135,7 +135,7 @@
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in communityDefies track by $index">
         <div class="card">
           <div ng-click="goToResum(challenge._id)" class="card-image">
-            <img class="" ng-src="{{challenge.challenge.activity.photo}}">
+            <img class="challengeImage" ng-src="{{challenge.challenge.activity.photo}}">
             <span class="card-title challengeTitle"><h3>{{challenge.challenge.activity.activityName}}</h3></span>
             <span class="card-title challengeStart"><p>{{challenge.diff}}</p></span>
             <span class="card-title challengeDuration"><p>{{challenge.challenge.duration}}</p></span>
