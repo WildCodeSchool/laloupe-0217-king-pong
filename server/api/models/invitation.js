@@ -14,7 +14,7 @@ const invitationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Challenge"
   },
-  player: [{
+  players: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   }]
@@ -49,19 +49,21 @@ var options = {
 moment.locale('fr');
 
 
-function invitationAsync(invitation, mailer, i, ok, err, callback) {
+function invitationAsync(invitation, mailer, callback) {
   let activityName = invitation.challenge.activity.activityName;
   let challenge = invitation.challenge;
-  if (i <= invitation.player.length - 1) {
+  let ok = [];
+  let err = [];
+  _.forEach(invitation.players, (player) => {
     mailer.use('compile', hbs(options));
     mailer.sendMail({
       from: 'king-Pong@mail.com',
-      to: invitation.player[i].email,
+      to: player.email,
       subject: 'invitation au défi' + activityName,
       template: 'email_body',
       context: {
-        id: invitation._id,
-        invite: invitation.player[i].pseudo,
+        id: _id,
+        invite: player.pseudo,
         date: moment(challenge.date).format('LL'),
         time: moment(challenge.time).format('LT'),
         duration: challenge.duration,
@@ -71,41 +73,37 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
       }
     }, function(error, response) {
       if (error) {
-        err.push(invitation.player[i]);
-        console.log(error);
+        err.push(player);
       } else {
-        ok.push(invitation.player[i]);
-        console.log('mail sent to ' + invitation.player[i].email);
+        ok.push(player);
+        console.log('mail sent to ' + player.email);
         mailer.close();
       }
-      invitationAsync(invitation, mailer, i + 1, ok, err, callback);
     });
-
-  } else {
-    callback(err, ok);
-  }
-
+  });
+  callback(err, ok);
 }
 
-function filterInvitaions(invitations, player, community, callback) {
+function userCommunityFilter(challenges, params) {
   let array = [];
-
-  invitations.map((invitation) => {
-    let players = invitation.player;
-    let date = invitation.challenge.date;
-    let diff = moment(date).fromNow();
-    players.map(user => {
-      if (user == player && invitation.challenge.community == community) {
-        array.push({
-          invitation,
-          diff
-        });
-      }
-
+  _.forEach(challenges, (challenge) => {
+    _.forEach(challenge.teams, (team) => {
+      _.forEach(team.players, (player) => {
+        if (player._id == params.player && challenge.community == params.community) {
+          array.push(challenge);
+        }
+      });
     });
-
   });
-  callback(array);
+  return array;
+}
+
+function timeDiff(challenges) {
+  return _.map(challenges, (challenge) => {
+    return _.assign({
+      diff: moment(challenge.date).fromNow()
+    }, challenge._doc);
+  });
 }
 
 
@@ -157,13 +155,11 @@ export default class Activity {
           if (err || !invitations) {
             res.sendStatus(404);
           } else {
-            filterInvitaions(invitations, req.query.player, req.query.community, function(result) {
-              res.json(
-                result
-              );
-            });
+            const challenges = _.map(invitations, (invitation) => invitation.challenge);
+            res.json(timeDiff(userCommunityFilter(challenges, req.query)));
           }
-        });
+        }
+      );
   }
 
   valideInvitation(req, res) {
@@ -194,10 +190,7 @@ export default class Activity {
                 });
               }
             });
-
           });
-
-
           res.json(invitation);
         }
       });
@@ -233,7 +226,7 @@ export default class Activity {
               res.sendStatus(500);
               console.log(err);
             } else {
-              invitationAsync(result, mailer, 0, [], [], function(err, ok) {
+              invitationAsync(result, mailer, function(err, ok) {
                 res({
                   status: 'mail send ' + ok.length + ' of ' + req.player.length,
                   error: err

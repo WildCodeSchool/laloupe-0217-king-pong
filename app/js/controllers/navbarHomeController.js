@@ -18,47 +18,42 @@ angular.module('app')
 
 
     //functions
-    function refactoringInvitations(array) {
-      array.forEach(function(element) {
-        element.invitation.challenge.nbPlayer = [];
-        element.invitation.challenge.teams.forEach(function(team) {
-          team.players.forEach(function(player) {
-            element.invitation.challenge.nbPlayer.push(player.avatar);
-          });
-        });
-        return element;
-      });
-      return array;
-    }
 
-    function refactoring(array, callback) {
-      array.forEach(function(element) {
-        element.challenge.nbPlayer = [];
-        element.challenge.teams.forEach(function(team) {
-          team.players.forEach(function(player) {
-            element.challenge.nbPlayer.push(player.avatar);
+    function refactoring(array) {
+      if (array !== undefined) {
+        array.forEach(function(challenge) {
+          challenge.nbPlayer = [];
+          challenge.teams.forEach(function(team) {
+            team.players.forEach(function(player) {
+              challenge.nbPlayer.push(player.avatar);
+            });
           });
         });
-        return element;
-      });
-      return array;
+        return array;
+      } else {
+        return [];
+      }
     }
 
     function filterDate(items, callback) {
       var finish = [];
       var notFinish = [];
-      items.map(function(element) {
-        var date = element.diff;
-        if (/^dans/.test(date)) {
-          notFinish.push(element);
-        } else {
-          finish.push(element);
-        }
-      });
+      if (items !== undefined) {
+        items.map(function(element) {
+          var date = element.diff;
+          if (/^dans/.test(date)) {
+            notFinish.push(element);
+          } else {
+            finish.push(element);
+          }
+        });
+      }
       callback(null, {
         finish: finish,
         notFinish: notFinish
       });
+
+
     }
 
     $(document).ready(function() {
@@ -120,11 +115,14 @@ angular.module('app')
         player: userId,
         community: currentCommunity
       }).then(function(res) {
-        console.log(res.data);
-        $scope.invitations = res.data;
-        refactoringInvitations($scope.invitations);
-        SharingDataService.sendInvitations($scope.invitations);
-
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            SharingDataService.sendInvitations(result.notFinish);
+            $scope.invitations = result.notFinish;
+          }
+        });
       });
       ChallengeService.getByUser({
         player: userId,
@@ -138,8 +136,6 @@ angular.module('app')
             SharingDataService.sendArbitrages(result.finish);
             SharingDataService.sendPlayerDefies(result.notFinish);
           }
-
-
         });
       });
 
@@ -150,7 +146,7 @@ angular.module('app')
             console.log(err);
           }
           $scope.communityDefies = result.notFinish;
-          SharingDataService.sendCommunity($scope.communityDefies);
+          SharingDataService.sendCommunity(result.notFinish);
         });
       });
     }
