@@ -120,7 +120,6 @@ angular.module('app')
         player: userId,
         community: currentCommunity
       }).then(function(res) {
-        console.log(res.data);
         $scope.invitations = res.data;
         refactoringInvitations($scope.invitations);
         SharingDataService.sendInvitations($scope.invitations);
@@ -130,6 +129,7 @@ angular.module('app')
         player: userId,
         community: currentCommunity
       }).then(function(res) {
+        console.log(res.data);
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {
             console.log(err);
