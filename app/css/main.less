@@ -114,6 +114,11 @@ md-tabs {
   }
 }
 
+select:focus {
+    outline: 1px solid @purple !important;
+}
+
+
 
 // -----------------------------------------------------------------------------
 // **********************Navbar********************************************
@@ -286,7 +291,9 @@ md-tabs md-ink-bar  {
 }
 md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
   color: white !important;
+
 }
+
 // -----------------------------------------------------------------------------
 // **********************Register********************************************
 // -----------------------------------------------------------------------------
@@ -324,17 +331,13 @@ md-toolbar:not(.md-menu-toolbar) {
   background-color: @purple;
 }
 
-.xtraLarge {
-  height: 70px;
-  width: 70px;
-  line-height: 70px;
-}
+
 
 .pseudo-sidenav {
   color: white;
 }
 
-.avatar {
+.circle.avatar {
   width: 130px;
   height: 130px;
   margin-left: 33%;

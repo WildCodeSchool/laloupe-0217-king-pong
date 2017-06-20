@@ -1,11 +1,12 @@
-angular.module('app').controller('MainController', function($scope,$rootScope,$log, $timeout, CurrentUser, $state, $window, LocalService, SharingDataService, InvitationService, ChallengeService) {
+angular.module('app').controller('MainController', function($scope, Auth, CurrentUser, $log, $state, $window, $timeout, LocalService, SharingDataService) {
 
-  $scope.onReadySwiper = function (swiper) {
 
-      console.log(swiper);
-    };
   // variables
   var userId = CurrentUser.user()._id;
+  var currentCommunity = CurrentUser.user().community[CurrentUser.user().community.length - 1];
+  var today = new Date();
+  var datas = {};
+  $scope.user = CurrentUser.user();
   $scope.community = {};
   $scope.invitations = {};
   $scope.arbitrages = {};
@@ -13,90 +14,30 @@ angular.module('app').controller('MainController', function($scope,$rootScope,$l
   $scope.communityDefies = {};
 
 
-  //functions
-  function refactoringInvitations(array) {
-    array.map(function(element) {
-      element.invitation.challenge.nbPlayer = [];
-      element.invitation.challenge.teams.map(function(team) {
-        team.players.map(function(player) {
-          element.invitation.challenge.nbPlayer.push(player.avatar);
-        });
-      });
-      return element;
-    });
-    return array;
-  }
+  //SharingDataService for adding value of NavbarHomeController
+  $scope.$watch(function() {
+    return SharingDataService.getInvitations();
+  }, function(newValue, oldValue) {
+    $scope.invitations = newValue;
+  });
+  $scope.$watch(function() {
+    return SharingDataService.getArbitrages();
+  }, function(newValue, oldValue) {
+    $scope.arbitrages = newValue;
+  });
+  $scope.$watch(function() {
+    return SharingDataService.getPlayerDefies();
+  }, function(newValue, oldValue) {
+    $scope.playerChallenges = newValue;
+  });
+  $scope.$watch(function() {
+    return SharingDataService.getCommunity();
+  }, function(newValue, oldValue) {
+    $scope.communityDefies = newValue;
+  });
 
 
-  function refactoring(array, callback) {
-    array.map(function(element) {
-      element.challenge.nbPlayer = [];
-      element.challenge.teams.map(function(team) {
-        team.players.map(function(player) {
-          element.challenge.nbPlayer.push(player.avatar);
-        });
-      });
-      return element;
-    });
-    callback(array);
-  }
-
-
-  function filterDate(items, callback) {
-    var finish = [];
-    var notFinish = [];
-    items.map(function(element) {
-      var date = element.diff;
-      if (/^dans/.test(date)) {
-        notFinish.push(element);
-      } else {
-        finish.push(element);
-      }
-    });
-    callback({
-      finish: finish,
-      notFinish: notFinish
-    });
-  }
-
-
-  function launchServices(userId, community) {
-    InvitationService.getByUser({
-      player: userId,
-      community: community
-    }).then(function(res) {
-      $scope.invitations = res.data;
-      refactoringInvitations($scope.invitations);
-      SharingDataService.sendSumA($scope.invitations.length);
-    });
-
-
-    ChallengeService.getByUser({
-      player: userId,
-      community: community
-    }).then(function(res) {
-      refactoring(res.data, function(newData) {
-        filterDate(newData, function(result) {
-          $scope.arbitrages = result.finish;
-          $scope.playerChallenges = result.notFinish;
-            SharingDataService.sendSumB($scope.arbitrages.length);
-        });
-      });
-    });
-
-
-    ChallengeService.getByCommunity(community).then(function(res) {
-      refactoring(res.data, function(newData) {
-        filterDate(newData, function(result) {
-          $scope.communityDefies = result.notFinish;
-        });
-      });
-    });
-
-  }
-
-
-  // slider options breakpoints
+  // slider options break
   $scope.slideOption = {
     'slidesPerView': 5,
     'spaceBetween': 20,
@@ -129,7 +70,6 @@ angular.module('app').controller('MainController', function($scope,$rootScope,$l
     }
   };
 
-
   // cards buttons
   $scope.goToInvitation = function(object) {
     console.log(object);
@@ -138,38 +78,34 @@ angular.module('app').controller('MainController', function($scope,$rootScope,$l
       id: object.invitation._id
     });
   };
-
-
   $scope.goToArbitrage = function(id) {
     $state.go("user.arbitrage", {
       id: id
     });
   };
-
-
   $scope.goToResum = function(id) {
     $state.go("user.resum", {
       id: id
     });
   };
 
-
   //newDefy buton with scroll effect
   var axis = $window.pageYOffset;
+  var timer;
   $scope.showButton = true;
 
-
   angular.element($window).bind("scroll", function() {
-    if (axis < $window.pageYOffset) {
-      $scope.showButton = false;
+    $scope.showButton = false;
+    if (axis !== $window.pageYOffset) {
       axis = $window.pageYOffset;
-    } else {
-      $scope.showButton = true;
-      axis = $window.pageYOffset;
+      $timeout.cancel(timer);
+      timer = $timeout(function() {
+        $scope.showButton = true;
+      }, 1000);
     }
+    axis = $window.pageYOffset;
     $scope.$apply();
   });
-
 
   $scope.toCreate = function() {
     var community = JSON.parse(LocalService.get('community'));
@@ -177,17 +113,5 @@ angular.module('app').controller('MainController', function($scope,$rootScope,$l
       community: community._id
     });
   };
-
-
-  //launch function with timer for adding community _id from NavbarHomeController and launch services
-  var timer = $timeout(function() {
-    $scope.$watch(function() {
-      return SharingDataService.getCommunity();
-    }, function(newValue, oldValue) {
-      launchServices(userId, newValue);
-    });
-
-  }, 100);
-
 
 });

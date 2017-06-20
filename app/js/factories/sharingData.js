@@ -1,28 +1,34 @@
 angular.module('app')
   .factory('SharingDataService', function() {
-    var community,
-        numberA,
-        numberB;
+    var invitations,arbitrages,playerDefies,communityDefies;
 
     return {
+      sendInvitations: function(data) {
+        invitations = data;
+      },
+      sendArbitrages: function(data) {
+        arbitrages = data;
+      },
+      sendPlayerDefies: function(data) {
+        playerDefies = data;
+      },
       sendCommunity: function(data) {
-        community = data;
+        communityDefies = data;
       },
 
+      getInvitations: function() {
+        return invitations;
+      },
+      getArbitrages: function() {
+        return arbitrages;
+      },
+      getPlayerDefies: function() {
+        return playerDefies;
+      },
       getCommunity: function() {
-        return community;
-      },
-
-      sendSumA: function(data){
-        numberA = data;
-      },
-
-      sendSumB: function(data){
-        numberB = data;
-      },
-
-      getSum: function(){
-        return numberA + numberB;
+        return communityDefies;
       }
+
+
     };
   });

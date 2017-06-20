@@ -5,6 +5,7 @@ import Activity from './activity.js';
 import Team from './team';
 import Invitation from './invitation';
 import moment from 'moment';
+import _ from 'lodash';
 
 
 
@@ -77,32 +78,32 @@ function teamAsynchrome(teams, infos, author, i, array, request, callback) {
     });
 
   } else {
-    callback(array);
+    callback(null,array);
   }
 }
 
 function filterUser(challenges,user,callback){
   let array =[];
-  challenges.map(challenge =>{
-      challenge.teams.map(team =>{
-      team.players.map( player =>{
+  challenges.forEach(challenge =>{
+      challenge.teams.forEach(team =>{
+      team.players.forEach( player =>{
         if (player._id == user){
           array.push(challenge);
         }
       });
     });
   });
-  callback(array);
+  callback(null, array);
 }
 
 function timeDiff(challenges,callback){
 let data =[];
-  challenges.map(challenge=>{
+  challenges.forEach(challenge=>{
     let date = challenge.date;
     let diff = moment(date).fromNow();
     data.push({challenge,diff});
   });
-  callback(data);
+  callback(null, data);
 }
 
 //models
@@ -155,7 +156,7 @@ export default class Challenge {
           res.sendStatus(403);
         } else {
           console.log(challenges);
-          timeDiff(challenges,(results)=>{
+          timeDiff(challenges,(err, results)=>{
 
             res.json(results);
           });
@@ -184,8 +185,8 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            filterUser(challenges,req.query.player,function(result){
-              timeDiff(result, (results)=>{
+            filterUser(challenges,req.query.player,function(err, result){
+              timeDiff(result, (err, results)=>{
 
                 res.json(results);
               });
@@ -208,7 +209,7 @@ export default class Challenge {
           challenge: challenge._id,
           maxPlayer: challenge.maxPlayers
         };
-        teamAsynchrome(req.body.teams, teamInfos, author, 0, [], team, function(teams) {
+        teamAsynchrome(req.body.teams, teamInfos, author, 0, [], team, function(err,teams) {
           model.findOneAndUpdate({
             _id: challenge._id
           }, {
@@ -225,7 +226,7 @@ export default class Challenge {
                 challenge: challenge._id,
                 player: req.body.invite
               };
-              invitation.create(invitations, (response) => {
+              invitation.create(invitations, (err,response) => {
                 res.json({
                   mail: response,
                   challenge: challenge,
