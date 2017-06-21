@@ -99,12 +99,12 @@ angular.module('app')
 
 
             ChallengeService.create(totalInfo);
-            $state.go('user.home');
+            $state.go('main.home');
 
 
         };
         $scope.goToHome = function() {
-            $state.go('user.home');
+            $state.go('main.home');
         };
         $scope.myVarBefore = false;
         $scope.toggle = function() {
@@ -112,7 +112,7 @@ angular.module('app')
 
 // <<<<<<< philBranch7
 
-//         };
+        };
 //         CommunityService.getOne(community).then(function(res) {
 //             res.data.users.forEach(function(users) {
 //                 users.check = false;
@@ -125,7 +125,7 @@ angular.module('app')
 //       $scope.invite = $scope.communitys.filter(function(users) {
 // >>>>>>> dev
 
-        });
+        // });
         $scope.addInvite = function() {
             $scope.invite = [];
             $scope.myVarBefore = true;
