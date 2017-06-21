@@ -4,8 +4,8 @@ angular.module('app')
             create: function(player){
               return $http.post('/teams', player);
             },
-            addPlayer: function(player){
-              return $http.post('/teams', player);
+            addPlayer: function(teamId,infos){
+              return $http.put('/teams/invitation/'+ teamId, infos);
             },
             update: function(id, user) {
                 return $http.put('/teams/' + id, user);

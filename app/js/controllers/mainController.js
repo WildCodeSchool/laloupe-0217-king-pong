@@ -73,9 +73,8 @@ angular.module('app').controller('MainController', function($scope, Auth, Curren
   // cards buttons
   $scope.goToInvitation = function(object) {
     console.log(object);
-
     $state.go("user.invitations", {
-      id: object.invitation._id
+      id: object._id
     });
   };
   $scope.goToArbitrage = function(id) {
