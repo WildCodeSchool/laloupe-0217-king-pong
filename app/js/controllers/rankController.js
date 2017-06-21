@@ -2,14 +2,11 @@ angular.module('app')
     .controller('RankController', function($scope, CurrentUser) {
         $scope.user = CurrentUser.user();
 
-
-
         $scope.scores = [{
 
             pseudo: 'nail',
-            avatar: 'encour',
-            classement: 2,
-            point: 5,
+            avatar: 'Avatar',
+            point:'',
             play: 13,
             win: 7,
             nul: 2,
@@ -17,9 +14,8 @@ angular.module('app')
         },
         {
             pseudo: 'fifi',
-            avatar: 'encour',
-            classement: 1,
-            point: 5,
+            avatar: 'Avatar',
+            point:'',
             play: 18,
             win: 9,
             nul: 0,
@@ -27,23 +23,20 @@ angular.module('app')
         },
         {
             pseudo: 'jojo',
-            avatar: 'encour',
-            classement: 3,
-            point: 5,
+            avatar: 'Avatar',
+            point:'',
             play: 13,
             win: 7,
             nul: 2,
             lost: 4
         }];
 
-var scores = $scope.scores;
+var players = $scope.scores;
 
+players.forEach(function(player){
+  player.point = player.win * 3 + player.nul * 1 ;
+});
 
+console.log('Après for Each : ', players);
 
-  for (var i = 0; i < scores.length; i++) {
-  return scores[i].classement;
-
-}
-
-
-    });
+});

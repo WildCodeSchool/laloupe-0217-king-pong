@@ -12,11 +12,11 @@
     <div class="col s1">N.</div>
     <div class="col s1">P.</div>
 </div>
-<ul ng-repeat="score in scores | orderBy : 'classement'">
+<ul ng-repeat="score in scores | orderBy : '-point'">
     <li "collection-item">
         <div class="row but">
             <div class="col s1">
-                {{score.classement}}
+                {{$index+1}}
             </div>
             <div class="col s4 border">
                 {{score.avatar}} {{score.pseudo}}
