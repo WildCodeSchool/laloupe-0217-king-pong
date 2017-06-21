@@ -6,6 +6,11 @@ import Team from './team';
 import Invitation from './invitation';
 import moment from 'moment';
 import _ from 'lodash';
+import {
+  teamAsynchrome,
+  userFilter,
+  timeDiff
+} from '../../function.js';
 
 
 
@@ -63,42 +68,6 @@ const challengeSchema = new mongoose.Schema({
   }]
 });
 
-//function
-moment.locale('fr');
-
-function teamAsynchrome(teams, infos, request, callback) {
-  let array = [];
-  _.forEach(teams, (team) => {
-    request.create(infos, (res) => {
-      array.push(res);
-      delete infos.players;
-    });
-  });
-  callback(null, array);
-}
-
-function userFilter(challenges, user) {
-  let array = [];
-  _.forEach(challenges, (challenge) => {
-    _.forEach(challenge.teams, (team) => {
-      _.forEach(team.players, (player) => {
-        if (player._id == user) {
-          array.push(challenge);
-        }
-      });
-    });
-  });
-  return array;
-}
-
-
-function timeDiff(challenges) {
-  return _.map(challenges, (challenge) => {
-    return _.assign({
-      diff: moment(challenge.date).fromNow()
-    }, challenge._doc);
-  });
-}
 
 //models
 let model = mongoose.model('Challenge', challengeSchema);
@@ -189,9 +158,9 @@ export default class Challenge {
         let teamInfos = {
           players: [challenge.author],
           challenge: challenge._id,
-          maxPlayer: challenge.maxPlayers
+          maxPlayer: challenge.maxPlayers,
         };
-        teamAsynchrome(req.body.teams, teamInfos, team, function(err, teams) {
+        teamAsynchrome(req.body.teams, teamInfos, 0, [], team, function(err, teams) {
           model.findOneAndUpdate({
             _id: challenge._id
           }, {
@@ -206,9 +175,10 @@ export default class Challenge {
               challenge = result;
               let invitations = {
                 challenge: challenge._id,
-                player: req.body.invite
+                players: req.body.invite
               };
               invitation.create(invitations, (err, response) => {
+
                 res.json({
                   mail: response,
                   challenge: challenge,
