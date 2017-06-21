@@ -102,7 +102,6 @@ angular.module('app')
             $state.go('user.home');
 
 
-
         };
         $scope.goToHome = function() {
             $state.go('user.home');
@@ -111,12 +110,20 @@ angular.module('app')
         $scope.toggle = function() {
             $scope.myVarBefore = !$scope.myVarBefore;
 
+// <<<<<<< philBranch7
 
-        };
-        CommunityService.getOne(community).then(function(res) {
-            res.data.users.forEach(function(users) {
-                users.check = false;
-            });
+//         };
+//         CommunityService.getOne(community).then(function(res) {
+//             res.data.users.forEach(function(users) {
+//                 users.check = false;
+//             });
+// =======
+//     };
+//     $scope.addInvite = function() {
+//       $scope.invite = [];
+//       $scope.myVarBefore = true;
+//       $scope.invite = $scope.communitys.filter(function(users) {
+// >>>>>>> dev
 
         });
         $scope.addInvite = function() {
@@ -135,5 +142,21 @@ angular.module('app')
             console.log($scope.invite);
         };
 
+    //service
+    CommunityService.getOne(community).then(function(res) {
+      console.log(res);
+      res.data.users.forEach(function(users) {
+        users.check = false;
+      });
+      $scope.communitys = res.data.users;
+
+    });
+
+    // TODO: unset sessionservice when quit create defy
+    // TODO: limit invitation au max player -1 en comptant le créateur du defy
+    // TODO: required sur l'ensemble du formulaire pour ne pas envoyer de champ vide
+    // TODO: ne pas mettre une date antérieur à celle en cours
+    // TODO: le date picker est à la date actuel(facultatif)
+    // TODO: supprimer l'author de la liste des inviter
 
     });

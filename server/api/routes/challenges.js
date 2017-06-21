@@ -8,7 +8,11 @@ module.exports = (app) => {
 
     var challenge = new Challenge();
 
-    router.get('/:id', challenge.findById);
+    router.get('/user/', challenge.findByUSerAndCommunity);
+
+    router.get('/', challenge.findAll);
+
+    router.get('/community/:community', challenge.findByCommunity);
     //
     router.put('/:id', challenge.update);
     //
@@ -16,7 +20,6 @@ module.exports = (app) => {
     // //
         router.post('/',challenge.create);
     //
-    router.get('/', challenge.findAll);
 
     app.use('/challenges', router);
 

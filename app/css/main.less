@@ -113,6 +113,13 @@ md-tabs {
     background-color: @purple;
   }
 }
+
+select:focus {
+    outline: 1px solid @purple !important;
+}
+
+
+
 // -----------------------------------------------------------------------------
 // **********************Navbar********************************************
 // -----------------------------------------------------------------------------
@@ -270,21 +277,23 @@ h1 {
 // **********************navbar-home********************************************
 // -----------------------------------------------------------------------------
 
-.tabs {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+
+
+
+.md-tab {
+  width:50%;
 }
 
-.tabs .tab {
-  -webkit-flex-grow: 2;
-  -ms-flex-positive: 2;
-  flex-grow: 2;
+md-tabs md-ink-bar  {
+    color: @purple!important;
+    background-color:rgb(0, 212, 215) !important;
+    width: 50%;
+}
+md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
+  color: white !important;
+
 }
 
-.tabs .tab a {
-  padding: 0 12px;
-}
 // -----------------------------------------------------------------------------
 // **********************Register********************************************
 // -----------------------------------------------------------------------------
@@ -322,17 +331,13 @@ md-toolbar:not(.md-menu-toolbar) {
   background-color: @purple;
 }
 
-.xtraLarge {
-  height: 70px;
-  width: 70px;
-  line-height: 70px;
-}
+
 
 .pseudo-sidenav {
   color: white;
 }
 
-.avatar {
+.circle.avatar {
   width: 130px;
   height: 130px;
   margin-left: 33%;
@@ -382,9 +387,6 @@ span.badge.nav-badge {
   margin-left: 15px;
 }
 
-.tabs.tabs-transparent .indicator {
-  background-color: rgb(0, 212, 215);
-}
 
 .animate-show-hide.ng-hide {
   opacity: 0;
@@ -600,11 +602,11 @@ span.plus{
 
 .challengeImage {
   z-index: 1;
-  filter: brightness(70%);
-  -webkit-filter: brightness(70%);
-  -moz-filter: brightness(70%);
-  -o-filter: brightness(70%);
-  -ms-filter: brightness(70%);
+  filter: brightness(65%);
+  -webkit-filter: brightness(65%);
+  -moz-filter: brightness(65%);
+  -o-filter: brightness(65%);
+  -ms-filter: brightness(65%);
   position: relative;
 }
 
