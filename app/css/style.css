@@ -28,16 +28,28 @@
 }
 
 .bckgrd-participant {
+    margin-left: -20px;
+    color: grey;
     margin-bottom: 10px;
-    margin-right: -10px;
     padding-top: 10px;
-    height: 50px;
-    width: auto;
+    padding-left: 10px;
+    height: 70px;
+    width: 500px;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    border-color: #D8D8D8;
     background-color: #eeeeee;
 }
 
 .circle {
-    height: 80px;
+    height: 40px !important;
+    width: 40px !important
+}
+
+.circleDefi {
+    border-radius: 50%!important;
+    height: 100px !important;
+    width: 100px !important
 }
 
 .validate {
@@ -74,6 +86,7 @@
 
 .nav-wrapper {
     padding-top: 8px !important;
+    padding-left: 16px !important;
 }
 
 .valideButton {
@@ -94,6 +107,7 @@
     margin-left: 20px;
 }
 
+
 /*.row {
     margin-left: 10px;
 }*/
@@ -103,6 +117,7 @@
 }
 
 .inviteNavigate {
+  color: #A4A4A4;
     margin-left: 90%;
 }
 
@@ -111,9 +126,106 @@
     justify-content: space-between;
     border-bottom: solid 1px;
 }
-.checkBox{
-  margin-top: 20px;
+
+.checkBox {
+    margin-top: 20px;
 }
-.invitePseudo{
-  margin-top: 20px;
+
+.invitePseudo {
+    margin-top: 20px;
+}
+
+.ng-pristine {
+    border-bottom: 0px !important;
+}
+.ng-valid{
+  border-bottom: 0px !important;
+}
+
+.md-datepicker-input {
+    border-bottom: 0px !important;
+}
+
+.blocInput {
+    margin-top: -20px;
+    height: 70px;
+    width: 400px;
+}
+
+.blocInput1 {
+  padding-right: 10px;
+    margin-top: -20px;
+    border-bottom: 1px solid;
+    border-color: #D8D8D8;
+    height: 70px;
+    width: 400px;
+}
+
+.blocInput2 {
+    border-color: #D8D8D8;
+    height: 70px;
+    width: 400px;
+}
+
+.blocInput3 {
+    border-bottom: 1px solid;
+    border-color: #D8D8D8;
+    height: 70px;
+    width: 400px;
+}
+
+.blocInput4 {
+    border-bottom: 1px solid;
+    border-color: #D8D8D8;
+    height: 70px;
+    width: 400px;
+}
+
+.blocInput5 {
+    border-bottom: 1px solid;
+    border-color: #D8D8D8;
+    height: 70px;
+    width: 400px;
+}
+
+.blocInput6 {
+    border-bottom: 1px solid;
+    border-color: #D8D8D8;
+    height: 68px;
+    width: 400px;
+}
+
+.formBlocDiv {
+    border-bottom: 1px solid;
+    border-color: #D8D8D8;
+    padding-bottom: 60px;
+    text-align: left !important;
+    width: 395px;
+    height: 40px;
+}
+
+.datepicker {
+    border-bottom: 1px solid;
+    border-color: #D8D8D8;
+    padding-bottom: 30px;
+    text-align: left;
+    width: 400px;
+    height: 70px;
+}
+
+.policeInput {
+    font-size: 2em;
+}
+
+.labelForm {
+    color: grey;
+    font-size: 12px;
+}
+.alignInput{
+  color: #A4A4A4;
+  display:flex;
+  justify-content: space-between;
+}
+.inlineInvite{
+  display: inline-flex;
 }
