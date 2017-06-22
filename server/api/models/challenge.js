@@ -5,6 +5,12 @@ import Activity from './activity.js';
 import Team from './team';
 import Invitation from './invitation';
 import moment from 'moment';
+import _ from 'lodash';
+import {
+  teamAsynchrome,
+  userFilter,
+  timeDiff
+} from '../../function.js';
 
 
 
@@ -62,49 +68,6 @@ const challengeSchema = new mongoose.Schema({
   }]
 });
 
-//function
-moment.locale('fr');
-
-function teamAsynchrome(teams, infos, author, i, array, request, callback) {
-  if (i === 0) {
-    infos.players = [author];
-  }
-  if (i <= teams.length - 1) {
-    request.create(infos, (res) => {
-      array.push(res);
-      delete infos.players;
-      teamAsynchrome(teams, infos, author, i + 1, array, request, callback);
-    });
-
-  } else {
-    callback(array);
-  }
-}
-
-function filterUser(challenges,user,callback){
-  let array =[];
-  challenges.map(challenge =>{
-      challenge.teams.map(team =>{
-      team.players.map( player =>{
-        if (player._id == user){
-          array.push(challenge);
-        }
-      });
-    });
-  });
-  callback(array);
-  console.log(array);
-}
-
-function timeDiff(challenges,callback){
-let data =[];
-  challenges.map(challenge=>{
-    let date = challenge.date;
-    let diff = moment(date).fromNow();
-    data.push({challenge,diff});
-  });
-  callback(data);
-}
 
 //models
 let model = mongoose.model('Challenge', challengeSchema);
@@ -124,46 +87,42 @@ export default class Challenge {
     });
   }
 
-  findById(req, res) {
-    model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
-      (err, challenge) => {
-        if (err || !challenge) {
-          res.sendStatus(403);
-        } else {
-          res.json(challenge);
-        }
-
-      });
-  }
+  // findById(req, res) {
+  //   model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
+  //     (err, challenge) => {
+  //       if (err || !challenge) {
+  //         res.sendStatus(403);
+  //       } else {
+  //         res.json(challenge);
+  //       }
+  //
+  //     });
+  // }
   findByCommunity(req, res) {
-    model.find(req.params.community
-    ).populate('activity')
-    .populate({
-      path: 'author',
-      select: 'avatar pseudo'
-    })
-    .populate({
-      path: 'teams',
-      populate: {
-        path: 'players',
+    model.find({
+        community: req.params.community
+      }).populate('activity')
+      .populate({
+        path: 'author',
         select: 'avatar pseudo'
-      }
-    })
-    .exec(
-      (err, challenges) => {
-        if (err || !challenges) {
-          res.sendStatus(403);
-        } else {
-          timeDiff(challenges,(results)=>{
-
-            res.json(results);
-          });
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo'
         }
-
-      });
+      })
+      .exec(
+        (err, challenges) => {
+          if (err || !challenges) {
+            res.sendStatus(403);
+          } else {
+            res.json(timeDiff(challenges));
+          }
+        });
   }
   findByUSerAndCommunity(req, res) {
-    console.log('ici',req.query);
     model.find({
         community: req.query.community
       })
@@ -184,34 +143,24 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            filterUser(challenges,req.query.player,function(result){
-              console.log(result);
-              timeDiff(result, (results)=>{
-
-                res.json(results);
-              });
-
-            });
-
+            res.json(timeDiff(userFilter(challenges, req.query.player)));
           }
-
-        });
+        }
+      );
   }
   create(req, res) {
     let challenge = {},
       mail = {};
-    console.log('creation');
     model.create(req.body.infoChallenge, (err, challenge) => {
       if (err) {
         res.status(500).send(err.message);
       } else {
-        let author = challenge.author;
         let teamInfos = {
+          players: [challenge.author],
           challenge: challenge._id,
-          maxPlayer: challenge.maxPlayers
+          maxPlayer: challenge.maxPlayers,
         };
-        teamAsynchrome(req.body.teams, teamInfos, author, 0, [], team, function(teams) {
-          console.log("team");
+        teamAsynchrome(req.body.teams, teamInfos, 0, [], team, function(err, teams) {
           model.findOneAndUpdate({
             _id: challenge._id
           }, {
@@ -222,16 +171,14 @@ export default class Challenge {
           }, (err, result) => {
             if (err || !result) {
               res.sendStatus(404);
-              console.log(err);
             } else {
-              console.log('update');
               challenge = result;
               let invitations = {
                 challenge: challenge._id,
-                player: req.body.invite
+                players: req.body.invite
               };
-              invitation.create(invitations, (response) => {
-                console.log('invite');
+              invitation.create(invitations, (err, response) => {
+
                 res.json({
                   mail: response,
                   challenge: challenge,

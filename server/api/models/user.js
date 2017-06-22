@@ -126,7 +126,6 @@ export default class User {
       if (err || !user) {
         res.status(404);
       } else {
-        console.log(user);
         res.json(user);
       }
     });
@@ -139,7 +138,6 @@ export default class User {
         if (err || !user) {
           res.status(404);
         } else {
-          console.log(user);
           res.json(user);
         }
       });
@@ -193,6 +191,7 @@ export default class User {
     });
   }
   addCommunity(req, res) {
+    console.log(req.body);
     model.findOneAndUpdate({
       _id: req.params.id
     },{$addToSet:{community:req.body.community}},{upsert:true, new: true}, (err, user) => {

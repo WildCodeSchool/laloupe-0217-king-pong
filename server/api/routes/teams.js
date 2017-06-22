@@ -12,6 +12,8 @@ module.exports = (app) => {
 
     router.get('/:id', team.findById);
     //
+    router.put('/invitation/:id', team.valideInvitation);
+
     router.put('/:id', team.update);
     //
     router.delete('/:id', team.delete);

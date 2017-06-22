@@ -10,7 +10,7 @@
 <div class="cadre">
     <md-subheader class="md-no-sticky">
 
-        <img src="img/carlin.jpg" alt="" class="circle">
+        <img src="{{user.avatar}}" alt="" class="circleDefi">
         <p>Créer un nouveau défi</p>
 
     </md-subheader><br>
@@ -18,42 +18,54 @@
 <br><br>
 <div class="blocEntier ng-show" ng-hide="myVarBefore">
 
-    <div class="row">
-        <form class="col s12">
-            <div class="row">
-                <label for="activity">Activité</label>
-                <div class="input-field col s12">
-                    <input id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
+    <form>
+        <div class="row">
+            <div class="blocInput1 ">
+                <div class="alignInput">
+                    <label for="activity">Activité</label>
+                    <i class="material-icons" ng-click="filterActivity()">keyboard_arrow_right</i>
                 </div>
+
+                <input id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
+
             </div>
-            <!-- Calendrier datepicker -->
-            <div class="row">
-                <label for="start">Date et heure</label>
+        </div>
+
+        <!-- Calendrier datepicker -->
+        <div class="row">
+            <div class="datepicker">
+                <label for="start">Début</label>
                 <div class="input-field col s12">
                     <div layout-gt-xs="row">
                         <div flex-gt-xs>
-                            <md-datepicker ng-model="myDate" md-placeholder="Saisir la date"></md-datepicker>
-                            <div class="timefield">
-                                <input placeholder="Entrez une heure" type="time" ng-model="startTime">
-                            </div>
+                            <md-datepicker ng-model="myDate"></md-datepicker>
                         </div>
                     </div>
                 </div>
             </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <md-select placeholder="Indiquer la durée du défi" ng-model="duration">
-                <md-option ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
-                <label for="duration">Durée</label>
-            </md-select>
         </div>
-    </div>
-    <div>
         <div class="row">
-            <div class="input-field col s12">
-                <input id="where" type="text" class="validate" ng-model="lieu">
+            <div class="formBlocDiv ">
+                <label for="start">Heure</label>
+                <input placeholder="Heure de début de mon défi" type="time" ng-model="startTime">
+            </div>
+        </div>
+        <div class="row">
+            <div class="blocInput2">
+                <label for="duration">Durée</label>
+                <div class="input-field col s12">
+                    <md-select placeholder="Combien de temps durera le défi" ng-model="duration">
+                        <md-option ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
+                    </md-select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="blocInput3">
                 <label for="where">Lieu</label>
+                <div class="input-field col s12">
+                    <input placeholder="Dans quelle ville aura lieu le défi" id="where" type="text" class="validate" ng-model="lieu">
+                </div>
             </div>
         </div>
         <div class="bloc-participant" ng-show="activity.activityName">
@@ -61,38 +73,41 @@
                 <p>Participants</p>
             </div>
             <div class="row">
-                <div class="input-field col s12">
-                    <input id="nbGroupe" type="number" class="validate" ng-model="activity.numberOfTeam">
+                <div class="  blocInput4 ">
                     <label for="nbGroupe">Nombre de groupe</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="nbParticipantGroupe" type="number" class="validate" ng-model="activity.numberOfplayer">
-                    <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <h>Invitations</h>
-                    <label for="invit"   ></label>
-                  <ul ng-repeat="user in invite">
-                    <li>
-                      <div class="chip">
-       <img src="{{user.avatar}}" alt="Contact Person">
-      {{user.pseudo}}
-     </div>
-                    </li>
-                  </ul>
-                    <div class="inviteNavigate">
-                        <i class="material-icons" ng-click="toggle()">></i>
-                    </div>
+                    <input id="nbGroupe" type="number" ng-model="activity.numberOfTeam">
                 </div>
             </div>
         </div>
-    </div>
-    <button class="btn blue" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
+        <div class="row">
+            <div class="  blocInput5">
+                <div class="input-field col s12">
+                    <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
+                    <input id="nbParticipantGroupe" type="number" ng-model="activity.numberOfplayer">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <h>Invitations</h>
+                <br>
+                <label for="invit"></label>
+                <ul class="inlineInvite" ng-repeat="user in invite">
+                    <li>
+
+                        <div class="chip">
+                            <img src="{{user.avatar}}" alt="Contact Person"> {{user.pseudo}}
+                        </div>
+                    </li>
+                </ul>
+                <div class="inviteNavigate">
+                    <i class="material-icons" ng-click="toggle()">keyboard_arrow_right</i>
+                </div>
+            </div>
+        </div>
 </div>
+</div>
+<button class="btn blue" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
 </div>
 <md-list-item class="md-3-line" ng-repeat="guest in communitys">
     <div class="md-list-item-text">

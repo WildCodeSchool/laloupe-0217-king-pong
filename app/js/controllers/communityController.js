@@ -24,7 +24,7 @@ angular.module('app')
       UserService.addCommunity(userId, {
         community: id
       }).then(function(res) {
-        $state.go('user.home');
+        $state.go('main.home');
       });
     };
   });

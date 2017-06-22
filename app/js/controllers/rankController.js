@@ -48,7 +48,29 @@ angular.module('app')
 }
 
 // var players = $scope.scores;
+//// var players = $scope.scores;
 //
+// players.forEach(function(player){
+//   player.point = player.win * 3 + player.nul * 1 ;
+// });
+//
+// ChallengeService.getScoreByCommunity(id).then(function(res){
+//   console.log(res.data);
+//   $scope.scores =res.data[0];
+// });
+//
+// var resultatForEachPlayer = [];
+//
+// res.data.forEach(function(activity){
+//   function containsPlayer(player, list){
+//     for (var i = 0; i < list.length; i++) {
+//       if (list[i] === player){
+//         console.log("player is already on you list");
+//       }
+//     }
+//     resultatForEachPlayer.push( list[i]);
+//   }
+// });
 // players.forEach(function(player){
 //   player.point = player.win * 3 + player.nul * 1 ;
 // });
