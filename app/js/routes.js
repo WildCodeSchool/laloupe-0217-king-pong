@@ -71,7 +71,7 @@ angular.module('app')
 
           'content@': {
             templateUrl: 'user/rank.html',
-            controller: 'MainController',
+            controller: 'RankController',
           }
         }
       });

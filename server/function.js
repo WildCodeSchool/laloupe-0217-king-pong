@@ -75,17 +75,7 @@ function userCommunityFilter(challenges, params) {
 
 //function for filter user
 function userFilter(challenges, user) {
-  let array = [];
-  challenges.forEach((challenge) => {
-    challenge.teams.forEach((team) => {
-      team.players.forEach((player) => {
-        if (player._id == user) {
-          array.push(challenge);
-        }
-      });
-    });
-  });
-  return array;
+  return challenges.filter((challenge) => challenge.teams.map((team) => team.players.map((player) =>  player._id == user)));
 }
 
 // function for adding time diff in challenge
@@ -97,5 +87,55 @@ function timeDiff(challenges) {
   });
 }
 
+function sortByActivity(challenges) {
+  let table = [];
+  challenges.forEach((challenge) => {
+    let activityName = challenge.activity.activityName;
+    challenge.teams.forEach((team) => {
+      let result = team.resultat;
+      team.players.forEach((player) => {
+        let playerId = player._id,
+          pseudo = player.pseudo,
+          avatar = player.avatar;
+        if (table.filter(activity => activity.name == activityName).length > 0) {
+          table.forEach((obj) => {
+            let activity = obj.name,
+              players = obj.players;
+            if (players.filter(player => player._id == playerId).length > 0) {
+              players[players.findIndex((player) => player._id === playerId)].result.push(result);
+            } else {
+              players.push({
+                _id: playerId,
+                pseudo: pseudo,
+                avatar: avatar,
+                result: [result]
+              });
+            }
+          });
+        } else {
+          table.push({
+            name: activityName,
+            players: [{
+              _id: playerId,
+              pseudo: pseudo,
+              avatar: avatar,
+              result: [result]
+            }]
+          });
+        }
+      });
+    });
+  });
+  return table;
+}
 
-export  {invitationAsync, teamAsynchrome, userCommunityFilter, userFilter, timeDiff};
+
+
+export {
+  invitationAsync,
+  teamAsynchrome,
+  userCommunityFilter,
+  userFilter,
+  timeDiff,
+  sortByActivity
+};

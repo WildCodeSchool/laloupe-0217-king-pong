@@ -115,6 +115,7 @@ angular.module('app')
         player: userId,
         community: currentCommunity
       }).then(function(res) {
+        console.log(refactoring(res.data));
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {
             console.log(err);

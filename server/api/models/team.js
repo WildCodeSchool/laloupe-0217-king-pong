@@ -15,9 +15,9 @@ const teamSchema = new mongoose.Schema({
     ref: "User"
   }],
 
-  resultat: [{
+  resultat: {
     type: String,
-  }],
+  },
   maxPlayer: {
     type: Object,
   }
