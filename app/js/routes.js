@@ -190,11 +190,11 @@ angular.module('app')
         views: {
           'navbar@': {
             templateUrl: 'user/homeNavbar.html',
-            controller: 'MainController'
+            controller: 'NavbarController'
           },
           'content@': {
             templateUrl: 'user/rank.html',
-            controller: 'MainController',
+            controller: 'RankController',
 
 
           }
