@@ -1,13 +1,13 @@
 <div class="nav-content">
     <ul class="tabs tabs-transparent">
         <!-- <li class="tab"><a ng-show = "afficherAngletGeneral()" ng-click="angletG =! angletG">General</a></li> -->
-          <li class="tab" ng-repeat="activity in activities track by $index" ng-click ="Goto{{activity.name}}">
+          <li class="tab" ng-repeat="activity in activities track by $index" ng-click="goto(activity.name)">
             <a>{{activity.name}}</a>
           </li>
           <!-- ng-show = "afficherAngletGeneral()" ng-click="{{activity.name}} =!{{activity.name}} " -->
 
     </ul>
-</div ng-show ="activity.name">
+
 <div class="row marquage">
     <div class="col s1 offset-s7">Pts.</div>
     <div class="col s1">J.</div>
@@ -15,33 +15,34 @@
     <div class="col s1">N.</div>
     <div class="col s1">P.</div>
 </div>
-<div >
-<ul ng-repeat="activity in activities | orderBy : '-point'">
-    <li "collection-item">
+
+  <div>
+<ul ng-repeat="activity in activities | filter: {name: filter}">
+    <li "collection-item" ng-repeat="player in activity.players | orderBy: '-result.play'">
         <div class="row but">
             <div class="col s1">
                 {{$index+1}}
             </div>
             <div class="col s4 border">
-                {{activity.name.player.avatar}} {{activity.name.player.pseudo}}
+                {{player.pseudo}}
             </div>
             <div class="col s2 border">
-
+              {{player.avatar}}
+           </div>
+            <div class="col s1 border">
+                {{player.result.play}}
             </div>
             <div class="col s1 border">
-                {{score.point}}
+                {{player.result.win}}
             </div>
             <div class="col s1 border">
-                {{score.play}}
+                {{player.result.win}}
             </div>
             <div class="col s1 border">
-                {{score.win}}
+                {{player.result.nul}}
             </div>
             <div class="col s1 border">
-                {{score.nul}}
-            </div>
-            <div class="col s1 border">
-                {{score.lost}}
+                {{player.result.lost}}
             </div>
         </div>
     </li>

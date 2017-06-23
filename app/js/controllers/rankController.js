@@ -14,23 +14,23 @@ angular.module('app')
                         pseudo: 'nail',
                         _id: 1,
                         avatar: 'avatar_en_cours',
-                        result: [{
+                        result: {
                             play: 13,
                             win: 7,
                             nul: 2,
                             lost: 4
-                        }]
+                        }
                     },
                     {
-                        pseudo: 'nail',
+                        pseudo: 'fifi',
                         _id: 1,
                         avatar: 'avatar_en_cours',
-                        result: [{
+                        result: {
                             play: 13,
                             win: 7,
                             nul: 2,
                             lost: 4
-                        }]
+                        }
 
                     }
                 ]
@@ -39,26 +39,26 @@ angular.module('app')
             {
                 name: "foot",
                 players: [{
-                        pseudo: 'nail',
+                        pseudo: 'jojo',
                         _id: 1,
                         avatar: 'avatar_en_cours',
-                        result: [{
+                        result: {
                             play: 13,
                             win: 7,
                             nul: 2,
                             lost: 4
-                        }]
+                        }
                     },
                     {
                         pseudo: 'nail',
                         _id: 1,
                         avatar: 'avatar_en_cours',
-                        result: [{
+                        result: {
                             play: 13,
                             win: 7,
                             nul: 2,
                             lost: 4
-                        }]
+                        }
 
                     }
                 ]
@@ -66,26 +66,26 @@ angular.module('app')
             {
                 name: "velo",
                 players: [{
-                        pseudo: 'nail',
+                        pseudo: 'fifi',
                         _id: 1,
                         avatar: 'avatar_en_cours',
-                        result: [{
-                            play: 13,
+                        result: {
+                            play: 15,
                             win: 7,
                             nul: 2,
                             lost: 4
-                        }]
+                        }
                     },
                     {
                         pseudo: 'nail',
                         _id: 1,
                         avatar: 'avatar_en_cours',
-                        result: [{
+                        result: {
                             play: 13,
                             win: 7,
                             nul: 2,
                             lost: 4
-                        }]
+                        }
 
                     }
                 ]
@@ -93,33 +93,42 @@ angular.module('app')
             {
                 name: "natation",
                 players: [{
-                        pseudo: 'nail',
+                        pseudo: 'lili',
                         _id: 1,
                         avatar: 'avatar_en_cours',
-                        result: [{
+                        result: {
                             play: 13,
                             win: 7,
                             nul: 2,
                             lost: 4
-                        }]
+                        }
                     },
                     {
-                        pseudo: 'nail',
+                        pseudo: 'noel',
                         _id: 1,
                         avatar: 'avatar_en_cours',
-                        result: [{
-                            play: 13,
+                        result: {
+                            play: 11,
                             win: 7,
                             nul: 2,
                             lost: 4
-                        }]
+                        }
 
                     }
                 ]
             }
         ];
 
-        console.log("activity", $scope.activities);
+
+
+for (var i = 0; i < $scope.activities.length; i++) {
+  console.log("Player "+i, $scope.activities[0].name);
+}
+
+$scope.goto = function(name) {
+  $scope.filter = name;
+}
+
 
 
 
@@ -155,16 +164,20 @@ angular.module('app')
             }
         ];
 
-        function containsObject(obj, list) {
-            var i;
-            for (i = 0; i < list.length; i++) {
-                if (list[i] === obj) {
-                    return true;
-                }
-            }
+        var Game = $scope.activities;
+        var resultatForEachPlayer = [];
 
-            return false;
-        }
+        Game.forEach(function(activity){
+          function containsPlayer(player, list){
+            for (var i = 0; i < Game.length; i++) {
+              if (Game[i] === player){
+                console.log("player is already on you list");
+              }
+            }
+            resultatForEachPlayer.push( list[i]);
+          }
+        });
+
 
         // var players = $scope.scores;
         //// var players = $scope.scores;
@@ -199,17 +212,5 @@ angular.module('app')
         //   $scope.scores =res.data[0];
         // });
         //
-        // var resultatForEachPlayer = [];
-        //
-        // res.data.forEach(function(activity){
-        //   function containsPlayer(player, list){
-        //     for (var i = 0; i < list.length; i++) {
-        //       if (list[i] === player){
-        //         console.log("player is already on you list");
-        //       }
-        //     }
-        //     resultatForEachPlayer.push( list[i]);
-        //   }
-        // });
 
     });
