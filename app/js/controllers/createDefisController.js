@@ -94,38 +94,25 @@ angular.module('app')
                 invite: ["58ff7e5aee9fa934131d1e40", "59003d1d65bddb1575f74eed", "590e0e27a3a7f229c97369f3"]
 
             };
+            
 
             console.log('max players : ', totalInfo);
 
 
             ChallengeService.create(totalInfo);
-            $state.go('user.home');
-
+            sessionStorage.clear();
+            $state.go('main.home');
 
         };
         $scope.goToHome = function() {
-            $state.go('user.home');
+            $state.go('main.home');
+            sessionStorage.clear();
         };
         $scope.myVarBefore = false;
         $scope.toggle = function() {
             $scope.myVarBefore = !$scope.myVarBefore;
+        };
 
-// <<<<<<< philBranch7
-
-//         };
-//         CommunityService.getOne(community).then(function(res) {
-//             res.data.users.forEach(function(users) {
-//                 users.check = false;
-//             });
-// =======
-//     };
-//     $scope.addInvite = function() {
-//       $scope.invite = [];
-//       $scope.myVarBefore = true;
-//       $scope.invite = $scope.communitys.filter(function(users) {
-// >>>>>>> dev
-
-        });
         $scope.addInvite = function() {
             $scope.invite = [];
             $scope.myVarBefore = true;
@@ -152,7 +139,7 @@ angular.module('app')
 
     });
 
-    // TODO: unset sessionservice when quit create defy
+
     // TODO: limit invitation au max player -1 en comptant le créateur du defy
     // TODO: required sur l'ensemble du formulaire pour ne pas envoyer de champ vide
     // TODO: ne pas mettre une date antérieur à celle en cours
