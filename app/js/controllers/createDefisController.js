@@ -100,18 +100,23 @@ angular.module('app')
 
 
             ChallengeService.create(totalInfo);
+
             sessionStorage.clear();
             $state.go('main.home');
 
         };
         $scope.goToHome = function() {
             $state.go('main.home');
+
             sessionStorage.clear();
+
         };
         $scope.myVarBefore = false;
         $scope.toggle = function() {
             $scope.myVarBefore = !$scope.myVarBefore;
+
         };
+
 
         $scope.addInvite = function() {
             $scope.invite = [];
@@ -138,7 +143,6 @@ angular.module('app')
       $scope.communitys = res.data.users;
 
     });
-
 
     // TODO: limit invitation au max player -1 en comptant le créateur du defy
     // TODO: required sur l'ensemble du formulaire pour ne pas envoyer de champ vide

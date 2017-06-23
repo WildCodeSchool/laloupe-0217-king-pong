@@ -4,7 +4,14 @@ import User from './user.js';
 import Activity from './activity.js';
 import Team from './team';
 import Invitation from './invitation';
-
+import moment from 'moment';
+import _ from 'lodash';
+import {
+  teamAsynchrome,
+  userFilter,
+  timeDiff,
+  sortByActivity
+} from '../../function.js';
 
 
 
@@ -14,34 +21,46 @@ const challengeSchema = new mongoose.Schema({
 
   community: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Community"
+    ref: "Community",
+    required: true
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  },
-  pseudo: {
-    type: String
+    ref: "User",
+    required: true
+
   },
   activity: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Activity"
+    ref: "Activity",
+    required: true
+
   },
   date: {
-    type: Date
+    type: Date,
+    required: true
+
   },
   time: {
-    type: Date
+    type: Date,
+    required: true
+
   },
 
   duration: {
-    type: String
+    type: String,
+    required: true
+
   },
   place: {
-    type: String
+    type: String,
+    required: true
+
   },
   maxPlayers: {
     type: Number,
+    required: true
+
   },
   teams: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -50,28 +69,13 @@ const challengeSchema = new mongoose.Schema({
   }]
 });
 
-function teamAsynchrome(teams, infos,author, i, array, request, callback) {
-  if (i === 0 ){
-    infos.players = [author];
-  }
-  if (i <= teams.length - 1) {
-    request.create(infos, (res) => {
-      array.push(res);
-      delete infos.players;
-      teamAsynchrome(teams, infos,author, i + 1, array, request, callback);
-    });
 
-  } else {
-    callback(array);
-  }
-}
-
-
+//models
 let model = mongoose.model('Challenge', challengeSchema);
 var invitation = new Invitation();
 var team = new Team();
 
-
+//method
 export default class Challenge {
 
   findAll(req, res) {
@@ -84,56 +88,135 @@ export default class Challenge {
     });
   }
 
-  findById(req, res) {
-    model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
-      (err, challenge) => {
-        if (err || !challenge) {
-          res.sendStatus(403);
-        } else {
-          res.json(challenge);
+  // findById(req, res) {
+  //   model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
+  //     (err, challenge) => {
+  //       if (err || !challenge) {
+  //         res.sendStatus(403);
+  //       } else {
+  //         res.json(challenge);
+  //       }
+  //
+  //     });
+  // }
+  findByCommunity(req, res) {
+    model.find({
+        community: req.params.community
+      }).populate('activity')
+      .populate({
+        path: 'author',
+        select: 'avatar pseudo'
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo'
         }
+      })
+      .exec(
+        (err, challenges) => {
+          if (err || !challenges) {
+            res.sendStatus(403);
+          } else {
+            res.json(timeDiff(challenges));
+          }
+        });
+  }
 
-      });
+  findScoreByCommunity(req, res) {
+    console.log('ici');
+    model.find({
+        community: req.params.community
+      }).populate('activity')
+      .populate('teams')
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo '
+        }
+      })
+      .exec(
+        (err, challenges) => {
+          if (err || !challenges) {
+            res.sendStatus(403);
+          } else {
+            res.json(sortByActivity(challenges));
+          }
+        });
+  }
+
+  findByUSerAndCommunity(req, res) {
+    model.find({
+        community: req.query.community
+      })
+      .populate('activity')
+      .populate({
+        path: 'author',
+        select: 'avatar pseudo'
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo'
+        }
+      })
+      .exec(
+        (err, challenges) => {
+          if (err || !challenges) {
+            res.sendStatus(403);
+          } else {
+            console.log(userFilter(challenges, req.query.player));
+            res.json(timeDiff(userFilter(challenges, req.query.player)));
+          }
+        }
+      );
   }
   create(req, res) {
     let challenge = {},
       mail = {};
     model.create(req.body.infoChallenge, (err, challenge) => {
-      let author = challenge.author;
-      let teamInfos = {
-        challenge: challenge._id,
-        maxPlayer: challenge.maxPlayers
-      };
-      teamAsynchrome(req.body.teams, teamInfos,author, 0, [], team, function(teams) {
-        model.findOneAndUpdate({
-          _id: challenge._id
-        }, {
-          teams: teams
-        }, {
-          upsert: true,
-          new: true
-        }, (err, result) => {
-          if (err || !result) {
-            console.log(err);
-          } else {
-            challenge = result;
-            let invitations = {
-              challenge: challenge._id,
-              player: req.body.invite
-            };
-            invitation.create(invitations, (response) => {
-              mail = response;
-              res.json({
-                mail: response,
-                challenge: challenge,
-                ok: true
+      if (err) {
+        res.status(500).send(err.message);
+      } else {
+        let teamInfos = {
+          players: [challenge.author],
+          challenge: challenge._id,
+          maxPlayer: challenge.maxPlayers,
+        };
+        teamAsynchrome(req.body.teams, teamInfos, 0, [], team, function(err, teams) {
+          model.findOneAndUpdate({
+            _id: challenge._id
+          }, {
+            teams: teams
+          }, {
+            upsert: true,
+            new: true
+          }, (err, result) => {
+            if (err || !result) {
+              res.sendStatus(404);
+            } else {
+              challenge = result;
+              let invitations = {
+                challenge: challenge._id,
+                players: req.body.invite
+              };
+              invitation.create(invitations, (err, response) => {
+
+                res.json({
+                  mail: response,
+                  challenge: challenge,
+                  ok: true
+                });
               });
-            });
 
-          }
+            }
+          });
+
         });
-
-      });
+      }
     });
   }
 

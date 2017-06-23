@@ -2,7 +2,7 @@
 <html ng-app="app">
 <head>
     <title>
-        <%= pkg.name %>
+        KingPong 
     </title>
 
     <link rel="stylesheet" type="text/css" href="<%= css %>" media="all" />

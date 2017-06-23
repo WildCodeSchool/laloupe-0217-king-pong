@@ -45,8 +45,9 @@ angular.module('app')
     $scope.register = function() {
       Auth.register($scope.user).then(function(res){
         console.log(res);
+        $state.go("user.community");
       })
-      .then($state.go("user.community"));
+      .then();
 
     };
   });
