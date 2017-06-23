@@ -5,14 +5,14 @@ import Activity from './activity.js';
 import Team from './team';
 import Invitation from './invitation';
 import moment from 'moment';
-import _ from 'lodash';
 import {
   teamAsynchrome,
   userFilter,
   timeDiff,
-  sortByActivity
+  sortByActivity,
+  formatDate
 } from '../../function.js';
-
+moment.locale('fr');
 
 
 
@@ -88,17 +88,30 @@ export default class Challenge {
     });
   }
 
-  // findById(req, res) {
-  //   model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
-  //     (err, challenge) => {
-  //       if (err || !challenge) {
-  //         res.sendStatus(403);
-  //       } else {
-  //         res.json(challenge);
-  //       }
-  //
-  //     });
-  // }
+  findById(req, res) {
+    model.findById(req.params.id)
+      .populate('activity')
+      .populate({
+        path: 'author',
+        select: 'avatar pseudo'
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo'
+        }
+      })
+      .exec((err, challenge) => {
+        if (err || !challenge) {
+          res.sendStatus(403);
+        } else {
+
+          res.json(formatDate(challenge));
+        }
+      });
+  }
+
   findByCommunity(req, res) {
     model.find({
         community: req.params.community
@@ -125,7 +138,6 @@ export default class Challenge {
   }
 
   findScoreByCommunity(req, res) {
-    console.log('ici');
     model.find({
         community: req.params.community
       }).populate('activity')
@@ -168,7 +180,6 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            console.log(userFilter(challenges, req.query.player));
             res.json(timeDiff(userFilter(challenges, req.query.player)));
           }
         }
@@ -219,30 +230,6 @@ export default class Challenge {
       }
     });
   }
-
-  // addUser(req, res) {
-  //   console.log(req.params, req.body);
-  //   model.findOneAndUpdate({
-  //     _id: req.params.id
-  //   }, {
-  //     $addToSet: {
-  //       users: req.body.users
-  //     }
-  //   }, {
-  //     upsert: true
-  //   }, (err, challenge) => {
-  //     if (err || !challenge) {
-  //       res.status(404).send(err.message);
-  //     } else {
-  //       res.json({
-  //         success: true,
-  //         challenge: challenge,
-  //
-  //       });
-  //     }
-  //   });
-  // }
-
 
 
   update(req, res) {
