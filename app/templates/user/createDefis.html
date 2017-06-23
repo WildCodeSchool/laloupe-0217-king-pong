@@ -16,8 +16,8 @@
     </md-subheader><br>
 </div>
 <br><br>
+<div class="row">
 <div class=" row ng-show" ng-hide="myVarBefore">
-    <div class="row">
       <form class="col s12 offset-l4 l4">
             <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
                 <input id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
@@ -53,7 +53,8 @@
                 <input placeholder="Dans quelle ville aura lieu le défi" id="where" type="text" class="validate" ng-model="lieu">
                 <label class="active" for="where">Lieu</label>
             </div>
-
+</div>
+<div class="row">
               <div class="input-field col offset-s1 s11 offset-l1 l10 ">
             <div class="row bloc-participant" ng-show="activity.activityName">
                 <div class="bckgrd-participant">
@@ -71,7 +72,6 @@
                 <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
                 <input id="nbParticipantGroupe" type="number" ng-model="activity.numberOfplayer">
             </div>
-            <div class="row">
                 <div class="input-field col offset-s1 s11 offset-l1 l10 ">
                     <h>Invitations</h>
                     <br>
@@ -87,9 +87,8 @@
                         <i class="material-icons" ng-click="toggle()">keyboard_arrow_right</i>
                     </div>
                 </div>
-            </div>
 
-                <div class="bckgrd-bouton offset-s1 s11 offset-l1 l10">
+                <div class="bckgrd-bouton col offset-s1 s11 offset-l1 l10 ">
                     <div ng-if="activity.activityName && myDate && startTime && duration && lieu && activity.numberOfTeam && activity.numberOfplayer && invite" class="btnblue">
                         <button class="btn blue darken-1" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
                     </div>
