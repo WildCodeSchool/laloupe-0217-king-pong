@@ -60,33 +60,35 @@ function teamAsynchrome(teams, infos, i, array, request, callback) {
 
 //function for filter user and community
 function userCommunityFilter(challenges, params) {
-  let array = [];
-  challenges.forEach((challenge) => {
-    challenge.teams.forEach((team) => {
-      team.players.forEach((player) => {
-        if (player._id == params.player && challenge.community == params.community) {
-          array.push(challenge);
-        }
+  return challenges.filter((challenge) => challenge.community == params.community).filter((challenge) => {
+    return challenge.teams.map((team) => {
+      return team.players.map((player) => {
+        return player._id == params.player;
       });
     });
   });
-  return array;
 }
 
 //function for filter user
 function userFilter(challenges, user) {
-  return challenges.filter((challenge) => challenge.teams.map((team) => team.players.map((player) =>  player._id == user)));
+  return challenges.filter((challenge) => {
+    return challenge.teams.map((team) => {
+      return team.players.map((player) => {
+        return player._id == user;
+      });
+    });
+  });
 }
 
 // function for adding time diff in challenge
 function timeDiff(challenges) {
-  return _.map(challenges, (challenge) => {
+  return challenges.map((challenge) => {
     return _.assign({
       diff: moment(challenge.date).fromNow()
     }, challenge._doc);
   });
 }
-
+//function for extra score by activity and player
 function sortByActivity(challenges) {
   let table = [];
   challenges.forEach((challenge) => {
@@ -129,6 +131,13 @@ function sortByActivity(challenges) {
   return table;
 }
 
+//format date and time of challenge in format like date:15 Juin 2017, time: 20h17
+function formatDate(challenge){
+  challenge.date = moment(challenge.date).format('LL');
+  challenge.time = moment(challenge.time).format('LT');
+  return challenge;
+}
+
 
 
 export {
@@ -137,5 +146,6 @@ export {
   userCommunityFilter,
   userFilter,
   timeDiff,
-  sortByActivity
+  sortByActivity,
+  formatDate
 };

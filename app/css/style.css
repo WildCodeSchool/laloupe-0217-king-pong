@@ -28,18 +28,20 @@
 }
 
 .bckgrd-participant {
-    margin-left: -20px;
+    /*margin-left: -20px;*/
     color: grey;
+    margin-top: -1px;
     margin-bottom: 10px;
     padding-top: 10px;
     padding-left: 10px;
     height: 70px;
-    width: 413px;
+<<
     border-bottom: 1px solid;
     border-top: 1px solid;
     border-color: #D8D8D8;
     background-color: #eeeeee;
 }
+
 
 .bckgrd-bouton {
     padding-top: 60px;
@@ -63,6 +65,7 @@
     border-color: #D8D8D8;
     background-color: #eeeeee;
 }
+
 
 .circleDefi {
     border-radius: 50%!important;

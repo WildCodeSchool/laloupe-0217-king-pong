@@ -1,1 +1,80 @@
-<h1>En construction</h1>
+<nav class='z-depth-4'>
+  <div class="nav-wrapper">
+    <i class="material-icons" ng-click="goToHome()">close</i>
+    <form>
+      <i class="material-icons">close</i>
+  </div>
+  </form>
+  </div>
+</nav>
+<div class="cadre">
+  <md-subheader class="md-no-sticky">
+
+    <img class='circleDefi'src="{{challenge.author.avatar}}" alt="" class="circle">
+    <p>vous invite pour un defi {{activity}}</p>
+
+  </md-subheader><br>
+</div>
+<div class="row">
+  <div class="col s12 offset-l4 l4">
+    <div class="greyBorder col offset-s1 s11 offset-l1 l10 ">
+      <label for="started">Date et heure</label>
+      <input id="started" type="text" class="validate" ng-model='challenge.date'>
+    </div>
+    <div class=" greyBorder col offset-s1 s11 offset-l1 l10 ">
+      <label for="duree">Durée</label>
+      <input id="duree" type="text" class="validate" ng-model="challenge.duration">
+    </div>
+    <div class=" greyBorder col offset-s1 s11 offset-l1 l10 ">
+      <label for="activity">Activité</label>
+      <input id="activity" type="text" class="validate" ng-model="challenge.activity.activityName">
+    </div>
+    <div class=" greyBorder col offset-s1 s11 offset-l1 l10 ">
+      <label for="where">Lieu</label>
+      <input id="where" type="text" class="validate" ng-model="challenge.place">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <div class="bckgrd-participant">
+        <p>Participants</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+        <div id='{{team.name}}' class="inlineInvite" ng-repeat="team in challenge.teams">
+          <ul>
+
+          <label for="{{team.name}}" class ="active">team {{team.name}}</label class ="active">
+            <li  ng-repeat="player in team.players">
+
+                <div class="chip">
+                    <img src="{{player.avatar}}" alt="Contact Person"> {{player.pseudo}}
+                </div>
+            </li>
+          </ul>
+        </div>
+    </div>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col s12">
+    <div class="bckgrd-participant">
+      <button class="btn btn-blue darken-1" type="button" ng-click="choiceTeam(team)">Valider</button>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="row">
+  <h2>Equipe gagnante</h2>
+  <div class=" col offset-s1 s9 offset-l1 l10 ">
+
+    <md-select placeholder="choisir le gagnant" ng-model="team">
+      <md-option ng-repeat="team in teams" value="{{team}}">Equipe {{team.name}}</md-option>
+      <md-option value=""> Match nul</md-option>
+    </md-select>
+  </div>
+</div> -->
