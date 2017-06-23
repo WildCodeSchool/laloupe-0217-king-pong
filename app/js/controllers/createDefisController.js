@@ -94,7 +94,7 @@ angular.module('app')
                 invite: ["58ff7e5aee9fa934131d1e40", "59003d1d65bddb1575f74eed", "590e0e27a3a7f229c97369f3"]
 
             };
-            
+
 
             console.log('max players : ', totalInfo);
 

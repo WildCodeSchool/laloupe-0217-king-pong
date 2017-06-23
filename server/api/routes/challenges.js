@@ -12,6 +12,8 @@ module.exports = (app) => {
 
     router.get('/', challenge.findAll);
 
+    router.get('/score/:community', challenge.findScoreByCommunity);
+
     router.get('/community/:community', challenge.findByCommunity);
     //
     router.put('/:id', challenge.update);

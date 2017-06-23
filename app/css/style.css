@@ -28,25 +28,21 @@
 }
 
 .bckgrd-participant {
-    margin-left: -20px;
     color: grey;
     margin-bottom: 10px;
+    margin-top: -1px;
     padding-top: 10px;
-    padding-left: 10px;
+    /*padding-left: 10px;*/
     height: 70px;
-    width: 413px;
-    border-bottom: 1px solid;
-    border-top: 1px solid;
+    /*border-bottom: 1px solid;*/
+    /*border-top: 1px solid;*/
     border-color: #D8D8D8;
     background-color: #eeeeee;
 }
 
 .bckgrd-bouton {
-    padding-top: 60px;
     color: grey;
-    margin-left: -20px;
     height: 160px;
-    width: 413px;
     border-bottom: 1px solid;
     border-top: 1px solid;
     border-color: #D8D8D8;
@@ -79,10 +75,7 @@
     float: right;
 }
 
-.blocEntier {
-    margin-left: 20px;
-    margin-right: 20px;
-}
+
 
 .btnblue {
     margin-left: 40px;
@@ -182,39 +175,31 @@
 }
 
 .blocInput1 {
-    padding-right: 10px;
-    margin-top: -20px;
-    border-bottom: 1px solid;
-    border-color: #D8D8D8;
+
     height: 70px;
-    width: 392px;
+    /*width: 100%;*/
 }
 
 .blocInput2 {
-    border-color: #D8D8D8;
-    height: 70px;
-    width: 392px;
+  height: 70px;
+  width: 100%;
 }
 
 .blocInput3 {
-    border-bottom: 1px solid;
-    border-color: #D8D8D8;
-    height: 70px;
-    width: 392px;
+
+  height: 70px;
+  width: 100%;
 }
 
 .blocInput4 {
-    border-bottom: 1px solid;
-    border-color: #D8D8D8;
-    height: 70px;
-    width: 392px;
+
+  height: 70px;
+  width: 100%;
 }
 
 .blocInput5 {
-    border-bottom: 1px solid;
-    border-color: #D8D8D8;
-    height: 70px;
-    width: 392px;
+  height: 70px;
+  width: 100%;
 }
 
 .blocInput6 {
@@ -260,4 +245,13 @@
 
 .inlineInvite {
     display: inline-flex;
+}
+.arrow{
+  position: absolute;
+  top: 15px;
+  right: 10px;
+}
+.input-field{
+  border-bottom: 1px solid;
+  border-color: grey;
 }

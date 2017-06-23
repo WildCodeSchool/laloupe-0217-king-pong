@@ -11,7 +11,7 @@ module.exports = (app) => {
 
     router.get('/user/', invitation.findByUserAndCommunity);
 
-    router.get('/:id', invitation.findById);
+    router.get('/:challenge', invitation.findByChallenge);
     //
     // router.put('/:id', invitation.update);
     //
