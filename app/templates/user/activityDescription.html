@@ -6,7 +6,7 @@
             </li>
             <div class="valideButton">
                 <li>
-                    <i  ng-click="valide()">Valide</i>
+                    <i ng-click="valide()">Valide</i>
                 </li>
             </div>
         </ul>
@@ -15,49 +15,50 @@
 <div class="cadre">
     <md-subheader class="md-no-sticky">
         <div class="photoCat">
-            <img src=img/{{activity.photo}}.jpg alt="" class="circle">
+            <img src=img/{{activity.photo}}.jpg alt="" class="circleDefi">
             <p>{{activity.activityName}}</p>
         </div>
     </md-subheader>
 </div>
-<div class="listdscrp">
-
-    <md-list>
+<form>
+    <div class="blocInput6">
         <div class="row">
-            <form class="col s12">
-                <label for="activity">Description</label>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input disabled id="description" type="text" class="active" ng-model="activity.description">
-                    </div>
-                </div>
-                <label for="resultRule">Règle du resultat</label>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input disabled id="resultRule" type="text" class="active" ng-model="activity.resultRule">
-                    </div>
-                </div>
-
-                <label for="teamNumber">Nombre d'équipe</label>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input disabled id="teamNumber" type="text" class="validate" ng-model="activity.numberOfTeam">
-                    </div>
-                </div>
-                <label for="playerNumber">Nombre de joueur par équipe</label>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input disabled id="playerNumber" type="text" class="validate" ng-model="activity.numberOfplayer">
-                    </div>
-                </div>
-
-                <label for="averageLast">Durée moyenne</label>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input disabled id="averageLast" type="text" class="validate" ng-model="activity.duration">
-                    </div>
-                </div>
+            <p>Description</p>
+            <div class="inputcolor">
+                <input disabled id="description" type="text" ng-model="activity.description">
+            </div>
         </div>
-</div>
+    </div>
+    <div class="blocInput6">
+        <div class="row">
+            <p>Règle du resultat</p>
+            <input disabled id="resultRule" type="text" ng-model="activity.resultRule">
+        </div>
+    </div>
+    </div>
+    <div class="blocInput6">
+        <div class="row">
+            <p>Nombre d'équipe</p>
+            <div class="input-field col s12">
+                <input disabled id="teamNumber" type="text" class="validate" ng-model="activity.numberOfTeam">
+            </div>
+        </div>
+    </div>
+    <div class="blocInput6">
+        <div class="row">
+            <p>Nombre de joueur par équipe</p>
+            <div class="input-field col s12">
+                <input disabled id="playerNumber" type="text" class="validate" ng-model="activity.numberOfplayer">
+            </div>
+        </div>
+    </div>
+    <div class="blocInput6">
+        <div class="row">
+            <p>Durée moyenne</p>
+            <div class="input-field col s12">
+                <input disabled id="averageLast" type="text" class="validate" ng-model="activity.duration">
+            </div>
+        </div>
+    </div>
+    </div>
 </form>
-</md-list>
