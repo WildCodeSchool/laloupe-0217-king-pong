@@ -9,7 +9,8 @@ import _ from 'lodash';
 import {
   teamAsynchrome,
   userFilter,
-  timeDiff
+  timeDiff,
+  sortByActivity
 } from '../../function.js';
 
 
@@ -122,6 +123,30 @@ export default class Challenge {
           }
         });
   }
+
+  findScoreByCommunity(req, res) {
+    console.log('ici');
+    model.find({
+        community: req.params.community
+      }).populate('activity')
+      .populate('teams')
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo '
+        }
+      })
+      .exec(
+        (err, challenges) => {
+          if (err || !challenges) {
+            res.sendStatus(403);
+          } else {
+            res.json(sortByActivity(challenges));
+          }
+        });
+  }
+
   findByUSerAndCommunity(req, res) {
     model.find({
         community: req.query.community
@@ -143,6 +168,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
+            console.log(userFilter(challenges, req.query.player));
             res.json(timeDiff(userFilter(challenges, req.query.player)));
           }
         }
