@@ -13,10 +13,11 @@ angular.module('app')
                 players: [{
                         pseudo: 'nail',
                         _id: 1,
-                        avatar: 'avatar_en_cours',
+                        avatar: 'x',
                         result: {
                             play: 13,
-                            win: 7,
+                            totalpoint:0,
+                            win: 9,
                             nul: 2,
                             lost: 4
                         }
@@ -24,10 +25,11 @@ angular.module('app')
                     {
                         pseudo: 'fifi',
                         _id: 1,
-                        avatar: 'avatar_en_cours',
+                        avatar: 'x',
                         result: {
                             play: 13,
-                            win: 7,
+                            totalpoint:0,
+                            win: 8,
                             nul: 2,
                             lost: 4
                         }
@@ -41,10 +43,11 @@ angular.module('app')
                 players: [{
                         pseudo: 'jojo',
                         _id: 1,
-                        avatar: 'avatar_en_cours',
+                        avatar: 'x',
                         result: {
                             play: 13,
-                            win: 7,
+                            totalpoint:0,
+                            win: 4,
                             nul: 2,
                             lost: 4
                         }
@@ -52,10 +55,11 @@ angular.module('app')
                     {
                         pseudo: 'nail',
                         _id: 1,
-                        avatar: 'avatar_en_cours',
+                        avatar: 'x',
                         result: {
                             play: 13,
-                            win: 7,
+                            totalpoint:0,
+                            win: 5,
                             nul: 2,
                             lost: 4
                         }
@@ -68,10 +72,11 @@ angular.module('app')
                 players: [{
                         pseudo: 'fifi',
                         _id: 1,
-                        avatar: 'avatar_en_cours',
+                        avatar: 'x',
                         result: {
                             play: 15,
-                            win: 7,
+                            totalpoint:0,
+                            win: 6,
                             nul: 2,
                             lost: 4
                         }
@@ -79,10 +84,11 @@ angular.module('app')
                     {
                         pseudo: 'nail',
                         _id: 1,
-                        avatar: 'avatar_en_cours',
+                        avatar: 'x',
                         result: {
                             play: 13,
-                            win: 7,
+                            totalpoint:0,
+                            win: 9,
                             nul: 2,
                             lost: 4
                         }
@@ -95,9 +101,10 @@ angular.module('app')
                 players: [{
                         pseudo: 'lili',
                         _id: 1,
-                        avatar: 'avatar_en_cours',
+                        avatar: 'x',
                         result: {
                             play: 13,
+                            totalpoint:0,
                             win: 7,
                             nul: 2,
                             lost: 4
@@ -106,9 +113,10 @@ angular.module('app')
                     {
                         pseudo: 'noel',
                         _id: 1,
-                        avatar: 'avatar_en_cours',
+                        avatar: 'x',
                         result: {
                             play: 11,
+                            totalpoint:0,
                             win: 7,
                             nul: 2,
                             lost: 4
@@ -119,98 +127,29 @@ angular.module('app')
             }
         ];
 
+        console.log('result', $scope.activities[0].players[0].result.totalpoint);
 
 
+          var newscore = {};
+          $scope.activities.forEach(function(activity){
 for (var i = 0; i < $scope.activities.length; i++) {
-  console.log("Player "+i, $scope.activities[0].name);
+  for (var y = 0; y < $scope.activities[i].players.length; y++) {
+$scope.activities[i].players[y].result.totalpoint = $scope.activities[i].players[y].result.win *3 + $scope.activities[i].players[y].result.nul*1;
+  }
+
 }
 
-$scope.goto = function(name) {
+}
+);
+
+
+console.log($scope.activities);
+
+
+
+ $scope.goto = function(name) {
   $scope.filter = name;
-}
+ };
 
-
-
-
-
-
-        $scope.scores = [{
-
-                pseudo: 'nail',
-                avatar: 'Avatar',
-                point: '',
-                play: 13,
-                win: 7,
-                nul: 2,
-                lost: 4
-            },
-            {
-                pseudo: 'fifi',
-                avatar: 'Avatar',
-                point: '',
-                play: 18,
-                win: 9,
-                nul: 0,
-                lost: 0
-            },
-            {
-                pseudo: 'jojo',
-                avatar: 'Avatar',
-                point: '',
-                play: 13,
-                win: 7,
-                nul: 2,
-                lost: 4
-            }
-        ];
-
-        var Game = $scope.activities;
-        var resultatForEachPlayer = [];
-
-        Game.forEach(function(activity){
-          function containsPlayer(player, list){
-            for (var i = 0; i < Game.length; i++) {
-              if (Game[i] === player){
-                console.log("player is already on you list");
-              }
-            }
-            resultatForEachPlayer.push( list[i]);
-          }
-        });
-
-
-        // var players = $scope.scores;
-        //// var players = $scope.scores;
-        //
-        // players.forEach(function(player){
-        //   player.point = player.win * 3 + player.nul * 1 ;
-        // });
-        //
-        // ChallengeService.getScoreByCommunity(id).then(function(res){
-        //   console.log(res.data);
-        //   $scope.scores =res.data[0];
-        // });
-        //
-        // var resultatForEachPlayer = [];
-        //
-        // res.data.forEach(function(activity){
-        //   function containsPlayer(player, list){
-        //     for (var i = 0; i < list.length; i++) {
-        //       if (list[i] === player){
-        //         console.log("player is already on you list");
-        //       }
-        //     }
-        //     resultatForEachPlayer.push( list[i]);
-        //   }
-        // });
-        // players.forEach(function(player){
-        //   player.point = player.win * 3 + player.nul * 1 ;
-        // });
-        //
-        // ChallengeService.getScoreByCommunity(id).then(function(res){
-        //   console.log(res.data);
-        //   $scope.scores =res.data[0];
-        // });
-        //
 
     });
