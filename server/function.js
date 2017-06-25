@@ -43,9 +43,7 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
 //function for create teams
 function teamAsynchrome(teams, infos, i, array, request, callback) {
   if (i <= teams.length - 1) {
-    console.log('if 1', i);
     if (i > 0) {
-      console.log('if 2', i);
       delete infos.players;
     }
     request.create(infos, (res) => {
@@ -132,10 +130,14 @@ function sortByActivity(challenges) {
 }
 
 //format date and time of challenge in format like date:15 Juin 2017, time: 20h17
-function formatDate(challenge){
-  challenge.date = moment(challenge.date).format('LL');
-  challenge.time = moment(challenge.time).format('LT');
-  return challenge;
+function formatDate(challenge) {
+  let date = moment(challenge.date).format('LL');
+  let time = moment(challenge.time).format('LT');
+ return  _.assign({
+    newDate:date,
+    newTime:time
+  }, challenge._doc);
+
 }
 
 

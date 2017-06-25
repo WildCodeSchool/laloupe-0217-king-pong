@@ -11,7 +11,7 @@
   <md-subheader class="md-no-sticky">
 
     <img class='circleDefi' src="{{challenge.author.avatar}}" alt="" class="circle">
-    <p>vous invite pour un defi {{activity}}</p>
+    <p>Le défi {{challenge.activity.activityName}} est fini</p>
 
   </md-subheader><br>
 </div>
@@ -19,7 +19,7 @@
   <div class="col s12 offset-l4 l4">
     <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
       <label for="started">Date et heure</label>
-      <input id="started" type="text" class="validate" ng-model='challenge.date'>
+      <input id="started" type="text" class="validate" ng-model='start'>
     </div>
     <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
       <label for="duree">Durée</label>

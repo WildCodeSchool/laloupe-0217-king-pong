@@ -66,7 +66,11 @@ const challengeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Team",
 
-  }]
+  }],
+  result: {
+    type: Boolean,
+    default: false
+  }
 });
 
 
@@ -107,7 +111,9 @@ export default class Challenge {
           res.sendStatus(403);
         } else {
 
-          res.json(formatDate(challenge));
+            res.json(formatDate(challenge));
+
+
         }
       });
   }

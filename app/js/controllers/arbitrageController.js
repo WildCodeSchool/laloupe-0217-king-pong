@@ -57,6 +57,8 @@ angular.module('app')
 
     $scope.valideScore = function(team) {
       $mdDialog.hide();
+      ChallengeService.update($state.params.id,{result:true}).then(function(res){
+      });
       if(team !== 'null'){
         $scope.teams.splice((team.name - 1),1);
         TeamService.updateScore(team._id, {
@@ -66,7 +68,6 @@ angular.module('app')
             TeamService.updateScore(team._id, {
               resultat: "lose"
             }).then(function(res) {
-              console.log(res);
             });
           });
         });
@@ -75,18 +76,18 @@ angular.module('app')
           TeamService.updateScore(team._id, {
             resultat: "null"
           }).then(function(res) {
-            console.log(res);
           });
         });
       }
-      $state.go('main.home')
+      $state.go('main.home');
     };
 
     // service
     ChallengeService.getOne($state.params.id).then(function(res) {
-      $scope.teams = nameTeams(res.data.teams);
-      $scope.challenge = res.data;
       console.log(res.data);
+      $scope.teams = nameTeams(res.data.teams);
+      $scope.start = res.data.newDate + ' ' +'à'+' ' +res.data.newTime;
+      $scope.challenge = res.data;
 
     });
   });
