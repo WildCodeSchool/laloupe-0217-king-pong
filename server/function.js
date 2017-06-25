@@ -57,24 +57,29 @@ function teamAsynchrome(teams, infos, i, array, request, callback) {
 }
 
 //function for filter user and community
-function userCommunityFilter(challenges, params) {
-  return challenges.filter((challenge) => challenge.community == params.community).filter((challenge) => {
+function communityFilter(challenges, params) {
+  return challenges.filter((el) => {
+    console.log('el',el);
+    console.log('params',params.community);
+  return  el.community == params.community;
+  });
+}
+
+//function for filter user
+function userFilter(challenges, params) {
+  return challenges.filter((challenge) => {
     return challenge.teams.map((team) => {
       return team.players.map((player) => {
-        return player._id == params.player;
+        return player._id == params.user;
       });
     });
   });
 }
 
-//function for filter user
-function userFilter(challenges, user) {
+//function for filter result false
+function resultFilter(challenges) {
   return challenges.filter((challenge) => {
-    return challenge.teams.map((team) => {
-      return team.players.map((player) => {
-        return player._id == user;
-      });
-    });
+    return challenge.result === false;
   });
 }
 
@@ -133,9 +138,9 @@ function sortByActivity(challenges) {
 function formatDate(challenge) {
   let date = moment(challenge.date).format('LL');
   let time = moment(challenge.time).format('LT');
- return  _.assign({
-    newDate:date,
-    newTime:time
+  return _.assign({
+    newDate: date,
+    newTime: time
   }, challenge._doc);
 
 }
@@ -145,9 +150,10 @@ function formatDate(challenge) {
 export {
   invitationAsync,
   teamAsynchrome,
-  userCommunityFilter,
+  communityFilter,
   userFilter,
   timeDiff,
   sortByActivity,
-  formatDate
+  formatDate,
+  resultFilter
 };

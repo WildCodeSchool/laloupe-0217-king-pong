@@ -10,7 +10,8 @@ import {
   userFilter,
   timeDiff,
   sortByActivity,
-  formatDate
+  formatDate,
+  resultFilter
 } from '../../function.js';
 moment.locale('fr');
 
@@ -138,7 +139,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(timeDiff(challenges));
+            res.json(resultFilter(timeDiff(challenges)));
           }
         });
   }
@@ -186,7 +187,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(timeDiff(userFilter(challenges, req.query.player)));
+            res.json(resultFilter(timeDiff(userFilter(challenges, req.query.player))));
           }
         }
       );
