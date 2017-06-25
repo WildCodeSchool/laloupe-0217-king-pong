@@ -152,4 +152,28 @@ console.log($scope.activities);
  };
 
 
-    });
+
+ var str = "Bonjour je suis nailletine";
+ var char = str.charAt(3);
+ console.log('char', char);
+ var e = 'E';
+ var strr = str.split('');
+
+str = str.split('');
+e = e.split('');
+
+str = str.slice(0,25);
+
+var x = str.concat(e);
+
+x = x.join('');
+
+ var b = ['a', 'b', 'c'];
+
+console.log('str split ', str);
+console.log('str slice ', str);
+console.log('e split ', e);
+console.log('x', x);
+
+
+ });

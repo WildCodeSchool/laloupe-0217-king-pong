@@ -1,3 +1,6 @@
+<div class="container-fluid">
+
+
 <div class="nav-content">
     <ul class="tabs tabs-transparent">
         <!-- <li class="tab"><a ng-show = "afficherAngletGeneral()" ng-click="angletG =! angletG">General</a></li> -->
@@ -8,7 +11,7 @@
 
     </ul>
 
-<div class="row marquage">
+<div class="row marquage  position-classement">
     <div class="col s1 offset-s7">Pts.</div>
     <div class="col s1">J.</div>
     <div class="col s1">G.</div>
@@ -19,7 +22,7 @@
   <div>
 <ul ng-repeat="activity in activities | filter: {name: filter}">
     <li "collection-item" ng-repeat="player in activity.players | orderBy: '-result.play'">
-        <div class="row but">
+        <div class="row but  position-classement">
             <div class="col s1">
                 {{$index+1}}
             </div>
@@ -32,7 +35,7 @@
            <div class="col s1 border">
 
           </div>
-        
+
 
 
 
@@ -56,4 +59,7 @@
     </li>
 
 </ul>
+</div>
+
+
 </div>
