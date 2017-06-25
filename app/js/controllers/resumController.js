@@ -16,11 +16,11 @@ angular.module('app')
     }
 
 
-    $scope.showModal = function() {
+    $scope.showSuppModal = function() {
       $mdDialog.show({
-        contentElement: '#modalChoice',
+        contentElement: '#modalSupp',
         scope: $scope,
-        controller: 'ArbitrageController',
+        controller: 'ResumController',
         preserveScope: true,
         hasBackdrop: false,
         bindToController: true,
@@ -40,7 +40,7 @@ angular.module('app')
       $mdDialog.show({
         contentElement:'#modalValid',
         scope: $scope,
-        controller: 'ArbitrageController',
+        controller: 'ResumController',
         preserveScope: true,
         hasBackdrop: false,
         bindToController: true,
@@ -51,35 +51,23 @@ angular.module('app')
       });
     };
 
+
+
+    $scope.quit = function(){
+      $mdDialog.hide();
+    };
+
     $scope.goToHome = function() {
       $state.go('main.home');
     };
 
-    $scope.valideScore = function(team) {
+    $scope.suppChallenge = function(challengeId) {
       $mdDialog.hide();
-      ChallengeService.update($state.params.id,{result:true}).then(function(res){
+      ChallengeService.delete(challengeId).then(function(res){
+        console.log(res.data);
       });
-      if(team !== 'null'){
-        $scope.teams.splice((team.name - 1),1);
-        TeamService.updateScore(team._id, {
-          resultat: "win"
-        }).then(function(res) {
-          $scope.teams.forEach(function(team) {
-            TeamService.updateScore(team._id, {
-              resultat: "lose"
-            }).then(function(res) {
-            });
-          });
-        });
-      }else{
-        $scope.teams.forEach((team)=>{
-          TeamService.updateScore(team._id, {
-            resultat: "null"
-          }).then(function(res) {
-          });
-        });
-      }
-      $state.go('main.home');
+
+      // $state.go('main.home');
     };
 
     // service

@@ -146,6 +146,36 @@ export default class Team {
 
   }
 
+  searchAndDelete(req, res) {
+    model.find({
+      challenge: req
+    }, (err, teams) => {
+      if (err || !teams) {
+        res({
+          noTeams: true
+        });
+      } else {
+        teams.forEach((team) => {
+          model.findByIdAndRemove(team._id, (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              return {
+                team: team._id,
+                deleted: true
+              };
+            }
+          });
+          });
+          res({
+            teamDeleted: true
+        });
+      }
+    });
+
+  }
+
+
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {
       if (err) {

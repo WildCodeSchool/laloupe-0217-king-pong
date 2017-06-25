@@ -25,5 +25,8 @@ angular.module('app')
       getOne: function(id) {
         return $http.get('/challenges/' + id);
       },
+      delete: function(id) {
+        return $http.delete('/challenges/' + id);
+      },
     };
   });

@@ -190,6 +190,16 @@ export default class Activity {
     });
   }
 
+  searchAndDelete(req, res) {
+    model.findOneAndRemove({challenge:req}, (err) => {
+      if (err) {
+        res({noInvitation:true});
+      } else {
+        res({InvitationDeleted:true});
+      }
+    });
+  }
+
 
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {
