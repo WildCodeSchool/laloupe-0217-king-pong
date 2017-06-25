@@ -20,7 +20,7 @@ angular.module('app')
     //functions
 
     function refactoring(array) {
-      if (array !== undefined) {
+      if (array.length >0) {
         array.forEach(function(challenge) {
           challenge.nbPlayer = [];
           challenge.teams.forEach(function(team) {
@@ -38,7 +38,7 @@ angular.module('app')
     function filterDate(items, callback) {
       var finish = [];
       var notFinish = [];
-      if (items !== undefined) {
+      if (items.length > 0) {
         items.map(function(element) {
           var date = element.diff;
           if (/^dans/.test(date)) {
@@ -115,7 +115,6 @@ angular.module('app')
         player: userId,
         community: currentCommunity
       }).then(function(res) {
-        console.log(refactoring(res.data));
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {
             console.log(err);
@@ -141,8 +140,6 @@ angular.module('app')
       });
 
       ChallengeService.getByCommunity(currentCommunity).then(function(res) {
-        console.log(res.data);
-
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {
             console.log(err);
