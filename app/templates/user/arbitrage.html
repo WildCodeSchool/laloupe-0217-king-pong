@@ -10,60 +10,56 @@
 <div class="cadre">
   <md-subheader class="md-no-sticky">
 
-    <img class='circleDefi'src="{{challenge.author.avatar}}" alt="" class="circle">
+    <img class='circleDefi' src="{{challenge.author.avatar}}" alt="" class="circle">
     <p>vous invite pour un defi {{activity}}</p>
 
   </md-subheader><br>
 </div>
 <div class="row">
   <div class="col s12 offset-l4 l4">
-    <div class="greyBorder col offset-s1 s11 offset-l1 l10 ">
+    <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
       <label for="started">Date et heure</label>
       <input id="started" type="text" class="validate" ng-model='challenge.date'>
     </div>
-    <div class=" greyBorder col offset-s1 s11 offset-l1 l10 ">
+    <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
       <label for="duree">Durée</label>
       <input id="duree" type="text" class="validate" ng-model="challenge.duration">
     </div>
-    <div class=" greyBorder col offset-s1 s11 offset-l1 l10 ">
+    <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
       <label for="activity">Activité</label>
       <input id="activity" type="text" class="validate" ng-model="challenge.activity.activityName">
     </div>
-    <div class=" greyBorder col offset-s1 s11 offset-l1 l10 ">
+    <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
       <label for="where">Lieu</label>
       <input id="where" type="text" class="validate" ng-model="challenge.place">
     </div>
   </div>
   <div class="row">
-    <div class="col s12">
-      <div class="bckgrd-participant">
-        <p>Participants</p>
+    <div class="col s12 offset-l4 l4">
+      <div class="col s12">
+        <div class="bckgrd-participant">
+          <p>Participants</p>
+        </div>
       </div>
-
     </div>
   </div>
   <div class="row">
-    <div class="input-field col s12">
-        <div id='{{team.name}}' class="inlineInvite" ng-repeat="team in challenge.teams">
-          <ul>
-
-          <label for="{{team.name}}" class ="active">team {{team.name}}</label class ="active">
-            <li  ng-repeat="player in team.players">
-
-                <div class="chip">
-                    <img src="{{player.avatar}}" alt="Contact Person"> {{player.pseudo}}
-                </div>
-            </li>
-          </ul>
-        </div>
+    <div class="col s12 offset-l4 l4">
+      <div class="input-field col offset-s1 s11 offset-l1 l10 margeTeam">
+        <md-list-item id='{{team.name}}' class="col s12 greyBorder teamArbitrage" ng-repeat="team in challenge.teams">
+          <label for="{{team.name}}" class="active">team {{team.name}}</label class ="active">
+          <div class="chip inlineInvite" ng-repeat="player in team.players">
+              <img src="{{player.avatar}}" alt="Contact Person"> {{player.pseudo}}
+            </div>
+        </md-list-item>
+      </div>
     </div>
   </div>
-
-</div>
-<div class="row">
-  <div class="col s12">
-    <div class="bckgrd-participant">
-      <button class="btn btn-blue darken-1" type="button" ng-click="choiceTeam(team)">Valider</button>
+  <div class="row">
+    <div class="col s12 offset-l4 l4">
+      <div class="bckgrd-participant bottomButton">
+        <button class="btn blue darken-1" type="button" ng-click="showModal()"><span>Arbitrer</span></button>
+      </div>
     </div>
   </div>
 </div>
