@@ -1,10 +1,10 @@
 <md-dialog>
   <md-dialog-content>
-  <div class="row">
-    <div class="col s12 offset-l4 l4">
-      <div class="input-field col offset-s1 s11 offset-l1 l10 margeTeam">
-        <md-list-item id='{{team.name}}' class="col s12 greyBorder teamArbitrage" ng-repeat="team in challenge.teams">
-          <label for="{{team.name}}" class="active">team {{team.name}}</label class ="active">
+    <div class="row">
+      <div class="col s12 offset-l4 l4">
+        <div class="input-field col offset-s1 s11 offset-l1 l10 margeTeam">
+          <md-list-item id='{{team.name}}' class="col s12 greyBorder teamArbitrage" ng-repeat="team in challenge.teams">
+            <label for="{{team.name}}" class="active">team {{team.name}}</label class ="active">
         <div class="chip inlineInvite" ng-repeat="player in team.players">
             <img src="{{player.avatar}}" alt="Contact Person"> {{player.pseudo}}
           </div>
@@ -25,3 +25,31 @@
   </div>
 </div>
 </md-dialog>
+
+
+
+<!-- <md-dialog-content>
+<div class="row" style="margin-top:50px">
+<div class="col offset-s3 s6 offset-l4 l4">
+<p> Vous avez Choisie</p>
+</div>
+div class="col offset-s4 s4 offset-l4 l4">
+<b> message + '</b>
+</div>
+</div>
+</md-dialog-content>
+<md-dialog-content>
+<div class="row">
+<div class="col s6">
+<div class=" ">
+<button class="btn blue darken-1" type="button" ng-click="valideScore()"><span>valider</span></button>
+</div>
+</div>
+<div class="col s6">
+<div class=" ">
+<button class="btn blue darken-1" type="button" ng-click="showModal(teams)"><span>retour</span></button>
+</div>
+</div>
+</div>
+</md-dialog-content>
+</md-dialog> -->
