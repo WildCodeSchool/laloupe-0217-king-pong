@@ -10,7 +10,8 @@ import {
   userFilter,
   timeDiff,
   sortByActivity,
-  formatDate
+  formatDate,
+  resultFilter
 } from '../../function.js';
 moment.locale('fr');
 
@@ -66,7 +67,11 @@ const challengeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Team",
 
-  }]
+  }],
+  result: {
+    type: Boolean,
+    default: false
+  }
 });
 
 
@@ -107,7 +112,9 @@ export default class Challenge {
           res.sendStatus(403);
         } else {
 
-          res.json(formatDate(challenge));
+            res.json(formatDate(challenge));
+
+
         }
       });
   }
@@ -132,7 +139,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(timeDiff(challenges));
+            res.json(resultFilter(timeDiff(challenges)));
           }
         });
   }
@@ -180,7 +187,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(timeDiff(userFilter(challenges, req.query.player)));
+            res.json(resultFilter(timeDiff(userFilter(challenges, req.query.player))));
           }
         }
       );

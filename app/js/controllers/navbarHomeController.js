@@ -141,6 +141,7 @@ angular.module('app')
       });
 
       ChallengeService.getByCommunity(currentCommunity).then(function(res) {
+        console.log(res.data);
 
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {

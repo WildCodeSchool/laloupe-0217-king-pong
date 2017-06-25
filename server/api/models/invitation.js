@@ -7,7 +7,8 @@ import config from '../../mailerConfig.js';
 import options from '../../mailerOption.js';
 import {
   invitationAsync,
-  userCommunityFilter,
+  communityFilter,
+  userFilter,
   timeDiff
 } from '../../function.js';
 
@@ -99,8 +100,17 @@ export default class Activity {
           if (err || !invitations) {
             res.sendStatus(404);
           } else {
-            const challenges = _.map(invitations, (invitation) => invitation.challenge);
-            res.json(timeDiff(userCommunityFilter(challenges, req.query)));
+            let challenges = _.map(invitations, (invitation) => invitation.challenge);
+            challenges = communityFilter(challenges,req.query);
+            if (challenges.length > 0) {
+              res.json(timeDiff(userFilter(challenges, req.query)));
+            }else{
+              res.json({result:false});
+            }
+
+
+
+
           }
         }
       );

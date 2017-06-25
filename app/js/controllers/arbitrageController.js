@@ -1,8 +1,10 @@
 angular.module('app')
-  .controller('ArbitrageController', function($scope, $state, CurrentUser, ChallengeService, TeamService) {
+  .controller('ArbitrageController', function($scope, $mdDialog, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
     // variables
     $scope.user = CurrentUser.user();
     $scope.teams = [];
+    $scope.team = {};
+    var info;
 
 
     // function
@@ -13,19 +15,59 @@ angular.module('app')
       return teams;
     }
 
-    $scope.choiceTeam = function(team) {
-      if(team){
-        team = JSON.parse(team);
+
+    $scope.showModal = function() {
+      $mdDialog.show({
+        contentElement: '#modalChoice',
+        scope: $scope,
+        controller: 'ArbitrageController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose:true,
+        locals: {
+          team: $scope.team
+        }
+
+      });
+    };
+
+
+
+    $scope.choice = function(team) {
+      $mdDialog.hide();
+
+      $mdDialog.show({
+        contentElement:'#modalValid',
+        scope: $scope,
+        controller: 'ArbitrageController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose:true,
+        locals: {
+          team: $scope.team
+        }
+      });
+    };
+
+    $scope.goToHome = function() {
+      $state.go('main.home');
+    };
+
+    $scope.valideScore = function(team) {
+      $mdDialog.hide();
+      ChallengeService.update($state.params.id,{result:true}).then(function(res){
+      });
+      if(team !== 'null'){
         $scope.teams.splice((team.name - 1),1);
         TeamService.updateScore(team._id, {
           resultat: "win"
         }).then(function(res) {
-          console.log(res);
           $scope.teams.forEach(function(team) {
             TeamService.updateScore(team._id, {
               resultat: "lose"
             }).then(function(res) {
-              console.log(res);
             });
           });
         });
@@ -34,17 +76,18 @@ angular.module('app')
           TeamService.updateScore(team._id, {
             resultat: "null"
           }).then(function(res) {
-            console.log(res);
           });
         });
       }
+      $state.go('main.home');
     };
 
     // service
     ChallengeService.getOne($state.params.id).then(function(res) {
-      $scope.teams = nameTeams(res.data.teams);
-      $scope.challenge = res.data;
       console.log(res.data);
+      $scope.teams = nameTeams(res.data.teams);
+      $scope.start = res.data.newDate + ' ' +'à'+' ' +res.data.newTime;
+      $scope.challenge = res.data;
 
     });
   });

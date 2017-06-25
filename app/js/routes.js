@@ -40,41 +40,7 @@ angular.module('app')
           }
         }
       });
-      $stateProvider
-      .state('main', {
-        abstract: true,
-        url: '/user',
-        views: {
-          'navbar@': {
-            templateUrl: 'user/homeNavbar.html',
-            controller: 'NavbarHomeController'
-          }
-        },
-        data: {
-          access: AccessLevels.user
-        }
 
-      })
-      .state('main.home', {
-        url: '/',
-        views: {
-
-          'content@': {
-            templateUrl: 'user/home.html',
-            controller: 'MainController'
-          }
-        }
-      })
-      .state('main.rank', {
-        url: '/rank',
-        views: {
-
-          'content@': {
-            templateUrl: 'user/rank.html',
-            controller: 'RankController',
-          }
-        }
-      });
 
       $stateProvider
       .state('main', {
