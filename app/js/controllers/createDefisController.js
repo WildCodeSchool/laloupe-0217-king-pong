@@ -10,6 +10,7 @@ angular.module('app')
         }
 
         var community = $stateParams.community;
+        var players = [];
 
 
         CommunityService.getOne(community).then(function(res) {
@@ -65,14 +66,11 @@ angular.module('app')
 
             }
             console.log('team', Team);
+            var players = [];
+            $scope.invite.forEach(function(player){
+              players.push(player._id);
 
-            $scope.newChallenge.push(infoChallenge);
-            var player = [];
-            var nbrPlayer = $scope.activity.numberOfplayer;
-            for (let i = 1; i <= nbrPlayer; i++) {
-                player.push(nbrPlayer[i]);
-            }
-            console.log('PLayer : ', player);
+            });
 
 
             var infoChallenge = {
@@ -90,14 +88,12 @@ angular.module('app')
             var totalInfo = {
                 infoChallenge: infoChallenge,
                 teams: Team,
-
-                invite: ["58ff7e5aee9fa934131d1e40", "59003d1d65bddb1575f74eed", "590e0e27a3a7f229c97369f3"]
+                invite:players
 
             };
-            
+
 
             console.log('max players : ', totalInfo);
-
 
             ChallengeService.create(totalInfo);
 
@@ -128,6 +124,11 @@ angular.module('app')
             $scope.invite = $scope.invite.map(function(users) {
 
                 return users;
+            });
+
+            $scope.invite.forEach(function(player){
+              players.push(player._id);
+
             });
 
             $scope.myVarBefore = !$scope.myVarBefore;

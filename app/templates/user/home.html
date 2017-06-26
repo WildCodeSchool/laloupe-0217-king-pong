@@ -5,8 +5,8 @@
     </div>
 
 
-    <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" slides-per-view="5" space-between="20" initial-slide="0">
-      <ks-swiper-slide class="swiper-slide " ng-repeat="challenge in invitations track by $index">
+    <ks-swiper-container ng-if='invitations.length > 0' class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" slides-per-view="5" space-between="20" initial-slide="0">
+      <ks-swiper-slide  class="swiper-slide " ng-repeat="challenge in invitations track by $index">
         <div class="card z-depth-2">
           <div ng-click="goToInvitation(challenge)" class="card-image">
             <img class="challengeImage" ng-src="{{challenge.activity.photo}}">
@@ -53,7 +53,7 @@
       <h2>Arbitrage<span ng-if="arbitrages.length !== 0" class="badge red round-badge">{{arbitrages.length}}</span></h2>
     </div>
 
-    <ks-swiper-container on-ready="onReadySwiper(swiper)" class="swiper-container" show-nav-buttons="true" override-parameters="slideOption" initial-slide="0">
+    <ks-swiper-container ng-if="arbitrages.length > 0" on-ready="onReadySwiper(swiper)" class="swiper-container" show-nav-buttons="true" override-parameters="slideOption" initial-slide="0">
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in arbitrages track by $index" >
         <div class="card">
           <div ng-click="goToArbitrage(challenge._id)" class="card-image">
@@ -92,7 +92,7 @@
     <div class="futurDefies">
       <h2>Mes défis à venir</h2>
     </div>
-    <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" initial-slide="0">
+    <ks-swiper-container ng-if="playerChallenges.length > 0" class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" initial-slide="0">
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in playerChallenges track by $index">
         <div class="card">
           <div ng-click="goToResum(challenge._id)" class="card-image">
@@ -131,7 +131,7 @@
     <div class="communityDefies">
       <h2>Dans ma communauté</h2>
     </div>
-    <ks-swiper-container class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" initial-slide="0">
+    <ks-swiper-container ng-if="communityDefies.length > 0" class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" initial-slide="0">
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in communityDefies track by $index">
         <div class="card">
           <div ng-click="goToResum(challenge._id)" class="card-image">
