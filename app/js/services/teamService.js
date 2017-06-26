@@ -10,6 +10,9 @@ angular.module('app')
             update: function(id, user) {
                 return $http.put('/teams/' + id, user);
             },
+            updateScore: function(id, score) {
+                return $http.put('/teams/score/' + id, score);
+            },
             getAll: function() {
                 return $http.get('/teams');
             },

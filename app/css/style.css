@@ -28,7 +28,9 @@
 }
 
 .bckgrd-participant {
+    /*margin-left: -20px;*/
     color: grey;
+    margin-top: -1px;
     margin-bottom: 10px;
     margin-top: -1px;
     padding-top: 10px;
@@ -60,6 +62,18 @@
     background-color: #eeeeee;
 }
 
+.bckgrd-bouton-Activity {
+    padding-top: 60px;
+    color: grey;
+    height: 160px;
+    width: 413px;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    border-color: #D8D8D8;
+    background-color: #eeeeee;
+}
+
+
 .circleDefi {
     border-radius: 50%!important;
     height: 100px !important;
@@ -76,6 +90,16 @@
 }
 
 
+
+.btnblue {
+    margin-left: 40px;
+    width: 300px;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    text-decoration: none;
+}
 
 .btnblue {
     margin-left: 40px;
@@ -157,6 +181,10 @@
 }
 
 .ng-pristine {
+    border-bottom: 0px !important;
+}
+
+.ng-valid {
     border-bottom: 0px !important;
 }
 

@@ -20,7 +20,7 @@ angular.module('app')
     //functions
 
     function refactoring(array) {
-      if (array !== undefined) {
+      if (array.length >0) {
         array.forEach(function(challenge) {
           challenge.nbPlayer = [];
           challenge.teams.forEach(function(team) {
@@ -38,7 +38,7 @@ angular.module('app')
     function filterDate(items, callback) {
       var finish = [];
       var notFinish = [];
-      if (items !== undefined) {
+      if (items.length > 0) {
         items.map(function(element) {
           var date = element.diff;
           if (/^dans/.test(date)) {
@@ -141,7 +141,6 @@ angular.module('app')
       });
 
       ChallengeService.getByCommunity(currentCommunity).then(function(res) {
-
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {
             console.log(err);
@@ -150,6 +149,10 @@ angular.module('app')
           SharingDataService.sendCommunity(result.notFinish);
         });
       });
+      ChallengeService.getScoreByCommunity(currentCommunity).then(function(res) {
+        console.log(res.data);
+          SharingDataService.sendScore(res.data);
+        });
     }
     // TODO: supprimer les defy passé
     launchServices(userId, currentCommunity);

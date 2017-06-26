@@ -30,19 +30,19 @@
             <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
                 <div layout-gt-xs="row">
                     <div flex-gt-xs>
-                        <md-datepicker ng-model="myDate"></md-datepicker>
+                        <md-datepicker md-min-date="currentDate" ng-model="myDate"></md-datepicker>
                         <label class="active" for="start">Début</label>
                     </div>
                 </div>
             </div>
 
+<div class="timer" "col offset-s1 s11 offset-l1 l10 blocInput1 ">
+            <md-time-picker ng-model="startTime">
+              <label class="active" for="start">Heure</label>
+                  </md-time-picker> -->
+              </div>
 
-            <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
-                <input placeholder="Heure de début de mon défi" type="time" ng-model="startTime">
-                <label class="active" for="start">Heure</label>
-
-            </div>
-            <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
+             <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
                 <md-select placeholder="Combien de temps durera le défi" ng-model="duration">
                     <md-option ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
                 </md-select>

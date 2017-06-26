@@ -80,16 +80,31 @@ export default class Team {
         }
       });
   }
+  updateScore(req, res) {
+    model.findByIdAndUpdate(req.params.id, req.body, {
+        upsert: true,
+        new: true
+      },
+      (err, team) => {
+        if (err || !team) {
+          res.sendStatus(403);
+        } else {
+          res.json({
+            team: team,
+            addResult: true
+          });
+        }
+      });
+  }
+
+
 
   valideInvitation(req, res) {
-    console.log('1 début', req.params, req.body);
     model.findById(req.params.id,
       (err, team) => {
         if (err || !team) {
-          console.log('2 update error');
           res.sendStatus(403);
         } else {
-          console.log('ici test',team.players.length,team.maxPlayer);
           if (team.players.length == team.maxPlayer) {
             res.json({
               team: team,
@@ -104,12 +119,10 @@ export default class Team {
               upsert: true,
               new: true
             }, (err, team) => {
-              console.log('2 update ok', team);
               invitation.deletePlayer({
                 player: req.body.players,
                 challenge: req.body.challenge
               }, (err, result) => {
-                console.log('5 ok finish');
                 res.json({
                   team,
                   result
@@ -126,7 +139,6 @@ export default class Team {
     model.create(req, (err, team) => {
       if (err) {
         res.sendStatus(500);
-        console.log(err);
       } else {
         console.log('result team', team._id);
         res(team._id);
@@ -134,6 +146,36 @@ export default class Team {
     });
 
   }
+
+  searchAndDelete(req, res) {
+    model.find({
+      challenge: req
+    }, (err, teams) => {
+      if (err || !teams) {
+        res({
+          noTeams: true
+        });
+      } else {
+        teams.forEach((team) => {
+          model.findByIdAndRemove(team._id, (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              return {
+                team: team._id,
+                deleted: true
+              };
+            }
+          });
+          });
+          res({
+            teamDeleted: true
+        });
+      }
+    });
+
+  }
+
 
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {

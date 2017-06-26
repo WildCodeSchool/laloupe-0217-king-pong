@@ -2,6 +2,8 @@ angular.module('app')
     .controller('CreateDefisController', function($scope, $state, $stateParams, ActivityService, SessionService, ChallengeService, TeamService, UserService, CurrentUser, CommunityService) {
 
 
+
+
         if (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)) {
             $scope.device = (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)).length;
             $scope.device = (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)).length;
@@ -10,6 +12,8 @@ angular.module('app')
         }
 
         var community = $stateParams.community;
+        var players = [];
+$scope.currentDate = new Date();
 
 
         CommunityService.getOne(community).then(function(res) {
@@ -65,14 +69,11 @@ angular.module('app')
 
             }
             console.log('team', Team);
+            var players = [];
+            $scope.invite.forEach(function(player){
+              players.push(player._id);
 
-            $scope.newChallenge.push(infoChallenge);
-            var player = [];
-            var nbrPlayer = $scope.activity.numberOfplayer;
-            for (let i = 1; i <= nbrPlayer; i++) {
-                player.push(nbrPlayer[i]);
-            }
-            console.log('PLayer : ', player);
+            });
 
 
             var infoChallenge = {
@@ -90,16 +91,15 @@ angular.module('app')
             var totalInfo = {
                 infoChallenge: infoChallenge,
                 teams: Team,
-
-                invite: ["58ff7e5aee9fa934131d1e40", "59003d1d65bddb1575f74eed", "590e0e27a3a7f229c97369f3"]
+                invite:players
 
             };
 
 
             console.log('max players : ', totalInfo);
 
-
             ChallengeService.create(totalInfo);
+
             sessionStorage.clear();
             $state.go('main.home');
 
@@ -125,6 +125,11 @@ angular.module('app')
                 return users;
             });
 
+            $scope.invite.forEach(function(player){
+              players.push(player._id);
+
+            });
+
             $scope.myVarBefore = !$scope.myVarBefore;
             console.log($scope.invite);
         };
@@ -138,6 +143,20 @@ angular.module('app')
       $scope.communitys = res.data.users;
 
     });
+
+
+        // Model bound to input fields and modal
+
+        // Optional message to display below each input field
+        $scope.message = {
+          hour: 'Hour is required',
+          minute: 'Minute is required',
+          meridiem: 'Meridiem is required'
+        };
+
+        $scope.readonly = false;
+
+        $scope.required = true;
 
 
     // TODO: limit invitation au max player -1 en comptant le créateur du defy
