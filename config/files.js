@@ -15,6 +15,7 @@ module.exports = function(lineman) {
                 "vendor/js/angular.js",
                 "vendor/js/swiper.js",
                 "vendor/js/md-time-picker.js",
+
                 "vendor/js/**/*.js"
             ],
             app: [
