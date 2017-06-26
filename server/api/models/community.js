@@ -58,6 +58,18 @@ export default class Community {
     });
   }
 
+  createDb(req, res) {
+    model.create(req, (err, community) => {
+      if (err || !community) {
+        res(err);
+      } else {
+        res({
+          success:true
+        });
+      }
+    });
+  }
+
   update(req, res) {
     model.update({
       _id: req.params.id
