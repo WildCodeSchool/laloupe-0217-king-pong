@@ -6,7 +6,7 @@ import Team from './team';
 import Invitation from './invitation';
 import moment from 'moment';
 import {
-  teamAsynchrome,
+  teamAsynchrone,
   userFilter,
   timeDiff,
   sortByActivity,
@@ -112,7 +112,7 @@ export default class Challenge {
           res.sendStatus(403);
         } else {
 
-            res.json(formatDate(challenge));
+          res.json(formatDate(challenge));
 
 
         }
@@ -204,7 +204,7 @@ export default class Challenge {
           challenge: challenge._id,
           maxPlayer: challenge.maxPlayers,
         };
-        teamAsynchrome(req.body.teams, teamInfos, 0, [], team, function(err, teams) {
+        teamAsynchrone(req.body.teams, teamInfos, 0, [], team, function(err, teams) {
           model.findOneAndUpdate({
             _id: challenge._id
           }, {
@@ -255,7 +255,15 @@ export default class Challenge {
       if (err) {
         res.status(500).send(err.message);
       } else {
-        res.sendStatus(200);
+        invitation.searchAndDelete(req.params.id, (err, invitation) => {
+          team.searchAndDelete(req.params.id, (err, teams) => {
+            res.json({
+              challengeDelected: true,
+              invitation:invitation,
+              teams:teams
+            });
+          });
+        });
       }
     });
   }

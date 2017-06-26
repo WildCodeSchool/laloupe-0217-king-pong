@@ -41,14 +41,14 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
 }
 
 //function for create teams
-function teamAsynchrome(teams, infos, i, array, request, callback) {
+function teamAsynchrone(teams, infos, i, array, request, callback) {
   if (i <= teams.length - 1) {
     if (i > 0) {
       delete infos.players;
     }
     request.create(infos, (res) => {
       array.push(res);
-      teamAsynchrome(teams, infos, i + 1, array, request, callback);
+      teamAsynchrone(teams, infos, i + 1, array, request, callback);
     });
   } else {
 
@@ -59,8 +59,6 @@ function teamAsynchrome(teams, infos, i, array, request, callback) {
 //function for filter user and community
 function communityFilter(challenges, params) {
   return challenges.filter((el) => {
-    console.log('el',el);
-    console.log('params',params.community);
   return  el.community == params.community;
   });
 }
@@ -149,7 +147,7 @@ function formatDate(challenge) {
 
 export {
   invitationAsync,
-  teamAsynchrome,
+  teamAsynchrone,
   communityFilter,
   userFilter,
   timeDiff,
