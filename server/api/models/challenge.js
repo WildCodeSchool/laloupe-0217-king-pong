@@ -139,7 +139,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(resultFilter(timeDiff(challenges)));
+            res.json(resultFilter(timeDiff(challenges),false));
           }
         });
   }
@@ -161,7 +161,8 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(sortByActivity(challenges));
+            const results = resultFilter(challenges,true);
+            res.json(sortByActivity(results));
           }
         });
   }
@@ -187,7 +188,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(resultFilter(timeDiff(userFilter(challenges, req.query.player))));
+            res.json(resultFilter(timeDiff(userFilter(challenges, req.query.player)),false));
           }
         }
       );

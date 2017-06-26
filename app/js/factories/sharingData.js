@@ -1,6 +1,6 @@
 angular.module('app')
   .factory('SharingDataService', function() {
-    var invitations,arbitrages,playerDefies,communityDefies;
+    var invitations,arbitrages,playerDefies,communityDefies,scores;
 
     return {
       sendInvitations: function(data) {
@@ -15,6 +15,9 @@ angular.module('app')
       sendCommunity: function(data) {
         communityDefies = data;
       },
+      sendScore: function(data) {
+        scores = data;
+      },
 
       getInvitations: function() {
         return invitations;
@@ -27,6 +30,9 @@ angular.module('app')
       },
       getCommunity: function() {
         return communityDefies;
+      },
+      getScore: function() {
+        return scores;
       }
 
 
