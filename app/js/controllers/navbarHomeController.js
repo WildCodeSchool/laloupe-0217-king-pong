@@ -148,6 +148,10 @@ angular.module('app')
           SharingDataService.sendCommunity(result.notFinish);
         });
       });
+      ChallengeService.getScoreByCommunity(currentCommunity).then(function(res) {
+        console.log(res.data);
+          SharingDataService.sendScore(res.data);
+        });
     }
     // TODO: supprimer les defy passé
     launchServices(userId, currentCommunity);

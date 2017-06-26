@@ -1,9 +1,10 @@
 angular.module('app')
-  .controller('ResumController', function($scope, $mdDialog, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
+  .controller('ResumController', function($scope, $mdDialog,$mdDateLocale, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
     // variables
     $scope.user = CurrentUser.user();
     $scope.teams = [];
     $scope.team = {};
+    $scope.currentDate = new Date();
     var info;
 
 
@@ -19,6 +20,22 @@ angular.module('app')
     $scope.showSuppModal = function() {
       $mdDialog.show({
         contentElement: '#modalSupp',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose:true,
+        locals: {
+          team: $scope.team
+        }
+
+      });
+    };
+
+    $scope.showEditModal = function() {
+      $mdDialog.show({
+        contentElement: '#modalEdit',
         scope: $scope,
         controller: 'ResumController',
         preserveScope: true,
@@ -72,10 +89,10 @@ angular.module('app')
 
     // service
     ChallengeService.getOne($state.params.id).then(function(res) {
-      console.log(res.data);
       $scope.teams = nameTeams(res.data.teams);
       $scope.start = res.data.newDate + ' ' +'à'+' ' +res.data.newTime;
       $scope.challenge = res.data;
+      $scope.challenge.date = new Date($scope.challenge.date);
 
     });
   });

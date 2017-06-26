@@ -59,7 +59,7 @@ function teamAsynchrone(teams, infos, i, array, request, callback) {
 //function for filter user and community
 function communityFilter(challenges, params) {
   return challenges.filter((el) => {
-  return  el.community == params.community;
+    return el.community == params.community;
   });
 }
 
@@ -75,9 +75,9 @@ function userFilter(challenges, params) {
 }
 
 //function for filter result false
-function resultFilter(challenges) {
+function resultFilter(challenges , boolean) {
   return challenges.filter((challenge) => {
-    return challenge.result === false;
+    return challenge.result === boolean;
   });
 }
 
@@ -105,26 +105,97 @@ function sortByActivity(challenges) {
             let activity = obj.name,
               players = obj.players;
             if (players.filter(player => player._id == playerId).length > 0) {
-              players[players.findIndex((player) => player._id === playerId)].result.push(result);
+              if (result == 'win') {
+                players[players.findIndex((player) => player._id === playerId)].result.win += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
+              } else if (result == 'null') {
+                players[players.findIndex((player) => player._id === playerId)].result.nul += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
+
+              } else {
+                players[players.findIndex((player) => player._id === playerId)].result.lost += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
+
+              }
             } else {
               players.push({
                 _id: playerId,
                 pseudo: pseudo,
                 avatar: avatar,
-                result: [result]
+                result: {
+                  play: 0,
+                  totalpoint: 0,
+                  win: 0,
+                  nul: 0,
+                  lost: 0
+                }
               });
+              if (result == 'win') {
+                players[players.findIndex((player) => player._id === playerId)].result.win += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
+              } else if (result == 'null') {
+                players[players.findIndex((player) => player._id === playerId)].result.nul += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
+
+              } else {
+                players[players.findIndex((player) => player._id === playerId)].result.lost += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
+
+              }
+
             }
           });
         } else {
-          table.push({
-            name: activityName,
-            players: [{
-              _id: playerId,
-              pseudo: pseudo,
-              avatar: avatar,
-              result: [result]
-            }]
-          });
+          if (result == 'null') {
+            table.push({
+              name: activityName,
+              players: [{
+                _id: playerId,
+                pseudo: pseudo,
+                avatar: avatar,
+                result: {
+                  play: 1,
+                  totalpoint: 0,
+                  win: 0,
+                  nul: 1,
+                  lost: 0
+                }
+              }]
+            });
+          } else if (result == 'win') {
+            table.push({
+              name: activityName,
+              players: [{
+                _id: playerId,
+                pseudo: pseudo,
+                avatar: avatar,
+                result: {
+                  play: 1,
+                  totalpoint: 0,
+                  win: 1,
+                  nul: 0,
+                  lost: 0
+                }
+              }]
+            });
+          } else {
+            table.push({
+              name: activityName,
+              players: [{
+                _id: playerId,
+                pseudo: pseudo,
+                avatar: avatar,
+                result: {
+                  play: 1,
+                  totalpoint: 0,
+                  win: 0,
+                  nul: 0,
+                  lost: 1
+                }
+              }]
+            });
+
+          }
         }
       });
     });
