@@ -7,5 +7,4 @@ export default {
   },
   viewPath: './api/views/email/',
   extName: '.hbs'
-
 };

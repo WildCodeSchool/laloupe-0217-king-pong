@@ -1,5 +1,7 @@
 angular.module('app')
   .controller('RegisterController', function($scope, Auth, $state, UserService, $timeout) {
+
+    // variables
     $scope.error = {
       pseudo: "This user allready exist!",
       email: "This email allready exist!"
@@ -8,6 +10,8 @@ angular.module('app')
     $scope.inputType = "password";
     var timer;
 
+
+    // functions
     function searchPseudo() {
       timer = $timeout(function() {
         UserService.getPseudo($scope.user.pseudo.toLowerCase()).then(function(res) {
@@ -15,6 +19,7 @@ angular.module('app')
         });
       }, 1500);
     }
+
 
     function searchEmail() {
       timer = $timeout(function() {
@@ -24,15 +29,18 @@ angular.module('app')
       }, 1500);
     }
 
+
     $scope.addPseudo = function() {
       $timeout.cancel(timer);
       searchPseudo();
     };
 
+
     $scope.addEmail = function() {
       $timeout.cancel(timer);
       searchEmail();
     };
+
 
     $scope.showPassword = function() {
       if ($scope.inputType === "password") {
@@ -42,12 +50,12 @@ angular.module('app')
       }
     };
 
+
     $scope.register = function() {
-      Auth.register($scope.user).then(function(res){
-        console.log(res);
-        $state.go("user.community");
-      })
-      .then();
+      Auth.register($scope.user).then(function(res) {
+          $state.go("user.community");
+        })
+        .then();
 
     };
   });

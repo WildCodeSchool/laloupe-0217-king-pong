@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-
 moment.locale('fr');
 
 //function for sending mail
@@ -51,7 +50,6 @@ function teamAsynchrone(teams, infos, i, array, request, callback) {
       teamAsynchrone(teams, infos, i + 1, array, request, callback);
     });
   } else {
-
     callback(null, array);
   }
 }
@@ -89,9 +87,11 @@ function timeDiff(challenges) {
     }, challenge._doc);
   });
 }
+
 //function for extra score by activity and player
 function sortByActivity(challenges) {
-  let table = [];
+  let table = [],
+  playerResults = players[players.findIndex((player) => player._id === playerId)].result;
   challenges.forEach((challenge) => {
     let activityName = challenge.activity.activityName;
     challenge.teams.forEach((team) => {
@@ -106,16 +106,14 @@ function sortByActivity(challenges) {
               players = obj.players;
             if (players.filter(player => player._id == playerId).length > 0) {
               if (result == 'win') {
-                players[players.findIndex((player) => player._id === playerId)].result.win += 1;
-                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
+                playerResults.win += 1;
+                playerResults.play += 1;
               } else if (result == 'null') {
-                players[players.findIndex((player) => player._id === playerId)].result.nul += 1;
-                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
-
+                playerResults.nul += 1;
+                playerResults.play += 1;
               } else {
-                players[players.findIndex((player) => player._id === playerId)].result.lost += 1;
-                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
-
+                playerResults.lost += 1;
+                playerResults.play += 1;
               }
             } else {
               players.push({
@@ -131,15 +129,14 @@ function sortByActivity(challenges) {
                 }
               });
               if (result == 'win') {
-                players[players.findIndex((player) => player._id === playerId)].result.win += 1;
-                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
+                playerResults.win += 1;
+                playerResults.play += 1;
               } else if (result == 'null') {
-                players[players.findIndex((player) => player._id === playerId)].result.nul += 1;
-                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
-
+                playerResults.nul += 1;
+                playerResults.play += 1;
               } else {
-                players[players.findIndex((player) => player._id === playerId)].result.lost += 1;
-                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
+                playerResults.lost += 1;
+                playerResults.play += 1;
 
               }
 
@@ -194,7 +191,6 @@ function sortByActivity(challenges) {
                 }
               }]
             });
-
           }
         }
       });
@@ -211,10 +207,7 @@ function formatDate(challenge) {
     newDate: date,
     newTime: time
   }, challenge._doc);
-
 }
-
-
 
 export {
   invitationAsync,

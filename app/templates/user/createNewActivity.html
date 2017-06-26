@@ -1,59 +1,59 @@
 <nav>
-    <div class="nav-wrapper">
-        <ul>
-            <li>
-                <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
-            </li>
-            <li>
-                <i class="validate" ng-click="valide()">Valide</i>
-            </li>
-        </ul>
-    </div>
+  <div class="nav-wrapper">
+    <ul>
+      <li>
+        <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
+      </li>
+      <li>
+        <i class="validate" ng-click="valide()">Valide</i>
+      </li>
+    </ul>
+  </div>
 </nav>
 <div class="cadre">
-    <md-subheader class="md-no-sticky">
-        <img src="{{photo}}" alt="" class="circleDefi">
-        <p>Créer une nouvelle activité?</p>
-    </md-subheader><br>
+  <md-subheader class="md-no-sticky">
+    <img src="{{photo}}" alt="" class="circleDefi">
+    <p>Créer une nouvelle activité?</p>
+  </md-subheader><br>
 </div>
 </div>
 <div class="row">
-    <form class="col s12 offset-l4 l4">
-        <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
-            <input id="activity" type="text" placeholder="Comment se nomme votre activité?" class="active" ng-model="activity">
-            <label class="active" for="activity">Activité</label>
-        </div>
-        <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
-            <label class="active" for="activity">Thème</label>
-            <md-select placeholder="Quel est le thème?" ng-model="photo">
-                <md-option ng-repeat="photo in photos" value="{{photo.value}}">{{photo.name}}</md-option>
-            </md-select>
-        </div>
-        <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
-            <input id="description" placeholder="Résumer la description" type="text" class="active" ng-model="description">
-            <label class="active" for="activity">Description</label>
-        </div>
-        <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
-            <label class="active" for="activity">Règle du resultat</label>
-            <md-select placeholder="Quelle est la règle du résultat" ng-model="resultRule">
-                <md-option ng-repeat="resultRule in resultRules" value="{{resultRule}}">{{resultRule}}</md-option>
-            </md-select>
-        </div>
-        <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
-            <input id="teamNumber" placeholder="2 (default)" type="text" class="validate" ng-model="teamNumber">
-            <label class="active" for="activity">Nombre d'équipe maximum</label>
-        </div>
-        <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
-            <input id="playerNumber" placeholder="non defini (default)" type="text" class="validate" ng-model="playerNumber">
-            <label class="active" for="activity">Nombre de joueur max par équipe</label>
-        </div>
-        <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
-            <input id="averageLast" placeholder="1h - 3h (default)" type="text" class="validate" ng-model="averageLast">
-            <label class="active" for="activity">Durée moyenne</label>
-        </div>
+  <form class="col s12 offset-l4 l4">
+    <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
+      <input id="activity" type="text" placeholder="Comment se nomme votre activité?" class="active" ng-model="activity">
+      <label class="active" for="activity">Activité</label>
+    </div>
+    <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
+      <label class="active" for="activity">Thème</label>
+      <md-select placeholder="Quel est le thème?" ng-model="photo">
+        <md-option ng-repeat="photo in photos" value="{{photo.value}}">{{photo.name}}</md-option>
+      </md-select>
+    </div>
+    <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
+      <input id="description" placeholder="Résumer la description" type="text" class="active" ng-model="description">
+      <label class="active" for="activity">Description</label>
+    </div>
+    <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
+      <label class="active" for="activity">Règle du resultat</label>
+      <md-select placeholder="Quelle est la règle du résultat" ng-model="resultRule">
+        <md-option ng-repeat="resultRule in resultRules" value="{{resultRule}}">{{resultRule}}</md-option>
+      </md-select>
+    </div>
+    <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
+      <input id="teamNumber" placeholder="2 (default)" type="text" class="validate" ng-model="teamNumber">
+      <label class="active" for="activity">Nombre d'équipe maximum</label>
+    </div>
+    <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
+      <input id="playerNumber" placeholder="non defini (default)" type="text" class="validate" ng-model="playerNumber">
+      <label class="active" for="activity">Nombre de joueur max par équipe</label>
+    </div>
+    <div class="input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
+      <input id="averageLast" placeholder="1h - 3h (default)" type="text" class="validate" ng-model="averageLast">
+      <label class="active" for="activity">Durée moyenne</label>
+    </div>
 </div>
 <div class="bckgrd-bouton-Activity">
-    <button class="btn blue darken-1" type="button" ng-click="valide()"><span>Creer l' activité</span></button>
+  <button class="btn blue darken-1" type="button" ng-click="valide()"><span>Creer l' activité</span></button>
 </div>
 </form>
 </form>

@@ -31,7 +31,7 @@ let model = mongoose.model('Invitation', invitationSchema);
 let mailer = config();
 
 
-//functions
+//functions mailer
 mailer.use('compile', hbs(options));
 
 
@@ -101,18 +101,14 @@ export default class Activity {
             res.sendStatus(404);
           } else {
             let challenges = _.map(invitations, (invitation) => invitation.challenge);
-            console.log(challenges);
-            console.log('ici',req.query);
-            challenges = communityFilter(challenges,req.query);
+            challenges = communityFilter(challenges, req.query);
             if (challenges.length > 0) {
               res.json(timeDiff(userFilter(challenges, req.query)));
-            }else{
-              res.json({result:false});
+            } else {
+              res.json({
+                result: false
+              });
             }
-
-
-
-
           }
         }
       );
@@ -193,15 +189,20 @@ export default class Activity {
   }
 
   searchAndDelete(req, res) {
-    model.findOneAndRemove({challenge:req}, (err) => {
+    model.findOneAndRemove({
+      challenge: req
+    }, (err) => {
       if (err) {
-        res({noInvitation:true});
+        res({
+          noInvitation: true
+        });
       } else {
-        res({InvitationDeleted:true});
+        res({
+          InvitationDeleted: true
+        });
       }
     });
   }
-
 
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {

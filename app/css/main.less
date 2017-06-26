@@ -10,6 +10,7 @@
   font-weight: 400;
   src: local('Material Icons'), local('MaterialIcons-Regular'), url("https://fonts.gstatic.com/s/materialicons/v22/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2") format('woff2');
 }
+
 @font-face {
   font-family: 'pressStart';
   src: url('/fonts/PressStart2P-Regular.ttf');
@@ -34,7 +35,10 @@
 // **********************Variables LESS*****************************************
 // -----------------------------------------------------------------------------
 @purple: #312C41;
-@grey: #EDEDED; // -------------------------------------------------------------
+
+@grey: #EDEDED;
+
+// ----------------------------------------------------------------------------
 // **********************Slide View********************************************
 // -----------------------------------------------------------------------------
 
@@ -75,7 +79,8 @@
 div .nav-wrapper {
   background-color: @purple;
 }
-nav{
+
+nav {
   background-color: @purple;
 }
 
@@ -115,11 +120,8 @@ md-tabs {
 }
 
 select:focus {
-    outline: 1px solid @purple !important;
+  outline: 1px solid @purple !important;
 }
-
-
-
 // -----------------------------------------------------------------------------
 // **********************Navbar********************************************
 // -----------------------------------------------------------------------------
@@ -159,15 +161,6 @@ select:focus {
       padding: 0 33%;
     }
   }
-}
-
-.register {
-  // @media (width: 768px) {
-  //   margin-top: 100px;
-  // @media (min-width: 800px) {
-  //   margin-top: 0%;
-  //
-  // }
 }
 
 #revealPassword {
@@ -277,23 +270,19 @@ h1 {
 // **********************navbar-home********************************************
 // -----------------------------------------------------------------------------
 
-
-
-
 .md-tab {
-  width:50%;
+  width: 50%;
 }
 
-md-tabs md-ink-bar  {
-    color: @purple!important;
-    background-color:rgb(0, 212, 215) !important;
-    width: 50%;
+md-tabs md-ink-bar {
+  color: @purple!important;
+  background-color: rgb(0, 212, 215) !important;
+  width: 50%;
 }
+
 md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
   color: white !important;
-
 }
-
 // -----------------------------------------------------------------------------
 // **********************Register********************************************
 // -----------------------------------------------------------------------------
@@ -317,7 +306,8 @@ h2 {
     font-size: 2.5em;
   }
 }
-h6{
+
+h6 {
   font-size: 1.3em;
   font-weight: 500;
   margin-top: 20px;
@@ -335,8 +325,6 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar),
 md-toolbar:not(.md-menu-toolbar) {
   background-color: @purple;
 }
-
-
 
 .pseudo-sidenav {
   color: white;
@@ -392,7 +380,6 @@ span.badge.nav-badge {
   margin-left: 15px;
 }
 
-
 .animate-show-hide.ng-hide {
   opacity: 0;
 }
@@ -401,83 +388,98 @@ span.badge.nav-badge {
 .animate-show-hide.ng-hide-remove {
   transition: all linear 0.5s;
 }
+
 .valider.refuser {
   :hover {
-  color:red;
-  text-decoration:none;
-}}
-.greyBorder{
+    color: red;
+    text-decoration: none;
+  }
+}
+
+.greyBorder {
   border-bottom: 1px solid #D8D8D8;
 }
-.listHeight{
+
+.listHeight {
   height: 60px;
 }
-.teamArbitrage{
+
+.teamArbitrage {
   margin-top: 20px;
   display: block;
-
 }
-.margeTeam{
-  margin-top:-30px;
+
+.margeTeam {
+  margin-top: -30px;
   margin-bottom: -20px;
   height: auto;
 }
-.bottomButton{
+
+.bottomButton {
   margin-bottom: -50px;
 }
-.bottom{
+
+.bottom {
   align-items: baseline;
 }
+
 .resumHeader {
-    text-align: center;
-    background-color: @grey;
-    border-bottom: solid 1px grey;
-    color:black
+  text-align: center;
+  background-color: @grey;
+  border-bottom: solid 1px grey;
+  color: black;
 }
-.bottomSection{
+
+.bottomSection {
   margin-bottom: -40px;
-
-}
-.bottomLink{
-  margin-top:15px;
-}
-.link{
-font-size: 0.9em;
-font-weight: 500;
-}
-.greyLink{
-color:grey;
 }
 
-.greenLink{
-color:#26a69a;
+.bottomLink {
+  margin-top: 15px;
 }
 
-.redLink{
-  color:red;
+.link {
+  font-size: 0.9em;
+  font-weight: 500;
 }
+
+.greyLink {
+  color: grey;
+}
+
+.greenLink {
+  color: #26a69a;
+}
+
+.redLink {
+  color: red;
+}
+
 .md-datepicker-triangle-button.md-button.md-icon-button {
-    width: 100%;
+  width: 100%;
 }
-.md-datepicker-input-container {
 
-    width: 70%;
+.md-datepicker-input-container {
+  width: 70%;
 }
+
 .picker {
-    width: 100%;
-  }
-.teamChoice{
+  width: 100%;
+}
+
+.teamChoice {
   padding-top: -50px;
 }
-.choiceTitle{
+
+.choiceTitle {
   padding: 10px;
 }
-.teamTitle{
+
+.teamTitle {
   margin-left: 25px;
   font-size: 1.3em;
   font-weight: 500;
 }
-
 // -----------------------------------------------------------------------------
 // **********************Carousel***********************************************
 // -----------------------------------------------------------------------------
@@ -565,7 +567,7 @@ color:#26a69a;
   background-color: black;
 }
 
-.card .card-content{
+.card .card-content {
   position: absolute;
   width: 100%;
   bottom: -4.5%;
@@ -593,44 +595,41 @@ color:#26a69a;
   }
   @media screen and (min-width: 321px) and (max-width: 375px) {
     bottom: -7%;
-/* left: 10%; */
-padding: 0 !important;
+    /* left: 10%; */
+    padding: 0 !important;
   }
   @media screen and (max-width: 320px) {
     bottom: -6.5%;
     // left: 0%;
     padding: 0 !important;
   }
-
 }
 
-.greyCircle{
+.greyCircle {
   position: relative;
-
 }
 
-span.plus{
-  text-align:center;
+span.plus {
+  text-align: center;
   position: absolute;
   right: 15%;
-  top:25%;
+  top: 25%;
   font-size: 1.4em;
   font-weight: bold;
   color: white;
-
   @media screen and (min-width: 1600px) and (max-width: 2000px) {
     right: 24%;
-    top:20%;
+    top: 20%;
     font-size: 2em;
   }
   @media screen and (min-width: 1025px) and (max-width: 1600px) {
     right: 16%;
-    top:22%;
+    top: 22%;
     font-size: 1.8em;
   }
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     right: 21%;
-    top:22%;
+    top: 22%;
     font-size: 1.8em;
   }
   @media screen and (min-width: 600px) and (max-width: 767px) {
@@ -639,19 +638,17 @@ span.plus{
   }
   @media screen and (min-width: 321px) and (max-width: 375px) {
     right: 15%;
-    top:24%;
+    top: 24%;
     font-size: 1.2em;
   }
   @media screen and (max-width: 320px) {
     right: 12%;
-    top:24%;
+    top: 24%;
     font-size: 1.2em;
   }
-
-
 }
-.card-content {
 
+.card-content {
   ul li {
     list-style: none;
     display: inline;
@@ -674,8 +671,6 @@ span.plus{
   position: absolute;
   bottom: 15px !important;
 }
-
-.card-image {}
 
 .challengeImage {
   z-index: 1;
@@ -706,35 +701,35 @@ span.plus{
   position: absolute;
   bottom: -30px !important;
 }
+
 .circle {
+  height: 35px;
+  width: 35px;
+  @media screen and (min-width: 1600px) and (max-width: 2000px) {
+    height: 50px;
+    width: 50px;
+  }
+  @media screen and (min-width: 1025px) and (max-width: 1600px) {
+    height: 45px;
+    width: 45px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    height: 45px;
+    width: 45px;
+  }
+  @media screen and (min-width: 600px) and (max-width: 767px) {
     height: 35px;
     width: 35px;
-    @media screen and (min-width: 1600px) and (max-width: 2000px) {
-      height: 50px;
-      width: 50px;
-    }
-    @media screen and (min-width: 1025px) and (max-width: 1600px) {
-      height: 45px;
-      width: 45px;
-    }
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-      height: 45px;
-      width: 45px;
-    }
-    @media screen and (min-width: 600px) and (max-width: 767px) {
-      height: 35px;
-      width: 35px;
-    }
-    @media screen and (min-width: 320px) and (max-width: 375px) {
-      height: 28px;
-      width: 28px;
-    }
-    @media screen and (max-width: 320px) {
-      height: 28px;
-      width: 28px;
-    }
+  }
+  @media screen and (min-width: 320px) and (max-width: 375px) {
+    height: 28px;
+    width: 28px;
+  }
+  @media screen and (max-width: 320px) {
+    height: 28px;
+    width: 28px;
+  }
 }
-.challengePlayers {}
 // -----------------------------------------------------------------------------
 // **********************footer***********************************************
 // -----------------------------------------------------------------------------
@@ -765,7 +760,6 @@ footer {
   }
 }
 //invitation //
-
 .participants {
   margin-left: 20px;
   font-size: 15px;

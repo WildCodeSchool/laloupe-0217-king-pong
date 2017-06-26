@@ -13,9 +13,6 @@ import {
   formatDate,
   resultFilter
 } from '../../function.js';
-moment.locale('fr');
-
-
 
 const challengeSchema = new mongoose.Schema({
 
@@ -74,6 +71,7 @@ const challengeSchema = new mongoose.Schema({
   }
 });
 
+moment.locale('fr');
 
 //models
 let model = mongoose.model('Challenge', challengeSchema);
@@ -111,10 +109,7 @@ export default class Challenge {
         if (err || !challenge) {
           res.sendStatus(403);
         } else {
-
           res.json(formatDate(challenge));
-
-
         }
       });
   }
@@ -139,7 +134,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(resultFilter(timeDiff(challenges),false));
+            res.json(resultFilter(timeDiff(challenges), false));
           }
         });
   }
@@ -161,7 +156,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            const results = resultFilter(challenges,true);
+            const results = resultFilter(challenges, true);
             res.json(sortByActivity(results));
           }
         });
@@ -188,7 +183,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(resultFilter(timeDiff(userFilter(challenges, req.query.player)),false));
+            res.json(resultFilter(timeDiff(userFilter(challenges, req.query.player)), false));
           }
         }
       );
@@ -223,17 +218,14 @@ export default class Challenge {
                 players: req.body.invite
               };
               invitation.create(invitations, (err, response) => {
-
                 res.json({
                   mail: response,
                   challenge: challenge,
                   ok: true
                 });
               });
-
             }
           });
-
         });
       }
     });
@@ -251,6 +243,7 @@ export default class Challenge {
       }
     });
   }
+
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {
       if (err) {
@@ -260,14 +253,12 @@ export default class Challenge {
           team.searchAndDelete(req.params.id, (err, teams) => {
             res.json({
               challengeDelected: true,
-              invitation:invitation,
-              teams:teams
+              invitation: invitation,
+              teams: teams
             });
           });
         });
       }
     });
   }
-
-
 }
