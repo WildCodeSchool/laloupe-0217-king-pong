@@ -2,6 +2,8 @@ angular.module('app')
     .controller('CreateDefisController', function($scope, $state, $stateParams, ActivityService, SessionService, ChallengeService, TeamService, UserService, CurrentUser, CommunityService) {
 
 
+
+
         if (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)) {
             $scope.device = (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)).length;
             $scope.device = (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)).length;
@@ -11,6 +13,7 @@ angular.module('app')
 
         var community = $stateParams.community;
         var players = [];
+$scope.currentDate = new Date();
 
 
         CommunityService.getOne(community).then(function(res) {
@@ -103,16 +106,12 @@ angular.module('app')
         };
         $scope.goToHome = function() {
             $state.go('main.home');
-
             sessionStorage.clear();
-
         };
         $scope.myVarBefore = false;
         $scope.toggle = function() {
             $scope.myVarBefore = !$scope.myVarBefore;
-
         };
-
 
         $scope.addInvite = function() {
             $scope.invite = [];
@@ -144,6 +143,21 @@ angular.module('app')
       $scope.communitys = res.data.users;
 
     });
+
+
+        // Model bound to input fields and modal
+
+        // Optional message to display below each input field
+        $scope.message = {
+          hour: 'Hour is required',
+          minute: 'Minute is required',
+          meridiem: 'Meridiem is required'
+        };
+
+        $scope.readonly = false;
+
+        $scope.required = true;
+
 
     // TODO: limit invitation au max player -1 en comptant le créateur du defy
     // TODO: required sur l'ensemble du formulaire pour ne pas envoyer de champ vide

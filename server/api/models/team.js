@@ -216,6 +216,7 @@ export default class Team {
       if (err) {
         res.sendStatus(500);
       } else {
+        console.log('result team', team._id);
         res(team._id);
       }
     });

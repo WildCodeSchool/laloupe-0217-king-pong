@@ -101,6 +101,8 @@ export default class Activity {
             res.sendStatus(404);
           } else {
             let challenges = _.map(invitations, (invitation) => invitation.challenge);
+            console.log(challenges);
+            console.log('ici',req.query);
             challenges = communityFilter(challenges,req.query);
             if (challenges.length > 0) {
               res.json(timeDiff(userFilter(challenges, req.query)));
