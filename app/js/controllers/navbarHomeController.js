@@ -149,7 +149,6 @@ angular.module('app')
         });
       });
       ChallengeService.getScoreByCommunity(currentCommunity).then(function(res) {
-        console.log(res.data);
           SharingDataService.sendScore(res.data);
         });
     }

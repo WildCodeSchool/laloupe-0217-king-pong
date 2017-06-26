@@ -11,7 +11,11 @@ module.exports = (app) => {
 
   router.get('/:id', team.findById);
 
+  router.put('/leave', team.leaveTeam);
+
   router.put('/score/:id', team.updateScore);
+
+  router.put('/change/:id', team.changeTeam);
 
   router.put('/invitation/:id', team.valideInvitation);
 

@@ -10,6 +10,12 @@ angular.module('app')
             update: function(id, user) {
                 return $http.put('/teams/' + id, user);
             },
+            leaveChallenge: function(params) {
+                return $http.put('/teams/leave', params);
+            },
+            changeTeam: function(id, info) {
+                return $http.put('/teams/change/' +id , info);
+            },
             updateScore: function(id, score) {
                 return $http.put('/teams/score/' + id, score);
             },
