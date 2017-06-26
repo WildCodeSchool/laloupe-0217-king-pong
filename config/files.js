@@ -14,6 +14,7 @@ module.exports = function(lineman) {
                 "vendor/js/materialize.js",
                 "vendor/js/swiper.js",
                 "vendor/js/angular.js",
+                "vendor/js/angular-time-picker.js",
                 "vendor/js/**/*.js"
             ],
             app: [
