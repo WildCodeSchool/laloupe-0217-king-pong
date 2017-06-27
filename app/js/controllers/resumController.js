@@ -1,8 +1,98 @@
 angular.module('app')
-    .controller('ResumController', function($scope, CurrentUser,ChallengeService) {
-      $scope.user = CurrentUser.user();
+  .controller('ResumController', function($scope, $mdDialog,$mdDateLocale, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
+    // variables
+    $scope.user = CurrentUser.user();
+    $scope.teams = [];
+    $scope.team = {};
+    $scope.currentDate = new Date();
+    var info;
 
-      ChallengeService.getScoreByCommunity("591ed360c2a0f36f30b37c22").then(function(res){
+
+    // function
+    function nameTeams(teams) {
+      for (var i = 0; i < teams.length; i++) {
+        teams[i].name = (i + 1);
+      }
+      return teams;
+    }
+
+
+    $scope.showSuppModal = function() {
+      $mdDialog.show({
+        contentElement: '#modalSupp',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose:true,
+        locals: {
+          team: $scope.team
+        }
+
+      });
+    };
+
+    $scope.showEditModal = function() {
+      $mdDialog.show({
+        contentElement: '#modalEdit',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose:true,
+        locals: {
+          team: $scope.team
+        }
+
+      });
+    };
+
+
+
+    $scope.choice = function(team) {
+      $mdDialog.hide();
+
+      $mdDialog.show({
+        contentElement:'#modalValid',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose:true,
+        locals: {
+          team: $scope.team
+        }
+      });
+    };
+
+
+
+    $scope.quit = function(){
+      $mdDialog.hide();
+    };
+
+    $scope.goToHome = function() {
+      $state.go('main.home');
+    };
+
+    $scope.suppChallenge = function(challengeId) {
+      $mdDialog.hide();
+      ChallengeService.delete(challengeId).then(function(res){
         console.log(res.data);
       });
+
+      // $state.go('main.home');
+    };
+
+    // service
+    ChallengeService.getOne($state.params.id).then(function(res) {
+      $scope.teams = nameTeams(res.data.teams);
+      $scope.start = res.data.newDate + ' ' +'à'+' ' +res.data.newTime;
+      $scope.challenge = res.data;
+      $scope.challenge.date = new Date($scope.challenge.date);
+
     });
+  });

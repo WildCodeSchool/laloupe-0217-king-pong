@@ -9,6 +9,7 @@ angular.module('app')
         // }, function(newValue, oldValue) {
         //   $scope.activities = newValue;
         // });
+
         $scope.activities = [{
                 name: "rugby",
                 players: [{
@@ -25,7 +26,7 @@ angular.module('app')
                     },
                     {
                         pseudo: 'fifi',
-                        _id: 1,
+                        _id: 2,
                         avatar: 'x',
                         result: {
                             play: 13,
@@ -43,7 +44,7 @@ angular.module('app')
                 name: "foot",
                 players: [{
                         pseudo: 'jojo',
-                        _id: 1,
+                        _id: 3,
                         avatar: 'x',
                         result: {
                             play: 13,
@@ -72,7 +73,7 @@ angular.module('app')
                 name: "velo",
                 players: [{
                         pseudo: 'fifi',
-                        _id: 1,
+                        _id: 2,
                         avatar: 'x',
                         result: {
                             play: 15,
@@ -101,7 +102,7 @@ angular.module('app')
                 name: "natation",
                 players: [{
                         pseudo: 'lili',
-                        _id: 1,
+                        _id: 4,
                         avatar: 'x',
                         result: {
                             play: 13,
@@ -113,7 +114,7 @@ angular.module('app')
                     },
                     {
                         pseudo: 'noel',
-                        _id: 1,
+                        _id: 5,
                         avatar: 'x',
                         result: {
                             play: 11,
@@ -128,29 +129,62 @@ angular.module('app')
             }
         ];
 
-        console.log('result', $scope.activities[0].players[0].result.totalpoint);
+
 
 
         var newscore = {};
-        $scope.activities.forEach(function(activity) {
-            for (var i = 0; i < $scope.activities.length; i++) {
-                for (var y = 0; y < $scope.activities[i].players.length; y++) {
-                    $scope.activities[i].players[y].result.totalpoint = $scope.activities[i].players[y].result.win * 3 + $scope.activities[i].players[y].result.nul * 1;
+        var generalTable = [];
+
+        function calculate(activities, callback) {
+            for (var i = 0; i < activities.length; i++) {
+                for (var y = 0; y < activities[i].players.length; y++) {
+                    activities[i].players[y].result.totalpoint = activities[i].players[y].result.win * 3 + activities[i].players[y].result.nul * 1;
                 }
 
             }
+            callback(activities);
+        }
 
-        });
+        function general(activities) {
+          activities.forEach(function (activity) {
+            activity.players.forEach(function (player) {
+              var index = generalTable.map(function (player) { return player._id;}).indexOf(player._id);
+              if (index >= 0) {
+                generalTable[index].result.totalpoint += player.result.totalpoint;
+                generalTable[index].result.win += player.result.win;
+                generalTable[index].result.nul += player.result.nul;
+                generalTable[index].result.lost += player.result.lost;
+                generalTable[index].result.play += player.result.play;
+              } else {
+                generalTable.push(player);
+              }
+            });
+          });
+        }
 
+
+        //ici la fonction est réutilisable dans tout le controller
+
+
+        calculate($scope.activities, general);
 
         console.log($scope.activities);
+        console.log("general", generalTable);
+
+
 
 
 
         $scope.goto = function(name) {
             $scope.filter = name;
         };
-
+        //   var generalTable=[]
+        //
+        // $scope.activitiesGeneral.forEach(function(score){
+        //   for (var i = 0; i < activities.length; i++) {
+        //     activities[i]
+        //   }
+        // })
 
 
 

@@ -5,14 +5,15 @@ import Activity from './activity.js';
 import Team from './team';
 import Invitation from './invitation';
 import moment from 'moment';
-import _ from 'lodash';
 import {
-  teamAsynchrome,
+  teamAsynchrone,
   userFilter,
   timeDiff,
-  sortByActivity
+  sortByActivity,
+  formatDate,
+  resultFilter
 } from '../../function.js';
-
+moment.locale('fr');
 
 
 
@@ -66,7 +67,11 @@ const challengeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Team",
 
-  }]
+  }],
+  result: {
+    type: Boolean,
+    default: false
+  }
 });
 
 
@@ -88,17 +93,32 @@ export default class Challenge {
     });
   }
 
-  // findById(req, res) {
-  //   model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
-  //     (err, challenge) => {
-  //       if (err || !challenge) {
-  //         res.sendStatus(403);
-  //       } else {
-  //         res.json(challenge);
-  //       }
-  //
-  //     });
-  // }
+  findById(req, res) {
+    model.findById(req.params.id)
+      .populate('activity')
+      .populate({
+        path: 'author',
+        select: 'avatar pseudo'
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo'
+        }
+      })
+      .exec((err, challenge) => {
+        if (err || !challenge) {
+          res.sendStatus(403);
+        } else {
+
+          res.json(formatDate(challenge));
+
+
+        }
+      });
+  }
+
   findByCommunity(req, res) {
     model.find({
         community: req.params.community
@@ -119,13 +139,12 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(timeDiff(challenges));
+            res.json(resultFilter(timeDiff(challenges),false));
           }
         });
   }
 
   findScoreByCommunity(req, res) {
-    console.log('ici');
     model.find({
         community: req.params.community
       }).populate('activity')
@@ -142,7 +161,8 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(sortByActivity(challenges));
+            const results = resultFilter(challenges,true);
+            res.json(sortByActivity(results));
           }
         });
   }
@@ -168,8 +188,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            console.log(userFilter(challenges, req.query.player));
-            res.json(timeDiff(userFilter(challenges, req.query.player)));
+            res.json(resultFilter(timeDiff(userFilter(challenges, req.query.player)),false));
           }
         }
       );
@@ -186,7 +205,7 @@ export default class Challenge {
           challenge: challenge._id,
           maxPlayer: challenge.maxPlayers,
         };
-        teamAsynchrome(req.body.teams, teamInfos, 0, [], team, function(err, teams) {
+        teamAsynchrone(req.body.teams, teamInfos, 0, [], team, function(err, teams) {
           model.findOneAndUpdate({
             _id: challenge._id
           }, {
@@ -220,30 +239,6 @@ export default class Challenge {
     });
   }
 
-  // addUser(req, res) {
-  //   console.log(req.params, req.body);
-  //   model.findOneAndUpdate({
-  //     _id: req.params.id
-  //   }, {
-  //     $addToSet: {
-  //       users: req.body.users
-  //     }
-  //   }, {
-  //     upsert: true
-  //   }, (err, challenge) => {
-  //     if (err || !challenge) {
-  //       res.status(404).send(err.message);
-  //     } else {
-  //       res.json({
-  //         success: true,
-  //         challenge: challenge,
-  //
-  //       });
-  //     }
-  //   });
-  // }
-
-
 
   update(req, res) {
     model.update({
@@ -261,7 +256,15 @@ export default class Challenge {
       if (err) {
         res.status(500).send(err.message);
       } else {
-        res.sendStatus(200);
+        invitation.searchAndDelete(req.params.id, (err, invitation) => {
+          team.searchAndDelete(req.params.id, (err, teams) => {
+            res.json({
+              challengeDelected: true,
+              invitation:invitation,
+              teams:teams
+            });
+          });
+        });
       }
     });
   }

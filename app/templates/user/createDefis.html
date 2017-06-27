@@ -38,7 +38,7 @@
                 <div class="input-field col s12">
                     <div layout-gt-xs="row">
                         <div flex-gt-xs>
-                            <md-datepicker ng-model="myDate"></md-datepicker>
+                            <md-datepicker md-min-date="currentDate" ng-model="myDate"></md-datepicker>
                         </div>
                     </div>
                 </div>
@@ -78,11 +78,9 @@
                     <input id="nbGroupe" type="number" ng-model="activity.numberOfTeam">
                 </div>
             </div>
-        </div>
         <div class="row">
             <div class="  blocInput5">
-                <div class="input-field col s12">
-                    <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
+                <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
                     <input id="nbParticipantGroupe" type="number" ng-model="activity.numberOfplayer">
                 </div>
             </div>
@@ -92,9 +90,8 @@
                 <h>Invitations</h>
                 <br>
                 <label for="invit"></label>
-                <ul class="inlineInvite" ng-repeat="user in invite">
+                <ul class="inlineInvite" ng-repeat="user in invite" ng-model='invite'>
                     <li>
-
                         <div class="chip">
                             <img src="{{user.avatar}}" alt="Contact Person"> {{user.pseudo}}
                         </div>
@@ -105,9 +102,12 @@
                 </div>
             </div>
         </div>
+
+<div class="bckgrd-bouton">
+<div ng-if="activity.activityName && myDate && startTime && duration && lieu && activity.numberOfTeam && activity.numberOfplayer && invite" class = "btnblue">
+<button class="btn blue darken-1" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
 </div>
 </div>
-<button class="btn blue" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
 </div>
 <md-list-item class="md-3-line" ng-repeat="guest in communitys">
     <div class="md-list-item-text">

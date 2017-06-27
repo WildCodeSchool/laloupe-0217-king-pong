@@ -6,22 +6,23 @@ let router = express.Router();
 
 module.exports = (app) => {
 
-    var team = new Team();
+  var team = new Team();
 
-    // router.put('/user/:id', invitation.addPlayer);
 
-    router.get('/:id', team.findById);
-    //
-    router.put('/invitation/:id', team.valideInvitation);
+  router.get('/:id', team.findById);
 
-    router.put('/:id', team.update);
-    //
-    router.delete('/:id', team.delete);
-    // //
-        router.post('/',team.create);
-    //
-    router.get('/', team.findAll);
+  router.put('/score/:id', team.updateScore);
 
-    app.use('/teams', router);
+  router.put('/invitation/:id', team.valideInvitation);
+
+  router.put('/:id', team.update);
+
+  router.delete('/:id', team.delete);
+
+  router.post('/', team.create);
+
+  router.get('/', team.findAll);
+
+  app.use('/teams', router);
 
 };

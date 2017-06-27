@@ -40,6 +40,8 @@ angular.module('app')
           }
         }
       });
+
+
       $stateProvider
       .state('main', {
         abstract: true,

@@ -7,7 +7,8 @@ import config from '../../mailerConfig.js';
 import options from '../../mailerOption.js';
 import {
   invitationAsync,
-  userCommunityFilter,
+  communityFilter,
+  userFilter,
   timeDiff
 } from '../../function.js';
 
@@ -99,8 +100,17 @@ export default class Activity {
           if (err || !invitations) {
             res.sendStatus(404);
           } else {
-            const challenges = _.map(invitations, (invitation) => invitation.challenge);
-            res.json(timeDiff(userCommunityFilter(challenges, req.query)));
+            let challenges = _.map(invitations, (invitation) => invitation.challenge);
+            challenges = communityFilter(challenges,req.query);
+            if (challenges.length > 0) {
+              res.json(timeDiff(userFilter(challenges, req.query)));
+            }else{
+              res.json({result:false});
+            }
+
+
+
+
           }
         }
       );
@@ -113,11 +123,13 @@ export default class Activity {
       $pull: {
         players: req.player
       }
-    },{upsert:true,new:true}, (err, invitation) => {
+    }, {
+      upsert: true,
+      new: true
+    }, (err, invitation) => {
       if (err || !invitation) {
         res.sendStatus(403);
       } else {
-        console.log('avant', invitation.players.length);
         if (invitation.players.length === 0) {
           model.findByIdAndRemove(invitation._id, (err) => {
             if (err) {
@@ -129,7 +141,6 @@ export default class Activity {
             }
           });
         } else {
-          console.log('4 remove ok', invitation);
           res(err, {
             removeUser: true,
           });
@@ -142,7 +153,6 @@ export default class Activity {
     model.create(req, (err, invitation) => {
       if (err) {
         res.status(500).send(err.message);
-        console.log(err);
       } else {
         model.findById({
             _id: invitation._id
@@ -176,6 +186,16 @@ export default class Activity {
               });
             }
           });
+      }
+    });
+  }
+
+  searchAndDelete(req, res) {
+    model.findOneAndRemove({challenge:req}, (err) => {
+      if (err) {
+        res({noInvitation:true});
+      } else {
+        res({InvitationDeleted:true});
       }
     });
   }

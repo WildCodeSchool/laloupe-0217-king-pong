@@ -1,2 +1,158 @@
+<nav class='z-depth-4'>
+  <div class="nav-wrapper">
+    <i class="material-icons" ng-click="goToHome()">close</i>
+    <form>
+      <i class="material-icons">close</i>
+  </form>
+</div>
+</nav>
+<div class="cadre">
+  <md-subheader class="md-no-sticky">
 
-<h1>En construction</h1>
+    <img class='circleDefi' src="{{challenge.author.avatar}}" alt="" class="circle">
+    <p>Le défi {{challenge.activity.activityName}} est fini</p>
+
+  </md-subheader><br>
+</div>
+<div class="row">
+  <div class="col s12 offset-l4 l4">
+    <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
+      <label for="started">Date et heure</label>
+      <input id="started" type="text" class="validate" ng-model='start'>
+    </div>
+    <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
+      <label for="duree">Durée</label>
+      <input id="duree" type="text" class="validate" ng-model="challenge.duration">
+    </div>
+    <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
+      <label for="activity">Activité</label>
+      <input id="activity" type="text" class="validate" ng-model="challenge.activity.activityName">
+    </div>
+    <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l10 ">
+      <label for="where">Lieu</label>
+      <input id="where" type="text" class="validate" ng-model="challenge.place">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 offset-l4 l4">
+      <div class="col s12">
+        <div class="bckgrd-participant">
+          <p>Participants</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 offset-l4 l4">
+      <div class="input-field col offset-s1 s11 offset-l1 l10 margeTeam">
+        <md-list-item id='{{team.name}}' class="col s12 greyBorder teamArbitrage" ng-repeat="team in challenge.teams">
+            <span ng-if="team.players.length < 1" style="color:grey">Vide</span>
+            <label ng-class='{"toBottom": team.players.length < 1}' for="{{team.name}}" class="active">team {{team.name}}</label class ="active">
+          <div class="chip inlineInvite" ng-repeat="player in team.players">
+              <img src="{{player.avatar}}" alt="Contact Person"> {{player.pseudo}}
+            </div>
+        </md-list-item>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 offset-l4 l4">
+      <div class="bckgrd-participant bottomButton">
+        <button class="btn blue darken-1" type="button" ng-click="showModal()"><span>Arbitrer</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modals -->
+<div style="visibility: hidden">
+  <div class="md-dialog-container" id="modalChoice">
+    <md-dialog flex-xs="80" flex="30">
+       <md-dialog-content>
+         <div class="row" style="margin-top:50px">
+           <div class="col s12">
+             <div class="input-field col offset-s1 s11 offset-l1 l11 margeTeam">
+               <md-list-item id='{{team.name}}' class="col s12 greyBorder teamArbitrage" ng-repeat="team in challenge.teams">
+                 <label for="{{team.name}}" class="active">team {{team.name}}</label class ="active">
+                 <div class="chip inlineInvite" ng-repeat="player in team.players">
+                   <img src="{{player.avatar}}" alt="Contact Person"> {{player.pseudo}}
+                 </div>
+               </md-list-item>
+             </div>
+           </div>
+         </div>
+       </md-dialog-content>
+       <md-dialog-content>
+         <div class="row">
+           <div class=" col offset-s2 s8 offset-l1 l10 ">
+               <div class=" col offset-s1 s9 offset-l1 l10 ">
+                 <md-select placeholder="choisir le gagnant" ng-model="team">
+                   <md-option value="null"> Match nul</md-option>
+                   <md-option ng-repeat="team in teams" ng-value="team">Equipe {{team.name}}</md-option>
+                 </md-select>
+               </div>
+           </div>
+         </div>
+       </md-dialog-content>
+       <md-dialog-content>
+           <div class="row">
+             <div class="col s12">
+               <div class=" ">
+                 <button class="btn blue darken-1" type="button" ng-click="choice(team)"><span>Arbitrer</span></button>
+             </div>
+           </div>
+        </div>
+     </md-dialog-content>
+     </md-dialog>'
+  </div>
+</div>
+
+<div style="visibility: hidden">
+  <div class="md-dialog-container" id="modalValid">
+
+
+    <md-dialog flex-xs="80" flex="30" >
+      <md-title>
+        <div class="row">
+          <div class="col offset-s4 s6 offset-l5 l7 ">
+            <h5>Votre choix</h5>
+          </div>
+        </div>
+      </md-title>
+      <md-dialog-content ng-if='team != "null"'>
+        <div class="row" style="margin-top:40px">
+            <div class="input-field col offset-s1 s11 offset-l1 l11 margeTeam">
+              <div class="greyBorder col offset-s1 s11 offset-l1 l10 " >
+                <div style="margin-top: 20px;"  id='team' class="chip inlineInvite" ng-repeat="player in team.players">
+                  <img src="{{player.avatar}}" alt="Contact Person"> {{player.pseudo}}
+                </div>
+                <label for="team" class="active">team {{team.name}}</label class ="active">
+              </div>
+            </div>
+        </div>
+      </md-dialog-content>
+      <md-dialog-content ng-if='team == "null"'>
+        <div class="row" style="margin-top:40px">
+            <div  class="input-field col offset-s1 s11 offset-l1 l11 margeTeam">
+              <label for="result" class="active">Résultat</label class ="active">
+                <input class="margeTeam" id='result' type="text" value="Match nul">
+            </div>
+        </div>
+      </md-dialog-content>
+    <md-dialog-content>
+      <div class="row" style='margin-top:30px'>
+        <div class="col s6">
+          <div class=" ">
+            <button class="btn blue darken-1" type="button" ng-click="valideScore(team)"><span>valider</span></button>
+          </div>
+        </div>
+        <div class="col s6">
+          <div class=" ">
+            <button class="btn blue darken-1" type="button" ng-click="showModal(teams)"><span>retour</span></button>
+          </div>
+        </div>
+      </div>
+      </md-dialog-content>
+    </md-dialog>
+  </div>
+</div>
