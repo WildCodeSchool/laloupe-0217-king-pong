@@ -5,14 +5,14 @@
   <h1 style="text-align: center;
   color: white">King Pong</h1>
   <h3 style="text-align: center;
-  color: white;">Vous avez reçu une invitation de <h2 style="text-align: center;
+  color: white;">{{text1}} <h2 style="text-align: center;
   color: white;"> {{author}}</h2></h3>
 
 </div>
 
 <div>
   <p style="text-align: center;"> Bonjour <b style="font-size:1.8em;">{{invite}}</b> </p>
-  <p style="text-align: center;">tu est invité à un <em>challenge </em></p>
+  <p style="text-align: center;">{{text2}}</p>
   <p style="text-align: center;
   border-top: 2px solid silver;"></p>
   <p style="text-align: center;">L'activité : {{activity}}</p>
@@ -35,7 +35,7 @@
   text-align: center;
   font-size: 1.8em;
   color: white;
-  text-decoration: none;" href='https://dry-plains-87997.herokuapp.com/#!/user/invitations/' + {{id}}>
+  text-decoration: none;" href={{link}}>
   <div style="
   padding-top:6px;
   margin-top: 10%;

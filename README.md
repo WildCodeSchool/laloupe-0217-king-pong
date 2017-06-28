@@ -44,5 +44,10 @@ nodemon --exec npm run server
 ```bash
 npm run production
 ```
+#### Community Datab ase
+
+```bash
+npm run createDatabase
+```
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Challenge from './challenge.js';
 import User from './user.js';
+import Invitation from './invitation.js';
 
 const teamSchema = new mongoose.Schema({
 
@@ -8,23 +9,22 @@ const teamSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Challenge"
   },
-
   players: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   }],
-
-  resultat: [{
+  resultat: {
     type: String,
-  }],
+  },
   maxPlayer: {
-    type: Object,
+    type: Number,
   }
 });
 
-
 //models
 let model = mongoose.model('Team', teamSchema);
+let invitation = new Invitation();
+
 //methods
 export default class Team {
 
@@ -52,7 +52,7 @@ export default class Team {
   update(req, res) {
     model.findByIdAndUpdate(req.id, {
         $addToSet: {
-          player: req.player
+          players: req.player
         }
       }, {
         upsert: true,
@@ -62,62 +62,187 @@ export default class Team {
         if (err || !team) {
           res.sendStatus(403);
         } else {
-          res(team);
+          invitation.deletePlayer({
+            player: req.body.players,
+            challenge: req.body.challenge
+          }, (err, result) => {
+            if (err || !result) {
+              res.sendStatus(404);
+            } else {
+              res({
+                team,
+                result
+              });
+            }
+          });
         }
       });
+  }
+
+  leaveTeam(req, res) {
+    let challenge = req.body.challenge;
+    let players = req.body.player;
+    model.findOneAndUpdate({
+        challenge: challenge,
+        players: players
+      }, {
+        $pull: {
+          players: players
+        }
+      }, {
+        upsert: true,
+        new: true
+      },
+      (err, team) => {
+        if (err || !team) {
+          res.sendStatus(403);
+        } else {
+          res.json({
+            team,
+            teamLeave: true
+          });
+        }
+      });
+  }
+
+  changeTeam(req, res) {
+    model.findById(req.params.id,
+      (err, team) => {
+        if (err || !team) {
+          res.sendStatus(403);
+        } else {
+          if (team.players.length == team.maxPlayer) {
+            res.json({
+              team: team,
+              full: true
+            });
+          } else {
+            model.findOneAndUpdate({
+              challenge: req.body.challenge,
+              players: req.body.player
+            }, {
+              $pull: {
+                players: req.body.player
+              }
+            }, {
+              upsert: true,
+              new: true
+            }, (err, team) => {
+              if (err) {
+                res.sendStatus(500);
+              } else {
+                model.findByIdAndUpdate(req.params.id, {
+                  $addToSet: {
+                    players: req.body.player
+                  }
+                }, {
+                  upsert: true,
+                  new: true
+                }, (err, team) => {
+                  if (err) {
+                    res.sendStatus(500);
+                  } else {
+                    res.json(team);
+                  }
+                });
+              }
+            });
+          }
+        }
+      });
+  }
+
+  updateScore(req, res) {
+    model.findByIdAndUpdate(req.params.id, req.body, {
+        upsert: true,
+        new: true
+      },
+      (err, team) => {
+        if (err || !team) {
+          res.sendStatus(403);
+        } else {
+          res.json({
+            team: team,
+            addResult: true
+          });
+        }
+      });
+  }
+
+  valideInvitation(req, res) {
+    model.findById(req.params.id,
+      (err, team) => {
+        if (err || !team) {
+          res.sendStatus(403);
+        } else {
+          if (team.players.length == team.maxPlayer) {
+            res.json({
+              team: team,
+              full: true
+            });
+          } else {
+            model.findByIdAndUpdate(req.params.id, {
+              $addToSet: {
+                players: req.body.players
+              }
+            }, {
+              upsert: true,
+              new: true
+            }, (err, team) => {
+              invitation.deletePlayer({
+                player: req.body.players,
+                challenge: req.body.challenge
+              }, (err, result) => {
+                res.json({
+                  team,
+                  result
+                });
+              });
+            });
+          }
+        }
+      });
+  }
+
+  searchAndDelete(req, res) {
+    model.find({
+      challenge: req
+    }, (err, teams) => {
+      if (err || !teams) {
+        res({
+          noTeams: true
+        });
+      } else {
+        teams.forEach((team) => {
+          model.findByIdAndRemove(team._id, (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              return {
+                team: team._id,
+                deleted: true
+              };
+            }
+          });
+        });
+        res({
+          teamDeleted: true
+        });
+      }
+    });
+
   }
 
   create(req, res) {
     model.create(req, (err, team) => {
       if (err) {
         res.sendStatus(500);
-        console.log(err);
       } else {
         res(team._id);
       }
-      // console.log('creating', req);
-      //       // res.json(team);
-      //       return team;
-    });
-
-  }
-  //
-  // addPlayer(req, res) {
-  //     console.log(req.params, req.body);
-  //     model.findOneAndUpdate({
-  //         _id: req.params.id
-  //     }, {
-  //         $addToSet: {
-  //             users: req.body.users
-  //         }
-  //     }, {
-  //         upsert: true
-  //     }, (err, team) => {
-  //         if (err || !team) {
-  //             res.status(404).send(err.message);
-  //         } else {
-  //             res.json({
-  //                 success: true,
-  //                 team: team,
-  //
-  //             });
-  //         }
-  //     });
-  // }
-
-
-
-  update(req, res) {
-    model.update({
-      _id: req.params.id
-    }, req.body, (err, team) => {
-      if (err || !team) {
-        res.status(500).send(err.message);
-      } else {
-        res.sendStatus(200);
-      }
     });
   }
+
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {
       if (err) {
@@ -127,6 +252,5 @@ export default class Team {
       }
     });
   }
-
 
 }

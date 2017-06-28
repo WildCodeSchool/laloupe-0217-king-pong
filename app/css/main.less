@@ -34,7 +34,7 @@
 // **********************Variables LESS*****************************************
 // -----------------------------------------------------------------------------
 @purple: #312C41;
-@grey: #EDEDED; // -------------------------------------------------------------
+@grey: #EDEDED; // ----------------------------------------------------------------------------
 // **********************Slide View********************************************
 // -----------------------------------------------------------------------------
 
@@ -75,7 +75,8 @@
 div .nav-wrapper {
   background-color: @purple;
 }
-nav{
+
+nav {
   background-color: @purple;
 }
 
@@ -112,6 +113,10 @@ md-tabs {
     color: white;
     background-color: @purple;
   }
+}
+
+select:focus {
+  outline: 1px solid @purple !important;
 }
 // -----------------------------------------------------------------------------
 // **********************Navbar********************************************
@@ -152,15 +157,6 @@ md-tabs {
       padding: 0 33%;
     }
   }
-}
-
-.register {
-  // @media (width: 768px) {
-  //   margin-top: 100px;
-  // @media (min-width: 800px) {
-  //   margin-top: 0%;
-  //
-  // }
 }
 
 #revealPassword {
@@ -270,20 +266,22 @@ h1 {
 // **********************navbar-home********************************************
 // -----------------------------------------------------------------------------
 
-.tabs {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+.md-tab {
+  width: 50%;
 }
 
-.tabs .tab {
-  -webkit-flex-grow: 2;
-  -ms-flex-positive: 2;
-  flex-grow: 2;
+md-tabs md-ink-bar {
+  color: @purple!important;
+  background-color: rgb(0, 212, 215) !important;
+  width: 50%;
 }
 
-.tabs .tab a {
-  padding: 0 12px;
+md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
+  color: white !important;
+}
+
+nav {
+  z-index: 10;
 }
 // -----------------------------------------------------------------------------
 // **********************Register********************************************
@@ -309,6 +307,12 @@ h2 {
   }
 }
 
+h6 {
+  font-size: 1.3em;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
 .section {
   margin-top: -300px;
 }
@@ -322,17 +326,11 @@ md-toolbar:not(.md-menu-toolbar) {
   background-color: @purple;
 }
 
-.xtraLarge {
-  height: 70px;
-  width: 70px;
-  line-height: 70px;
-}
-
 .pseudo-sidenav {
   color: white;
 }
 
-.avatar {
+.circle.avatar {
   width: 130px;
   height: 130px;
   margin-left: 33%;
@@ -382,10 +380,6 @@ span.badge.nav-badge {
   margin-left: 15px;
 }
 
-.tabs.tabs-transparent .indicator {
-  background-color: rgb(0, 212, 215);
-}
-
 .animate-show-hide.ng-hide {
   opacity: 0;
 }
@@ -394,11 +388,145 @@ span.badge.nav-badge {
 .animate-show-hide.ng-hide-remove {
   transition: all linear 0.5s;
 }
+
 .valider.refuser {
   :hover {
-  color:red;
-  text-decoration:none;
-}}
+    color: red;
+    text-decoration: none;
+  }
+}
+
+.greyBorder {
+  border-bottom: 1px solid #D8D8D8;
+}
+
+.listHeight {
+  height: 60px;
+}
+
+.listHeightModal {
+  height: 60px;
+}
+
+.teamArbitrage {
+  margin-top: 20px;
+  display: block;
+}
+
+.margeTeam {
+  margin-top: -30px;
+  margin-bottom: -20px;
+  height: auto;
+}
+
+.bottomButton {
+  margin-bottom: -50px;
+}
+
+.bottom {
+  align-items: baseline;
+}
+
+.resumHeader {
+  text-align: center;
+  background-color: @grey;
+  border-bottom: solid 1px grey;
+  color: black;
+}
+
+.bottomSection {
+  margin-bottom: -40px;
+}
+
+.bottomLink {
+  margin-top: 15px;
+}
+
+.link {
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.greyLink {
+  color: grey;
+}
+
+.greenLink {
+  color: #26a69a;
+}
+
+.redLink {
+  color: red;
+}
+
+.md-datepicker-triangle-button.md-button.md-icon-button.none {
+  display: none;
+}
+
+.md-datepicker-input-container {
+  width: 70%;
+}
+
+.picker {
+
+}
+
+.teamChoice {
+  padding-top: -50px;
+}
+
+.choiceTitle {
+  padding: 10px;
+}
+
+.teamTitle {
+  margin-left: 25px;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+form[name=timeForm] {
+  top: -15px;
+}
+
+.md-button.md-icon-button.horloge {
+  margin-top: -25px;
+}
+
+.hours {}
+
+.minutes {
+  margin-left: -28px;
+}
+
+.time-colon {
+  margin-top: 6px;
+  margin-left: -20px;
+}
+
+.select {
+  margin-top: -10px;
+}
+
+.md-datepicker-triangle-button.md-button.md-icon-button.triangle {
+  margin-top: 15px;
+  right: 5px;
+}
+
+.md-select-value .md-select-icon {
+  text-align: left;
+  margin: 0 8px;
+}
+
+.md-select-icon {
+
+  margin: 0;
+}
+
+.md-select-value .md-select-icon:after {
+  font-size: 17px !important;
+
+}
 // -----------------------------------------------------------------------------
 // **********************Carousel***********************************************
 // -----------------------------------------------------------------------------
@@ -486,7 +614,7 @@ span.badge.nav-badge {
   background-color: black;
 }
 
-.card .card-content{
+.card .card-content {
   position: absolute;
   width: 100%;
   bottom: -4.5%;
@@ -514,44 +642,41 @@ span.badge.nav-badge {
   }
   @media screen and (min-width: 321px) and (max-width: 375px) {
     bottom: -7%;
-/* left: 10%; */
-padding: 0 !important;
+    /* left: 10%; */
+    padding: 0 !important;
   }
   @media screen and (max-width: 320px) {
     bottom: -6.5%;
     // left: 0%;
     padding: 0 !important;
   }
-
 }
 
-.greyCircle{
+.greyCircle {
   position: relative;
-
 }
 
-span.plus{
-  text-align:center;
+span.plus {
+  text-align: center;
   position: absolute;
   right: 15%;
-  top:25%;
+  top: 25%;
   font-size: 1.4em;
   font-weight: bold;
   color: white;
-
   @media screen and (min-width: 1600px) and (max-width: 2000px) {
     right: 24%;
-    top:20%;
+    top: 20%;
     font-size: 2em;
   }
   @media screen and (min-width: 1025px) and (max-width: 1600px) {
     right: 16%;
-    top:22%;
+    top: 22%;
     font-size: 1.8em;
   }
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     right: 21%;
-    top:22%;
+    top: 22%;
     font-size: 1.8em;
   }
   @media screen and (min-width: 600px) and (max-width: 767px) {
@@ -560,19 +685,17 @@ span.plus{
   }
   @media screen and (min-width: 321px) and (max-width: 375px) {
     right: 15%;
-    top:24%;
+    top: 24%;
     font-size: 1.2em;
   }
   @media screen and (max-width: 320px) {
     right: 12%;
-    top:24%;
+    top: 24%;
     font-size: 1.2em;
   }
-
-
 }
-.card-content {
 
+.card-content {
   ul li {
     list-style: none;
     display: inline;
@@ -596,15 +719,13 @@ span.plus{
   bottom: 15px !important;
 }
 
-.card-image {}
-
 .challengeImage {
   z-index: 1;
-  filter: brightness(70%);
-  -webkit-filter: brightness(70%);
-  -moz-filter: brightness(70%);
-  -o-filter: brightness(70%);
-  -ms-filter: brightness(70%);
+  filter: brightness(65%);
+  -webkit-filter: brightness(65%);
+  -moz-filter: brightness(65%);
+  -o-filter: brightness(65%);
+  -ms-filter: brightness(65%);
   position: relative;
 }
 
@@ -627,35 +748,35 @@ span.plus{
   position: absolute;
   bottom: -30px !important;
 }
+
 .circle {
+  height: 35px;
+  width: 35px;
+  @media screen and (min-width: 1600px) and (max-width: 2000px) {
+    height: 50px;
+    width: 50px;
+  }
+  @media screen and (min-width: 1025px) and (max-width: 1600px) {
+    height: 45px;
+    width: 45px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    height: 45px;
+    width: 45px;
+  }
+  @media screen and (min-width: 600px) and (max-width: 767px) {
     height: 35px;
     width: 35px;
-    @media screen and (min-width: 1600px) and (max-width: 2000px) {
-      height: 50px;
-      width: 50px;
-    }
-    @media screen and (min-width: 1025px) and (max-width: 1600px) {
-      height: 45px;
-      width: 45px;
-    }
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-      height: 45px;
-      width: 45px;
-    }
-    @media screen and (min-width: 600px) and (max-width: 767px) {
-      height: 35px;
-      width: 35px;
-    }
-    @media screen and (min-width: 320px) and (max-width: 375px) {
-      height: 28px;
-      width: 28px;
-    }
-    @media screen and (max-width: 320px) {
-      height: 28px;
-      width: 28px;
-    }
+  }
+  @media screen and (min-width: 320px) and (max-width: 375px) {
+    height: 28px;
+    width: 28px;
+  }
+  @media screen and (max-width: 320px) {
+    height: 28px;
+    width: 28px;
+  }
 }
-.challengePlayers {}
 // -----------------------------------------------------------------------------
 // **********************footer***********************************************
 // -----------------------------------------------------------------------------

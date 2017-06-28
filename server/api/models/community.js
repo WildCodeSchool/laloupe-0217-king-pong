@@ -1,8 +1,5 @@
-
 import mongoose from 'mongoose';
-
 import user from './user.js';
-
 
 const communitySchema = new mongoose.Schema({
 
@@ -18,8 +15,6 @@ const communitySchema = new mongoose.Schema({
     type : mongoose.Schema.Types.ObjectId,
     ref: "User"
   }]
-
-
 });
 
 
@@ -30,7 +25,6 @@ export default class Community {
 
 
   findAll(req, res) {
-    console.log("findAll");
     model.find({},
       (err, communitys) => {
         if (err || !communitys) {
@@ -53,31 +47,42 @@ export default class Community {
   }
 
   create(req, res) {
+    model.create(req.body, (err, community) => {
+      if (err || !community) {
+        res.status(500).send(err.message);
+      } else {
+        res.json({
+          community
+        });
+      }
+    });
+  }
 
-      model.create(req.body, (err, community) => {
-          if (err || !community) {
-              res.status(500).send(err.message);
-          } else {
-              res.json({community});
-          }
-      });
-
+  createDb(req, res) {
+    model.create(req, (err, community) => {
+      if (err || !community) {
+        res(err);
+      } else {
+        res({
+          success:true
+        });
+      }
+    });
   }
 
   update(req, res) {
-      model.update({
-          _id: req.params.id
-      }, req.body, (err, community) => {
-          if (err || !community) {
-              res.status(500).send(err.message);
-          } else {
-              res.sendStatus(200);
-          }
-      });
+    model.update({
+      _id: req.params.id
+    }, req.body, (err, community) => {
+      if (err || !community) {
+        res.status(500).send(err.message);
+      } else {
+        res.sendStatus(200);
+      }
+    });
   }
 
   addUser(req, res) {
-    console.log(req.params, req.body);
     model.findOneAndUpdate({
       _id: req.params.id
     }, {
@@ -89,23 +94,22 @@ export default class Community {
     }, (err, community) => {
       if (err || !community) {
         res.status(404).send(err.message);
-    }else{
-    res.json({
-      success: true,
-      community: community,
-
+      } else {
+        res.json({
+          success: true,
+          community: community,
         });
       }
     });
   }
 
-    delete(req, res) {
-      model.findByIdAndRemove(req.params.id, (err) => {
-        if (err) {
-          res.status(500).send(err.message);
-        } else {
-          res.sendStatus(200);
-        }
-      });
-    }
+  delete(req, res) {
+    model.findByIdAndRemove(req.params.id, (err) => {
+      if (err) {
+        res.status(500).send(err.message);
+      } else {
+        res.sendStatus(200);
+      }
+    });
+  }
 }

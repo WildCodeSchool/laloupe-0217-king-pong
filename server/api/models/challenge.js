@@ -4,10 +4,22 @@ import User from './user.js';
 import Activity from './activity.js';
 import Team from './team';
 import Invitation from './invitation';
+import hbs from 'nodemailer-express-handlebars';
 import moment from 'moment';
+import config from '../../mailerConfig.js';
+import options from '../../mailerOption.js';
+import {
+  teamAsynchrone,
+  userFilter,
+  timeDiff,
+  sortByActivity,
+  formatDate,
+  resultFilter,
+  changeAsync
+} from '../../function.js';
 
-
-
+let mailer = config();
+mailer.use('compile', hbs(options));
 
 const challengeSchema = new mongoose.Schema({
 
@@ -59,52 +71,14 @@ const challengeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Team",
 
-  }]
+  }],
+  result: {
+    type: Boolean,
+    default: false
+  }
 });
 
-//function
 moment.locale('fr');
-
-function teamAsynchrome(teams, infos, author, i, array, request, callback) {
-  if (i === 0) {
-    infos.players = [author];
-  }
-  if (i <= teams.length - 1) {
-    request.create(infos, (res) => {
-      array.push(res);
-      delete infos.players;
-      teamAsynchrome(teams, infos, author, i + 1, array, request, callback);
-    });
-
-  } else {
-    callback(array);
-  }
-}
-
-function filterUser(challenges,user,callback){
-  let array =[];
-  challenges.map(challenge =>{
-      challenge.teams.map(team =>{
-      team.players.map( player =>{
-        if (player._id == user){
-          array.push(challenge);
-        }
-      });
-    });
-  });
-  callback(array);
-  console.log(array);
-}
-
-function timeDiff(challenges,callback){
-let data =[];
-  challenges.map(challenge=>{
-    let date = challenge.date;
-    let diff = moment(date).fromNow();
-    data.push({challenge,diff});
-  });
-  callback(data);
-}
 
 //models
 let model = mongoose.model('Challenge', challengeSchema);
@@ -125,45 +99,77 @@ export default class Challenge {
   }
 
   findById(req, res) {
-    model.findById(req.params.id).populate("User", "Community", "Activity", "Team").exec(
-      (err, challenge) => {
+    model.findById(req.params.id)
+      .populate('activity')
+      .populate({
+        path: 'author',
+        select: 'avatar pseudo'
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo'
+        }
+      })
+      .exec((err, challenge) => {
         if (err || !challenge) {
           res.sendStatus(403);
         } else {
-          res.json(challenge);
+          res.json(formatDate(challenge));
         }
-
       });
   }
+
   findByCommunity(req, res) {
-    model.find(req.params.community
-    ).populate('activity')
-    .populate({
-      path: 'author',
-      select: 'avatar pseudo'
-    })
-    .populate({
-      path: 'teams',
-      populate: {
-        path: 'players',
+    model.find({
+        community: req.params.community
+      }).populate('activity')
+      .populate({
+        path: 'author',
         select: 'avatar pseudo'
-      }
-    })
-    .exec(
-      (err, challenges) => {
-        if (err || !challenges) {
-          res.sendStatus(403);
-        } else {
-          timeDiff(challenges,(results)=>{
-
-            res.json(results);
-          });
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo'
         }
-
-      });
+      })
+      .exec(
+        (err, challenges) => {
+          if (err || !challenges) {
+            res.sendStatus(403);
+          } else {
+            res.json(resultFilter(timeDiff(challenges), false));
+          }
+        });
   }
+
+  findScoreByCommunity(req, res) {
+    model.find({
+        community: req.params.community
+      }).populate('activity')
+      .populate('teams')
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'avatar pseudo '
+        }
+      })
+      .exec(
+        (err, challenges) => {
+          if (err || !challenges) {
+            res.sendStatus(403);
+          } else {
+            const results = resultFilter(challenges, true);
+            res.json(sortByActivity(results));
+          }
+        });
+  }
+
   findByUSerAndCommunity(req, res) {
-    console.log('ici',req.query);
     model.find({
         community: req.query.community
       })
@@ -184,34 +190,24 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            filterUser(challenges,req.query.player,function(result){
-              console.log(result);
-              timeDiff(result, (results)=>{
-
-                res.json(results);
-              });
-
-            });
-
+            res.json(resultFilter(timeDiff(userFilter(challenges, req.query.player)), false));
           }
-
-        });
+        }
+      );
   }
   create(req, res) {
     let challenge = {},
       mail = {};
-    console.log('creation');
     model.create(req.body.infoChallenge, (err, challenge) => {
       if (err) {
         res.status(500).send(err.message);
       } else {
-        let author = challenge.author;
         let teamInfos = {
+          players: [challenge.author],
           challenge: challenge._id,
-          maxPlayer: challenge.maxPlayers
+          maxPlayer: challenge.maxPlayers,
         };
-        teamAsynchrome(req.body.teams, teamInfos, author, 0, [], team, function(teams) {
-          console.log("team");
+        teamAsynchrone(req.body.teams, teamInfos, 0, [], team, function(err, teams) {
           model.findOneAndUpdate({
             _id: challenge._id
           }, {
@@ -222,76 +218,69 @@ export default class Challenge {
           }, (err, result) => {
             if (err || !result) {
               res.sendStatus(404);
-              console.log(err);
             } else {
-              console.log('update');
               challenge = result;
               let invitations = {
                 challenge: challenge._id,
-                player: req.body.invite
+                players: req.body.invite
               };
-              invitation.create(invitations, (response) => {
-                console.log('invite');
+              invitation.create(invitations, (err, response) => {
                 res.json({
                   mail: response,
                   challenge: challenge,
                   ok: true
                 });
               });
-
             }
           });
-
         });
       }
     });
   }
 
-  // addUser(req, res) {
-  //   console.log(req.params, req.body);
-  //   model.findOneAndUpdate({
-  //     _id: req.params.id
-  //   }, {
-  //     $addToSet: {
-  //       users: req.body.users
-  //     }
-  //   }, {
-  //     upsert: true
-  //   }, (err, challenge) => {
-  //     if (err || !challenge) {
-  //       res.status(404).send(err.message);
-  //     } else {
-  //       res.json({
-  //         success: true,
-  //         challenge: challenge,
-  //
-  //       });
-  //     }
-  //   });
-  // }
-
-
 
   update(req, res) {
-    model.update({
-      _id: req.params.id
-    }, req.body, (err, challenge) => {
-      if (err || !challenge) {
-        res.status(500).send(err.message);
-      } else {
-        res.sendStatus(200);
-      }
-    });
+    model.findByIdAndUpdate(
+      req.params.id, req.body,{upsert:true, new:true})
+      .populate('activity')
+      .populate({
+        path: 'author',
+        select: 'avatar pseudo'
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'pseudo email'
+        }
+      })
+      .exec((err, challenge) => {
+        if (err || !challenge) {
+          res.status(500).send(err.message);
+        } else {
+          changeAsync(challenge, mailer,(result)=>{
+
+            res.json(challenge,result);
+          });
+        }
+      });
   }
+
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {
       if (err) {
         res.status(500).send(err.message);
       } else {
-        res.sendStatus(200);
+        invitation.searchAndDelete(req.params.id, (err, invitation) => {
+          team.searchAndDelete(req.params.id, (err, teams) => {
+            res.json({
+              challengeDelected: true,
+              invitation: invitation,
+              teams: teams
+            });
+          });
+        });
       }
     });
   }
-
-
 }
