@@ -12,8 +12,17 @@ angular.module('app')
             getAll: function() {
                 return $http.get('/challenges');
             },
+            getByUser: function(params) {
+                return $http.get('/challenges/user/',{params:params});
+            },
+            getByCommunity: function(community) {
+                return $http.get('/challenges/community/'+ community);
+            },
             getOne: function(id) {
                 return $http.get('/challenges/' + id);
+            },
+            addUser: function(id, user) {
+                return $http.put('/challenges/user/' + id, user);
             },
         };
     });

@@ -94,9 +94,9 @@
     margin-left: 20px;
 }
 
-.row {
+/*.row {
     margin-left: 10px;
-}
+}*/
 
 .loupe {
     margin-left: 90%;
@@ -117,3 +117,22 @@
 .invitePseudo{
   margin-top: 20px;
 }
+.tabs.tabs-transparent .tab a, .tabs.tabs-transparent .tab.disabled a, .tabs.tabs-transparent .tab.disabled a:hover {
+
+    color: black!important;
+    background-color: white;
+}
+
+.marquage{
+  padding-bottom: 5px;
+  margin-top: 20px;
+  font-size: 12px;
+  color: grey;
+}
+.but{
+    background-color: white;
+}
+.border{
+  border-bottom: 1px solid #EBEBEB;
+}
+.s2{margin-top: 21px}
