@@ -19,7 +19,7 @@ const teamSchema = new mongoose.Schema({
     type: String,
   },
   maxPlayer: {
-    type: Object,
+    type: Number,
   }
 });
 
@@ -80,6 +80,82 @@ export default class Team {
         }
       });
   }
+
+  leaveTeam(req, res) {
+    let challenge = req.body.challenge;
+    let players = req.body.player;
+    model.findOneAndUpdate({
+        challenge: challenge,
+        players: players
+      }, {
+        $pull: {
+          players: players
+        }
+      }, {
+        upsert: true,
+        new: true
+      },
+      (err, team) => {
+        if (err || !team) {
+          console.log(err);
+          res.sendStatus(403);
+        } else {
+          console.log(team);
+          res.json({
+            team,
+            teamLeave: true
+          });
+        }
+      });
+  }
+
+  changeTeam(req, res) {
+    model.findById(req.params.id,
+      (err, team) => {
+        if (err || !team) {
+          res.sendStatus(403);
+        } else {
+          if (team.players.length == team.maxPlayer) {
+            res.json({
+              team: team,
+              full: true
+            });
+          } else {
+            model.findOneAndUpdate({challenge: req.body.challenge, players: req.body.player}, {
+              $pull: {
+                players: req.body.player
+              }
+            }, {
+              upsert: true,
+              new: true
+            }, (err, team) => {
+              if (err) {
+                res.sendStatus(500);
+              } else {
+                model.findByIdAndUpdate(req.params.id, {
+                  $addToSet: {
+                    players: req.body.player
+                  }
+                }, {
+                  upsert: true,
+                  new: true
+                }, (err, team) => {
+                  if(err){
+                    res.sendStatus(500);
+                  }else {
+                    res.json(team);
+
+                  }
+
+                });
+              }
+
+            });
+          }
+        }
+      });
+  }
+
   updateScore(req, res) {
     model.findByIdAndUpdate(req.params.id, req.body, {
         upsert: true,
@@ -167,9 +243,9 @@ export default class Team {
               };
             }
           });
-          });
-          res({
-            teamDeleted: true
+        });
+        res({
+          teamDeleted: true
         });
       }
     });
