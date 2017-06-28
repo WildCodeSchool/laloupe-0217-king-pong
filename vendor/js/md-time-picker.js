@@ -1,3 +1,4 @@
+
 /*
  * Angular Material Time Picker
  * https://github.com/classlinkinc/angular-material-time-picker
@@ -601,3 +602,4 @@
     }]);
 
 })(window, angular);
+
