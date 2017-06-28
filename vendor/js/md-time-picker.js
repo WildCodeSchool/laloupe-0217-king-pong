@@ -66,7 +66,7 @@
           readOnly: '<', // true or false
           mandatory: '<' // true or false
         },
-        template: '<md-input-container md-no-float>' +
+        template: '<md-input-container>' +
           '<input ' +
           'ng-required="mandatory" ' +
           'type="text"' +
@@ -205,16 +205,6 @@
           mandatory: '<' // true or false
         },
         template: '<md-input-container md-no-float>' +
-          // '<md-select ' +
-          // 'ng-required="mandatory" ' +
-          // 'name="meridiem"' +
-          // 'ng-model="meridiem"' +
-          // 'ng-change="updateTime()"' +
-          // 'placeholder="AM/PM"' +
-          // 'flex-gt-sm>' +
-          // '<md-option value="AM" ng-disabled="readOnly">AM</md-option>' +
-          // '<md-option value="PM" ng-disabled="readOnly">PM</md-option>' +
-          // '</md-select>' +
           '<div class="time-error-messages" ng-messages="$parent.timeForm.meridiem.$error" role="alert">' +
           '<div ng-message="required">{{message}}</div>' +
           '</div>' +
@@ -271,7 +261,7 @@
           '<div class="md-ripple-container"></div>' +
           '</button>' +
           '<md-hours-minutes type="HH" ng-model="ngModel" message="{{message.hour}}" read-only="readOnly" mandatory="mandatory"></md-hours-minutes>' +
-          '<span class="time-colon">:</span>' +
+          '<span class="time-colon"></span>' +
           '<md-hours-minutes type="MM" ng-model="ngModel" message="{{message.minute}}" read-only="readOnly" mandatory="mandatory"></md-hours-minutes>' +
           '<md-meridiem ng-if="!noMeridiem" ng-model="ngModel" message="{{message.meridiem}}" read-only="readOnly" mandatory="mandatory"></md-meridiem>' +
           '</form>',
