@@ -4,15 +4,22 @@ import User from './user.js';
 import Activity from './activity.js';
 import Team from './team';
 import Invitation from './invitation';
+import hbs from 'nodemailer-express-handlebars';
 import moment from 'moment';
+import config from '../../mailerConfig.js';
+import options from '../../mailerOption.js';
 import {
   teamAsynchrone,
   userFilter,
   timeDiff,
   sortByActivity,
   formatDate,
-  resultFilter
+  resultFilter,
+  changeAsync
 } from '../../function.js';
+
+let mailer = config();
+mailer.use('compile', hbs(options));
 
 const challengeSchema = new mongoose.Schema({
 
@@ -233,15 +240,30 @@ export default class Challenge {
 
 
   update(req, res) {
-    model.update({
-      _id: req.params.id
-    }, req.body, (err, challenge) => {
-      if (err || !challenge) {
-        res.status(500).send(err.message);
-      } else {
-        res.sendStatus(200);
-      }
-    });
+    model.findByIdAndUpdate(
+      req.params.id, req.body,{upsert:true, new:true})
+      .populate('activity')
+      .populate({
+        path: 'author',
+        select: 'avatar pseudo'
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'pseudo email'
+        }
+      })
+      .exec((err, challenge) => {
+        if (err || !challenge) {
+          res.status(500).send(err.message);
+        } else {
+          changeAsync(challenge, mailer,(result)=>{
+
+            res.json(challenge,result);
+          });
+        }
+      });
   }
 
   delete(req, res) {

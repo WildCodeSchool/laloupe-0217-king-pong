@@ -55,6 +55,22 @@ angular.module('app')
       });
     }
 
+    function launchServices(userId, currentCommunity) {
+      data = [];
+      InvitationService.getByUser({
+        player: userId,
+        community: currentCommunity
+      }).then(function(res) {
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            SharingDataService.sendInvitations(result.notFinish);
+            $scope.invitations = result.notFinish;
+          }
+        });
+      });
+
     //initialize tabs of materialize
     $(document).ready(function() {
       $('ul.tabs').tabs();
@@ -113,21 +129,6 @@ angular.module('app')
     };
 
 
-    function launchServices(userId, currentCommunity) {
-      data = [];
-      InvitationService.getByUser({
-        player: userId,
-        community: currentCommunity
-      }).then(function(res) {
-        filterDate(refactoring(res.data), function(err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            SharingDataService.sendInvitations(result.notFinish);
-            $scope.invitations = result.notFinish;
-          }
-        });
-      });
       ChallengeService.getByUser({
         player: userId,
         community: currentCommunity
@@ -142,6 +143,7 @@ angular.module('app')
           }
         });
       });
+
 
       ChallengeService.getByCommunity(currentCommunity).then(function(res) {
         filterDate(refactoring(res.data), function(err, result) {

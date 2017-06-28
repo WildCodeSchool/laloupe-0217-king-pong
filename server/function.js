@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
+import Promise from 'promise';
 
 moment.locale('fr');
 
@@ -14,6 +15,8 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
       subject: 'invitation au défi' + activityName,
       template: 'email_body',
       context: {
+        text1: 'Vous avez reçu une invitation de',
+        text2: 'tu est invité à un <em>challenge </em>',
         id: invitation._id,
         invite: invitation.players[i].pseudo,
         date: moment(challenge.date).format('LL'),
@@ -21,7 +24,8 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
         duration: challenge.duration,
         place: challenge.place,
         author: challenge.author.pseudo,
-        activity: activityName
+        activity: activityName,
+        link: 'https://dry-plains-87997.herokuapp.com/#!/user/invitations/' + invitation._id
       }
     }, function(error, response) {
       if (error) {
@@ -37,6 +41,55 @@ function invitationAsync(invitation, mailer, i, ok, err, callback) {
   } else {
     callback(ok, err);
   }
+}
+
+
+function changeAsync(challenge, mailer, callback) {
+
+  var promesses = [];
+  let activityName = challenge.activity.activityName;
+
+
+  challenge.teams.forEach((team) => {
+    team.players.forEach((player) => {
+      mailer.sendMail({
+        from: 'king-Pong@mail.com',
+        to: player.email,
+        subject: 'invitation au défi' + activityName,
+        template: 'email_body',
+        context: {
+          text1: 'Une modification à été efectuer par ',
+          text2: 'le <em>challenge </em> à était modifié',
+          id: challenge._id,
+          invite: player.pseudo,
+          date: moment(challenge.date).format('LL'),
+          time: moment(challenge.time).format('LT'),
+          duration: challenge.duration,
+          place: challenge.place,
+          author: challenge.author.pseudo,
+          activity: activityName,
+          link: 'https://dry-plains-87997.herokuapp.com/#!/user/resum/' + challenge._id
+        }
+      }, function(error, response) {
+        if (error) {
+          console.log(error);
+        } else {
+          promesses.push(player);
+          console.log('mail sent to ' + player.email);
+          mailer.close();
+        }
+      });
+    });
+  });
+
+  Promise.all(promesses).then(function(data) {
+    console.info('Tous les email ont été envoyés avec succès');
+    callback(promesses);
+  }).catch(function(err) {
+    console.error('Une erreur est survenue lors de l\'envoi des mails');
+  });
+
+
 }
 
 //function for create teams
@@ -73,7 +126,7 @@ function userFilter(challenges, params) {
 }
 
 //function for filter result false
-function resultFilter(challenges , boolean) {
+function resultFilter(challenges, boolean) {
   return challenges.filter((challenge) => {
     return challenge.result === boolean;
   });
@@ -90,8 +143,7 @@ function timeDiff(challenges) {
 
 //function for extra score by activity and player
 function sortByActivity(challenges) {
-  let table = [],
-  playerResults = players[players.findIndex((player) => player._id === playerId)].result;
+  let table = [];
   challenges.forEach((challenge) => {
     let activityName = challenge.activity.activityName;
     challenge.teams.forEach((team) => {
@@ -103,7 +155,8 @@ function sortByActivity(challenges) {
         if (table.filter(activity => activity.name == activityName).length > 0) {
           table.forEach((obj) => {
             let activity = obj.name,
-              players = obj.players;
+              players = obj.players,
+              playerResults = players[players.findIndex((player) => player._id === playerId)].result;
             if (players.filter(player => player._id == playerId).length > 0) {
               if (result == 'win') {
                 playerResults.win += 1;
@@ -217,5 +270,6 @@ export {
   timeDiff,
   sortByActivity,
   formatDate,
-  resultFilter
+  resultFilter,
+  changeAsync
 };

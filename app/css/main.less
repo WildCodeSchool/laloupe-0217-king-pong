@@ -10,7 +10,6 @@
   font-weight: 400;
   src: local('Material Icons'), local('MaterialIcons-Regular'), url("https://fonts.gstatic.com/s/materialicons/v22/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2") format('woff2');
 }
-
 @font-face {
   font-family: 'pressStart';
   src: url('/fonts/PressStart2P-Regular.ttf');
@@ -35,10 +34,7 @@
 // **********************Variables LESS*****************************************
 // -----------------------------------------------------------------------------
 @purple: #312C41;
-
-@grey: #EDEDED;
-
-// ----------------------------------------------------------------------------
+@grey: #EDEDED; // ----------------------------------------------------------------------------
 // **********************Slide View********************************************
 // -----------------------------------------------------------------------------
 
@@ -283,6 +279,10 @@ md-tabs md-ink-bar {
 md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
   color: white !important;
 }
+
+nav {
+  z-index: 10;
+}
 // -----------------------------------------------------------------------------
 // **********************Register********************************************
 // -----------------------------------------------------------------------------
@@ -404,6 +404,10 @@ span.badge.nav-badge {
   height: 60px;
 }
 
+.listHeightModal {
+  height: 60px;
+}
+
 .teamArbitrage {
   margin-top: 20px;
   display: block;
@@ -455,8 +459,8 @@ span.badge.nav-badge {
   color: red;
 }
 
-.md-datepicker-triangle-button.md-button.md-icon-button {
-  width: 100%;
+.md-datepicker-triangle-button.md-button.md-icon-button.none {
+  display: none;
 }
 
 .md-datepicker-input-container {
@@ -464,7 +468,7 @@ span.badge.nav-badge {
 }
 
 .picker {
-  width: 100%;
+
 }
 
 .teamChoice {
@@ -479,6 +483,49 @@ span.badge.nav-badge {
   margin-left: 25px;
   font-size: 1.3em;
   font-weight: 500;
+}
+
+form[name=timeForm] {
+  top: -15px;
+}
+
+.md-button.md-icon-button.horloge {
+  margin-top: -25px;
+}
+
+.hours {}
+
+.minutes {
+  margin-left: -28px;
+}
+
+.time-colon {
+  margin-top: 6px;
+  margin-left: -20px;
+}
+
+.select {
+  margin-top: -10px;
+}
+
+.md-datepicker-triangle-button.md-button.md-icon-button.triangle {
+  margin-top: 15px;
+  right: 5px;
+}
+
+.md-select-value .md-select-icon {
+  text-align: left;
+  margin: 0 8px;
+}
+
+.md-select-icon {
+
+  margin: 0;
+}
+
+.md-select-value .md-select-icon:after {
+  font-size: 17px !important;
+
 }
 // -----------------------------------------------------------------------------
 // **********************Carousel***********************************************
@@ -760,6 +807,7 @@ footer {
   }
 }
 //invitation //
+
 .participants {
   margin-left: 20px;
   font-size: 15px;

@@ -72,7 +72,7 @@ angular.module('app')
           });
         });
       } else {
-        $scope.teams.forEach((team) => {
+        $scope.teams.forEach(function(team){
           TeamService.updateScore(team._id, {
             resultat: "null"
           }).then(function(res) {});

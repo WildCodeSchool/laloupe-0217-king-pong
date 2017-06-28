@@ -36,8 +36,8 @@
     padding-top: 10px;
     /*padding-left: 10px;*/
     height: 70px;
-    /*border-bottom: 1px solid;*/
-    /*border-top: 1px solid;*/
+    border-bottom: 1px solid;
+    border-top: 1px solid;
     border-color: #D8D8D8;
     background-color: #eeeeee;
 }
@@ -273,7 +273,7 @@
   top: 15px;
   right: 10px;
 }
-.input-field{
+/*.input-field{
   border-bottom: 1px solid;
   border-color: grey;
-}
+}*/
