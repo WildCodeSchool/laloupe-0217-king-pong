@@ -115,12 +115,12 @@
               }
               $scope.time.HH = String(hours);
             } else
-              if ($scope.$parent.ngModel) {
-                $scope.time.MM = format($scope.$parent.ngModel.getMinutes());
-              } else {
-                // leave MM empty to allow empty values
-                $scope.time.MM = '';
-              }
+            if ($scope.$parent.ngModel) {
+              $scope.time.MM = format($scope.$parent.ngModel.getMinutes());
+            } else {
+              // leave MM empty to allow empty values
+              $scope.time.MM = '';
+            }
           }
 
           $scope.time = {};
@@ -150,8 +150,8 @@
               $scope.ngModel = new Date(2017, 0, 0, 0, 0, 0, 0);
             }
             if ($scope.type === 'MM') {
-                $scope.ngModel.setMinutes(next);
-                return;
+              $scope.ngModel.setMinutes(next);
+              return;
             } else if (!$scope.$parent.noMeridiem) {
               var hours = $scope.ngModel.getHours();
               if (hours >= 12 && next != 12)
@@ -159,7 +159,7 @@
               else if (hours < 12 && next == 12)
                 next = 0;
             }
-              $scope.ngModel.setHours(next);
+            $scope.ngModel.setHours(next);
           }
 
           $scope.increase = function() {
@@ -238,17 +238,17 @@
 
           $scope.updateTime = function() {
             var hours = $scope.$parent.$parent.ngModel.getHours();
-            if ($scope.meridiem === 'AM') $scope.$parent.$parent.ngModel.setHours(hours-12);
-            else $scope.$parent.$parent.ngModel.setHours(hours+12);
+            if ($scope.meridiem === 'AM') $scope.$parent.$parent.ngModel.setHours(hours - 12);
+            else $scope.$parent.$parent.ngModel.setHours(hours + 12);
             $rootScope.$emit('mdpTimePickerUpdated');
-          }
+          };
 
           var removeListener = $scope.$on('mdpTimePickerModalUpdated', setMeridiem);
           $scope.$on('$destroy', removeListener);
 
         }]
 
-      }
+      };
 
     })
 
@@ -264,16 +264,19 @@
           mandatory: '<' // true or false
         },
         template: '<form name="timeForm">' +
-          '<button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="!readOnly && showPicker($event)">' +
+          '<button class="md-icon-button md-button md-ink-ripple  horloge" type="button" ng-click="!readOnly && showPicker($event)">' +
           '<md-icon>' +
           '<i class="material-icons">&#xE192;</i>' +
           '</md-icon>' +
           '<div class="md-ripple-container"></div>' +
           '</button>' +
-          '<md-hours-minutes type="HH" ng-model="ngModel" message="{{message.hour}}" read-only="readOnly" mandatory="mandatory"></md-hours-minutes>' +
+          '<md-hours-minutes class="hours" type="HH" ng-model="ngModel" message="{{message.hour}}" read-only="readOnly" mandatory="mandatory"></md-hours-minutes>' +
           '<span class="time-colon">:</span>' +
-          '<md-hours-minutes type="MM" ng-model="ngModel" message="{{message.minute}}" read-only="readOnly" mandatory="mandatory"></md-hours-minutes>' +
+          '<md-hours-minutes class="minutes" type="MM" ng-model="ngModel" message="{{message.minute}}" read-only="readOnly" mandatory="mandatory"></md-hours-minutes>' +
           '<md-meridiem ng-if="!noMeridiem" ng-model="ngModel" message="{{message.meridiem}}" read-only="readOnly" mandatory="mandatory"></md-meridiem>' +
+          '<div class="md-datepicker-triangle-button md-icon-button md-button triangle" ng-class="{\'none\':state.current.name == user.resum}">'+
+          '<span class="md-datepicker-expand-triangle ng-scope" aria-hidden="true" ng-click="!readOnly && showPicker($event)"></span>' +
+          '</div>' +
           '</form>',
         controller: ["$scope", "$rootScope", "$mdpTimePicker", "$attrs", function($scope, $rootScope, $mdpTimePicker, $attrs) {
 
@@ -331,7 +334,7 @@
         var timePicker = function(time, options) {
 
           return $mdDialog.show({
-            controller: ['$scope', '$mdDialog', '$mdMedia', function ($scope, $mdDialog, $mdMedia) {
+            controller: ['$scope', '$mdDialog', '$mdMedia', function($scope, $mdDialog, $mdMedia) {
               var self = this;
 
               // check if time is valid date. Create new date object if not.
@@ -364,7 +367,7 @@
               this.hours = function() {
                 var hours = self.time.getHours();
                 if (self.noMeridiem) return hours;
-                if (hours > 12) return hours-12;
+                if (hours > 12) return hours - 12;
                 else if (hours === 0) return 12;
                 return hours;
               }
@@ -459,15 +462,15 @@
           '<md-button ng-if="clock.type !== \'minutes\'" ng-class="{ \'md-primary\': clock.selected == step }" class="md-icon-button md-raised mdp-clock-deg{{ ::(clock.STEP_DEG * ($index + 1)) }}" ng-repeat="step in clock.steps">{{ step }}</md-button>' +
           '</div>' +
           '</div>',
-        controller: ["$scope", function ($scope) {
+        controller: ["$scope", function($scope) {
           var TYPE_HOURS = "hours";
           var TYPE_MINUTES = "minutes";
           var self = this;
 
           this.noMeridiem = $scope.$parent.timepicker.noMeridiem;
 
-          this.STEP_DEG = this.noMeridiem ? 360/24 : 360/12;
-          this.STEP_DEG_MINUTES = 360/12;
+          this.STEP_DEG = this.noMeridiem ? 360 / 24 : 360 / 12;
+          this.STEP_DEG_MINUTES = 360 / 12;
           this.steps = [];
 
           this.CLOCK_TYPES = {
@@ -550,12 +553,11 @@
                     self.steps.push(i);
                   self.steps.push(0);
                   self.selected = self.time.getHours() || 0;
-                }
-                else {
+                } else {
                   for (var i = 1; i <= 12; i++)
                     self.steps.push(i);
-                    self.selected = self.time.getHours() || 0;
-                    if (self.selected > 12) self.selected -= 12;
+                  self.selected = self.time.getHours() || 0;
+                  if (self.selected > 12) self.selected -= 12;
                 }
 
                 break;
@@ -591,7 +593,7 @@
 
           element.on("click", onEvent);
           scope.$on("$destroy", function() {
-              element.off("click", onEvent);
+            element.off("click", onEvent);
           });
 
         }

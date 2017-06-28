@@ -52,7 +52,6 @@
           <label ng-class='{"toBottom": team.players.length < 1}' for="{{team.name}}" class="active">team {{team.name}}</label class ="active">
           <div class="chip inlineInvite" ng-repeat="player in team.players">
               <img src="{{player.avatar}}" alt="Contact Person"> {{player.pseudo}}
-
             </div>
         </md-list-item>
       </div>
@@ -60,34 +59,32 @@
   </div>
   <div class="row " ng-if = "challenge.author._id == user._id">
     <div class="col s12 offset-l4 l4 bckgrd-participant bottomSection">
-
-    <div class="col offset-s7 s2  offset-l6 l1">
-      <div class=" bottomLink">
-        <a href class="link greyLink" ng-click="showSuppModal()"><span>SUPPRIMER</span></a>
+      <div class="col offset-s7 s2  offset-l6 l1">
+        <div class=" bottomLink">
+          <a href class="link greyLink" ng-click="showSuppModal()"><span>SUPPRIMER</span></a>
+        </div>
       </div>
-    </div>
-    <div class="col offset-s1 s2  offset-l1 l1">
-      <div class=" bottomLink">
-        <a href class="link greenLink" ng-click="showEditModal()"><span>EDITER</span></a>
+      <div class="col offset-s1 s2  offset-l2 l1">
+        <div class=" bottomLink">
+          <a href class="link greenLink" ng-click="showEditModal()"><span>EDITER</span></a>
+        </div>
       </div>
     </div>
   </div>
-</div>
   <div class="row " ng-if = "challenge.author._id !== user._id">
     <div class="col s12 offset-l4 l4 bckgrd-participant bottomSection">
-
-    <div class="col offset-s4 s3  offset-l5 l3">
-      <div class=" bottomLink">
-        <a href class="link greyLink" ng-click="showDesengage()"><span>SE DESENGAGER</span></a>
+      <div class="col offset-s4 s3  offset-l5 l3">
+        <div class=" bottomLink">
+          <a href class="link greyLink" ng-click="showDesengage()"><span>SE DESENGAGER</span></a>
+        </div>
       </div>
-    </div>
-    <div class="col offset-s1 s4   l3">
-      <div class=" bottomLink">
-        <a href class="link greenLink" ng-click="showTeamModal()"><span>CHANGER D'EQUIPE</span></a>
+      <div class="col offset-s1 s4   l3">
+        <div class=" bottomLink">
+          <a href class="link greenLink" ng-click="showTeamModal()"><span>CHANGER D'EQUIPE</span></a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <!-- modals -->
@@ -99,7 +96,6 @@
          <div class="row" >
            <div class="col offset-s1 s10">
              <h6>Supprimer le défi</h6>
-
            </div>
          </div>
        </md-dialog-title>
@@ -111,21 +107,21 @@
          </div>
        </md-dialog-content>
        <md-dialog-content>
-           <div class="row">
-             <div class="col offset-s4 s2  offset-l6 l1">
-               <div class=" bottomLink">
-                 <a href class="link greyLink" ng-click="quit()"><span>ANNULER</span></a>
-               </div>
-             </div>
-             <div class="col offset-s2 s2  offset-l2 l1">
-               <div class=" bottomLink">
-                 <a href class="link redLink" ng-click="suppChallenge(challenge._id)"><span>SUPPRIMER</span></a>
-               </div>
+         <div class="row">
+           <div class="col offset-s4 s2  offset-l6 l1">
+             <div class=" bottomLink">
+               <a href class="link greyLink" ng-click="quit()"><span>ANNULER</span></a>
              </div>
            </div>
+           <div class="col offset-s2 s2  offset-l2 l1">
+             <div class=" bottomLink">
+               <a href class="link redLink" ng-click="suppChallenge(challenge._id)"><span>SUPPRIMER</span></a>
+             </div>
+           </div>
+         </div>
         </div>
      </md-dialog-content>
-     </md-dialog>'
+   </md-dialog>'
   </div>
 </div>
 
@@ -135,34 +131,31 @@
     <md-dialog flex-xs="80" flex="30" >
       <md-title>
         <div class="row">
-          <div class="col offset-s4 s6 offset-l5 l7 ">
+          <div class="s11 ">
             <h5>Editer</h5>
           </div>
         </div>
       </md-title>
       <md-dialog-content ng-if='team != "null"'>
         <div class="row">
-          <div class="col s12 offset-l4 l4">
+          <div class="col s12 ">
             <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
               <label for="start">Début</label>
           <div class="picker">
-            <md-datepicker ng-model="challenge.date"></md-datepicker>
+            <md-datepicker  ng-model="challenge.date" ng-change="changedDate(challenge.date)"></md-datepicker>
           </div>
-
       </div>
       <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
         <label for="timepicker">Heure</label>
-        <wy-time-picker data-dropdown-toggle-state="settings.dropdownToggleState" data-time-settings="settings.time" data-theme="settings.theme" data-no-range="settings.noRange" data-format="settings.format" data-no-validation="settings.noValidation" data-apply-callback="onApplyTimePicker()"
-          data-clear-callback="onClearTimePicker()">
-        </wy-time-picker>
+        <md-time-picker no-meridiem ng-model="challenge.time" >
+          <label class="active" for="start">Heure</label>
+        </md-time-picker>
       </div>
-      <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
-        <label for="duree">Durée</label>
-        <input id="duree" type="text" class="validate" ng-model="challenge.duration">
-      </div>
-      <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
-        <label for="activity">Activité</label>
-        <input id="activity" type="text" class="validate" ng-model="challenge.activity.activityName">
+      <div class="  listHeight col offset-s1 s11 offset-l1 l11  ">
+        <label class="active" for="duree">Durée</label>
+        <md-select  placeholder="Combien de temps durera le défi" ng-model="challenge.duration" style="margin-top:10px">
+          <md-option ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
+        </md-select>
       </div>
       <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
         <label for="where">Lieu</label>
@@ -175,23 +168,23 @@
     <div class="row" style="margin-top:40px">
       <div class="input-field col offset-s1 s11 offset-l1 l11 margeTeam">
         <label for="result" class="active">Résultat</label class ="active">
-                <input class="margeTeam" id='result' type="text" value="Match nul">
-            </div>
+            <input class="margeTeam" id='result' type="text" value="Match nul">
+          </div>
         </div>
       </md-dialog-content>
-    <md-dialog-content>
-      <div class="row" style='margin-top:30px'>
-        <div class="col s6">
-          <div class=" ">
-            <button class="btn blue darken-1" type="button" ng-click="valideScore(team)"><span>valider</span></button>
+      <md-dialog-content>
+        <div class="row" style='margin-top:30px'>
+          <div class="col s6">
+            <div class=" ">
+              <button class="btn blue darken-1" type="button" ng-click="validChange(challenge._id)"><span>valider</span></button>
+            </div>
+          </div>
+          <div class="col s6">
+            <div class=" ">
+                <button class="btn blue darken-1" type="button" ng-click="quit(teams)"><span>retour</span></button>
+            </div>
           </div>
         </div>
-        <div class="col s6">
-          <div class=" ">
-            <button class="btn blue darken-1" type="button" ng-click="showModal(teams)"><span>retour</span></button>
-          </div>
-        </div>
-      </div>
       </md-dialog-content>
     </md-dialog>
   </div>

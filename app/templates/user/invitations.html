@@ -1,82 +1,82 @@
 <nav>
-    <div class="nav-wrapper">
-        <i class="material-icons" ng-click="goToHome()">close</i>
-        <form>
-            <i class="material-icons">close</i>
-    </div>
-    </form>
-    </div>
+  <div class="nav-wrapper">
+    <i class="material-icons" ng-click="goToHome()">close</i>
+    <form>
+      <i class="material-icons">close</i>
+  </div>
+  </form>
+  </div>
 </nav>
 <div class="cadre">
-    <md-subheader class="md-no-sticky">
+  <md-subheader class="md-no-sticky">
 
-        <img src="img/carlin.jpg" alt="" class="circle">
-        <p>vous invite pour un defi {{activity}}</p>
+    <img src="img/carlin.jpg" alt="" class="circle">
+    <p>vous invite pour un defi {{activity}}</p>
 
-    </md-subheader><br>
+  </md-subheader><br>
 </div>
 <br><br>
 <div class="row">
-    <form class="col s12">
-        <!-- Calendrier datepicker -->
-        <div class="row">
-            <label for="start">Date et heure</label>
-            <div class="input-field col s12">
-                        <input id="duree" type="text" class="validate" ng-model="duration">
-                    </div>
-                </div>
-            </div>
-        </div>
+  <form class="col s12">
+    <!-- Calendrier datepicker -->
+    <div class="row">
+      <label for="start">Date et heure</label>
+      <div class="input-field col s12">
+        <input id="duree" type="text" class="validate" ng-model="duration">
+      </div>
+    </div>
+</div>
+</div>
 
 <div class="row">
+  <div class="input-field col s12">
     <div class="input-field col s12">
-        <div class="input-field col s12">
-            <input id="duree" type="text" class="validate" ng-model="duration">
-            <label for="duree">Durée</label>
-        </div>
+      <input id="duree" type="text" class="validate" ng-model="duration">
+      <label for="duree">Durée</label>
     </div>
+  </div>
 </div>
 <div class="row">
-    <div class="input-field col s12">
-        <input id="activity" type="text" class="validate" ng-model="activity">
-        <label for="activity">Activité</label>
-    </div>
+  <div class="input-field col s12">
+    <input id="activity" type="text" class="validate" ng-model="activity">
+    <label for="activity">Activité</label>
+  </div>
 </div>
 <div class="row">
-    <div class="input-field col s12">
-        <input id="where" type="text" class="validate" ng-model="lieu">
-        <label for="where">Lieu</label>
-    </div>
+  <div class="input-field col s12">
+    <input id="where" type="text" class="validate" ng-model="lieu">
+    <label for="where">Lieu</label>
+  </div>
 </div>
 <div class="bckgrd-participant">
-    <p>Participants</p>
+  <p>Participants</p>
 </div>
 <div class="row">
-    <div class="input-field col s12">
-        <h>Equipe 1</h>
-        <label for="invit"></label>
-        <ul ng-repeat="user in invite">
-            <li>
-                <div class="chip">
-                    <img src="{{user.avatar}}" alt="Contact Person"> {{user.pseudo}}
-                </div>
-            </li>
-        </ul>
-    </div>
+  <div class="input-field col s12">
+    <h>Equipe 1</h>
+    <label for="invit"></label>
+    <ul ng-repeat="user in invite">
+      <li>
+        <div class="chip">
+          <img src="{{user.avatar}}" alt="Contact Person"> {{user.pseudo}}
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>
 <div class="row">
-    <div class="input-field col s12">
-        <h>Equipe 2</h>
-        <label for="invit"></label>
-        <ul ng-repeat="user in invite">
-            <li>
-                <div class="chip">
-                    <img src="{{user.avatar}}" alt="Contact Person"> {{user.pseudo}}
-                </div>
-            </li>
-        </ul>
+  <div class="input-field col s12">
+    <h>Equipe 2</h>
+    <label for="invit"></label>
+    <ul ng-repeat="user in invite">
+      <li>
+        <div class="chip">
+          <img src="{{user.avatar}}" alt="Contact Person"> {{user.pseudo}}
+        </div>
+      </li>
+    </ul>
 
-    </div>
+  </div>
 </div>
 </form>
 

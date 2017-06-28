@@ -1,40 +1,40 @@
 <nav>
   <div class="nav-wrapper">
     <ul>
+      <li>
+        <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
+      </li>
+      <div>
         <li>
-            <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
-        </li>
-            <div>
-            <li>
-              <form>
-                <div class="input-field center ">
-                  <input  id="search" type="search" ng-model='filtre'>
-                      <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                </div>
-              </form>
-            </li>
+          <form>
+            <div class="input-field center ">
+              <input id="search" type="search" ng-model='filtre'>
+              <label class="label-icon" for="search"><i class="material-icons">search</i></label>
             </div>
+          </form>
+        </li>
+      </div>
     </ul>
   </div>
 </nav>
 <div class="cadre">
-<md-subheader class="md-no-sticky"><b>Activités</b></md-subheader><br>
+  <md-subheader class="md-no-sticky"><b>Activités</b></md-subheader><br>
 </div>
 <div class="row">
-    <div class="col s12">
+  <div class="col s12">
 
-            <md-list>
-            <ul class="collection">
-                <li class="collection-item" ng-repeat="activ in activity | filter: filtre">
-                    <div class="md-list-item-text compact" ng-click="addActivity(activ)">{{activ.activityName}}
-                </li>
-            </ul>
-          </md-list>
+    <md-list>
+      <ul class="collection">
+        <li class="collection-item" ng-repeat="activ in activity | filter: filtre">
+          <div class="md-list-item-text compact" ng-click="addActivity(activ)">{{activ.activityName}}
+        </li>
+      </ul>
+    </md-list>
 
-                  <div class="fixed-action-btn">
-                    <a class="btn-floating btn-large customPurple z-depth-4"  ng-click="createNewActivity()">
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large customPurple z-depth-4" ng-click="createNewActivity()">
                       <i class="large material-icons ">add</i>
                     </a>
-                  </div>
+    </div>
 
-          </div>
+    </div>

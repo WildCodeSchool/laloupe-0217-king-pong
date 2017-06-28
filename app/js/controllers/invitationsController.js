@@ -1,18 +1,27 @@
 angular.module('app')
   .controller('InvitationsController', function($scope, $state, $stateParams, SessionService, InvitationService, TeamService, CurrentUser) {
 
-
+    // service
     InvitationService.getOne($state.params.id).then(function(res) {
       $scope.invitations = res.data;
       console.log($scope.invitations);
     });
 
-    $scope.choiceTeam = function(id){
-      var team = {_id:"594ada837bd8305bd5365ae0"};
-      var players ={_id: "5942a8d358ac1e1b726c17b2"};
-      var challenge = {_id:"594ada837bd8305bd5365ade"};
-
-      TeamService.addPlayer(team._id,{players:players._id, challenge: challenge._id}).then(function(res){
+    // functions
+    $scope.choiceTeam = function(id) {
+      var team = {
+        _id: "594ada837bd8305bd5365ae0"
+      };
+      var players = {
+        _id: "5942a8d358ac1e1b726c17b2"
+      };
+      var challenge = {
+        _id: "594ada837bd8305bd5365ade"
+      };
+      TeamService.addPlayer(team._id, {
+        players: players._id,
+        challenge: challenge._id
+      }).then(function(res) {
         console.log(res);
       });
     };

@@ -9,12 +9,10 @@ const teamSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Challenge"
   },
-
   players: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   }],
-
   resultat: {
     type: String,
   },
@@ -23,10 +21,10 @@ const teamSchema = new mongoose.Schema({
   }
 });
 
-// TODO: valide invitation methode
 //models
 let model = mongoose.model('Team', teamSchema);
 let invitation = new Invitation();
+
 //methods
 export default class Team {
 
@@ -97,10 +95,8 @@ export default class Team {
       },
       (err, team) => {
         if (err || !team) {
-          console.log(err);
           res.sendStatus(403);
         } else {
-          console.log(team);
           res.json({
             team,
             teamLeave: true
@@ -121,7 +117,10 @@ export default class Team {
               full: true
             });
           } else {
-            model.findOneAndUpdate({challenge: req.body.challenge, players: req.body.player}, {
+            model.findOneAndUpdate({
+              challenge: req.body.challenge,
+              players: req.body.player
+            }, {
               $pull: {
                 players: req.body.player
               }
@@ -140,16 +139,13 @@ export default class Team {
                   upsert: true,
                   new: true
                 }, (err, team) => {
-                  if(err){
+                  if (err) {
                     res.sendStatus(500);
-                  }else {
+                  } else {
                     res.json(team);
-
                   }
-
                 });
               }
-
             });
           }
         }
@@ -172,8 +168,6 @@ export default class Team {
         }
       });
   }
-
-
 
   valideInvitation(req, res) {
     model.findById(req.params.id,
@@ -204,23 +198,10 @@ export default class Team {
                   result
                 });
               });
-
             });
           }
         }
       });
-  }
-
-  create(req, res) {
-    model.create(req, (err, team) => {
-      if (err) {
-        res.sendStatus(500);
-      } else {
-        console.log('result team', team._id);
-        res(team._id);
-      }
-    });
-
   }
 
   searchAndDelete(req, res) {
@@ -252,6 +233,15 @@ export default class Team {
 
   }
 
+  create(req, res) {
+    model.create(req, (err, team) => {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res(team._id);
+      }
+    });
+  }
 
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {
@@ -262,6 +252,5 @@ export default class Team {
       }
     });
   }
-
 
 }
