@@ -42,7 +42,7 @@ angular.module('app')
       });
 
 
-      $stateProvider
+    $stateProvider
       .state('main', {
         abstract: true,
         url: '/user',
@@ -55,27 +55,27 @@ angular.module('app')
         data: {
           access: AccessLevels.user
         }
-  })
-  .state('main.home', {
-   url: '/',
-   views: {
+      })
+      .state('main.home', {
+        url: '/',
+        views: {
 
-     'content@': {
-       templateUrl: 'user/home.html',
-       controller: 'MainController'
-     }
-   }
- })
- .state('main.rank', {
-   url: '/rank',
-   views: {
+          'content@': {
+            templateUrl: 'user/home.html',
+            controller: 'MainController'
+          }
+        }
+      })
+      .state('main.rank', {
+        url: '/rank',
+        views: {
 
-     'content@': {
-       templateUrl: 'user/rank.html',
-       controller: 'RankController',
-     }
-   }
- });
+          'content@': {
+            templateUrl: 'user/rank.html',
+            controller: 'RankController',
+          }
+        }
+      });
 
     $stateProvider
       .state('user', {
@@ -83,7 +83,6 @@ angular.module('app')
         url: '/user',
         views: {
           'navbar@': {
-            templateUrl: 'user/navbar.html',
             controller: 'NavbarUserController'
           }
         },

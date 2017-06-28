@@ -1,65 +1,65 @@
 <nav>
-    <div class="nav-wrapper">
-        <i class="material-icons" ng-click="close()">close</i></label>
-        <form>
-            <i class="material-icons">close</i>
-    </div>
-    </form>
-    </div>
+  <div class="nav-wrapper">
+    <i class="material-icons" ng-click="close()">close</i></label>
+    <form>
+      <i class="material-icons">close</i>
+  </div>
+  </form>
+  </div>
 </nav>
 <md-subheader class="md-no-sticky">
-    <div class="gravatar">
-        <img ng-src="{{avatar}}" alt="avatar" class="circle">
-    </div>
+  <div class="gravatar">
+    <img ng-src="{{avatar}}" alt="avatar" class="circle">
+  </div>
 </md-subheader><br>
 <div ng-init="checked=true">
-    <form action="#">
-        <p class="checkmodif">
-            <input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" ng-model="checked" />
-            <label for="filled-in-box">decocher pour modifier les parametres</label>
-        </p>
-        <div class="buttonSave">
-            <a class="waves-effect waves-light btn" ng-hide="checked = checked" ng-click="infoUpdate()">Enregistrer</a>
-        </div>
-    </form>
+  <form action="#">
+    <p class="checkmodif">
+      <input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" ng-model="checked" />
+      <label for="filled-in-box">decocher pour modifier les parametres</label>
+    </p>
+    <div class="buttonSave">
+      <a class="waves-effect waves-light btn" ng-hide="checked = checked" ng-click="infoUpdate()">Enregistrer</a>
+    </div>
+  </form>
 </div>
 <form class="col s12">
-    <div class="row">
-        <div class="input-field col s12">
-            <label for="user">Username</label>
-            <br>
-            <input class="email" name="email" ng-model="email" ng-disabled="checked">
-        </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <label for="user">Username</label>
+      <br>
+      <input class="email" name="email" ng-model="email" ng-disabled="checked">
     </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <label for="pseudo">pseudo</label>
-            <br>
-            <input type="text" name="pseudo" ng-model="pseudo" ng-disabled="checked">
-        </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <label for="pseudo">pseudo</label>
+      <br>
+      <input type="text" name="pseudo" ng-model="pseudo" ng-disabled="checked">
     </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <label for="password">mot de passe</label>
-            <br>
-            <input type="password" name="pseudo" ng-model="password" ng-disabled="checked">
-        </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <label for="password">mot de passe</label>
+      <br>
+      <input type="password" name="pseudo" ng-model="password" ng-disabled="checked">
     </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <label for="point">Points</label>
-            <br>
-            <input type="text" name="point" ng-model="point" disabled>
-        </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <label for="point">Points</label>
+      <br>
+      <input type="text" name="point" ng-model="point" disabled>
     </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <label for="community">Mes communautés</label>
-            <br>
-            </blockquote>
-            <input type="text" name="community" ng-repeat="comunity in communitys" ng-model="community.name" disabled>
-        </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <label for="community">Mes communautés</label>
+      <br>
+      </blockquote>
+      <input type="text" name="community" ng-repeat="comunity in communitys" ng-model="community.name" disabled>
     </div>
-    </div>
+  </div>
+  </div>
 </form>
 </div>

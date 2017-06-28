@@ -1,21 +1,24 @@
 <nav>
+
     <div class="nav-wrapper">
         <i class="material-icons" ng-click="goToHome()">close</i>
         <form>
             <i class="material-icons">close</i>
     </div>
     </form>
+
 </nav>
 <div class="cadre">
-    <md-subheader class="md-no-sticky">
+  <md-subheader class="md-no-sticky">
 
-        <img src="{{user.avatar}}" alt="" class="circleDefi">
-        <p>Créer un nouveau défi</p>
+    <img src="{{user.avatar}}" alt="" class="circleDefi">
+    <p>Créer un nouveau défi</p>
 
-    </md-subheader><br>
+  </md-subheader><br>
 </div>
 <br><br>
 <div class="row">
+
     <form class="col s12 offset-l4 l4">
         <div class=" row ng-show" ng-hide="myVarBefore">
             <div class="greyBorder input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
@@ -24,7 +27,8 @@
                 <label class="active" for="activity">Activité</label>
             </div>
 
-            <!-- Calendrier datepicker -->
+
+      <!-- Calendrier datepicker -->
 
             <div class="greyBorder input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
                 <div layout-gt-xs="row">
@@ -94,31 +98,33 @@
                     <button class="btn blue darken-1" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
                 </div>
             </div>
+
         </div>
       </div>
-        <md-list-item class="md-3-line" ng-repeat="guest in communitys">
-            <div class="md-list-item-text">
-                <div id="inviteAlign" ng-show="myVarBefore">
-                    <div classs="inviteAvatar">
-                        <img src="{{guest.avatar}}" class="circle" alt="">
-                    </div>
-                    <div class="invitePseudo">
-                        {{guest.pseudo}}
-                    </div>
-                    <div class="checkBox">
-                        <p>
-                            <input type="checkbox" id="{{guest.pseudo}}" ng-model="guest.isChecked" />
-                            <label for="{{guest.pseudo}}"></label>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </md-list-item>
+    </div>
+    <md-list-item class="md-3-line" ng-repeat="guest in communitys">
+      <div class="md-list-item-text">
+        <div id="inviteAlign" ng-show="myVarBefore">
+          <div classs="inviteAvatar">
+            <img src="{{guest.avatar}}" class="circle" alt="">
+          </div>
+          <div class="invitePseudo">
+            {{guest.pseudo}}
+          </div>
+          <div class="checkBox">
+            <p>
+              <input type="checkbox" id="{{guest.pseudo}}" ng-model="guest.isChecked" />
+              <label for="{{guest.pseudo}}"></label>
+            </p>
+          </div>
+        </div>
+      </div>
+    </md-list-item>
 
-                <div class="btn-invite" ng-show="myVarBefore">
-                    <a class="btn-floating btn-large waves-effect waves-light btn" ng-click="addInvite()">
+    <div class="btn-invite" ng-show="myVarBefore">
+      <a class="btn-floating btn-large waves-effect waves-light btn" ng-click="addInvite()">
                         <i class="material-icons">add</i></a>
-                </div>
+    </div>
 </div>
 </div>
 </div>

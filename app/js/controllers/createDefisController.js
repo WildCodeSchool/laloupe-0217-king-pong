@@ -58,7 +58,7 @@ $scope.currentDate = new Date();
 
             var Team = [];
             var nbrTeam = $scope.activity.numberOfTeam;
-            for (let i = 1; i <= nbrTeam; i++) {
+            for (var i = 1; i <= nbrTeam; i++) {
                 Team.push([]);
                 // TeamService.create({
                 //     // challenge: res.data._id,

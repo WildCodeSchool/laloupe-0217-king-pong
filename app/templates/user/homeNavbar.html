@@ -5,13 +5,10 @@
     <a href class="button-collapse md-primary right" ng-click="toggleRight()" ng-hide="isOpenRight()"><i class="material-icons">menu</i></a>
   </div>
   <md-tabs md-selected="selectedIndex" md-stretch-tabs="always">
-    <md-tab ui-sref="main.home" >Défi<span ng-if='sumDefies !== 0' class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></md-tab>
+    <md-tab ui-sref="main.home">Défi<span ng-if='sumDefies !== 0' class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></md-tab>
     <md-tab ui-sref="main.rank">Classement</md-tab>
   </md-tabs>
 </nav>
-
-
-
 <div ng-cloak md-swipe-right="onSwipeRight()">
   <section layout="row" flex>
     <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" md-swipe-right="onSwipeRight()">

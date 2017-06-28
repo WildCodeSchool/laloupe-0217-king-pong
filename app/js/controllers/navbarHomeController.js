@@ -1,13 +1,14 @@
 angular.module('app')
   .controller('NavbarHomeController', function($scope, Auth, CurrentUser, $timeout, $mdSidenav, $state, $rootScope, UserService, $log, CommunityService, $window, LocalService, InvitationService, ChallengeService, SharingDataService) {
 
-    //function for send
+    //function for send user to community when he have no community
     $rootScope.$on('$viewContentLoaded',
       function(event) {
         if (CurrentUser.user().community.length === 0 && $state.current.name !== 'user.community') {
           $state.go('user.community');
         }
       });
+
 
     // variables
     var userId = CurrentUser.user()._id;
@@ -18,7 +19,6 @@ angular.module('app')
 
 
     //functions
-
     function refactoring(array) {
       if (array.length >0) {
         array.forEach(function(challenge) {
@@ -34,6 +34,7 @@ angular.module('app')
         return [];
       }
     }
+
 
     function filterDate(items, callback) {
       var finish = [];
@@ -52,10 +53,25 @@ angular.module('app')
         finish: finish,
         notFinish: notFinish
       });
-
-
     }
 
+    function launchServices(userId, currentCommunity) {
+      data = [];
+      InvitationService.getByUser({
+        player: userId,
+        community: currentCommunity
+      }).then(function(res) {
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            SharingDataService.sendInvitations(result.notFinish);
+            $scope.invitations = result.notFinish;
+          }
+        });
+      });
+
+    //initialize tabs of materialize
     $(document).ready(function() {
       $('ul.tabs').tabs();
     });
@@ -75,24 +91,27 @@ angular.module('app')
       };
     }
 
+
     $scope.onSwipeLeft = buildToggler('right');
 
     $scope.onSwipeRight = function(ev) {
       $mdSidenav('right').close().then(function() {
         $log.debug("close RIGHT is done");
-
       });
     };
+
 
     $scope.toggleRight = buildToggler('right');
     $scope.isOpenRight = function() {
       return $mdSidenav('right').isOpen();
     };
 
+
     $scope.logout = function() {
       Auth.logout();
       $state.go('anon.login');
     };
+
 
     // select
     $scope.communitys = [];
@@ -102,29 +121,14 @@ angular.module('app')
       LocalService.set('community', JSON.stringify($scope.community));
     });
 
+
     $scope.selected = function(community) {
       currentCommunity = community;
       LocalService.set('community', JSON.stringify(community));
       launchServices(userId, community._id);
-
     };
 
-    function launchServices(userId, currentCommunity) {
-      data = [];
-      InvitationService.getByUser({
-        player: userId,
-        community: currentCommunity
-      }).then(function(res) {
-        console.log(refactoring(res.data));
-        filterDate(refactoring(res.data), function(err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            SharingDataService.sendInvitations(result.notFinish);
-            $scope.invitations = result.notFinish;
-          }
-        });
-      });
+
       ChallengeService.getByUser({
         player: userId,
         community: currentCommunity
@@ -140,6 +144,7 @@ angular.module('app')
         });
       });
 
+
       ChallengeService.getByCommunity(currentCommunity).then(function(res) {
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {
@@ -153,8 +158,8 @@ angular.module('app')
           SharingDataService.sendScore(res.data);
         });
     }
-    // TODO: supprimer les defy passé
-    launchServices(userId, currentCommunity);
 
+
+    launchServices(userId, currentCommunity);
 
   });

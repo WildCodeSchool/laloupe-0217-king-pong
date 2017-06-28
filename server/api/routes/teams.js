@@ -8,6 +8,7 @@ module.exports = (app) => {
 
   var team = new Team();
 
+  router.get('/', team.findAll);
 
   router.get('/:id', team.findById);
 
@@ -21,11 +22,10 @@ module.exports = (app) => {
 
   router.put('/:id', team.update);
 
-  router.delete('/:id', team.delete);
-
   router.post('/', team.create);
 
-  router.get('/', team.findAll);
+  router.delete('/:id', team.delete);
+
 
   app.use('/teams', router);
 

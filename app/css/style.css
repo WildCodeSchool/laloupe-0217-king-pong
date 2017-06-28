@@ -34,7 +34,8 @@
     margin-top: -1px;
     padding-top: 10px;
     height: 70px;
-    /*border-color: #D8D8D8;*/
+    border-bottom: 1px solid;
+    border-top: 1px solid;
     background-color: #eeeeee;
 }
 
@@ -242,7 +243,9 @@
 .md-datepicker-input {
     width: 250px!important;
 }
+
 .greyBorder{
   border-bottom: 1px solid;
   border-color: #D8D8D8;
 }
+

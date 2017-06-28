@@ -1,12 +1,25 @@
 angular.module('app')
-  .controller('ResumController', function($scope, $mdDialog, $mdDateLocale, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
+  .controller('ResumController', function($scope, $mdDialog, $mdDateLocale, $filter,  $timeout, $state, CurrentUser, ChallengeService, TeamService) {
+
     // variables
+    var info;
     $scope.user = CurrentUser.user();
     $scope.teams = [];
     $scope.team = {};
     $scope.currentDate = new Date();
     $scope.challenge = {};
-    var info;
+    $scope.state = $state;
+    $scope.durations = [
+        "15mn",
+        "30mn",
+        "45mn",
+        "1h00",
+        "1h15",
+        "1h30",
+        "1h45",
+        "2h00"
+    ];
+
 
 
     // function
@@ -18,7 +31,7 @@ angular.module('app')
     }
 
 
-
+    // button
     $scope.showSuppModal = function() {
       $mdDialog.show({
         contentElement: '#modalSupp',
@@ -31,9 +44,9 @@ angular.module('app')
         locals: {
           team: $scope.team
         }
-
       });
     };
+
 
     $scope.showEditModal = function() {
       $mdDialog.show({
@@ -47,15 +60,12 @@ angular.module('app')
         locals: {
           team: $scope.team
         }
-
       });
     };
 
 
-
     $scope.choice = function(team) {
       $mdDialog.hide();
-
       $mdDialog.show({
         contentElement: '#modalValid',
         scope: $scope,
@@ -73,7 +83,6 @@ angular.module('app')
 
     $scope.showDesengage = function(team) {
       $mdDialog.hide();
-
       $mdDialog.show({
         contentElement: '#modalDesengage',
         scope: $scope,
@@ -88,9 +97,9 @@ angular.module('app')
       });
     };
 
+
     $scope.showTeamModal = function(team) {
       $mdDialog.hide();
-
       $mdDialog.show({
         contentElement: '#modalChangeTeam',
         scope: $scope,
@@ -105,10 +114,10 @@ angular.module('app')
       });
     };
 
+
     $scope.choiceNewTeam = function(team) {
       $scope.team = team;
       $mdDialog.hide();
-
       $mdDialog.show({
         contentElement: '#modalValideChange',
         scope: $scope,
@@ -128,18 +137,41 @@ angular.module('app')
       $mdDialog.hide();
     };
 
+
     $scope.goToHome = function() {
       $state.go('main.home');
     };
 
+
     $scope.suppChallenge = function(challengeId) {
       $mdDialog.hide();
       ChallengeService.delete(challengeId).then(function(res) {
-        console.log(res.data);
       });
-
       // $state.go('main.home');
     };
+
+    $scope.changedDate = function(date){
+      $scope.changeDate = date;
+      console.log(date);
+    };
+    $scope.changedTime = function(time){
+      $scope.changeTime = time;
+      console.log(time);
+    };
+
+    $scope.validChange = function(challengeId){
+      var data ={};
+
+        data.date = $scope.changeDate;
+        data.time = $scope.challenge.time;
+        data.duration = $scope.challenge.duration;
+        data.place = $scope.challenge.place;
+
+      ChallengeService.update(challengeId,data).then(function(res){
+        $state.reload();
+      });
+    };
+
 
     $scope.quitChallenge = function(challengeId) {
       $mdDialog.hide();
@@ -147,9 +179,9 @@ angular.module('app')
         challenge: challengeId,
         player: $scope.user._id
       }).then(function(res) {});
-
       $state.go('main.home');
     };
+
 
     $scope.valideChoiceTeam = function(teamId) {
       TeamService.changeTeam(teamId, {
@@ -161,13 +193,21 @@ angular.module('app')
       });
     };
 
+
     // service
     ChallengeService.getOne($state.params.id).then(function(res) {
       $scope.teams = nameTeams(res.data.teams);
-      console.log(res.data);
       $scope.start = res.data.newDate + ' ' + 'à' + ' ' + res.data.newTime;
       $scope.challenge = res.data;
       $scope.challenge.date = new Date($scope.challenge.date);
+      $scope.challenge.time = new Date($scope.challenge.time);
+      $mdDateLocale.formatDate = function(date) {
+              return $filter('date')($scope.challenge.date, "dd-MM-yyyy");
+        };
+
+
+
+      // $scope.challenge.time = new Date($scope.challenge.time);
 
     });
   });
