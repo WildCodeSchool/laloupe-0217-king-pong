@@ -1,5 +1,5 @@
 <div class="row invitations " ng-if="invitations.length !== 0">
-  <div class="col s12 ">
+  <div class="col s12 offset-l4 l4 ">
     <div class="invitation ">
       <h2>Invitation<span ng-if="invitations.length !== 0" class="badge red round-badge">{{invitations.length}}</span></h2>
     </div>
@@ -40,7 +40,7 @@
 </div>
 
 <div class="row arbitrages" ng-class="{'section':invitations.length > 0 }" ng-if="arbitrages.length !== 0" style="position: relative">
-  <div class="col s12 ">
+  <div class="col s12 offset-l4 l4  ">
     <div class="arbitrage">
       <h2>Arbitrage<span ng-if="arbitrages.length !== 0" class="badge red round-badge">{{arbitrages.length}}</span></h2>
     </div>
@@ -75,7 +75,7 @@
 </div>
 
 <div class="row myDefies" ng-class="{'section':invitations.length > 0 }" ng-if="playerChallenges.length !== 0">
-  <div class="col s12 ">
+  <div class="col s12 offset-l4 l4 ">
     <div class="futurDefies">
       <h2>Mes défis à venir</h2>
     </div>
@@ -110,7 +110,7 @@
 </div>
 
 <div class="row inMyCommunity" ng-class="{'section':invitations.length > 0 }" ng-if="communityDefies.length !== 0">
-  <div class="col s12 ">
+  <div class="col s12 offset-l4 l4 ">
     <div class="communityDefies">
       <h2>Dans ma communauté</h2>
     </div>
