@@ -1,14 +1,13 @@
 angular.module('app')
   .controller('NavbarHomeController', function($scope, Auth, CurrentUser, $timeout, $mdSidenav, $state, $rootScope, UserService, $log, CommunityService, $window, LocalService, InvitationService, ChallengeService, SharingDataService) {
 
-    //function for send user to community when he have no community
+    //function for send
     $rootScope.$on('$viewContentLoaded',
       function(event) {
         if (CurrentUser.user().community.length === 0 && $state.current.name !== 'user.community') {
           $state.go('user.community');
         }
       });
-
 
     // variables
     var userId = CurrentUser.user()._id;
@@ -19,8 +18,9 @@ angular.module('app')
 
 
     //functions
+
     function refactoring(array) {
-      if (array.length >0) {
+      if (array.length > 0) {
         array.forEach(function(challenge) {
           challenge.nbPlayer = [];
           challenge.teams.forEach(function(team) {
@@ -35,11 +35,10 @@ angular.module('app')
       }
     }
 
-
     function filterDate(items, callback) {
       var finish = [];
       var notFinish = [];
-      if (items.length > 0) {
+      if (items !== undefined) {
         items.map(function(element) {
           var date = element.diff;
           if (/^dans/.test(date)) {
@@ -55,23 +54,17 @@ angular.module('app')
       });
     }
 
-    function launchServices(userId, currentCommunity) {
-      data = [];
-      InvitationService.getByUser({
-        player: userId,
-        community: currentCommunity
-      }).then(function(res) {
-        filterDate(refactoring(res.data), function(err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            SharingDataService.sendInvitations(result.notFinish);
-            $scope.invitations = result.notFinish;
-          }
-        });
-      });
 
-    //initialize tabs of materialize
+    // function notPlayer(challenges, playerId) {
+    //   return challenges.find(function(challenge) {
+    //     return challenge.teams.find(function(team) {
+    //       return team.players.filter(function(player) {
+    //
+    //         return player._id !== playerId;
+    //       });
+    //     });
+    //   });
+    // }
     $(document).ready(function() {
       $('ul.tabs').tabs();
     });
@@ -91,27 +84,24 @@ angular.module('app')
       };
     }
 
-
     $scope.onSwipeLeft = buildToggler('right');
 
     $scope.onSwipeRight = function(ev) {
       $mdSidenav('right').close().then(function() {
         $log.debug("close RIGHT is done");
+
       });
     };
-
 
     $scope.toggleRight = buildToggler('right');
     $scope.isOpenRight = function() {
       return $mdSidenav('right').isOpen();
     };
 
-
     $scope.logout = function() {
       Auth.logout();
       $state.go('anon.login');
     };
-
 
     // select
     $scope.communitys = [];
@@ -121,14 +111,28 @@ angular.module('app')
       LocalService.set('community', JSON.stringify($scope.community));
     });
 
-
     $scope.selected = function(community) {
       currentCommunity = community;
       LocalService.set('community', JSON.stringify(community));
       launchServices(userId, community._id);
+
     };
 
-
+    function launchServices(userId, currentCommunity) {
+      data = [];
+      InvitationService.getByUser({
+        player: userId,
+        community: currentCommunity
+      }).then(function(res) {
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            SharingDataService.sendInvitations(result.notFinish);
+            $scope.invitations = result.notFinish;
+          }
+        });
+      });
       ChallengeService.getByUser({
         player: userId,
         community: currentCommunity
@@ -144,22 +148,19 @@ angular.module('app')
         });
       });
 
-
       ChallengeService.getByCommunity(currentCommunity).then(function(res) {
+
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {
             console.log(err);
           }
           $scope.communityDefies = result.notFinish;
-          SharingDataService.sendCommunity(result.notFinish);
+          SharingDataService.sendCommunity($scope.communityDefies);
         });
       });
-      ChallengeService.getScoreByCommunity(currentCommunity).then(function(res) {
-          SharingDataService.sendScore(res.data);
-        });
     }
-
-
+    // TODO: supprimer les defy passé
     launchServices(userId, currentCommunity);
+
 
   });

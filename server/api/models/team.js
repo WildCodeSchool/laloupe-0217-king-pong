@@ -175,7 +175,7 @@ export default class Team {
         if (err || !team) {
           res.sendStatus(403);
         } else {
-          if (team.players.length == team.maxPlayer) {
+          if (team.players.length >= team.maxPlayer) {
             res.json({
               team: team,
               full: true
@@ -190,14 +190,19 @@ export default class Team {
               new: true
             }, (err, team) => {
               invitation.deletePlayer({
-                player: req.body.players,
-                challenge: req.body.challenge
-              }, (err, result) => {
-                res.json({
-                  team,
-                  result
+                  body: {
+                    player: req.body.players
+                  },
+                  params: {
+                    challenge: req.body.challenge
+                  }
+                },
+                (err, result) => {
+                  res.json({
+                    team,
+                    result
+                  });
                 });
-              });
             });
           }
         }

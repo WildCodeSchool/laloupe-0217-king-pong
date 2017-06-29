@@ -9,6 +9,7 @@ import {
   invitationAsync,
   communityFilter,
   userFilter,
+  userFilterInvitation,
   timeDiff
 } from '../../function.js';
 
@@ -100,10 +101,11 @@ export default class Activity {
           if (err || !invitations) {
             res.sendStatus(404);
           } else {
+            invitations = userFilterInvitation(invitations, req.query);
             let challenges = _.map(invitations, (invitation) => invitation.challenge);
             challenges = communityFilter(challenges, req.query);
             if (challenges.length > 0) {
-              res.json(timeDiff(userFilter(challenges, req.query)));
+              res.json(timeDiff(challenges));
             } else {
               res.json({
                 result: false
@@ -115,11 +117,12 @@ export default class Activity {
   }
 
   deletePlayer(req, res) {
+    console.log('delete');
     model.findOneAndUpdate({
-      challenge: req.challenge
+      challenge: req.params.challenge
     }, {
       $pull: {
-        players: req.player
+        players: req.body.player
       }
     }, {
       upsert: true,
@@ -133,15 +136,28 @@ export default class Activity {
             if (err) {
               res.sendStatus(500);
             } else {
-              res(err, {
-                invitationRemove: true
-              });
+              if (req.body.fromFront === true) {
+                res.json({
+                    invitationRemove: true
+                });
+              } else {
+
+                res(err, {
+                  invitationRemove: true
+                });
+              }
             }
           });
         } else {
-          res(err, {
-            removeUser: true,
-          });
+          if (req.body.fromFront === true) {
+            res.json({
+              removeUser: true,
+            });
+          } else {
+            res(err, {
+              removeUser: true,
+            });
+          }
         }
       }
     });
@@ -175,12 +191,14 @@ export default class Activity {
             if (err || !result) {
               res.sendStatus(500);
             } else {
-              invitationAsync(result, mailer, 0, [], [], function(ok, err) {
+              invitationAsync(result, mailer).then((result) => {
                 res({
                   players: result.players.length,
                   ok: ok,
                   error: err
                 });
+              }, (reject) => {
+                console.log(reject);
               });
             }
           });

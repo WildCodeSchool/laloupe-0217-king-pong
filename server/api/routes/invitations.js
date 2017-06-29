@@ -12,9 +12,9 @@ module.exports = (app) => {
     router.get('/user/', invitation.findByUserAndCommunity);
 
     router.get('/:challenge', invitation.findByChallenge);
-    //
-    // router.put('/:id', invitation.update);
-    //
+
+    router.put('/delete/:challenge', invitation.deletePlayer);
+
     router.delete('/:id', invitation.delete);
 
     router.post('/', invitation.create);

@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('ResumController', function($scope, $mdDialog, $mdDateLocale, $filter,  $timeout, $state, CurrentUser, ChallengeService, TeamService) {
+  .controller('ResumController', function($scope, $mdDialog, $mdDateLocale, $filter, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
 
     // variables
     var info;
@@ -10,14 +10,14 @@ angular.module('app')
     $scope.challenge = {};
     $scope.state = $state;
     $scope.durations = [
-        "15mn",
-        "30mn",
-        "45mn",
-        "1h00",
-        "1h15",
-        "1h30",
-        "1h45",
-        "2h00"
+      "15mn",
+      "30mn",
+      "45mn",
+      "1h00",
+      "1h15",
+      "1h30",
+      "1h45",
+      "2h00"
     ];
 
 
@@ -28,6 +28,15 @@ angular.module('app')
         teams[i].name = (i + 1);
       }
       return teams;
+    }
+
+    function isPlayer(teams, playerId) {
+       return teams.every(function(team) {
+        return team.players.every(function(player) {
+          return player._id == playerId;
+        });
+      });
+
     }
 
 
@@ -145,29 +154,31 @@ angular.module('app')
 
     $scope.suppChallenge = function(challengeId) {
       $mdDialog.hide();
-      ChallengeService.delete(challengeId).then(function(res) {
-      });
+      ChallengeService.delete(challengeId).then(function(res) {});
+      // $state.go('main.home');
+
+    };
+
+    $scope.changedDate = function(date) {
+      $scope.changeDate = date;
+    };
+    $scope.changedTime = function(time) {
+      $scope.changeTime = time;
+    };
+
+    $scope.return = function() {
       $state.go('main.home');
     };
 
-    $scope.changedDate = function(date){
-      $scope.changeDate = date;
-      console.log(date);
-    };
-    $scope.changedTime = function(time){
-      $scope.changeTime = time;
-      console.log(time);
-    };
+    $scope.validChange = function(challengeId) {
+      var data = {};
 
-    $scope.validChange = function(challengeId){
-      var data ={};
+      data.date = $scope.changeDate;
+      data.time = $scope.challenge.time;
+      data.duration = $scope.challenge.duration;
+      data.place = $scope.challenge.place;
 
-        data.date = $scope.changeDate;
-        data.time = $scope.challenge.time;
-        data.duration = $scope.challenge.duration;
-        data.place = $scope.challenge.place;
-
-      ChallengeService.update(challengeId,data).then(function(res){
+      ChallengeService.update(challengeId, data).then(function(res) {
         $state.reload();
       });
     };
@@ -178,7 +189,9 @@ angular.module('app')
       TeamService.leaveChallenge({
         challenge: challengeId,
         player: $scope.user._id
-      }).then(function(res) {});
+      }).then(function(res) {
+
+      });
       $state.go('main.home');
     };
 
@@ -189,7 +202,9 @@ angular.module('app')
         challenge: $scope.challenge._id
       }).then(function(res) {
         $mdDialog.hide();
-        $state.go('user.resum',{id:$scope.challenge._id});
+        $state.go('user.resum', {
+          id: $scope.challenge._id
+        });
       });
     };
 
@@ -202,12 +217,14 @@ angular.module('app')
       $scope.challenge.date = new Date($scope.challenge.date);
       $scope.challenge.time = new Date($scope.challenge.time);
       $mdDateLocale.formatDate = function(date) {
-              return $filter('date')($scope.challenge.date, "dd-MM-yyyy");
-        };
+        return $filter('date')($scope.challenge.date, "dd-MM-yyyy");
+      };
 
-
-
-      // $scope.challenge.time = new Date($scope.challenge.time);
+      $scope.isPlayer = isPlayer($scope.challenge.teams, $scope.user._id);
+      console.log($scope.isPlayer);
+      // $scope.isPlayer = false;
 
     });
+
+    // TODO: faire nouveau resum avec nouveau controleur
   });
