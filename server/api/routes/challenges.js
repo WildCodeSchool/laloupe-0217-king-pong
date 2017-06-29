@@ -6,20 +6,25 @@ let router = express.Router();
 
 module.exports = (app) => {
 
-    var challenge = new Challenge();
+  var challenge = new Challenge();
 
-    router.get('/user/', challenge.findByUSerAndCommunity);
+  router.get('/score/:community', challenge.findScoreByCommunity);
 
-    router.get('/community/:community', challenge.findByCommunity);
-    //
-    router.put('/:id', challenge.update);
-    //
-    router.delete('/:id', challenge.delete);
-    // //
-        router.post('/',challenge.create);
-    //
-    router.get('/', challenge.findAll);
+  router.get('/community/:community', challenge.findByCommunity);
 
-    app.use('/challenges', router);
+  router.get('/user/', challenge.findByUSerAndCommunity);
+
+  router.get('/', challenge.findAll);
+
+  router.get('/:id', challenge.findById);
+
+  router.put('/:id', challenge.update);
+
+  router.delete('/:id', challenge.delete);
+
+  router.post('/', challenge.create);
+
+
+  app.use('/challenges', router);
 
 };

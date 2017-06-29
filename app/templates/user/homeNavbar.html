@@ -1,22 +1,19 @@
-<nav class="nav-extended">
+<nav class="nav-extended z-depth-3">
   <div class="nav-wrapper">
-    <select class="brand-logo select center" ng-options="community.name for community in communitys" ng-model="community" ng-change="selected(community)">
+    <select class="brand-logo select home center" ng-options="community.name for community in communitys" ng-model="community" ng-change="selected(community)">
       </select>
     <a href class="button-collapse md-primary right" ng-click="toggleRight()" ng-hide="isOpenRight()"><i class="material-icons">menu</i></a>
   </div>
   <md-tabs md-selected="selectedIndex" md-stretch-tabs="always">
-    <md-tab ui-sref="user.home" >Défi<span class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></md-tab>
-    <md-tab ui-sref="user.rank">Classement</md-tab>
+    <md-tab ui-sref="main.home">Défi<span ng-if='sumDefies !== 0' class="badge red nav-badge">{{invitations.length + arbitrages.length}}</span></md-tab>
+    <md-tab ui-sref="main.rank">Classement</md-tab>
   </md-tabs>
 </nav>
-
-
-
 <div ng-cloak md-swipe-right="onSwipeRight()">
   <section layout="row" flex>
     <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" md-swipe-right="onSwipeRight()">
       <md-toolbar class="md-theme-light">
-        <img class="center circle avatar" src="{{user.avatar}}" alt="">
+        <img class=" margin center circle avatar" src="{{user.avatar}}" alt="">
         <b class="center pseudo-sidenav">{{user.pseudo}}</b>
       </md-toolbar>
       <md-content layout-padding>

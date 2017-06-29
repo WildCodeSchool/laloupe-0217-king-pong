@@ -1,112 +1,39 @@
 import mongoose from 'mongoose';
 import Challenge from './challenge.js';
-import {
-  config
-} from '../../mail.js';
-import Team from './team.js';
-import nodemailer from 'nodemailer';
 import hbs from 'nodemailer-express-handlebars';
 import moment from 'moment';
 import _ from 'lodash';
+import config from '../../mailerConfig.js';
+import options from '../../mailerOption.js';
+import {
+  invitationAsync,
+  communityFilter,
+  userFilter,
+  userFilterInvitation,
+  timeDiff
+} from '../../function.js';
 
+
+//schema
 const invitationSchema = new mongoose.Schema({
   challenge: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Challenge"
   },
-  player: [{
+  players: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   }]
 });
 
+
 //models
 let model = mongoose.model('Invitation', invitationSchema);
-let team = new Team();
-
-//variables
-var mailer = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: config.email,
-    pass: config.pass
-  }
-});
+let mailer = config();
 
 
-var options = {
-  viewEngine: {
-    extname: '.hbs',
-    layoutsDir: './api/views/email/',
-    defaultLayout: 'template',
-    partialsDir: './api/views/partials/'
-  },
-  viewPath: './api/views/email/',
-  extName: '.hbs'
-};
-
-//functions
-moment.locale('fr');
-
-
-function invitationAsync(invitation, mailer, i, ok, err, callback) {
-  let activityName = invitation.challenge.activity.activityName;
-  let challenge = invitation.challenge;
-  if (i <= invitation.player.length - 1) {
-    mailer.use('compile', hbs(options));
-    mailer.sendMail({
-      from: 'king-Pong@mail.com',
-      to: invitation.player[i].email,
-      subject: 'invitation au défi' + activityName,
-      template: 'email_body',
-      context: {
-        id: invitation._id,
-        invite: invitation.player[i].pseudo,
-        date: moment(challenge.date).format('LL'),
-        time: moment(challenge.time).format('LT'),
-        duration: challenge.duration,
-        place: challenge.place,
-        author: challenge.author.pseudo,
-        activity: activityName
-      }
-    }, function(error, response) {
-      if (error) {
-        err.push(invitation.player[i]);
-        console.log(error);
-      } else {
-        ok.push(invitation.player[i]);
-        console.log('mail sent to ' + invitation.player[i].email);
-        mailer.close();
-      }
-      invitationAsync(invitation, mailer, i + 1, ok, err, callback);
-    });
-
-  } else {
-    callback(ok, err);
-  }
-
-}
-
-function filterInvitaions(invitations, player, community, callback) {
-  let array = [];
-
-  invitations.map((invitation) => {
-    let players = invitation.player;
-    let date = invitation.challenge.date;
-    let diff = moment(date).fromNow();
-    players.map(user => {
-      if (user == player && invitation.challenge.community == community) {
-        array.push({
-          invitation,
-          diff
-        });
-      }
-
-    });
-
-  });
-  callback(array);
-}
+//functions mailer
+mailer.use('compile', hbs(options));
 
 
 //methods
@@ -122,16 +49,33 @@ export default class Activity {
     });
   }
 
-  findById(req, res) {
-    model.findById(req.params.id, {
-
-    }, (err, invitation) => {
-      if (err || !invitation) {
-        res.sendStatus(403);
-      } else {
-        res.json(invitation);
-      }
-    });
+  findByChallenge(req, res) {
+    model.findOne({
+        challenge: req.params.challenge
+      })
+      .populate({
+        path: 'challenge',
+        populate: {
+          path: 'activity'
+        }
+      })
+      .populate({
+        path: 'challenge',
+        populate: {
+          path: 'teams',
+          select: 'players',
+          populate: {
+            path: 'players',
+            select: 'avatar pseudo'
+          }
+        }
+      }).exec((err, invitation) => {
+        if (err || !invitation) {
+          res.sendStatus(403);
+        } else {
+          res.json(invitation.challenge);
+        }
+      });
   }
 
   findByUserAndCommunity(req, res) {
@@ -148,7 +92,7 @@ export default class Activity {
           path: 'teams',
           populate: {
             path: 'players',
-            select:'avatar ps'
+            select: 'avatar pseudo'
           }
         }
       })
@@ -157,62 +101,77 @@ export default class Activity {
           if (err || !invitations) {
             res.sendStatus(404);
           } else {
-            filterInvitaions(invitations, req.query.player, req.query.community, function(result) {
-              res.json(
-                result
-              );
-            });
+            invitations = userFilterInvitation(invitations, req.query);
+            let challenges = _.map(invitations, (invitation) => invitation.challenge);
+            challenges = communityFilter(challenges, req.query);
+            if (challenges.length > 0) {
+              res.json(timeDiff(challenges));
+            } else {
+              res.json({
+                result: false
+              });
+            }
           }
-        });
+        }
+      );
   }
 
-  valideInvitation(req, res) {
-    model.findOne({
-        _id: req.params.id,
-        player: req.body.player
-      },
-      (err, invitation) => {
-        if (err || !invitation) {
-          res.sendStatus(403);
-        } else {
-          team.update(req.body, (response) => {
-            let array = invitation.player;
-            let index = array.indexOf(req.body.player);
-            let newPlayer = array.splice(index, 1);
-            model.findByIdAndUpdate(req.params.id, {
-              player: newPlayer
-            }, {
-              upsert: true,
-              new: true
-            }, (err, invitation) => {
-              if (err || !invitation) {
-                res.sendStatus(403);
-              } else {
+  deletePlayer(req, res) {
+    console.log('delete');
+    model.findOneAndUpdate({
+      challenge: req.params.challenge
+    }, {
+      $pull: {
+        players: req.body.player
+      }
+    }, {
+      upsert: true,
+      new: true
+    }, (err, invitation) => {
+      if (err || !invitation) {
+        res.sendStatus(403);
+      } else {
+        if (invitation.players.length === 0) {
+          model.findByIdAndRemove(invitation._id, (err) => {
+            if (err) {
+              res.sendStatus(500);
+            } else {
+              if (req.body.fromFront === true) {
                 res.json({
-                  done: true,
-                  invitation: invitation
+                    invitationRemove: true
+                });
+              } else {
+
+                res(err, {
+                  invitationRemove: true
                 });
               }
-            });
-
+            }
           });
-
-
-          res.json(invitation);
+        } else {
+          if (req.body.fromFront === true) {
+            res.json({
+              removeUser: true,
+            });
+          } else {
+            res(err, {
+              removeUser: true,
+            });
+          }
         }
-      });
+      }
+    });
   }
 
   create(req, res) {
     model.create(req, (err, invitation) => {
       if (err) {
-        // res.status(500).send(err.message);
-        console.log(err);
+        res.status(500).send(err.message);
       } else {
         model.findById({
             _id: invitation._id
           }).populate({
-            path: 'player',
+            path: 'players',
             select: 'email pseudo'
           })
           .populate({
@@ -231,23 +190,37 @@ export default class Activity {
           .exec((err, result) => {
             if (err || !result) {
               res.sendStatus(500);
-              console.log(err);
             } else {
-              invitationAsync(result, mailer, 0, [], [], function(ok, err) {
+              invitationAsync(result, mailer).then((result) => {
                 res({
-                  status: 'mail send ' + ok.length + ' of ' + req.player.length,
+                  players: result.players.length,
+                  ok: result,
                   error: err
                 });
-
+              }, (reject) => {
+                console.log(reject);
               });
             }
-
           });
-
       }
     });
   }
 
+  searchAndDelete(req, res) {
+    model.findOneAndRemove({
+      challenge: req
+    }, (err) => {
+      if (err) {
+        res({
+          noInvitation: true
+        });
+      } else {
+        res({
+          InvitationDeleted: true
+        });
+      }
+    });
+  }
 
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {

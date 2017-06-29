@@ -30442,7 +30442,7 @@ function MdContactChips($mdTheming, $mdUtil) {
         if (hiddenIcons !== 'all' && hiddenIcons !== 'triangle') {
           triangleButton = '' +
             '<md-button type="button" md-no-ink ' +
-              'class="md-datepicker-triangle-button md-icon-button" ' +
+              'class="md-datepicker-triangle-button md-icon-button" ng-class="{\'none\':state.current.name == user.resum}" ' +
               'ng-click="ctrl.openCalendarPane($event)" ' +
               'aria-label="{{::ctrl.locale.msgOpenCalendar}}">' +
             '<div class="md-datepicker-expand-triangle"></div>' +

@@ -1,14 +1,14 @@
 angular.module('app')
     .service('InvitationService', function($http) {
         return {
-            create: function(infoCommunity) {
-                return $http.post('/invitations/', infoCommunity);
+            create: function(id) {
+                return $http.post('/invitations/'+ id);
             },
             getAll: function() {
                 return $http.get('/invitations/');
             },
-            getOne: function(id) {
-                return $http.get('/invitations/' + id);
+            getOne: function(challenge) {
+                return $http.get('/invitations/' + challenge);
             },
             getByUser: function(params) {
                 return $http.get('/invitations/user/' ,{params:params});
@@ -18,6 +18,9 @@ angular.module('app')
             },
             addUser: function(id, user) {
                 return $http.put('/invitations/user/' + id, user);
+            },
+            refuse: function(id,user) {
+                return $http.put('/invitations/delete/'+ id, {player:user,fromFront:true});
             },
             delete: function(id) {
                 return $http.delete('/invitations/' + id);

@@ -9,6 +9,7 @@ angular.module('app')
             'Gagnant / Match nul / Perdant'
         ];
         $scope.photos = [
+
             {name:'ping pong',value:'./img/pin-pong.jpg'},
             {name:'foot',value:'./img/foot.jpg'},
             {name:'echec',value:'./img/echec.jpg'},
@@ -18,7 +19,9 @@ angular.module('app')
             {name:'sport en salle',value:'./sport_en_salle.jpg'},
             {name:'jeux vidéo',value:'jeuxVideo.jpg'},
             {name:'jeux de societe',value:'jeux_de_societe.jpg'}
+
             ];
+
         $scope.valide = function() {
             $scope.newActivity = [];
             var infoActivity = {

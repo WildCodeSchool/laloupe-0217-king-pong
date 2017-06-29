@@ -43,8 +43,8 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Community"
   }]
-
 });
+
 
 userSchema.methods.comparePassword = function(pwd, cb) {
   bcrypt.compare(pwd, this.password, function(err, isMatch) {
@@ -94,10 +94,9 @@ export default class User {
   }
 
   findAll(req, res) {
-
     model.find({}, {
       password: 0
-    }).populate("community").exec( (err, users) => {
+    }).populate("community").exec((err, users) => {
       if (err || !users) {
         res.sendStatus(403);
       } else {
@@ -107,18 +106,17 @@ export default class User {
   }
 
   findById(req, res) {
-    console.log('find');
     model.findById(req.params.id, {
       password: 0
-    }).populate("community").exec(function (err, user)  {
+    }).populate("community").exec(function(err, user) {
       if (err || !user) {
-        console.log(err);
         res.sendStatus(400);
       } else {
         res.json(user);
       }
     });
   }
+
   findByPseudo(req, res) {
     model.findOne({
       pseudo: req.params.pseudo
@@ -126,11 +124,11 @@ export default class User {
       if (err || !user) {
         res.status(404);
       } else {
-        console.log(user);
         res.json(user);
       }
     });
   }
+
   findByMail(req, res) {
     model.findOne({
         email: req.params.email
@@ -139,7 +137,6 @@ export default class User {
         if (err || !user) {
           res.status(404);
         } else {
-          console.log(user);
           res.json(user);
         }
       });
@@ -177,7 +174,9 @@ export default class User {
     req.body.avatar = 'https://www.gravatar.com/avatar/' + hashMail + '?d=mm';
     model.update({
       _id: req.params.id
-    }, req.body,{new:true}, (err, user) => {
+    }, req.body, {
+      new: true
+    }, (err, user) => {
       if (err || !user) {
         res.status(500).send(err.message);
       } else {
@@ -192,10 +191,18 @@ export default class User {
       }
     });
   }
+
   addCommunity(req, res) {
     model.findOneAndUpdate({
       _id: req.params.id
-    },{$addToSet:{community:req.body.community}},{upsert:true, new: true}, (err, user) => {
+    }, {
+      $addToSet: {
+        community: req.body.community
+      }
+    }, {
+      upsert: true,
+      new: true
+    }, (err, user) => {
       if (err || !user) {
         res.status(500).send(err.message);
       } else {
