@@ -1,6 +1,10 @@
-angular.module('app')
-  .controller('NavbarHomeController', function($scope, Auth, CurrentUser, $timeout, $mdSidenav, $state, $rootScope, UserService, $log, CommunityService, $window, LocalService, InvitationService, ChallengeService, SharingDataService) {
+function compileProviderConfig($compileProvider) {
+  $compileProvider.preAssignBindingsEnabled(true);
+}
 
+angular.module('app')
+.config(['$compileProvider', compileProviderConfig])
+  .controller('NavbarHomeController', function($scope, Auth, CurrentUser, $timeout, $mdSidenav, $state, $rootScope, UserService, $log, CommunityService, $window, LocalService, InvitationService, ChallengeService, SharingDataService) {
     //function for send
     $rootScope.$on('$viewContentLoaded',
       function(event) {
