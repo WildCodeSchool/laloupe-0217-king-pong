@@ -4,22 +4,19 @@
         <i class="material-icons" ng-click="goToHome()">close</i>
         <form>
             <i class="material-icons">close</i>
-    </div>
     </form>
+  </div>
 
 </nav>
-<div class="cadre">
+  <div class="col s12 offset-l4 l4">
   <md-subheader class="md-no-sticky">
-
     <img src="{{user.avatar}}" alt="" class="circleDefi">
     <p>Créer un nouveau défi</p>
-
   </md-subheader><br>
 </div>
 <br><br>
 <div class="row">
-
-    <form class="col s12 offset-l4 l4">
+  <div class="col s12 ">
         <div class=" row ng-show" ng-hide="myVarBefore">
             <div class="greyBorder input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
                 <input id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
@@ -38,17 +35,14 @@
                     </div>
                 </div>
             </div>
-<div class="timer">
 
+  <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
+    <label for="timepicker">Heure</label>
+    <md-time-picker no-meridiem ng-model="startTime" >
+      <label class="active" for="start">Heure</label>
+    </md-time-picker>
+  </div>
 
-  <div class="greyBorder input-field col offset-s1 s11 offset-l1 l10">
-    <div class="timer">
-    <label class="active" for="startTime">Heure de début</label>
-                  <md-time-picker ng-model="startTime">
-                  </md-time-picker>
-                </div>
-              </div>
-          </div>
                        <div class="greyBorder input-field col offset-s1 s11 offset-l1 l10 blocInput1 ">
                 <md-select placeholder="Combien de temps durera le défi" ng-model="duration">
                     <md-option ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
@@ -90,6 +84,7 @@
                     <i class="material-icons" ng-click="toggle()">keyboard_arrow_right</i>
                 </div>
             </div>
+            <br>
 
 
 
@@ -126,6 +121,3 @@
                         <i class="material-icons">add</i></a>
     </div>
 </div>
-</div>
-</div>
-</form>

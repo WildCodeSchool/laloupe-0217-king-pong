@@ -1,11 +1,44 @@
 angular.module('app')
-  .controller('InvitationsController', function($scope, $state, $stateParams, SessionService, InvitationService, TeamService, CurrentUser) {
+  .controller('InvitationsController', function($scope, $mdDialog, $state, $stateParams, SessionService, InvitationService, TeamService, CurrentUser) {
 
     // service
     InvitationService.getOne($state.params.id).then(function(res) {
       $scope.invitations = res.data;
       console.log($scope.invitations);
     });
+
+    var info;
+    $scope.user = CurrentUser.user();
+    $scope.teams = [];
+    $scope.team = {};
+    $scope.currentDate = new Date();
+    $scope.challenge = {};
+    $scope.state = $state;
+    $scope.durations = [
+        "15mn",
+        "30mn",
+        "45mn",
+        "1h00",
+        "1h15",
+        "1h30",
+        "1h45",
+        "2h00"
+    ];
+
+    $scope.showRefusModal = function() {
+      $mdDialog.show({
+        contentElement: '#modalRefus',
+        scope: $scope,
+        controller: 'InvitationsController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
+        locals: {
+          team: $scope.team
+        }
+      });
+    };
 
     // functions
     $scope.choiceTeam = function(id) {
@@ -26,6 +59,7 @@ angular.module('app')
       });
     };
 
+
     $scope.erase = function(id){
       var players = {
         _id: "5942a6f5e630441892a1f6eb"
@@ -40,6 +74,32 @@ angular.module('app')
         console.log(res);
       });
     };
+
+
+    $scope.showTeamModal = function(team) {
+      $mdDialog.hide();
+      $mdDialog.show({
+        contentElement: '#modalChangeTeam',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
+        locals: {
+          team: $scope.team
+        }
+      });
+    };
+
+    $scope.goToHome = function() {
+        $state.go('main.home');
+    };
+
+    $scope.quit = function() {
+      $mdDialog.hide();
+    };
+
 
 
     // res of service exemple

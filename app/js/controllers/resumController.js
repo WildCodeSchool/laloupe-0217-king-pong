@@ -156,6 +156,7 @@ angular.module('app')
       $mdDialog.hide();
       ChallengeService.delete(challengeId).then(function(res) {});
       // $state.go('main.home');
+
     };
 
     $scope.changedDate = function(date) {

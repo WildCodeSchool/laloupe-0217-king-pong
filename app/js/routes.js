@@ -7,7 +7,6 @@ angular.module('app')
           access: AccessLevels.anon
         },
         views: {
-
         }
       })
       .state('anon.login', {
