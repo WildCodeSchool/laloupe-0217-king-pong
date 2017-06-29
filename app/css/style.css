@@ -15,7 +15,7 @@
     height: 160px;
     background-color: #eeeeee;
     border-bottom: solid 1px;
-    border-color: grey;
+    border-color: #D8D8D8;
 }
 
 .validateButton {
@@ -29,13 +29,14 @@
 
 .bckgrd-participant {
     color: grey;
-    margin-top: -1px;
     margin-bottom: 10px;
     margin-top: -1px;
     padding-top: 10px;
     height: 70px;
     border-bottom: 1px solid;
+    border-color: #d8d8d8;
     border-top: 1px solid;
+    border-color: #d8d8d8;
     background-color: #eeeeee;
 }
 
@@ -43,8 +44,9 @@
     color: grey;
     height: 160px;
     border-bottom: 1px solid;
+    border-color: #d8d8d8;
     border-top: 1px solid;
-    border-color: #D8D8D8;
+    border-color: #d8d8d8;
     background-color: #eeeeee;
     padding-top: 12%
 }
@@ -53,13 +55,11 @@
     padding-top: 60px;
     color: grey;
     height: 160px;
-    width: 413px;
     border-bottom: 1px solid;
     border-top: 1px solid;
-    border-color: #D8D8D8;
+    border-color: #d8d8d8;
     background-color: #eeeeee;
 }
-
 
 .circleDefi {
     border-radius: 50%!important;
@@ -74,16 +74,6 @@
 .timefield {
     margin-right: 40px;
     float: right;
-}
-
-.btnblue {
-    margin-left: 40px;
-    width: 300px;
-    line-height: 50px;
-    text-align: center;
-    vertical-align: middle;
-    color: white;
-    text-decoration: none;
 }
 
 .btnblue {
@@ -136,13 +126,16 @@
 .buttonSave {
     margin-left: 20px;
 }
+
 .loupe {
     margin-left: 90%;
 }
+
 .inviteNavigate {
     color: #A4A4A4;
     margin-left: 90%;
 }
+
 #inviteAlign {
     display: flex;
     justify-content: space-between;
@@ -154,59 +147,69 @@
 }
 
 .invitePseudo {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
 }
+
 .ng-valid {
     border-bottom: 0px !important;
 }
+
 .ng-valid {
     border-bottom: 0px !important;
 }
+
 .md-datepicker-input {
     border-bottom: 0px !important;
 }
+
 .blocInput1 {
+    height: 70px;
+
+}
+
+.blocInput2 {
     height: 70px;
     /*width: 100%;*/
 }
-.blocInput2 {
-    height: 70px;
-    width: 100%;
-}
+
 .blocInput3 {
     height: 70px;
-    width: 100%;
+    /*width: 100%;*/
 }
+
 .blocInput4 {
     height: 70px;
-    width: 100%;
+    /*width: 100%;*/
 }
+
 .blocInput5 {
     height: 70px;
-    width: 100%;
+    /*width: 100%;*/
 }
+
 .blocInput6 {
     margin-left: 16px;
     border-bottom: 1px solid;
-    border-color: #D8D8D8;
+    border-color: #d8d8d8;
     height: auto;
-    width: 392px;
+    /*width: 392px;*/
 }
+
 .formBlocDiv {
     border-bottom: 1px solid;
-    border-color: #D8D8D8;
+    border-color: #d8d8d8;
     padding-bottom: 60px;
     text-align: left !important;
-    width: 392px;
+    /*width: 392px;*/
     height: 60px;
 }
 
 .datepicker {
     border-bottom: 1px solid;
-    border-color: #D8D8D8;
+    border-color: #d8d8d8;
     padding-bottom: 30px;
     text-align: left;
-    width: 392px;
+    /*width: 392px;*/
     height: 70px;
 }
 
@@ -236,15 +239,15 @@
 }
 
 .timer {
-    height: 60px;
+    height: 70px;
     margin-bottom: 20px;
 }
 
 .md-datepicker-input {
-    width: 250px!important;
+    width: 240px!important;
 }
 
-.greyBorder{
-  border-bottom: 1px solid;
-  border-color: #D8D8D8;
+.greyBorder {
+    border-bottom: 1px solid;
+    border-color: #d8d8d8;
 }

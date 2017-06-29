@@ -109217,13 +109217,46 @@ angular.module('app')
     });
 
 angular.module('app')
-  .controller('InvitationsController', function($scope, $state, $stateParams, SessionService, InvitationService, TeamService, CurrentUser) {
+  .controller('InvitationsController', function($scope, $mdDialog, $state, $stateParams, SessionService, InvitationService, TeamService, CurrentUser) {
 
     // service
     InvitationService.getOne($state.params.id).then(function(res) {
       $scope.invitations = res.data;
       console.log($scope.invitations);
     });
+
+    var info;
+    $scope.user = CurrentUser.user();
+    $scope.teams = [];
+    $scope.team = {};
+    $scope.currentDate = new Date();
+    $scope.challenge = {};
+    $scope.state = $state;
+    $scope.durations = [
+        "15mn",
+        "30mn",
+        "45mn",
+        "1h00",
+        "1h15",
+        "1h30",
+        "1h45",
+        "2h00"
+    ];
+
+    $scope.showRefusModal = function() {
+      $mdDialog.show({
+        contentElement: '#modalRefus',
+        scope: $scope,
+        controller: 'InvitationsController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
+        locals: {
+          team: $scope.team
+        }
+      });
+    };
 
     // functions
     $scope.choiceTeam = function(id) {
@@ -109243,6 +109276,31 @@ angular.module('app')
         console.log(res);
       });
     };
+
+    $scope.showTeamModal = function(team) {
+      $mdDialog.hide();
+      $mdDialog.show({
+        contentElement: '#modalChangeTeam',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
+        locals: {
+          team: $scope.team
+        }
+      });
+    };
+
+    $scope.goToHome = function() {
+        $state.go('main.home');
+    };
+
+    $scope.quit = function() {
+      $mdDialog.hide();
+    };
+
 
     // res of service exemple
 
@@ -109911,7 +109969,7 @@ angular.module('app')
       $mdDialog.hide();
       ChallengeService.delete(challengeId).then(function(res) {
       });
-      // $state.go('main.home');
+      $state.go('main.home');
     };
 
     $scope.changedDate = function(date){
@@ -109986,10 +110044,7 @@ angular.module('app')
           access: AccessLevels.anon
         },
         views: {
-          'navbar@': {
-            templateUrl: 'anon/navbar.html',
-            controller: 'NavbarController'
-          }
+          
         }
       })
       .state('anon.home', {
@@ -111086,22 +111141,19 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "        <i class=\"material-icons\" ng-click=\"goToHome()\">close</i>\n" +
     "        <form>\n" +
     "            <i class=\"material-icons\">close</i>\n" +
-    "    </div>\n" +
     "    </form>\n" +
+    "  </div>\n" +
     "\n" +
     "</nav>\n" +
-    "<div class=\"cadre\">\n" +
+    "  <div class=\"col s12 offset-l4 l4\">\n" +
     "  <md-subheader class=\"md-no-sticky\">\n" +
-    "\n" +
     "    <img src=\"{{user.avatar}}\" alt=\"\" class=\"circleDefi\">\n" +
     "    <p>Créer un nouveau défi</p>\n" +
-    "\n" +
     "  </md-subheader><br>\n" +
     "</div>\n" +
     "<br><br>\n" +
     "<div class=\"row\">\n" +
-    "\n" +
-    "    <form class=\"col s12 offset-l4 l4\">\n" +
+    "  <div class=\"col s12 \">\n" +
     "        <div class=\" row ng-show\" ng-hide=\"myVarBefore\">\n" +
     "            <div class=\"greyBorder input-field col offset-s1 s11 offset-l1 l10 blocInput1 \">\n" +
     "                <input id=\"activity\" type=\"text\" class=\"active\" ng-click=\"filterActivity()\" ng-model=\"activity.activityName\">\n" +
@@ -111120,17 +111172,14 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "<div class=\"timer\">\n" +
     "\n" +
+    "  <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "    <label for=\"timepicker\">Heure</label>\n" +
+    "    <md-time-picker no-meridiem ng-model=\"startTime\" >\n" +
+    "      <label class=\"active\" for=\"start\">Heure</label>\n" +
+    "    </md-time-picker>\n" +
+    "  </div>\n" +
     "\n" +
-    "  <div class=\"greyBorder input-field col offset-s1 s11 offset-l1 l10\">\n" +
-    "    <div class=\"timer\">\n" +
-    "    <label class=\"active\" for=\"startTime\">Heure de début</label>\n" +
-    "                  <md-time-picker ng-model=\"startTime\">\n" +
-    "                  </md-time-picker>\n" +
-    "                </div>\n" +
-    "              </div>\n" +
-    "          </div>\n" +
     "                       <div class=\"greyBorder input-field col offset-s1 s11 offset-l1 l10 blocInput1 \">\n" +
     "                <md-select placeholder=\"Combien de temps durera le défi\" ng-model=\"duration\">\n" +
     "                    <md-option ng-repeat=\"duration in durations\" value=\"{{duration}}\">{{duration}}</md-option>\n" +
@@ -111172,6 +111221,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "                    <i class=\"material-icons\" ng-click=\"toggle()\">keyboard_arrow_right</i>\n" +
     "                </div>\n" +
     "            </div>\n" +
+    "            <br>\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -111207,10 +111257,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      <a class=\"btn-floating btn-large waves-effect waves-light btn\" ng-click=\"addInvite()\">\n" +
     "                        <i class=\"material-icons\">add</i></a>\n" +
     "    </div>\n" +
-    "</div>\n" +
-    "</div>\n" +
-    "</div>\n" +
-    "</form>\n"
+    "</div>\n"
   );
 
   $templateCache.put("user/createNewActivity.html",
@@ -111478,89 +111525,304 @@ angular.module("app").run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put("user/invitations.html",
-    "<nav>\n" +
-    "  <div class=\"nav-wrapper\">\n" +
-    "    <i class=\"material-icons\" ng-click=\"goToHome()\">close</i>\n" +
+    "<nav class='z-depth-4'>\n" +
+    "  <div class=\"nav-wrapper \">\n" +
+    "    <a href><i class=\"material-icons\" ng-click=\"goToHome()\">close</i></a>\n" +
     "    <form>\n" +
     "      <i class=\"material-icons\">close</i>\n" +
-    "  </div>\n" +
-    "  </form>\n" +
+    "    </form>\n" +
     "  </div>\n" +
     "</nav>\n" +
-    "<div class=\"cadre\">\n" +
-    "  <md-subheader class=\"md-no-sticky\">\n" +
-    "\n" +
-    "    <img src=\"img/carlin.jpg\" alt=\"\" class=\"circle\">\n" +
-    "    <p>vous invite pour un defi {{activity}}</p>\n" +
-    "\n" +
-    "  </md-subheader><br>\n" +
-    "</div>\n" +
-    "<br><br>\n" +
     "<div class=\"row\">\n" +
-    "  <form class=\"col s12\">\n" +
-    "    <!-- Calendrier datepicker -->\n" +
-    "    <div class=\"row\">\n" +
-    "      <label for=\"start\">Date et heure</label>\n" +
-    "      <div class=\"input-field col s12\">\n" +
-    "        <input id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"duration\">\n" +
+    "  <div class=\"col s12 offset-l4 l4\">\n" +
+    "    <div class=\"cadre\">\n" +
+    "      <md-subheader class=\"resumHeader\">\n" +
+    "        <img class='circleDefi' src=\"{{challenge.author.avatar}}\" alt=\"\" class=\"circle\">\n" +
+    "        <p ng-if='challenge.author._id == user._id'>Vous organisez un </p>\n" +
+    "        <p ng-if='challenge.author._id !== user._id'>Vous participé à un </p>\n" +
+    "        <p>{{challenge.activity.activityName}}</p>\n" +
+    "      </md-subheader><br>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"col s12 offset-l4 l4\">\n" +
+    "    <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "      <label for=\"started\">Date et heure</label>\n" +
+    "      <input id=\"started\" type=\"text\" class=\"validate\" ng-model='start'>\n" +
+    "    </div>\n" +
+    "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "      <label for=\"duree\">Durée</label>\n" +
+    "      <input id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"challenge.duration\">\n" +
+    "    </div>\n" +
+    "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "      <label for=\"activity\">Activité</label>\n" +
+    "      <input id=\"activity\" type=\"text\" class=\"validate\" ng-model=\"challenge.activity.activityName\">\n" +
+    "    </div>\n" +
+    "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "      <label for=\"where\">Lieu</label>\n" +
+    "      <input id=\"where\" type=\"text\" class=\"validate\" ng-model=\"challenge.place\">\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"row\">\n" +
+    "    <div class=\"col s12 offset-l4 l4\">\n" +
+    "      <div class=\"col s12\">\n" +
+    "        <div class=\"bckgrd-participant\">\n" +
+    "          <p>Participants</p>\n" +
+    "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "</div>\n" +
-    "</div>\n" +
-    "\n" +
-    "<div class=\"row\">\n" +
-    "  <div class=\"input-field col s12\">\n" +
-    "    <div class=\"input-field col s12\">\n" +
-    "      <input id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"duration\">\n" +
-    "      <label for=\"duree\">Durée</label>\n" +
+    "  </div>\n" +
+    "  <div class=\"row\">\n" +
+    "    <div class=\"col s12 offset-l4 l4\">\n" +
+    "      <div class=\"input-field col offset-s1 s11 offset-l1 l11 margeTeam\">\n" +
+    "        <md-list-item id='{{team.name}}' class=\"col s12 greyBorder teamArbitrage\" ng-repeat=\"team in challenge.teams\">\n" +
+    "          <span ng-if=\"team.players.length < 1\" style=\"color:grey\">Vide</span>\n" +
+    "          <label ng-class='{\"toBottom\": team.players.length < 1}' for=\"{{team.name}}\" class=\"active\">team {{team.name}}</label class =\"active\">\n" +
+    "          <div class=\"chip inlineInvite\" ng-repeat=\"player in team.players\">\n" +
+    "              <img src=\"{{player.avatar}}\" alt=\"Contact Person\"> {{player.pseudo}}\n" +
+    "            </div>\n" +
+    "        </md-list-item>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <!-- <div class=\"row \" ng-if = \"challenge.author._id == user._id\">\n" +
+    "    <div class=\"col s12 offset-l4 l4 bckgrd-participant bottomSection\">\n" +
+    "      <div class=\"col offset-s7 s2  offset-l6 l1\">\n" +
+    "        <div class=\" bottomLink\">\n" +
+    "          <a href class=\"link greyLink\" ng-click=\"showSuppModal()\"><span>SUPPRIMER</span></a>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "      <div class=\"col offset-s1 s2  offset-l2 l1\">\n" +
+    "        <div class=\" bottomLink\">\n" +
+    "          <a href class=\"link greenLink\" ng-click=\"showEditModal()\"><span>EDITER</span></a>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div> -->\n" +
+    "  <div class=\"row \" ng-if = \"challenge.author._id !== user._id\">\n" +
+    "    <div class=\"col s12 offset-l4 l4 bckgrd-participant bottomSection\">\n" +
+    "      <div class=\"col offset-s4 s3  offset-l5 l3\">\n" +
+    "        <div class=\" bottomLink\">\n" +
+    "          <a href class=\"link greyLink\" ng-click=\"showRefusModal()\"><span>REFUSER</span></a>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "      <div class=\"col offset-s1 s4   l3\">\n" +
+    "        <div class=\" bottomLink\">\n" +
+    "          <a href class=\"link greenLink\" ng-click=\"showTeamModal()\"><span>ACCEPTER</span></a>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +
     "</div>\n" +
-    "<div class=\"row\">\n" +
-    "  <div class=\"input-field col s12\">\n" +
-    "    <input id=\"activity\" type=\"text\" class=\"validate\" ng-model=\"activity\">\n" +
-    "    <label for=\"activity\">Activité</label>\n" +
-    "  </div>\n" +
-    "</div>\n" +
-    "<div class=\"row\">\n" +
-    "  <div class=\"input-field col s12\">\n" +
-    "    <input id=\"where\" type=\"text\" class=\"validate\" ng-model=\"lieu\">\n" +
-    "    <label for=\"where\">Lieu</label>\n" +
-    "  </div>\n" +
-    "</div>\n" +
-    "<div class=\"bckgrd-participant\">\n" +
-    "  <p>Participants</p>\n" +
-    "</div>\n" +
-    "<div class=\"row\">\n" +
-    "  <div class=\"input-field col s12\">\n" +
-    "    <h>Equipe 1</h>\n" +
-    "    <label for=\"invit\"></label>\n" +
-    "    <ul ng-repeat=\"user in invite\">\n" +
-    "      <li>\n" +
-    "        <div class=\"chip\">\n" +
-    "          <img src=\"{{user.avatar}}\" alt=\"Contact Person\"> {{user.pseudo}}\n" +
-    "        </div>\n" +
-    "      </li>\n" +
-    "    </ul>\n" +
-    "  </div>\n" +
-    "</div>\n" +
-    "<div class=\"row\">\n" +
-    "  <div class=\"input-field col s12\">\n" +
-    "    <h>Equipe 2</h>\n" +
-    "    <label for=\"invit\"></label>\n" +
-    "    <ul ng-repeat=\"user in invite\">\n" +
-    "      <li>\n" +
-    "        <div class=\"chip\">\n" +
-    "          <img src=\"{{user.avatar}}\" alt=\"Contact Person\"> {{user.pseudo}}\n" +
-    "        </div>\n" +
-    "      </li>\n" +
-    "    </ul>\n" +
     "\n" +
+    "<!-- modals -->\n" +
+    "<!-- delete -->\n" +
+    "<div style=\"visibility: hidden\">\n" +
+    "  <div class=\"md-dialog-container\" id=\"modalRefus\">\n" +
+    "    <md-dialog flex-xs=\"65\" flex=\"20\">\n" +
+    "       <md-dialog-title>\n" +
+    "         <div class=\"row\" >\n" +
+    "           <div class=\"col offset-s1 s10\">\n" +
+    "             <h6>Refuser le défi</h6>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "       </md-dialog-title>\n" +
+    "       <md-dialog-content>\n" +
+    "         <div class=\"row\" style=\"margin-top:-15px\">\n" +
+    "           <div class=\"col offset-s1 s8\">\n" +
+    "             <p style=\"color:grey;\">Etes-vous sûr de vouloir refuser ce défi</p>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "       </md-dialog-content>\n" +
+    "       <md-dialog-content>\n" +
+    "         <div class=\"row\">\n" +
+    "           <div class=\"col offset-s4 s2  offset-l6 l1\">\n" +
+    "             <div class=\" bottomLink\">\n" +
+    "               <a href class=\"link greyLink\" ng-click=\"quit()\"><span>ANNULER</span></a>\n" +
+    "             </div>\n" +
+    "           </div>\n" +
+    "           <div class=\"col offset-s2 s2  offset-l2 l1\">\n" +
+    "             <div class=\" bottomLink\">\n" +
+    "               <a href class=\"link redLink\" ng-click=\"suppChallenge(challenge._id)\"><span>REFUSER</span></a>\n" +
+    "             </div>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "        </div>\n" +
+    "     </md-dialog-content>\n" +
+    "   </md-dialog>'\n" +
     "  </div>\n" +
     "</div>\n" +
-    "</form>\n" +
     "\n" +
-    "<button type=\"button\" name=\"button\" ng-click=\"choiceTeam(team._id)\">choix team</button>\n"
+    "<!-- edit -->\n" +
+    "<div style=\"visibility: hidden\">\n" +
+    "  <div class=\"md-dialog-container\" id=\"modalEdit\">\n" +
+    "    <md-dialog flex-xs=\"80\" flex=\"30\" >\n" +
+    "      <md-title>\n" +
+    "        <div class=\"row\">\n" +
+    "          <div class=\"s11 \">\n" +
+    "            <h5>Editer</h5>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </md-title>\n" +
+    "      <md-dialog-content ng-if='team != \"null\"'>\n" +
+    "        <div class=\"row\">\n" +
+    "          <div class=\"col s12 \">\n" +
+    "            <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "              <label for=\"start\">Début</label>\n" +
+    "          <div class=\"picker\">\n" +
+    "            <md-datepicker  ng-model=\"challenge.date\" ng-change=\"changedDate(challenge.date)\"></md-datepicker>\n" +
+    "          </div>\n" +
+    "      </div>\n" +
+    "      <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "        <label for=\"timepicker\">Heure</label>\n" +
+    "        <md-time-picker no-meridiem ng-model=\"challenge.time\" >\n" +
+    "          <label class=\"active\" for=\"start\">Heure</label>\n" +
+    "        </md-time-picker>\n" +
+    "      </div>\n" +
+    "      <div class=\"  listHeight col offset-s1 s11 offset-l1 l11  \">\n" +
+    "        <label class=\"active\" for=\"duree\">Durée</label>\n" +
+    "        <md-select  placeholder=\"Combien de temps durera le défi\" ng-model=\"challenge.duration\" style=\"margin-top:10px\">\n" +
+    "          <md-option ng-repeat=\"duration in durations\" value=\"{{duration}}\">{{duration}}</md-option>\n" +
+    "        </md-select>\n" +
+    "      </div>\n" +
+    "      <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "        <label for=\"where\">Lieu</label>\n" +
+    "        <input id=\"where\" type=\"text\" class=\"validate\" ng-model=\"challenge.place\">\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  </md-dialog-content>\n" +
+    "  <md-dialog-content ng-if='team == \"null\"'>\n" +
+    "    <div class=\"row\" style=\"margin-top:40px\">\n" +
+    "      <div class=\"input-field col offset-s1 s11 offset-l1 l11 margeTeam\">\n" +
+    "        <label for=\"result\" class=\"active\">Résultat</label class =\"active\">\n" +
+    "            <input class=\"margeTeam\" id='result' type=\"text\" value=\"Match nul\">\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </md-dialog-content>\n" +
+    "      <md-dialog-content>\n" +
+    "        <div class=\"row\" style='margin-top:30px'>\n" +
+    "          <div class=\"col s6\">\n" +
+    "            <div class=\" \">\n" +
+    "              <button class=\"btn blue darken-1\" type=\"button\" ng-click=\"validChange(challenge._id)\"><span>valider</span></button>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"col s6\">\n" +
+    "            <div class=\" \">\n" +
+    "                <button class=\"btn blue darken-1\" type=\"button\" ng-click=\"quit(teams)\"><span>retour</span></button>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </md-dialog-content>\n" +
+    "    </md-dialog>\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<!-- desengage -->\n" +
+    "<div style=\"visibility: hidden\">\n" +
+    "  <div class=\"md-dialog-container\" id=\"modalDesengage\">\n" +
+    "    <md-dialog flex-xs=\"65\" flex=\"30\">\n" +
+    "       <md-dialog-title>\n" +
+    "         <div class=\"row\" >\n" +
+    "           <div class=\"col offset-s1 s10\">\n" +
+    "             <h6>Quitter le défi</h6>\n" +
+    "\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "       </md-dialog-title>\n" +
+    "       <md-dialog-content>\n" +
+    "         <div class=\"row\" style=\"margin-top:-15px\">\n" +
+    "           <div class=\"col offset-s1 s8\">\n" +
+    "             <p style=\"color:grey;\">Etes-vous sûre de vouloir quitter ce défi</p>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "       </md-dialog-content>\n" +
+    "       <md-dialog-content>\n" +
+    "           <div class=\"row\">\n" +
+    "             <div class=\"col offset-s4 s2  offset-l6 l1\">\n" +
+    "               <div class=\" bottomLink\">\n" +
+    "                 <a href class=\"link greyLink\" ng-click=\"quit()\"><span>ANNULER</span></a>\n" +
+    "               </div>\n" +
+    "             </div>\n" +
+    "             <div class=\"col offset-s2 s2  offset-l2 l1\">\n" +
+    "               <div class=\" bottomLink\">\n" +
+    "                 <a href class=\"link redLink\" ng-click=\"quitChallenge(challenge._id)\"><span>QUITTER</span></a>\n" +
+    "               </div>\n" +
+    "             </div>\n" +
+    "           </div>\n" +
+    "        </div>\n" +
+    "     </md-dialog-content>\n" +
+    "     </md-dialog>'\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<!-- team change -->\n" +
+    "<div style=\"visibility: hidden\">\n" +
+    "  <div class=\"md-dialog-container\" id=\"modalChangeTeam\">\n" +
+    "    <md-dialog flex-xs=\"65\" flex=\"20\" >\n" +
+    "      <md-title>\n" +
+    "        <div class=\"row\">\n" +
+    "          <div class=\"col s12  \" style=\"margin-top:0px;\">\n" +
+    "            <div class=\" greyBorder choiceTitle\">\n" +
+    "              <h5 class=\"teamTitle\" >Choix de l'équipe</h5>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </md-title>\n" +
+    "      <md-dialog-content ng-if='team != \"null\"'>\n" +
+    "        <div class=\"row\" style=\"margin-top:20px\">\n" +
+    "          <div class=\"col s12\">\n" +
+    "            <div class=\"input-field col offset-s1 s11 offset-l1 l11 margeTeam\" style=\"margin-bottom:60px;\">\n" +
+    "              <md-list-item   ng-if = \"team.players.length < team.maxPlayer\"id='{{team.name}}' class=\"col s12 greyBorder teamChoice\" ng-repeat=\"team in challenge.teams\" ng-click=\"choiceNewTeam(team)\">\n" +
+    "                <p>Equipe {{team.name}}</p>\n" +
+    "              </md-list-item>\n" +
+    "              <md-list-item ng-if = \"team.players.length == team.maxPlayer\" id='{{team.name}}' class=\"col s12 greyBorder teamChoice\" ng-repeat=\"team in challenge.teams\" >\n" +
+    "                <p style='color:grey'>Equipe {{team.name}} - complet</p>\n" +
+    "              </md-list-item>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          </div>\n" +
+    "      </md-dialog-content>\n" +
+    "    </md-dialog>\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div style=\"visibility: hidden\">\n" +
+    "  <div class=\"md-dialog-container\" id=\"modalValideChange\">\n" +
+    "    <md-dialog flex-xs=\"65\" flex=\"20\">\n" +
+    "       <md-dialog-title>\n" +
+    "         <div class=\"row\">\n" +
+    "           <div class=\"col s12 \" style=\"margin-top:0px;\">\n" +
+    "             <div class=\" greyBorder choiceTitle\">\n" +
+    "               <h5 class=\"teamTitle\" >Choix de l'équipe</h5>\n" +
+    "             </div>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "       </md-dialog-title>\n" +
+    "       <md-dialog-content>\n" +
+    "         <div class=\"row\" style=\"margin-top:-15px\">\n" +
+    "           <div class=\"col offset-s1 s8\">\n" +
+    "             <p style=\"color:grey;\">Vous avez choisi l'équipe {{team.name}}</p>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "       </md-dialog-content>\n" +
+    "       <md-dialog-content>\n" +
+    "           <div class=\"row\">\n" +
+    "             <div class=\"col offset-s4 s2  offset-l6 l1\">\n" +
+    "               <div class=\" bottomLink\">\n" +
+    "                 <a href class=\"link greyLink\" ng-click=\"showTeamModal()\"><span>ANNULER</span></a>\n" +
+    "               </div>\n" +
+    "             </div>\n" +
+    "             <div class=\"col offset-s2 s2  offset-l2 l1\">\n" +
+    "               <div class=\" bottomLink\">\n" +
+    "                 <a href class=\"link greenLink\" ng-click=\"valideChoiceTeam(team._id)\"><span>VALIDER</span></a>\n" +
+    "               </div>\n" +
+    "             </div>\n" +
+    "           </div>\n" +
+    "        </div>\n" +
+    "     </md-dialog-content>\n" +
+    "     </md-dialog>'\n" +
+    "  </div>\n" +
+    "</div>\n"
   );
 
   $templateCache.put("user/invites.html",
@@ -111625,7 +111887,6 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "\n" +
     "  </div>\n" +
     "</nav>\n" +
-    "</nav>\n" +
     "<div class=\"cadre\">\n" +
     "  <md-subheader class=\"md-no-sticky\"><b>Activités</b></md-subheader><br>\n" +
     "</div>\n" +
@@ -111646,7 +111907,9 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "                    </a>\n" +
     "    </div>\n" +
     "\n" +
-    "    </div>\n"
+    "    </div>\n" +
+    "</div>\n" +
+    "</div>\n"
   );
 
   $templateCache.put("user/profile.html",

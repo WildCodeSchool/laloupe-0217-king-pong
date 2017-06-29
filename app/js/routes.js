@@ -7,10 +7,7 @@ angular.module('app')
           access: AccessLevels.anon
         },
         views: {
-          'navbar@': {
-            templateUrl: 'anon/navbar.html',
-            controller: 'NavbarController'
-          }
+          
         }
       })
       .state('anon.home', {
