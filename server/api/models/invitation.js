@@ -194,7 +194,7 @@ export default class Activity {
               invitationAsync(result, mailer).then((result) => {
                 res({
                   players: result.players.length,
-                  ok: ok,
+                  ok: result,
                   error: err
                 });
               }, (reject) => {

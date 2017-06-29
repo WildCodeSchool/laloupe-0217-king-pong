@@ -53,18 +53,24 @@ angular.module('app')
         notFinish: notFinish
       });
     }
+    function launchServices(userId, currentCommunity) {
+      data = [];
+      InvitationService.getByUser({
+        player: userId,
+        community: currentCommunity
+      }).then(function(res) {
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            SharingDataService.sendInvitations(result.notFinish);
+            $scope.invitations = result.notFinish;
+          }
+        });
+      });
 
 
-    // function notPlayer(challenges, playerId) {
-    //   return challenges.find(function(challenge) {
-    //     return challenge.teams.find(function(team) {
-    //       return team.players.filter(function(player) {
-    //
-    //         return player._id !== playerId;
-    //       });
-    //     });
-    //   });
-    // }
+    
     $(document).ready(function() {
       $('ul.tabs').tabs();
     });
@@ -118,21 +124,7 @@ angular.module('app')
 
     };
 
-    function launchServices(userId, currentCommunity) {
-      data = [];
-      InvitationService.getByUser({
-        player: userId,
-        community: currentCommunity
-      }).then(function(res) {
-        filterDate(refactoring(res.data), function(err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            SharingDataService.sendInvitations(result.notFinish);
-            $scope.invitations = result.notFinish;
-          }
-        });
-      });
+
       ChallengeService.getByUser({
         player: userId,
         community: currentCommunity

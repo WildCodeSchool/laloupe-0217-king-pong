@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('ResumController', function($scope, $mdDialog, $mdDateLocale, $filter, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
+  .controller('ResumController', function($scope, $mdDialog,$interval, $mdDateLocale, $filter, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
 
     // variables
     var info;
@@ -21,7 +21,6 @@ angular.module('app')
     ];
 
 
-
     // function
     function nameTeams(teams) {
       for (var i = 0; i < teams.length; i++) {
@@ -33,7 +32,7 @@ angular.module('app')
     function isPlayer(teams, playerId) {
        return teams.every(function(team) {
         return team.players.every(function(player) {
-          return player._id == playerId;
+          return player._id === playerId;
         });
       });
 
@@ -147,11 +146,6 @@ angular.module('app')
     };
 
 
-    $scope.goToHome = function() {
-      $state.go('main.home');
-    };
-
-
     $scope.suppChallenge = function(challengeId) {
       $mdDialog.hide();
       ChallengeService.delete(challengeId).then(function(res) {});
@@ -167,6 +161,7 @@ angular.module('app')
     };
 
     $scope.return = function() {
+      console.log('ici');
       $state.go('main.home');
     };
 
@@ -177,8 +172,23 @@ angular.module('app')
       data.time = $scope.challenge.time;
       data.duration = $scope.challenge.duration;
       data.place = $scope.challenge.place;
+      $mdDialog.hide();
+      $mdDialog.show({
+        contentElement: '#modalLoading',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
+
+      });
+
+
 
       ChallengeService.update(challengeId, data).then(function(res) {
+        $mdDialog.hide();
+
         $state.reload();
       });
     };
@@ -220,9 +230,6 @@ angular.module('app')
         return $filter('date')($scope.challenge.date, "dd-MM-yyyy");
       };
 
-      $scope.isPlayer = isPlayer($scope.challenge.teams, $scope.user._id);
-      console.log($scope.isPlayer);
-      // $scope.isPlayer = false;
 
     });
 

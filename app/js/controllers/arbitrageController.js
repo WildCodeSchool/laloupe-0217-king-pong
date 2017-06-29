@@ -5,8 +5,9 @@ angular.module('app')
     $scope.user = CurrentUser.user();
     $scope.teams = [];
     $scope.team = {};
-    var info;
-
+    $scope.isResultNul = false;
+    var info,
+        verif;
 
     // function
     function nameTeams(teams) {
@@ -16,8 +17,15 @@ angular.module('app')
       return teams;
     }
 
+    function verifNumberTeam(teams){
+      return teams.filter(function(team){
+        return team.players.length > 0;
+      });
+    }
+
 
     $scope.showModal = function() {
+      if (verif) {
       $mdDialog.show({
         contentElement: '#modalChoice',
         scope: $scope,
@@ -30,8 +38,29 @@ angular.module('app')
           team: $scope.team
         }
       });
+    }else{
+      $mdDialog.show({
+        contentElement: '#modalSupp',
+        scope: $scope,
+        controller: 'ArbitrageController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
+        locals: {
+          team: $scope.team
+        }
+      });
+    }
     };
 
+    $scope.suppChallenge = function(challengeId) {
+      $mdDialog.hide();
+      ChallengeService.delete(challengeId).then(function(res) {
+        $state.go('main.home');
+      });
+
+    };
 
     $scope.choice = function(team) {
       $mdDialog.hide();
@@ -84,8 +113,10 @@ angular.module('app')
 
     // service
     ChallengeService.getOne($state.params.id).then(function(res) {
-      console.log(res.data);
       $scope.teams = nameTeams(res.data.teams);
+      $scope.isResultNul = /nul/g.test(res.data.activity.resultRule);
+      verif = (verifNumberTeam(res.data.teams)).length >1;
+
       $scope.start = res.data.newDate + ' ' + 'à' + ' ' + res.data.newTime;
       $scope.challenge = res.data;
 

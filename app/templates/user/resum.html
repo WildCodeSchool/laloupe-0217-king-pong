@@ -1,6 +1,6 @@
 <nav class='z-depth-4'>
   <div class="nav-wrapper ">
-    <a href><i class="material-icons" ng-click="goToHome()">close</i></a>
+    <a href><i class="material-icons" ng-click="return()">close</i></a>
     <form>
       <i class="material-icons">close</i>
     </form>
@@ -38,7 +38,7 @@
   <div class="row">
     <div class="col s12 offset-l4 l4">
       <div class="col s12">
-        <div class="bckgrd-participant">
+        <div class="bckgrd-participant bottom">
           <p>Participants</p>
         </div>
       </div>
@@ -57,7 +57,7 @@
       </div>
     </div>
   </div>
-  <div class="row " ng-if = "challenge.author._id == user._id && isPlayer === true">
+  <div class="row " ng-if = "challenge.author._id == user._id ">
     <div class="col s12 offset-l4 l4 bckgrd-participant bottomSection">
       <div class="col offset-s7 s2  offset-l6 l1">
         <div class=" bottomLink">
@@ -71,34 +71,26 @@
       </div>
     </div>
   </div>
-  <div class="row " ng-if = "challenge.author._id !== user._id && isPlayer === true">
+  <div class="row " ng-if = "challenge.author._id !== user._id ">
     <div class="col s12 offset-l4 l4 bckgrd-participant bottomSection">
       <div class="col offset-s4 s3  offset-l5 l3">
         <div class=" bottomLink">
           <a href class="link greyLink" ng-click="showDesengage()"><span>SE DESENGAGER</span></a>
         </div>
       </div>
-      <div class="col offset-s1 s4   l3">
+      <div class="col offset-s1 s4 l3">
         <div class=" bottomLink">
           <a href class="link greenLink" ng-click="showTeamModal()"><span>CHANGER D'EQUIPE</span></a>
         </div>
       </div>
     </div>
   </div>
-  <div class="row " ng-if = "isPlayer === false">
-    <div class="col s12 offset-l4 l4 bckgrd-participant bottomSection">
-      <div class="col offset-s9 s3  offset-l5 l3">
-        <div class=" bottomLink">
-          <a href class="link greyLink" ng-click="return()"><span>RETOUR</span></a>
-        </div>
-      </div>
-    </div>
-  </div>
+
 </div>
 
 <!-- modals -->
 <!-- delete -->
-<div style="visibility: hidden">
+<div style="display:none">
   <div class="md-dialog-container" id="modalSupp">
     <md-dialog flex-xs="65" flex="20">
        <md-dialog-title>
@@ -135,7 +127,7 @@
 </div>
 
 <!-- edit -->
-<div style="visibility: hidden">
+<div style="display:none">
   <div class="md-dialog-container" id="modalEdit">
     <md-dialog flex-xs="80" flex="30" >
       <md-title>
@@ -200,7 +192,7 @@
 </div>
 
 <!-- desengage -->
-<div style="visibility: hidden">
+<div style="display:none">
   <div class="md-dialog-container" id="modalDesengage">
     <md-dialog flex-xs="65" flex="30">
        <md-dialog-title>
@@ -238,7 +230,7 @@
 </div>
 
 <!-- team change -->
-<div style="visibility: hidden">
+<div style="display:none">
   <div class="md-dialog-container" id="modalChangeTeam">
     <md-dialog flex-xs="65" flex="20" >
       <md-title>
@@ -268,7 +260,7 @@
   </div>
 </div>
 
-<div style="visibility: hidden">
+<div style="display:none">
   <div class="md-dialog-container" id="modalValideChange">
     <md-dialog flex-xs="65" flex="20">
        <md-dialog-title>
@@ -303,5 +295,48 @@
         </div>
      </md-dialog-content>
      </md-dialog>'
+  </div>
+</div>
+
+<div style="display:none">
+  <div class="md-dialog-container" id="modalLoading">
+    <md-dialog flex-xs="65" flex="20" >
+      <md-title>
+        <div class="row">
+          <div class="col s12  " style="margin-top:0px;">
+            <div class=" greyBorder choiceTitle">
+              <h5 class="teamTitle" >Validation des changements, veuillez patienter</h5>
+            </div>
+          </div>
+        </div>
+      </md-title>
+      <md-dialog-content ng-if='team != "null"'>
+        <div class="spinner-layer spinner-red">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+        </div>
+      </md-dialog-content>
+    </md-dialog>
+  </div>
+</div>
+
+<div style="display:none">
+  <div class="md-dialog-container" id="modalLoading">
+    <md-dialog flex-xs="65" flex="20" >
+      <md-title>
+        <div class="row">
+          <div class="col s12  " style="margin-top:0px;">
+            <div class="choiceTitle">
+              <h5 class="teamTitle" >Validation des changements, veuillez patienter</h5>
+            </div>
+          </div>
+        </div>
+      </md-title>
+    </md-dialog>
   </div>
 </div>
