@@ -156,9 +156,6 @@ angular.module('app')
     });
 
 
-    // Optional message to display below each input field
-
-
     $mdDateLocale.formatDate = function(date) {
       return $filter('date')($scope.myDate, "dd-MM-yyyy");
     };
