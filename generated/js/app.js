@@ -108708,6 +108708,9 @@ angular.module('app')
             addUser: function(id, user) {
                 return $http.put('/invitations/user/' + id, user);
             },
+            refuse: function(id,user) {
+                return $http.put('/invitations/delete/'+ id, {player:user,fromFront:true});
+            },
             delete: function(id) {
                 return $http.delete('/invitations/' + id);
             }
@@ -109261,13 +109264,13 @@ angular.module('app')
     // functions
     $scope.choiceTeam = function(id) {
       var team = {
-        _id: "594ada837bd8305bd5365ae0"
+        _id: "5953b9e45e20587c99da9215"
       };
       var players = {
-        _id: "5942a8d358ac1e1b726c17b2"
+        _id: "5942a6f5e630441892a1f6eb"
       };
       var challenge = {
-        _id: "594ada837bd8305bd5365ade"
+        _id: "5953b9e45e20587c99da9214"
       };
       TeamService.addPlayer(team._id, {
         players: players._id,
@@ -109276,6 +109279,23 @@ angular.module('app')
         console.log(res);
       });
     };
+
+
+    $scope.erase = function(id){
+      var players = {
+        _id: "5942a6f5e630441892a1f6eb"
+      };
+      var challenge = {
+        _id: "5953b9e45e20587c99da9214"
+      };
+      InvitationService.refuse(
+        challenge._id,
+        players._id
+      ).then(function(res) {
+        console.log(res);
+      });
+    };
+
 
     $scope.showTeamModal = function(team) {
       $mdDialog.hide();
@@ -109300,6 +109320,7 @@ angular.module('app')
     $scope.quit = function() {
       $mdDialog.hide();
     };
+
 
 
     // res of service exemple
@@ -109518,14 +109539,13 @@ angular.module('app').controller('MainController', function($scope, Auth, Curren
 angular.module('app')
   .controller('NavbarHomeController', function($scope, Auth, CurrentUser, $timeout, $mdSidenav, $state, $rootScope, UserService, $log, CommunityService, $window, LocalService, InvitationService, ChallengeService, SharingDataService) {
 
-    //function for send user to community when he have no community
+    //function for send
     $rootScope.$on('$viewContentLoaded',
       function(event) {
         if (CurrentUser.user().community.length === 0 && $state.current.name !== 'user.community') {
           $state.go('user.community');
         }
       });
-
 
     // variables
     var userId = CurrentUser.user()._id;
@@ -109536,8 +109556,9 @@ angular.module('app')
 
 
     //functions
+
     function refactoring(array) {
-      if (array.length >0) {
+      if (array.length > 0) {
         array.forEach(function(challenge) {
           challenge.nbPlayer = [];
           challenge.teams.forEach(function(team) {
@@ -109552,11 +109573,10 @@ angular.module('app')
       }
     }
 
-
     function filterDate(items, callback) {
       var finish = [];
       var notFinish = [];
-      if (items.length > 0) {
+      if (items !== undefined) {
         items.map(function(element) {
           var date = element.diff;
           if (/^dans/.test(date)) {
@@ -109572,23 +109592,17 @@ angular.module('app')
       });
     }
 
-    function launchServices(userId, currentCommunity) {
-      data = [];
-      InvitationService.getByUser({
-        player: userId,
-        community: currentCommunity
-      }).then(function(res) {
-        filterDate(refactoring(res.data), function(err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            SharingDataService.sendInvitations(result.notFinish);
-            $scope.invitations = result.notFinish;
-          }
-        });
-      });
 
-    //initialize tabs of materialize
+    // function notPlayer(challenges, playerId) {
+    //   return challenges.find(function(challenge) {
+    //     return challenge.teams.find(function(team) {
+    //       return team.players.filter(function(player) {
+    //
+    //         return player._id !== playerId;
+    //       });
+    //     });
+    //   });
+    // }
     $(document).ready(function() {
       $('ul.tabs').tabs();
     });
@@ -109608,27 +109622,24 @@ angular.module('app')
       };
     }
 
-
     $scope.onSwipeLeft = buildToggler('right');
 
     $scope.onSwipeRight = function(ev) {
       $mdSidenav('right').close().then(function() {
         $log.debug("close RIGHT is done");
+
       });
     };
-
 
     $scope.toggleRight = buildToggler('right');
     $scope.isOpenRight = function() {
       return $mdSidenav('right').isOpen();
     };
 
-
     $scope.logout = function() {
       Auth.logout();
       $state.go('anon.login');
     };
-
 
     // select
     $scope.communitys = [];
@@ -109638,14 +109649,28 @@ angular.module('app')
       LocalService.set('community', JSON.stringify($scope.community));
     });
 
-
     $scope.selected = function(community) {
       currentCommunity = community;
       LocalService.set('community', JSON.stringify(community));
       launchServices(userId, community._id);
+
     };
 
-
+    function launchServices(userId, currentCommunity) {
+      data = [];
+      InvitationService.getByUser({
+        player: userId,
+        community: currentCommunity
+      }).then(function(res) {
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            SharingDataService.sendInvitations(result.notFinish);
+            $scope.invitations = result.notFinish;
+          }
+        });
+      });
       ChallengeService.getByUser({
         player: userId,
         community: currentCommunity
@@ -109661,23 +109686,20 @@ angular.module('app')
         });
       });
 
-
       ChallengeService.getByCommunity(currentCommunity).then(function(res) {
+
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {
             console.log(err);
           }
           $scope.communityDefies = result.notFinish;
-          SharingDataService.sendCommunity(result.notFinish);
+          SharingDataService.sendCommunity($scope.communityDefies);
         });
       });
-      ChallengeService.getScoreByCommunity(currentCommunity).then(function(res) {
-          SharingDataService.sendScore(res.data);
-        });
     }
-
-
+    // TODO: supprimer les defy passé
     launchServices(userId, currentCommunity);
+
 
   });
 
@@ -109821,7 +109843,7 @@ angular.module('app')
   });
 
 angular.module('app')
-  .controller('ResumController', function($scope, $mdDialog, $mdDateLocale, $filter,  $timeout, $state, CurrentUser, ChallengeService, TeamService) {
+  .controller('ResumController', function($scope, $mdDialog, $mdDateLocale, $filter, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
 
     // variables
     var info;
@@ -109832,14 +109854,14 @@ angular.module('app')
     $scope.challenge = {};
     $scope.state = $state;
     $scope.durations = [
-        "15mn",
-        "30mn",
-        "45mn",
-        "1h00",
-        "1h15",
-        "1h30",
-        "1h45",
-        "2h00"
+      "15mn",
+      "30mn",
+      "45mn",
+      "1h00",
+      "1h15",
+      "1h30",
+      "1h45",
+      "2h00"
     ];
 
 
@@ -109850,6 +109872,15 @@ angular.module('app')
         teams[i].name = (i + 1);
       }
       return teams;
+    }
+
+    function isPlayer(teams, playerId) {
+       return teams.every(function(team) {
+        return team.players.every(function(player) {
+          return player._id == playerId;
+        });
+      });
+
     }
 
 
@@ -109967,29 +109998,31 @@ angular.module('app')
 
     $scope.suppChallenge = function(challengeId) {
       $mdDialog.hide();
-      ChallengeService.delete(challengeId).then(function(res) {
-      });
+      ChallengeService.delete(challengeId).then(function(res) {});
+      // $state.go('main.home');
+
+    };
+
+    $scope.changedDate = function(date) {
+      $scope.changeDate = date;
+    };
+    $scope.changedTime = function(time) {
+      $scope.changeTime = time;
+    };
+
+    $scope.return = function() {
       $state.go('main.home');
     };
 
-    $scope.changedDate = function(date){
-      $scope.changeDate = date;
-      console.log(date);
-    };
-    $scope.changedTime = function(time){
-      $scope.changeTime = time;
-      console.log(time);
-    };
+    $scope.validChange = function(challengeId) {
+      var data = {};
 
-    $scope.validChange = function(challengeId){
-      var data ={};
+      data.date = $scope.changeDate;
+      data.time = $scope.challenge.time;
+      data.duration = $scope.challenge.duration;
+      data.place = $scope.challenge.place;
 
-        data.date = $scope.changeDate;
-        data.time = $scope.challenge.time;
-        data.duration = $scope.challenge.duration;
-        data.place = $scope.challenge.place;
-
-      ChallengeService.update(challengeId,data).then(function(res){
+      ChallengeService.update(challengeId, data).then(function(res) {
         $state.reload();
       });
     };
@@ -110000,7 +110033,9 @@ angular.module('app')
       TeamService.leaveChallenge({
         challenge: challengeId,
         player: $scope.user._id
-      }).then(function(res) {});
+      }).then(function(res) {
+
+      });
       $state.go('main.home');
     };
 
@@ -110011,7 +110046,9 @@ angular.module('app')
         challenge: $scope.challenge._id
       }).then(function(res) {
         $mdDialog.hide();
-        $state.go('user.resum',{id:$scope.challenge._id});
+        $state.go('user.resum', {
+          id: $scope.challenge._id
+        });
       });
     };
 
@@ -110024,14 +110061,16 @@ angular.module('app')
       $scope.challenge.date = new Date($scope.challenge.date);
       $scope.challenge.time = new Date($scope.challenge.time);
       $mdDateLocale.formatDate = function(date) {
-              return $filter('date')($scope.challenge.date, "dd-MM-yyyy");
-        };
+        return $filter('date')($scope.challenge.date, "dd-MM-yyyy");
+      };
 
-
-
-      // $scope.challenge.time = new Date($scope.challenge.time);
+      $scope.isPlayer = isPlayer($scope.challenge.teams, $scope.user._id);
+      console.log($scope.isPlayer);
+      // $scope.isPlayer = false;
 
     });
+
+    // TODO: faire nouveau resum avec nouveau controleur
   });
 
 
@@ -110044,20 +110083,10 @@ angular.module('app')
           access: AccessLevels.anon
         },
         views: {
-          
-        }
-      })
-      .state('anon.home', {
-        url: '/',
-        views: {
-          'content@': {
-            templateUrl: 'anon/home.html',
-            controller: 'MainController'
-          }
         }
       })
       .state('anon.login', {
-        url: '/login',
+        url: '/',
         views: {
           'content@': {
             templateUrl: 'anon/login.html',
@@ -112007,19 +112036,19 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "  <div class=\"col s12 offset-l4 l4\">\n" +
     "    <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "      <label for=\"started\">Date et heure</label>\n" +
-    "      <input id=\"started\" type=\"text\" class=\"validate\" ng-model='start'>\n" +
+    "      <input disabled id=\"started\" type=\"text\" class=\"validate\" ng-model='start'>\n" +
     "    </div>\n" +
     "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "      <label for=\"duree\">Durée</label>\n" +
-    "      <input id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"challenge.duration\">\n" +
+    "      <input disabled id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"challenge.duration\">\n" +
     "    </div>\n" +
     "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "      <label for=\"activity\">Activité</label>\n" +
-    "      <input id=\"activity\" type=\"text\" class=\"validate\" ng-model=\"challenge.activity.activityName\">\n" +
+    "      <input disabled id=\"activity\" type=\"text\" class=\"validate\" ng-model=\"challenge.activity.activityName\">\n" +
     "    </div>\n" +
     "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "      <label for=\"where\">Lieu</label>\n" +
-    "      <input id=\"where\" type=\"text\" class=\"validate\" ng-model=\"challenge.place\">\n" +
+    "      <input disabled id=\"where\" type=\"text\" class=\"validate\" ng-model=\"challenge.place\">\n" +
     "    </div>\n" +
     "  </div>\n" +
     "  <div class=\"row\">\n" +
@@ -112044,7 +112073,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +
-    "  <div class=\"row \" ng-if = \"challenge.author._id == user._id\">\n" +
+    "  <div class=\"row \" ng-if = \"challenge.author._id == user._id && isPlayer === true\">\n" +
     "    <div class=\"col s12 offset-l4 l4 bckgrd-participant bottomSection\">\n" +
     "      <div class=\"col offset-s7 s2  offset-l6 l1\">\n" +
     "        <div class=\" bottomLink\">\n" +
@@ -112058,7 +112087,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +
-    "  <div class=\"row \" ng-if = \"challenge.author._id !== user._id\">\n" +
+    "  <div class=\"row \" ng-if = \"challenge.author._id !== user._id && isPlayer === true\">\n" +
     "    <div class=\"col s12 offset-l4 l4 bckgrd-participant bottomSection\">\n" +
     "      <div class=\"col offset-s4 s3  offset-l5 l3\">\n" +
     "        <div class=\" bottomLink\">\n" +
@@ -112068,6 +112097,15 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      <div class=\"col offset-s1 s4   l3\">\n" +
     "        <div class=\" bottomLink\">\n" +
     "          <a href class=\"link greenLink\" ng-click=\"showTeamModal()\"><span>CHANGER D'EQUIPE</span></a>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"row \" ng-if = \"isPlayer === false\">\n" +
+    "    <div class=\"col s12 offset-l4 l4 bckgrd-participant bottomSection\">\n" +
+    "      <div class=\"col offset-s9 s3  offset-l5 l3\">\n" +
+    "        <div class=\" bottomLink\">\n" +
+    "          <a href class=\"link greyLink\" ng-click=\"return()\"><span>RETOUR</span></a>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
@@ -112129,18 +112167,18 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "            <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "              <label for=\"start\">Début</label>\n" +
     "          <div class=\"picker\">\n" +
-    "            <md-datepicker  ng-model=\"challenge.date\" ng-change=\"changedDate(challenge.date)\"></md-datepicker>\n" +
+    "            <md-datepicker ng-model=\"challenge.date\" ng-change=\"changedDate(challenge.date)\"></md-datepicker>\n" +
     "          </div>\n" +
     "      </div>\n" +
     "      <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "        <label for=\"timepicker\">Heure</label>\n" +
-    "        <md-time-picker no-meridiem ng-model=\"challenge.time\" >\n" +
+    "        <md-time-picker no-meridiem ng-model=\"challenge.time\">\n" +
     "          <label class=\"active\" for=\"start\">Heure</label>\n" +
     "        </md-time-picker>\n" +
     "      </div>\n" +
     "      <div class=\"  listHeight col offset-s1 s11 offset-l1 l11  \">\n" +
     "        <label class=\"active\" for=\"duree\">Durée</label>\n" +
-    "        <md-select  placeholder=\"Combien de temps durera le défi\" ng-model=\"challenge.duration\" style=\"margin-top:10px\">\n" +
+    "        <md-select placeholder=\"Combien de temps durera le défi\" ng-model=\"challenge.duration\" style=\"margin-top:10px\">\n" +
     "          <md-option ng-repeat=\"duration in durations\" value=\"{{duration}}\">{{duration}}</md-option>\n" +
     "        </md-select>\n" +
     "      </div>\n" +
