@@ -7,23 +7,10 @@ angular.module('app')
           access: AccessLevels.anon
         },
         views: {
-          'navbar@': {
-            templateUrl: 'anon/navbar.html',
-            controller: 'NavbarController'
-          }
-        }
-      })
-      .state('anon.home', {
-        url: '/',
-        views: {
-          'content@': {
-            templateUrl: 'anon/home.html',
-            controller: 'MainController'
-          }
         }
       })
       .state('anon.login', {
-        url: '/login',
+        url: '/',
         views: {
           'content@': {
             templateUrl: 'anon/login.html',
@@ -42,7 +29,7 @@ angular.module('app')
       });
 
 
-      $stateProvider
+    $stateProvider
       .state('main', {
         abstract: true,
         url: '/user',
@@ -55,7 +42,6 @@ angular.module('app')
         data: {
           access: AccessLevels.user
         }
-
       })
       .state('main.home', {
         url: '/',
@@ -73,8 +59,6 @@ angular.module('app')
           'content@': {
             templateUrl: 'user/rank.html',
             controller: 'RankController',
-
-
           }
         }
       });
@@ -85,7 +69,6 @@ angular.module('app')
         url: '/user',
         views: {
           'navbar@': {
-            templateUrl: 'user/navbar.html',
             controller: 'NavbarUserController'
           }
         },
@@ -194,6 +177,18 @@ angular.module('app')
           'content@': {
             templateUrl: 'user/resum.html',
             controller: 'ResumController',
+
+          }
+
+        }
+      })
+
+      .state('user.inCommunity', {
+        url: '/resumCommunity/:id',
+        views: {
+          'content@': {
+            templateUrl: 'user/inCommunity.html',
+            controller: 'InCommunityController',
 
           }
 

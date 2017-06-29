@@ -4,18 +4,22 @@ import User from './user.js';
 import Activity from './activity.js';
 import Team from './team';
 import Invitation from './invitation';
+import hbs from 'nodemailer-express-handlebars';
 import moment from 'moment';
+import config from '../../mailerConfig.js';
+import options from '../../mailerOption.js';
 import {
   teamAsynchrone,
   userFilter,
   timeDiff,
   sortByActivity,
   formatDate,
-  resultFilter
+  resultFilter,
+  changeDefyAsync
 } from '../../function.js';
-moment.locale('fr');
 
-
+let mailer = config();
+mailer.use('compile', hbs(options));
 
 const challengeSchema = new mongoose.Schema({
 
@@ -74,6 +78,7 @@ const challengeSchema = new mongoose.Schema({
   }
 });
 
+moment.locale('fr');
 
 //models
 let model = mongoose.model('Challenge', challengeSchema);
@@ -111,10 +116,7 @@ export default class Challenge {
         if (err || !challenge) {
           res.sendStatus(403);
         } else {
-
           res.json(formatDate(challenge));
-
-
         }
       });
   }
@@ -139,7 +141,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(resultFilter(timeDiff(challenges),false));
+            res.json(resultFilter(timeDiff(challenges), false));
           }
         });
   }
@@ -161,7 +163,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            const results = resultFilter(challenges,true);
+            const results = resultFilter(challenges, true);
             res.json(sortByActivity(results));
           }
         });
@@ -188,7 +190,7 @@ export default class Challenge {
           if (err || !challenges) {
             res.sendStatus(403);
           } else {
-            res.json(resultFilter(timeDiff(userFilter(challenges, req.query.player)),false));
+            res.json(resultFilter(timeDiff(userFilter(challenges, req.query)), false));
           }
         }
       );
@@ -223,17 +225,14 @@ export default class Challenge {
                 players: req.body.invite
               };
               invitation.create(invitations, (err, response) => {
-
                 res.json({
                   mail: response,
                   challenge: challenge,
                   ok: true
                 });
               });
-
             }
           });
-
         });
       }
     });
@@ -241,16 +240,38 @@ export default class Challenge {
 
 
   update(req, res) {
-    model.update({
-      _id: req.params.id
-    }, req.body, (err, challenge) => {
-      if (err || !challenge) {
-        res.status(500).send(err.message);
-      } else {
-        res.sendStatus(200);
-      }
-    });
+    model.findByIdAndUpdate(
+        req.params.id, req.body, {
+          upsert: true,
+          new: true
+        })
+      .populate('activity')
+      .populate({
+        path: 'author',
+        select: 'avatar pseudo'
+      })
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players',
+          select: 'pseudo email'
+        }
+      })
+      .exec((err, challenge) => {
+        if (err || !challenge) {
+          res.status(500).send(err.message);
+        } else {
+          changeDefyAsync(challenge, mailer).then((result) => {
+            console.log("resolve", result);
+            res.sendStatus(200);
+          }, (reject) => {
+            console.log("erreur", reject);
+            res.sendStatus(403);
+          });
+        }
+      });
   }
+
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {
       if (err) {
@@ -260,14 +281,12 @@ export default class Challenge {
           team.searchAndDelete(req.params.id, (err, teams) => {
             res.json({
               challengeDelected: true,
-              invitation:invitation,
-              teams:teams
+              invitation: invitation,
+              teams: teams
             });
           });
         });
       }
     });
   }
-
-
 }

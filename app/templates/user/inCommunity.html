@@ -1,0 +1,69 @@
+<nav class='z-depth-4'>
+  <div class="nav-wrapper ">
+    <a href><i class="material-icons" ng-click="return()">close</i></a>
+    <form>
+      <i class="material-icons">close</i>
+    </form>
+  </div>
+</nav>
+<div class="row">
+  <div class="col s12 offset-l4 l4">
+    <div class="cadre">
+      <md-subheader class="resumHeader">
+        <img class='circleDefi' src="{{challenge.author.avatar}}" alt="" class="circle">
+        <p ng-if='challenge.author._id == user._id'>Vous organisez un </p>
+        <p ng-if='challenge.author._id !== user._id'>Vous participé à un </p>
+        <p>{{challenge.activity.activityName}}</p>
+      </md-subheader><br>
+    </div>
+  </div>
+  <div class="col s12 offset-l4 l4">
+    <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
+      <label for="started">Date et heure</label>
+      <input disabled id="started" type="text" class="validate" ng-model='start'>
+    </div>
+    <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
+      <label for="duree">Durée</label>
+      <input disabled id="duree" type="text" class="validate" ng-model="challenge.duration">
+    </div>
+    <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
+      <label for="activity">Activité</label>
+      <input disabled id="activity" type="text" class="validate" ng-model="challenge.activity.activityName">
+    </div>
+    <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
+      <label for="where">Lieu</label>
+      <input disabled id="where" type="text" class="validate" ng-model="challenge.place">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 offset-l4 l4">
+      <div class="col s12">
+        <div class="bckgrd-participant">
+          <p>Participants</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 offset-l4 l4">
+      <div class="input-field col offset-s1 s11 offset-l1 l11 margeTeam">
+        <md-list-item id='{{team.name}}' class="col s12 greyBorder teamArbitrage" ng-repeat="team in challenge.teams">
+          <span ng-if="team.players.length < 1" style="color:grey">Vide</span>
+          <label ng-class='{"toBottom": team.players.length < 1}' for="{{team.name}}" class="active">team {{team.name}}</label class ="active">
+          <div class="chip inlineInvite" ng-repeat="player in team.players">
+              <img src="{{player.avatar}}" alt="Contact Person"> {{player.pseudo}}
+            </div>
+        </md-list-item>
+      </div>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col s12 offset-l4 l4 bckgrd-participant bottomSection">
+      <div class="col offset-s9 s3  offset-l5 l3">
+        <div class=" bottomLink">
+          <a href class="link greyLink" ng-click="return()"><span>RETOUR</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

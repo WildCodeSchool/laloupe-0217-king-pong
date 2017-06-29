@@ -1,10 +1,10 @@
 angular.module('app')
-    .controller('ProfileController', function($scope, CurrentUser, CommunityService, UserService) {
+    .controller('ProfileController', function($scope,$state, CurrentUser, CommunityService, UserService) {
 
         var userId = CurrentUser.user()._id;
         console.log( CurrentUser.user().pseudo);
 
-        $scope.goToHome = function() {
+        $scope.close = function() {
             $state.go('main.home');
         };
 

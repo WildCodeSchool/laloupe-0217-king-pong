@@ -1,92 +1,78 @@
 <nav>
     <div class="nav-wrapper">
-        <i class="material-icons" ng-click="goToHome()">close</i>
-        <form>
-            <i class="material-icons">close</i>
-    </div>
-    </form>
+        <ul>
+            <li>
+                <i class="material-icons" ng-click="goToHome()">navigate_before</i>
+            </li>
+            <div class="valideButton" ng-if="array.length > 0">
+                <li>
+                    <i class="right" ng-click="addInvite()">Valide</i>
+                </li>
+            </div>
+        </ul>
     </div>
 </nav>
-<div class="cadre">
-    <md-subheader class="md-no-sticky">
-
-        <img src="{{user.avatar}}" alt="" class="circleDefi">
-        <p>Créer un nouveau défi</p>
-
-    </md-subheader><br>
+<div class="row">
+    <div class="col s12 offset-l4 l4">
+        <md-subheader class="md-no-sticky">
+            <img src="{{user.avatar}}" alt="" class="circleDefi">
+            <p>Créer un nouveau défi</p>
+        </md-subheader><br>
+    </div>
 </div>
-<br><br>
-<div class="blocEntier ng-show" ng-hide="myVarBefore">
-
-    <form>
-        <div class="row">
-            <div class="blocInput1 ">
-                <div class="alignInput">
-                    <label for="activity">Activité</label>
-                    <i class="material-icons" ng-click="filterActivity()">keyboard_arrow_right</i>
-                </div>
-
-                <input id="activity" type="text" class="active" ng-click="filterActivity()" ng-model="activity.activityName">
-
-            </div>
+    <div class=" row ng-show"  ng-hide="myVarBefore">
+        <div class="greyBorder input-field col offset-s1 s11 offset-l4 l4 blocInput1 ">
+            <input id="activity" type="text"  ng-click="filterActivity()" style="margin-top:15px;margin-left:16px;" ng-model="activity.activityName">
+            <span><i class="material-icons arrow" ng-click="filterActivity()">keyboard_arrow_right</i></span>
+            <label class="active" for="activity">Activité</label>
         </div>
 
         <!-- Calendrier datepicker -->
-        <div class="row">
-            <div class="datepicker">
-                <label for="start">Début</label>
-                <div class="input-field col s12">
-                    <div layout-gt-xs="row">
-                        <div flex-gt-xs>
-                            <md-datepicker md-min-date="currentDate" ng-model="myDate"></md-datepicker>
-                        </div>
-                    </div>
+
+        <div class="greyBorder input-field col offset-s1 s11 offset-l4 l4 blocInput1 ">
+            <div layout-gt-xs="row" >
+                <div flex-gt-xs style="margin-top:25px">
+                    <label class="active" style="margin-top:15px;" for="start">date de Début</label>
+                    <md-datepicker md-min-date="currentDate" ng-model="myDate" ></md-datepicker>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="formBlocDiv ">
-                <label for="start">Heure</label>
-                <input placeholder="Heure de début de mon défi" type="time" ng-model="startTime">
-            </div>
+
+        <div class="greyBorder listHeight col offset-s1 s11 offset-l4 l4 blocInput1  " style="height:80px;padding-top:15px">
+            <label for="timepicker" style="margin-left:16px;">Heure</label>
+            <md-time-picker no-meridiem ng-model="startTime" >
+                <label class="active" for="start">Heure</label>
+            </md-time-picker>
         </div>
-        <div class="row">
-            <div class="blocInput2">
-                <label for="duration">Durée</label>
-                <div class="input-field col s12">
-                    <md-select placeholder="Combien de temps durera le défi" ng-model="duration">
-                        <md-option ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
-                    </md-select>
+
+        <div class="greyBorder input-field col offset-s1 s11 offset-l4 l4 blocInput1  ">
+            <md-select style="margin-top:40px;" placeholder="Combien de temps durera le défi" ng-model="duration">
+                <md-option  ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
+            </md-select>
+            <label style="margin-top:15px;" class="active">Durée</label>
+        </div>
+
+        <div class="greyBorder input-field col offset-s1 s11 offset-l4 l4 blocInput1">
+            <input placeholder="Dans quelle ville aura lieu le défi" id="where" type="text" style="margin-top:25px;" class="validate" ng-model="lieu">
+            <label style="margin-top:15px;" class="active" for="where">Lieu</label>
+        </div>
+        <div  class="bloc-participant" ng-show="activity.activityName">
+            <div style="margin-top:-0px;border-bottom:0px;" class="greyBorder input-field col s12 offset-l4 l4 blocInput1">
+                <div class="bckgrd-participant">
+                    <p>Participants</p>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="blocInput3">
-                <label for="where">Lieu</label>
-                <div class="input-field col s12">
-                    <input placeholder="Dans quelle ville aura lieu le défi" id="where" type="text" class="validate" ng-model="lieu">
-                </div>
+
+            <div class="greyBorder input-field col offset-s1 s11 offset-l4 l4 blocInput1">
+                <label style="margin-top:15px;" class="active" for="nbGroupe">Nombre de groupe</label>
+                <input style="margin-top:25px;margin-left:16px;" id="nbGroupe" type="number" ng-model="activity.numberOfTeam">
             </div>
-        </div>
-        <div class="bloc-participant" ng-show="activity.activityName">
-            <div class="bckgrd-participant">
-                <p>Participants</p>
+            <div class="greyBorder input-field col offset-s1 s11 offset-l4 l4 blocInput1">
+                <label style="margin-top:15px;" class="active" for="nbParticipantGroupe">Nombre de participants par groupe</label>
+                <input style="margin-top:25px;margin-left:16px;" id="nbParticipantGroupe" type="number" ng-model="activity.numberOfplayer">
             </div>
-            <div class="row">
-                <div class="  blocInput4 ">
-                    <label for="nbGroupe">Nombre de groupe</label>
-                    <input id="nbGroupe" type="number" ng-model="activity.numberOfTeam">
-                </div>
-            </div>
-        <div class="row">
-            <div class="  blocInput5">
-                <label for="nbParticipantGroupe">Nombre de participants par groupe</label>
-                    <input id="nbParticipantGroupe" type="number" ng-model="activity.numberOfplayer">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
+            <div class="inviteHeightAuto">
+            <div class="greyBorder input-field col offset-s1 s11 offset-l4 l4">
                 <h>Invitations</h>
                 <br>
                 <label for="invit"></label>
@@ -101,34 +87,65 @@
                     <i class="material-icons" ng-click="toggle()">keyboard_arrow_right</i>
                 </div>
             </div>
-        </div>
+          </div>
+            <br>
 
-<div class="bckgrd-bouton">
-<div ng-if="activity.activityName && myDate && startTime && duration && lieu && activity.numberOfTeam && activity.numberOfplayer && invite" class = "btnblue">
-<button class="btn blue darken-1" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
-</div>
-</div>
-</div>
-<md-list-item class="md-3-line" ng-repeat="guest in communitys">
-    <div class="md-list-item-text">
-        <div id="inviteAlign" ng-show="myVarBefore">
-            <div classs="inviteAvatar">
-                <img src="{{guest.avatar}}" class="circle" alt="">
-            </div>
-            <div class="invitePseudo">
-                {{guest.pseudo}}
-            </div>
-            <div class="checkBox">
-                <p>
-                    <input type="checkbox" id="{{guest.pseudo}}" ng-model="guest.isChecked" />
-                    <label for="{{guest.pseudo}}"></label>
-                </p>
+
+
+            <div  class="bckgrd-bouton col s12 offset-l4 l4 ">
+                <div ng-if="startTime && activity.activityName && myDate  && duration && lieu && activity.numberOfTeam && activity.numberOfplayer && invite" class="btnblue">
+                    <button class="btn blue darken-1" type="button" ng-click="sendChallenge()"><span>Creer le défi</span></button>
+                </div>
+
             </div>
         </div>
+      </div>
+        <div ng-class="{'none': myVarBefore === false}" class="row">
+
+      <div  class="greyBorder input-field col offset-s1 s11 offset-l4 l4 blocInput1">
+        <md-list-item ng-if="guest._id !== user._id" class="md-3-line" ng-repeat="guest in communitys| filter: filtre">
+            <div class="md-list-item-text">
+                <div id="inviteAlign" ng-show="myVarBefore">
+                    <div classs="inviteAvatar">
+                        <img  src="{{guest.avatar}}" class="circle" alt="">
+                    </div>
+                    <div class="invitePseudo">
+                        {{guest.pseudo}}
+                    </div>
+                    <div class="checkBox">
+                        <p>
+                            <input type="checkbox" id="{{guest.pseudo}}" ng-change="check(guest.isChecked, guest._id)" ng-model="guest.isChecked" />
+                            <label for="{{guest.pseudo}}"></label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </md-list-item>
+      </div>
     </div>
-</md-list-item>
-<div class="btn-invite" ng-show="myVarBefore">
-    <a class="btn-floating btn-large waves-effect waves-light btn" ng-click="addInvite()">
-        <i class="material-icons">add</i></a>
-</div>
-</form>
+
+    <div style="display:none">
+      <div class="md-dialog-container" id="modalMax">
+        <md-dialog flex-xs="65" flex="20" >
+          <md-dialog-content>
+            <div class="row">
+              <div class="col s12  " style="margin-top:40px;">
+                <div class="choiceTitle">
+                  <h5 class="teamTitle" >Nombre maximun d'invitations atteint pour ce Challenge</h5>
+                </div>
+              </div>
+            </div>
+          </md-dialog-content>
+          <md-dialog-content>
+              <div class="row">
+                <div class="col offset-s8 s2  offset-l6 l1">
+                  <div class=" bottomLink">
+                    <a href class="link greyLink" ng-click="addInvite()"><span>VALIDER</span></a>
+                  </div>
+                </div>
+              </div>
+           </div>
+        </md-dialog-content>
+        </md-dialog>
+      </div>
+    </div>

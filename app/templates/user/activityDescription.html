@@ -4,7 +4,7 @@
             <li>
                 <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
             </li>
-            <div class="valideButton">
+            <div class="right valideButton">
                 <li>
                     <i ng-click="valide()">Valide</i>
                 </li>
@@ -12,10 +12,12 @@
         </ul>
     </div>
 </nav>
+<div class="row">
+  <div class="col s12 offset-l4 l4  ">
 <div class="cadre">
     <md-subheader class="md-no-sticky">
         <div class="photoCat">
-            <img src=img/{{activity.photo}}.jpg alt="" class="circleDefi">
+            <img src={{activity.photo}} alt="" class="circleDefi">
             <p>{{activity.activityName}}</p>
         </div>
     </md-subheader>
@@ -35,7 +37,7 @@
             <input disabled id="resultRule" type="text" ng-model="activity.resultRule">
         </div>
     </div>
-    </div>
+
     <div class="blocInput6">
         <div class="row">
             <p>Nombre d'équipe</p>
@@ -60,5 +62,6 @@
             </div>
         </div>
     </div>
+  </form>
     </div>
-</form>
+  </div>

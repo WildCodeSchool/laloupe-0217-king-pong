@@ -9,6 +9,7 @@ import {
   invitationAsync,
   communityFilter,
   userFilter,
+  userFilterInvitation,
   timeDiff
 } from '../../function.js';
 
@@ -31,7 +32,7 @@ let model = mongoose.model('Invitation', invitationSchema);
 let mailer = config();
 
 
-//functions
+//functions mailer
 mailer.use('compile', hbs(options));
 
 
@@ -100,28 +101,28 @@ export default class Activity {
           if (err || !invitations) {
             res.sendStatus(404);
           } else {
+            invitations = userFilterInvitation(invitations, req.query);
             let challenges = _.map(invitations, (invitation) => invitation.challenge);
-            challenges = communityFilter(challenges,req.query);
+            challenges = communityFilter(challenges, req.query);
             if (challenges.length > 0) {
-              res.json(timeDiff(userFilter(challenges, req.query)));
-            }else{
-              res.json({result:false});
+              res.json(timeDiff(challenges));
+            } else {
+              res.json({
+                result: false
+              });
             }
-
-
-
-
           }
         }
       );
   }
 
   deletePlayer(req, res) {
+    console.log('delete');
     model.findOneAndUpdate({
-      challenge: req.challenge
+      challenge: req.params.challenge
     }, {
       $pull: {
-        players: req.player
+        players: req.body.player
       }
     }, {
       upsert: true,
@@ -135,15 +136,28 @@ export default class Activity {
             if (err) {
               res.sendStatus(500);
             } else {
-              res(err, {
-                invitationRemove: true
-              });
+              if (req.body.fromFront === true) {
+                res.json({
+                    invitationRemove: true
+                });
+              } else {
+
+                res(err, {
+                  invitationRemove: true
+                });
+              }
             }
           });
         } else {
-          res(err, {
-            removeUser: true,
-          });
+          if (req.body.fromFront === true) {
+            res.json({
+              removeUser: true,
+            });
+          } else {
+            res(err, {
+              removeUser: true,
+            });
+          }
         }
       }
     });
@@ -177,11 +191,18 @@ export default class Activity {
             if (err || !result) {
               res.sendStatus(500);
             } else {
-              invitationAsync(result, mailer, 0, [], [], function(ok, err) {
+              invitationAsync(result, mailer).then((result) => {
+                console.log(result);
                 res({
                   players: result.players.length,
-                  ok: ok,
+                  ok: result,
                   error: err
+                });
+              }, (reject) => {
+                res({
+                  players: result.players.length,
+                  ok: result,
+                  error: reject
                 });
               });
             }
@@ -191,15 +212,20 @@ export default class Activity {
   }
 
   searchAndDelete(req, res) {
-    model.findOneAndRemove({challenge:req}, (err) => {
+    model.findOneAndRemove({
+      challenge: req
+    }, (err) => {
       if (err) {
-        res({noInvitation:true});
+        res({
+          noInvitation: true
+        });
       } else {
-        res({InvitationDeleted:true});
+        res({
+          InvitationDeleted: true
+        });
       }
     });
   }
-
 
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {

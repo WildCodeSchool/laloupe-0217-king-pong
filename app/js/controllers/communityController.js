@@ -1,20 +1,18 @@
 angular.module('app')
   .controller('CommunityController', function($scope, CurrentUser, UserService, CommunityService, SessionService, $state,$timeout) {
-    $scope.communityParam = CurrentUser.user().community.length;
 
-    console.log($scope.communityParam);
+    // variables
     var userId = CurrentUser.user()._id;
+    $scope.communityParam = CurrentUser.user().community.length;
     $scope.communitys = [];
 
 
+    //timer
     var timer = $timeout(function() {
       CommunityService.getAll().then(function(res) {
         $scope.communitys = res.data;
       });
-
     }, 500);
-
-
 
 
     $scope.addCommunity = function(id) {

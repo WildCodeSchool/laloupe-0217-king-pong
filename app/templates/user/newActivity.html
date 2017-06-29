@@ -1,40 +1,41 @@
-<nav>
-  <div class="nav-wrapper">
-    <ul>
-        <li>
-            <i class="material-icons" ng-click="navigateBefore()">navigate_before</i>
-        </li>
-            <div>
-            <li>
-              <form>
-                <div class="input-field center ">
-                  <input  id="search" type="search" ng-model='filtre'>
-                      <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                </div>
-              </form>
-            </li>
-            </div>
-    </ul>
-  </div>
+
+<nav class="">
+
+
+        <form>
+      <div class="input-field center ">
+        <div class="nav-wrapper">
+        <input  id="search" type="search" ng-model='filtre' required>
+        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+        <i class="material-icons">close</i>
+      </div>
+      </div>
+    </form>
 </nav>
-<div class="cadre">
-<md-subheader class="md-no-sticky"><b>Activités</b></md-subheader><br>
-</div>
 <div class="row">
-    <div class="col s12">
+  <div class="col s12 offset-l4 l4 blocInput1 ">
+<div class="cadre">
+  <md-subheader class="md-no-sticky"><b>Activités</b><br>
+  <p>Choisissez une activitée ou <b>Créer</b> en une</p></md-subheader><br>
+</div>
 
-            <md-list>
-            <ul class="collection">
-                <li class="collection-item" ng-repeat="activ in activity | filter: filtre">
-                    <div class="md-list-item-text compact" ng-click="addActivity(activ)">{{activ.activityName}}
-                </li>
-            </ul>
-          </md-list>
 
-                  <div class="fixed-action-btn">
-                    <a class="btn-floating btn-large customPurple z-depth-4"  ng-click="createNewActivity()">
+    <div class="col s12 offset-l4 l4">
+      <div class="input-field col offset-s1 s11 offset-l1 l11 " style="margin-top: -15px;" >
+        <md-list-item id='{{team.name}}' class="col s12 greyBorder activityList" ng-click="addActivity(activ)" ng-repeat="activ in activity | filter: filtre">
+          <div class="md-list-item-text compact" ng-click="addActivity(activ)">{{activ.activityName}}
+        </md-list-item>
+      </div>
+    </div>
+
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large blue darken-1 z-depth-4" ng-click="createNewActivity()">
                       <i class="large material-icons ">add</i>
                     </a>
-                  </div>
+    </div>
 
-          </div>
+    </div>
+
+</div>
+</div>
+</div>

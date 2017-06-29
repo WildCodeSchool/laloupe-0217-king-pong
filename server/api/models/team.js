@@ -9,24 +9,22 @@ const teamSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Challenge"
   },
-
   players: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   }],
-
   resultat: {
     type: String,
   },
   maxPlayer: {
-    type: Object,
+    type: Number,
   }
 });
 
-// TODO: valide invitation methode
 //models
 let model = mongoose.model('Team', teamSchema);
 let invitation = new Invitation();
+
 //methods
 export default class Team {
 
@@ -80,6 +78,80 @@ export default class Team {
         }
       });
   }
+
+  leaveTeam(req, res) {
+    let challenge = req.body.challenge;
+    let players = req.body.player;
+    model.findOneAndUpdate({
+        challenge: challenge,
+        players: players
+      }, {
+        $pull: {
+          players: players
+        }
+      }, {
+        upsert: true,
+        new: true
+      },
+      (err, team) => {
+        if (err || !team) {
+          res.sendStatus(403);
+        } else {
+          res.json({
+            team,
+            teamLeave: true
+          });
+        }
+      });
+  }
+
+  changeTeam(req, res) {
+    model.findById(req.params.id,
+      (err, team) => {
+        if (err || !team) {
+          res.sendStatus(403);
+        } else {
+          if (team.players.length == team.maxPlayer) {
+            res.json({
+              team: team,
+              full: true
+            });
+          } else {
+            model.findOneAndUpdate({
+              challenge: req.body.challenge,
+              players: req.body.player
+            }, {
+              $pull: {
+                players: req.body.player
+              }
+            }, {
+              upsert: true,
+              new: true
+            }, (err, team) => {
+              if (err) {
+                res.sendStatus(500);
+              } else {
+                model.findByIdAndUpdate(req.params.id, {
+                  $addToSet: {
+                    players: req.body.player
+                  }
+                }, {
+                  upsert: true,
+                  new: true
+                }, (err, team) => {
+                  if (err) {
+                    res.sendStatus(500);
+                  } else {
+                    res.json(team);
+                  }
+                });
+              }
+            });
+          }
+        }
+      });
+  }
+
   updateScore(req, res) {
     model.findByIdAndUpdate(req.params.id, req.body, {
         upsert: true,
@@ -97,15 +169,13 @@ export default class Team {
       });
   }
 
-
-
   valideInvitation(req, res) {
     model.findById(req.params.id,
       (err, team) => {
         if (err || !team) {
           res.sendStatus(403);
         } else {
-          if (team.players.length == team.maxPlayer) {
+          if (team.players.length >= team.maxPlayer) {
             res.json({
               team: team,
               full: true
@@ -120,30 +190,23 @@ export default class Team {
               new: true
             }, (err, team) => {
               invitation.deletePlayer({
-                player: req.body.players,
-                challenge: req.body.challenge
-              }, (err, result) => {
-                res.json({
-                  team,
-                  result
+                  body: {
+                    player: req.body.players
+                  },
+                  params: {
+                    challenge: req.body.challenge
+                  }
+                },
+                (err, result) => {
+                  res.json({
+                    team,
+                    result
+                  });
                 });
-              });
-
             });
           }
         }
       });
-  }
-
-  create(req, res) {
-    model.create(req, (err, team) => {
-      if (err) {
-        res.sendStatus(500);
-      } else {
-        res(team._id);
-      }
-    });
-
   }
 
   searchAndDelete(req, res) {
@@ -166,15 +229,24 @@ export default class Team {
               };
             }
           });
-          });
-          res({
-            teamDeleted: true
+        });
+        res({
+          teamDeleted: true
         });
       }
     });
 
   }
 
+  create(req, res) {
+    model.create(req, (err, team) => {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res(team._id);
+      }
+    });
+  }
 
   delete(req, res) {
     model.findByIdAndRemove(req.params.id, (err) => {
@@ -185,6 +257,5 @@ export default class Team {
       }
     });
   }
-
 
 }
