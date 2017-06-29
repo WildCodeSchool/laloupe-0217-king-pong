@@ -32,7 +32,7 @@ angular.module('app')
     function isPlayer(teams, playerId) {
        return teams.every(function(team) {
         return team.players.every(function(player) {
-          return player._id == playerId;
+          return player._id === playerId;
         });
       });
 
