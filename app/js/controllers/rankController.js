@@ -2,7 +2,7 @@ angular.module('app')
     .controller('RankController', function($scope, CurrentUser, SharingDataService) {
 
         $scope.user = CurrentUser.user();
-
+        //
         // $scope.activities = [];
         // $scope.$watch(function() {
         //   return SharingDataService.getScore();
@@ -10,124 +10,124 @@ angular.module('app')
         //   $scope.activities = newValue;
         // });
 
-        $scope.activities = [{
-                name: "rugby",
-                players: [{
-                        pseudo: 'nail',
-                        _id: 1,
-                        avatar: 'x',
-                        result: {
-                            play: 13,
-                            totalpoint: 0,
-                            win: 9,
-                            nul: 2,
-                            lost: 4
-                        }
-                    },
-                    {
-                        pseudo: 'fifi',
-                        _id: 2,
-                        avatar: 'x',
-                        result: {
-                            play: 13,
-                            totalpoint: 0,
-                            win: 8,
-                            nul: 2,
-                            lost: 4
-                        }
-
-                    }
-                ]
-            },
-
-            {
-                name: "foot",
-                players: [{
-                        pseudo: 'jojo',
-                        _id: 3,
-                        avatar: 'x',
-                        result: {
-                            play: 13,
-                            totalpoint: 0,
-                            win: 4,
-                            nul: 2,
-                            lost: 4
-                        }
-                    },
-                    {
-                        pseudo: 'nail',
-                        _id: 1,
-                        avatar: 'x',
-                        result: {
-                            play: 13,
-                            totalpoint: 0,
-                            win: 5,
-                            nul: 2,
-                            lost: 4
-                        }
-
-                    }
-                ]
-            },
-            {
-                name: "velo",
-                players: [{
-                        pseudo: 'fifi',
-                        _id: 2,
-                        avatar: 'x',
-                        result: {
-                            play: 15,
-                            totalpoint: 0,
-                            win: 6,
-                            nul: 2,
-                            lost: 4
-                        }
-                    },
-                    {
-                        pseudo: 'nail',
-                        _id: 1,
-                        avatar: 'x',
-                        result: {
-                            play: 13,
-                            totalpoint: 0,
-                            win: 9,
-                            nul: 2,
-                            lost: 4
-                        }
-
-                    }
-                ]
-            },
-            {
-                name: "natation",
-                players: [{
-                        pseudo: 'lili',
-                        _id: 4,
-                        avatar: 'x',
-                        result: {
-                            play: 13,
-                            totalpoint: 0,
-                            win: 7,
-                            nul: 2,
-                            lost: 4
-                        }
-                    },
-                    {
-                        pseudo: 'noel',
-                        _id: 5,
-                        avatar: 'x',
-                        result: {
-                            play: 11,
-                            totalpoint: 0,
-                            win: 7,
-                            nul: 2,
-                            lost: 4
-                        }
-
-                    }
-                ]
-            }
-        ];
+        // $scope.activities = [{
+        //         name: "rugby",
+        //         players: [{
+        //                 pseudo: 'nail',
+        //                 _id: 1,
+        //                 avatar: 'x',
+        //                 result: {
+        //                     play: 13,
+        //                     totalpoint: 0,
+        //                     win: 9,
+        //                     nul: 2,
+        //                     lost: 4
+        //                 }
+        //             },
+        //             {
+        //                 pseudo: 'fifi',
+        //                 _id: 2,
+        //                 avatar: 'x',
+        //                 result: {
+        //                     play: 13,
+        //                     totalpoint: 0,
+        //                     win: 8,
+        //                     nul: 2,
+        //                     lost: 4
+        //                 }
+        //
+        //             }
+        //         ]
+        //     },
+        //
+        //     {
+        //         name: "foot",
+        //         players: [{
+        //                 pseudo: 'jojo',
+        //                 _id: 3,
+        //                 avatar: 'x',
+        //                 result: {
+        //                     play: 13,
+        //                     totalpoint: 0,
+        //                     win: 4,
+        //                     nul: 2,
+        //                     lost: 4
+        //                 }
+        //             },
+        //             {
+        //                 pseudo: 'nail',
+        //                 _id: 1,
+        //                 avatar: 'x',
+        //                 result: {
+        //                     play: 13,
+        //                     totalpoint: 0,
+        //                     win: 5,
+        //                     nul: 2,
+        //                     lost: 4
+        //                 }
+        //
+        //             }
+        //         ]
+        //     },
+        //     {
+        //         name: "velo",
+        //         players: [{
+        //                 pseudo: 'fifi',
+        //                 _id: 2,
+        //                 avatar: 'x',
+        //                 result: {
+        //                     play: 15,
+        //                     totalpoint: 0,
+        //                     win: 6,
+        //                     nul: 2,
+        //                     lost: 4
+        //                 }
+        //             },
+        //             {
+        //                 pseudo: 'nail',
+        //                 _id: 1,
+        //                 avatar: 'x',
+        //                 result: {
+        //                     play: 13,
+        //                     totalpoint: 0,
+        //                     win: 9,
+        //                     nul: 2,
+        //                     lost: 4
+        //                 }
+        //
+        //             }
+        //         ]
+        //     },
+        //     {
+        //         name: "natation",
+        //         players: [{
+        //                 pseudo: 'lili',
+        //                 _id: 4,
+        //                 avatar: 'x',
+        //                 result: {
+        //                     play: 13,
+        //                     totalpoint: 0,
+        //                     win: 7,
+        //                     nul: 2,
+        //                     lost: 4
+        //                 }
+        //             },
+        //             {
+        //                 pseudo: 'noel',
+        //                 _id: 5,
+        //                 avatar: 'x',
+        //                 result: {
+        //                     play: 11,
+        //                     totalpoint: 0,
+        //                     win: 7,
+        //                     nul: 2,
+        //                     lost: 4
+        //                 }
+        //
+        //             }
+        //         ]
+        //     }
+        // ];
 
 
 
