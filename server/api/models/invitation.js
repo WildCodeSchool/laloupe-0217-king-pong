@@ -192,13 +192,18 @@ export default class Activity {
               res.sendStatus(500);
             } else {
               invitationAsync(result, mailer).then((result) => {
+                console.log(result);
                 res({
                   players: result.players.length,
                   ok: result,
                   error: err
                 });
               }, (reject) => {
-                console.log(reject);
+                res({
+                  players: result.players.length,
+                  ok: result,
+                  error: reject
+                });
               });
             }
           });

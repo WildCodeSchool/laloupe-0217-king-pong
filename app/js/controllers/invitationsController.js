@@ -1,29 +1,22 @@
 angular.module('app')
   .controller('InvitationsController', function($scope, $mdDialog, $state, $stateParams, SessionService, InvitationService, TeamService, CurrentUser) {
 
-    // service
-    InvitationService.getOne($state.params.id).then(function(res) {
-      $scope.invitations = res.data;
-      console.log($scope.invitations);
-    });
+
+
+    // function
+    function nameTeams(teams) {
+      for (var i = 0; i < teams.length; i++) {
+        teams[i].name = (i + 1);
+      }
+      return teams;
+    }
 
     var info;
     $scope.user = CurrentUser.user();
     $scope.teams = [];
     $scope.team = {};
-    $scope.currentDate = new Date();
-    $scope.challenge = {};
+    $scope.invitations = {};
     $scope.state = $state;
-    $scope.durations = [
-        "15mn",
-        "30mn",
-        "45mn",
-        "1h00",
-        "1h15",
-        "1h30",
-        "1h45",
-        "2h00"
-    ];
 
     $scope.showRefusModal = function() {
       $mdDialog.show({
@@ -39,47 +32,10 @@ angular.module('app')
         }
       });
     };
-
-    // functions
-    $scope.choiceTeam = function(id) {
-      var team = {
-        _id: "5953b9e45e20587c99da9215"
-      };
-      var players = {
-        _id: "5942a6f5e630441892a1f6eb"
-      };
-      var challenge = {
-        _id: "5953b9e45e20587c99da9214"
-      };
-      TeamService.addPlayer(team._id, {
-        players: players._id,
-        challenge: challenge._id
-      }).then(function(res) {
-        console.log(res);
-      });
-    };
-
-
-    $scope.erase = function(id){
-      var players = {
-        _id: "5942a6f5e630441892a1f6eb"
-      };
-      var challenge = {
-        _id: "5953b9e45e20587c99da9214"
-      };
-      InvitationService.refuse(
-        challenge._id,
-        players._id
-      ).then(function(res) {
-        console.log(res);
-      });
-    };
-
-
-    $scope.showTeamModal = function(team) {
+    $scope.showDesengage = function(team) {
       $mdDialog.hide();
       $mdDialog.show({
-        contentElement: '#modalChangeTeam',
+        contentElement: '#modalDesengage',
         scope: $scope,
         controller: 'ResumController',
         preserveScope: true,
@@ -92,6 +48,76 @@ angular.module('app')
       });
     };
 
+    $scope.choiceNewTeam = function(team) {
+      $scope.team = team;
+      $mdDialog.hide();
+      $mdDialog.show({
+        contentElement: '#modalValideChange',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
+        locals: {
+          team: team
+        }
+      });
+    };
+
+    // functions
+    $scope.valideChoiceTeam = function(id) {
+          TeamService.addPlayer(id, {
+        players:$scope.user._id,
+        challenge: $state.params._id
+      }).then(function(res) {
+        console.log('coucou',res);
+        $state.go('main.home');
+      });
+    };
+
+
+    $scope.erase = function(id){
+
+      InvitationService.refuse(
+        $state.params.id,
+        $scope.user._id
+      ).then(function(res) {
+      $state.go('main.home');
+      });
+    };
+
+
+    $scope.showTeamModal = function(team) {
+      console.log($scope.teams);
+
+      $mdDialog.hide();
+      $mdDialog.show({
+        contentElement: '#modalChangeTeam',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
+        locals: {
+          team: $scope.team,
+          teams: $scope.teams
+        }
+      });
+    };
+
+    $scope.quitChallenge = function(challengeId) {
+      $mdDialog.hide();
+      TeamService.leaveChallenge({
+        challenge: challengeId,
+        player: $scope.user._id
+      }).then(function(res) {
+
+      });
+      $state.go('main.home');
+    };
+
     $scope.goToHome = function() {
         $state.go('main.home');
     };
@@ -100,6 +126,12 @@ angular.module('app')
       $mdDialog.hide();
     };
 
+    // service
+    InvitationService.getOne($state.params.id).then(function(res) {
+      $scope.invitation = res.data;
+      $scope.teams=nameTeams(res.data.teams);
+      console.log($scope.invitation);
+    });
 
 
     // res of service exemple

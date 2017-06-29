@@ -1,7 +1,7 @@
 angular.module('app')
   .config(function($stateProvider, $urlRouterProvider, AccessLevels) {
     $stateProvider
-      .state('anon', {
+      .state('anon',{
         abstract: true,
         data: {
           access: AccessLevels.anon
@@ -56,7 +56,6 @@ angular.module('app')
       .state('main.rank', {
         url: '/rank',
         views: {
-
           'content@': {
             templateUrl: 'user/rank.html',
             controller: 'RankController',
@@ -207,6 +206,7 @@ angular.module('app')
 
         }
       })
+
 
       .state('user.profile', {
         url: '/profile',
