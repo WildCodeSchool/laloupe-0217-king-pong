@@ -1,1 +1,105 @@
-<h1>En construction</h1>
+<div class="container-fluid">
+
+
+<div class="nav-content">
+    <ul class="tabs tabs-transparent">
+        <li class="tab"><a  ng-click="angletG =! angletG">General</a></li>
+          <li class="tab" ng-repeat="activity in activities track by $index" ng-click="goto(activity.name)">
+            <a>{{activity.name}}</a>
+          </li>
+          <!-- ng-show = "afficherAngletGeneral()" ng-click="{{activity.name}} =!{{activity.name}} " -->
+
+    </ul>
+
+<div class="row marquage  position-classement">
+    <div class="col s1 offset-s7">Pts.</div>
+    <div class="col s1">J.</div>
+    <div class="col s1">G.</div>
+    <div class="col s1">N.</div>
+    <div class="col s1">P.</div>
+</div>
+
+  <div>
+    <ul ng-repeat="activityG in activitiesGeneral">
+        <li "collection-item" ng-repeat="player in activity.players | orderBy: '-result.totalpoint'">
+            <div class="row but  position-classement">
+                <div class="col s1">
+                    {{$index+1}}
+                </div>
+                <div class="col s4 border">
+                    {{player.pseudo}}
+                </div>
+                <div class="col s1 border">
+                  {{player.avatar}}
+               </div>
+               <div class="col s1 border">
+
+              </div>
+
+
+
+
+
+                <div class="col s1 border">
+                  {{player.result.totalpoint}}
+                </div>
+                <div class="col s1 border">
+                    {{player.result.play}}
+                </div>
+                <div class="col s1 border">
+                    {{player.result.win}}
+                </div>
+                <div class="col s1 border">
+                    {{player.result.nul}}
+                </div>
+                <div class="col s1 border">
+                    {{player.result.lost}}
+                </div>
+            </div>
+        </li>
+
+    </ul>
+<ul ng-repeat="activity in activities | filter: {name: filter}">
+    <li "collection-item" ng-repeat="player in activity.players | orderBy: '-result.totalpoint'">
+        <div class="row but  position-classement">
+            <div class="col s1">
+                {{$index+1}}
+            </div>
+            <div class="col s4 border">
+                {{player.pseudo}}
+            </div>
+            <div class="col s1 border">
+              {{player.avatar}}
+           </div>
+           <div class="col s1 border">
+
+          </div>
+
+
+
+
+
+            <div class="col s1 border">
+              {{player.result.totalpoint}}
+            </div>
+            <div class="col s1 border">
+                {{player.result.play}}
+            </div>
+            <div class="col s1 border">
+                {{player.result.win}}
+            </div>
+            <div class="col s1 border">
+                {{player.result.nul}}
+            </div>
+            <div class="col s1 border">
+                {{player.result.lost}}
+            </div>
+        </div>
+    </li>
+
+</ul>
+</div>
+
+
+</div>
+
