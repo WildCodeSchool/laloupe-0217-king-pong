@@ -1,10 +1,6 @@
-function compileProviderConfig($compileProvider) {
-  $compileProvider.preAssignBindingsEnabled(true);
-}
-
 angular.module('app')
-.config(['$compileProvider', compileProviderConfig])
   .controller('NavbarHomeController', function($scope, Auth, CurrentUser, $timeout, $mdSidenav, $state, $rootScope, UserService, $log, CommunityService, $window, LocalService, InvitationService, ChallengeService, SharingDataService) {
+
     //function for send
     $rootScope.$on('$viewContentLoaded',
       function(event) {
@@ -58,6 +54,52 @@ angular.module('app')
       });
     }
 
+    function launchServices(userId, currentCommunity) {
+      data = [];
+      InvitationService.getByUser({
+        player: userId,
+        community: currentCommunity
+      }).then(function(res) {
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            SharingDataService.sendInvitations(result.notFinish);
+            $scope.invitations = result.notFinish;
+          }
+        });
+      });
+      ChallengeService.getByUser({
+        player: userId,
+        community: currentCommunity
+      }).then(function(res) {
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            $scope.arbitrages = result.finish;
+            SharingDataService.sendArbitrages(result.finish);
+            SharingDataService.sendPlayerDefies(result.notFinish);
+          }
+        });
+      });
+
+      ChallengeService.getByCommunity(currentCommunity).then(function(res) {
+
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          }
+          $scope.communityDefies = result.notFinish;
+          SharingDataService.sendCommunity($scope.communityDefies);
+        });
+      });
+
+      ChallengeService.getScoreByCommunity(currentCommunity).then(function(res){
+        SharingDataService.sendScore(res.data);
+      });
+
+    }
 
     $(document).ready(function() {
       $('ul.tabs').tabs();
@@ -112,52 +154,7 @@ angular.module('app')
 
     };
 
-    function launchServices(userId, currentCommunity) {
-      data = [];
-      InvitationService.getByUser({
-        player: userId,
-        community: currentCommunity
-      }).then(function(res) {
-        filterDate(refactoring(res.data), function(err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            SharingDataService.sendInvitations(result.notFinish);
-            $scope.invitations = result.notFinish;
-          }
-        });
-      });
-      ChallengeService.getByUser({
-        player: userId,
-        community: currentCommunity
-      }).then(function(res) {
-        filterDate(refactoring(res.data), function(err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            $scope.arbitrages = result.finish;
-            SharingDataService.sendArbitrages(result.finish);
-            SharingDataService.sendPlayerDefies(result.notFinish);
-          }
-        });
-      });
 
-      ChallengeService.getByCommunity(currentCommunity).then(function(res) {
-
-        filterDate(refactoring(res.data), function(err, result) {
-          if (err) {
-            console.log(err);
-          }
-          $scope.communityDefies = result.notFinish;
-          SharingDataService.sendCommunity($scope.communityDefies);
-        });
-      });
-
-      ChallengeService.getScoreByCommunity(currentCommunity).then(function(res){
-        SharingDataService.sendScore(res.data);
-      });
-
-    }
     // TODO: supprimer les defy passé
     launchServices(userId, currentCommunity);
 
