@@ -22,6 +22,7 @@
     "bcrypt": "",
     "body-parser": "",
     "cors": "",
+    "dotenv": "^4.0.0",
     "express": "",
     "flickity": "^2.0.5",
     "jsonwebtoken": "",

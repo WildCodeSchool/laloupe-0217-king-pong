@@ -183,6 +183,18 @@ angular.module('app')
 
         }
       })
+
+      .state('user.inCommunity', {
+        url: '/resumCommunity/:id',
+        views: {
+          'content@': {
+            templateUrl: 'user/inCommunity.html',
+            controller: 'InCommunityController',
+
+          }
+
+        }
+      })
       .state('user.arbitrage', {
         url: '/arbitrage/:id',
         views: {

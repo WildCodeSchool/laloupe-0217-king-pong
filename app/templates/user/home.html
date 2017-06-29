@@ -117,7 +117,7 @@
     <ks-swiper-container ng-if="communityDefies.length > 0" class="swiper-container" on-ready="onReadySwiper(swiper)" show-nav-buttons="true" swiper='swiper' override-parameters="slideOption" initial-slide="0">
       <ks-swiper-slide class="swiper-slide" ng-repeat="challenge in communityDefies track by $index">
         <div class="card">
-          <div ng-click="goToResum(challenge._id)" class="card-image">
+          <div ng-click="goToInCommunity(challenge._id)" class="card-image">
             <img class="challengeImage" ng-src="{{challenge.activity.photo}}">
             <span class="card-title challengeTitle"><h3>{{challenge.activity.activityName}}</h3></span>
             <span class="card-title challengeStart"><p>{{challenge.diff}}</p></span>

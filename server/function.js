@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
+// import Promise from 'promise';
 
 moment.locale('fr');
 
@@ -88,7 +89,6 @@ function changeDefyAsync(challenge, mailer) {
       promises.push(promise);
     });
   });
-
   return Promise.all(promises);
 
 }

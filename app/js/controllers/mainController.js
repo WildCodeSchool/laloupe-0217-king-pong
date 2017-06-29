@@ -77,13 +77,18 @@ angular.module('app').controller('MainController', function($scope, Auth, Curren
     });
   };
   $scope.goToArbitrage = function(id) {
-    console.log(id);
     $state.go("user.arbitrage", {
       id: id
     });
   };
   $scope.goToResum = function(id) {
     $state.go("user.resum", {
+      id: id
+    });
+  };
+
+  $scope.goToInCommunity = function(id) {
+    $state.go("user.inCommunity", {
       id: id
     });
   };

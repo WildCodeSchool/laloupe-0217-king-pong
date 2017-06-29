@@ -224,7 +224,6 @@ export default class Challenge {
                 challenge: challenge._id,
                 players: req.body.invite
               };
-              console.log(invitations,'invit');
               invitation.create(invitations, (err, response) => {
                 res.json({
                   mail: response,
@@ -242,7 +241,10 @@ export default class Challenge {
 
   update(req, res) {
     model.findByIdAndUpdate(
-      req.params.id, req.body,{upsert:true, new:true})
+        req.params.id, req.body, {
+          upsert: true,
+          new: true
+        })
       .populate('activity')
       .populate({
         path: 'author',
@@ -259,9 +261,13 @@ export default class Challenge {
         if (err || !challenge) {
           res.status(500).send(err.message);
         } else {
-          changeDefyAsync(challenge, mailer).then((result)=>{
-            res.status(200).json(challenge,result);
-          },(reject)=>{console.log(reject);});
+          changeDefyAsync(challenge, mailer).then((result) => {
+            console.log("resolve", result);
+            res.sendStatus(200);
+          }, (reject) => {
+            console.log("erreur", reject);
+            res.sendStatus(403);
+          });
         }
       });
   }

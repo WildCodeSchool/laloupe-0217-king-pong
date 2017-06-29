@@ -108708,6 +108708,9 @@ angular.module('app')
             addUser: function(id, user) {
                 return $http.put('/invitations/user/' + id, user);
             },
+            refuse: function(id,user) {
+                return $http.put('/invitations/delete/'+ id, {player:user,fromFront:true});
+            },
             delete: function(id) {
                 return $http.delete('/invitations/' + id);
             }
@@ -108871,8 +108874,9 @@ angular.module('app')
     $scope.user = CurrentUser.user();
     $scope.teams = [];
     $scope.team = {};
-    var info;
-
+    $scope.isResultNul = false;
+    var info,
+        verif;
 
     // function
     function nameTeams(teams) {
@@ -108882,8 +108886,15 @@ angular.module('app')
       return teams;
     }
 
+    function verifNumberTeam(teams){
+      return teams.filter(function(team){
+        return team.players.length > 0;
+      });
+    }
+
 
     $scope.showModal = function() {
+      if (verif) {
       $mdDialog.show({
         contentElement: '#modalChoice',
         scope: $scope,
@@ -108896,8 +108907,29 @@ angular.module('app')
           team: $scope.team
         }
       });
+    }else{
+      $mdDialog.show({
+        contentElement: '#modalSupp',
+        scope: $scope,
+        controller: 'ArbitrageController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
+        locals: {
+          team: $scope.team
+        }
+      });
+    }
     };
 
+    $scope.suppChallenge = function(challengeId) {
+      $mdDialog.hide();
+      ChallengeService.delete(challengeId).then(function(res) {
+        $state.go('main.home');
+      });
+
+    };
 
     $scope.choice = function(team) {
       $mdDialog.hide();
@@ -108950,8 +108982,10 @@ angular.module('app')
 
     // service
     ChallengeService.getOne($state.params.id).then(function(res) {
-      console.log(res.data);
       $scope.teams = nameTeams(res.data.teams);
+      $scope.isResultNul = /nul/g.test(res.data.activity.resultRule);
+      verif = (verifNumberTeam(res.data.teams)).length >1;
+
       $scope.start = res.data.newDate + ' ' + 'à' + ' ' + res.data.newTime;
       $scope.challenge = res.data;
 
@@ -109217,6 +109251,38 @@ angular.module('app')
     });
 
 angular.module('app')
+  .controller('InCommunityController', function($scope, $mdDialog, $state, ChallengeService) {
+
+    // variables
+    $scope.teams = [];
+    $scope.challenge = {};
+    $scope.state = $state;
+
+
+    // function
+    function nameTeams(teams) {
+      for (var i = 0; i < teams.length; i++) {
+        teams[i].name = (i + 1);
+      }
+      return teams;
+    }
+
+
+    $scope.return = function() {
+      $state.go('main.home');
+    };
+
+
+    // service
+    ChallengeService.getOne($state.params.id).then(function(res) {
+      $scope.teams = nameTeams(res.data.teams);
+      $scope.start = res.data.newDate + ' ' + 'à' + ' ' + res.data.newTime;
+      $scope.challenge = res.data;
+    });
+
+  });
+
+angular.module('app')
   .controller('InvitationsController', function($scope, $mdDialog, $state, $stateParams, SessionService, InvitationService, TeamService, CurrentUser) {
 
     // service
@@ -109261,13 +109327,13 @@ angular.module('app')
     // functions
     $scope.choiceTeam = function(id) {
       var team = {
-        _id: "594ada837bd8305bd5365ae0"
+        _id: "5953b9e45e20587c99da9215"
       };
       var players = {
-        _id: "5942a8d358ac1e1b726c17b2"
+        _id: "5942a6f5e630441892a1f6eb"
       };
       var challenge = {
-        _id: "594ada837bd8305bd5365ade"
+        _id: "5953b9e45e20587c99da9214"
       };
       TeamService.addPlayer(team._id, {
         players: players._id,
@@ -109276,6 +109342,23 @@ angular.module('app')
         console.log(res);
       });
     };
+
+
+    $scope.erase = function(id){
+      var players = {
+        _id: "5942a6f5e630441892a1f6eb"
+      };
+      var challenge = {
+        _id: "5953b9e45e20587c99da9214"
+      };
+      InvitationService.refuse(
+        challenge._id,
+        players._id
+      ).then(function(res) {
+        console.log(res);
+      });
+    };
+
 
     $scope.showTeamModal = function(team) {
       $mdDialog.hide();
@@ -109300,6 +109383,7 @@ angular.module('app')
     $scope.quit = function() {
       $mdDialog.hide();
     };
+
 
 
     // res of service exemple
@@ -109477,13 +109561,18 @@ angular.module('app').controller('MainController', function($scope, Auth, Curren
     });
   };
   $scope.goToArbitrage = function(id) {
-    console.log(id);
     $state.go("user.arbitrage", {
       id: id
     });
   };
   $scope.goToResum = function(id) {
     $state.go("user.resum", {
+      id: id
+    });
+  };
+
+  $scope.goToInCommunity = function(id) {
+    $state.go("user.inCommunity", {
       id: id
     });
   };
@@ -109518,14 +109607,13 @@ angular.module('app').controller('MainController', function($scope, Auth, Curren
 angular.module('app')
   .controller('NavbarHomeController', function($scope, Auth, CurrentUser, $timeout, $mdSidenav, $state, $rootScope, UserService, $log, CommunityService, $window, LocalService, InvitationService, ChallengeService, SharingDataService) {
 
-    //function for send user to community when he have no community
+    //function for send
     $rootScope.$on('$viewContentLoaded',
       function(event) {
         if (CurrentUser.user().community.length === 0 && $state.current.name !== 'user.community') {
           $state.go('user.community');
         }
       });
-
 
     // variables
     var userId = CurrentUser.user()._id;
@@ -109536,8 +109624,9 @@ angular.module('app')
 
 
     //functions
+
     function refactoring(array) {
-      if (array.length >0) {
+      if (array.length > 0) {
         array.forEach(function(challenge) {
           challenge.nbPlayer = [];
           challenge.teams.forEach(function(team) {
@@ -109552,11 +109641,10 @@ angular.module('app')
       }
     }
 
-
     function filterDate(items, callback) {
       var finish = [];
       var notFinish = [];
-      if (items.length > 0) {
+      if (items !== undefined) {
         items.map(function(element) {
           var date = element.diff;
           if (/^dans/.test(date)) {
@@ -109572,23 +109660,17 @@ angular.module('app')
       });
     }
 
-    function launchServices(userId, currentCommunity) {
-      data = [];
-      InvitationService.getByUser({
-        player: userId,
-        community: currentCommunity
-      }).then(function(res) {
-        filterDate(refactoring(res.data), function(err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            SharingDataService.sendInvitations(result.notFinish);
-            $scope.invitations = result.notFinish;
-          }
-        });
-      });
 
-    //initialize tabs of materialize
+    // function notPlayer(challenges, playerId) {
+    //   return challenges.find(function(challenge) {
+    //     return challenge.teams.find(function(team) {
+    //       return team.players.filter(function(player) {
+    //
+    //         return player._id !== playerId;
+    //       });
+    //     });
+    //   });
+    // }
     $(document).ready(function() {
       $('ul.tabs').tabs();
     });
@@ -109608,27 +109690,24 @@ angular.module('app')
       };
     }
 
-
     $scope.onSwipeLeft = buildToggler('right');
 
     $scope.onSwipeRight = function(ev) {
       $mdSidenav('right').close().then(function() {
         $log.debug("close RIGHT is done");
+
       });
     };
-
 
     $scope.toggleRight = buildToggler('right');
     $scope.isOpenRight = function() {
       return $mdSidenav('right').isOpen();
     };
 
-
     $scope.logout = function() {
       Auth.logout();
       $state.go('anon.login');
     };
-
 
     // select
     $scope.communitys = [];
@@ -109638,14 +109717,28 @@ angular.module('app')
       LocalService.set('community', JSON.stringify($scope.community));
     });
 
-
     $scope.selected = function(community) {
       currentCommunity = community;
       LocalService.set('community', JSON.stringify(community));
       launchServices(userId, community._id);
+
     };
 
-
+    function launchServices(userId, currentCommunity) {
+      data = [];
+      InvitationService.getByUser({
+        player: userId,
+        community: currentCommunity
+      }).then(function(res) {
+        filterDate(refactoring(res.data), function(err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            SharingDataService.sendInvitations(result.notFinish);
+            $scope.invitations = result.notFinish;
+          }
+        });
+      });
       ChallengeService.getByUser({
         player: userId,
         community: currentCommunity
@@ -109661,23 +109754,20 @@ angular.module('app')
         });
       });
 
-
       ChallengeService.getByCommunity(currentCommunity).then(function(res) {
+
         filterDate(refactoring(res.data), function(err, result) {
           if (err) {
             console.log(err);
           }
           $scope.communityDefies = result.notFinish;
-          SharingDataService.sendCommunity(result.notFinish);
+          SharingDataService.sendCommunity($scope.communityDefies);
         });
       });
-      ChallengeService.getScoreByCommunity(currentCommunity).then(function(res) {
-          SharingDataService.sendScore(res.data);
-        });
     }
-
-
+    // TODO: supprimer les defy passé
     launchServices(userId, currentCommunity);
+
 
   });
 
@@ -109821,7 +109911,7 @@ angular.module('app')
   });
 
 angular.module('app')
-  .controller('ResumController', function($scope, $mdDialog, $mdDateLocale, $filter,  $timeout, $state, CurrentUser, ChallengeService, TeamService) {
+  .controller('ResumController', function($scope, $mdDialog,$interval, $mdDateLocale, $filter, $timeout, $state, CurrentUser, ChallengeService, TeamService) {
 
     // variables
     var info;
@@ -109832,16 +109922,15 @@ angular.module('app')
     $scope.challenge = {};
     $scope.state = $state;
     $scope.durations = [
-        "15mn",
-        "30mn",
-        "45mn",
-        "1h00",
-        "1h15",
-        "1h30",
-        "1h45",
-        "2h00"
+      "15mn",
+      "30mn",
+      "45mn",
+      "1h00",
+      "1h15",
+      "1h30",
+      "1h45",
+      "2h00"
     ];
-
 
 
     // function
@@ -109850,6 +109939,15 @@ angular.module('app')
         teams[i].name = (i + 1);
       }
       return teams;
+    }
+
+    function isPlayer(teams, playerId) {
+       return teams.every(function(team) {
+        return team.players.every(function(player) {
+          return player._id == playerId;
+        });
+      });
+
     }
 
 
@@ -109960,36 +110058,49 @@ angular.module('app')
     };
 
 
-    $scope.goToHome = function() {
-      $state.go('main.home');
-    };
-
-
     $scope.suppChallenge = function(challengeId) {
       $mdDialog.hide();
-      ChallengeService.delete(challengeId).then(function(res) {
-      });
+      ChallengeService.delete(challengeId).then(function(res) {});
+      // $state.go('main.home');
+
+    };
+
+    $scope.changedDate = function(date) {
+      $scope.changeDate = date;
+    };
+    $scope.changedTime = function(time) {
+      $scope.changeTime = time;
+    };
+
+    $scope.return = function() {
+      console.log('ici');
       $state.go('main.home');
     };
 
-    $scope.changedDate = function(date){
-      $scope.changeDate = date;
-      console.log(date);
-    };
-    $scope.changedTime = function(time){
-      $scope.changeTime = time;
-      console.log(time);
-    };
+    $scope.validChange = function(challengeId) {
+      var data = {};
 
-    $scope.validChange = function(challengeId){
-      var data ={};
+      data.date = $scope.changeDate;
+      data.time = $scope.challenge.time;
+      data.duration = $scope.challenge.duration;
+      data.place = $scope.challenge.place;
+      $mdDialog.hide();
+      $mdDialog.show({
+        contentElement: '#modalLoading',
+        scope: $scope,
+        controller: 'ResumController',
+        preserveScope: true,
+        hasBackdrop: false,
+        bindToController: true,
+        clickOutsideToClose: true,
 
-        data.date = $scope.changeDate;
-        data.time = $scope.challenge.time;
-        data.duration = $scope.challenge.duration;
-        data.place = $scope.challenge.place;
+      });
 
-      ChallengeService.update(challengeId,data).then(function(res){
+
+
+      ChallengeService.update(challengeId, data).then(function(res) {
+        $mdDialog.hide();
+
         $state.reload();
       });
     };
@@ -110000,7 +110111,9 @@ angular.module('app')
       TeamService.leaveChallenge({
         challenge: challengeId,
         player: $scope.user._id
-      }).then(function(res) {});
+      }).then(function(res) {
+
+      });
       $state.go('main.home');
     };
 
@@ -110011,7 +110124,9 @@ angular.module('app')
         challenge: $scope.challenge._id
       }).then(function(res) {
         $mdDialog.hide();
-        $state.go('user.resum',{id:$scope.challenge._id});
+        $state.go('user.resum', {
+          id: $scope.challenge._id
+        });
       });
     };
 
@@ -110024,14 +110139,13 @@ angular.module('app')
       $scope.challenge.date = new Date($scope.challenge.date);
       $scope.challenge.time = new Date($scope.challenge.time);
       $mdDateLocale.formatDate = function(date) {
-              return $filter('date')($scope.challenge.date, "dd-MM-yyyy");
-        };
+        return $filter('date')($scope.challenge.date, "dd-MM-yyyy");
+      };
 
-
-
-      // $scope.challenge.time = new Date($scope.challenge.time);
 
     });
+
+    // TODO: faire nouveau resum avec nouveau controleur
   });
 
 
@@ -110044,20 +110158,10 @@ angular.module('app')
           access: AccessLevels.anon
         },
         views: {
-          
-        }
-      })
-      .state('anon.home', {
-        url: '/',
-        views: {
-          'content@': {
-            templateUrl: 'anon/home.html',
-            controller: 'MainController'
-          }
         }
       })
       .state('anon.login', {
-        url: '/login',
+        url: '/',
         views: {
           'content@': {
             templateUrl: 'anon/login.html',
@@ -110225,6 +110329,18 @@ angular.module('app')
           'content@': {
             templateUrl: 'user/resum.html',
             controller: 'ResumController',
+
+          }
+
+        }
+      })
+
+      .state('user.inCommunity', {
+        url: '/resumCommunity/:id',
+        views: {
+          'content@': {
+            templateUrl: 'user/inCommunity.html',
+            controller: 'InCommunityController',
 
           }
 
@@ -110688,19 +110804,19 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "  <div class=\"col s12 offset-l4 l4\">\n" +
     "    <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l10 \">\n" +
     "      <label for=\"started\">Date et heure</label>\n" +
-    "      <input id=\"started\" type=\"text\" class=\"validate\" ng-model='start'>\n" +
+    "      <input disabled id=\"started\" type=\"text\" class=\"validate\" ng-model='start'>\n" +
     "    </div>\n" +
     "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l10 \">\n" +
     "      <label for=\"duree\">Durée</label>\n" +
-    "      <input id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"challenge.duration\">\n" +
+    "      <input disabled id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"challenge.duration\">\n" +
     "    </div>\n" +
     "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l10 \">\n" +
     "      <label for=\"activity\">Activité</label>\n" +
-    "      <input id=\"activity\" type=\"text\" class=\"validate\" ng-model=\"challenge.activity.activityName\">\n" +
+    "      <input disabled id=\"activity\" type=\"text\" class=\"validate\" ng-model=\"challenge.activity.activityName\">\n" +
     "    </div>\n" +
     "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l10 \">\n" +
     "      <label for=\"where\">Lieu</label>\n" +
-    "      <input id=\"where\" type=\"text\" class=\"validate\" ng-model=\"challenge.place\">\n" +
+    "      <input disabled id=\"where\" type=\"text\" class=\"validate\" ng-model=\"challenge.place\">\n" +
     "    </div>\n" +
     "  </div>\n" +
     "  <div class=\"row\">\n" +
@@ -110727,22 +110843,26 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "  </div>\n" +
     "  <div class=\"row\">\n" +
     "    <div class=\"col s12 offset-l4 l4\">\n" +
-    "      <div class=\"bckgrd-participant bottomButton\">\n" +
-    "        <button class=\"btn blue darken-1\" type=\"button\" ng-click=\"showModal()\"><span>Arbitrer</span></button>\n" +
+    "        <div class=\"col s12 offset-l4 l4 bckgrd-participant bottomSection\">\n" +
+    "          <div class=\"col offset-s8 s3  offset-l5 l3\">\n" +
+    "            <div class=\" bottomLink\">\n" +
+    "              <a href class=\"link greenLink\" ng-click=\"showModal()\"><span>ARBITRER</span></a>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +
-    "</div>\n" +
     "\n" +
     "<!-- modals -->\n" +
-    "<div style=\"visibility: hidden\">\n" +
+    "<div style=\"display:none\">\n" +
     "  <div class=\"md-dialog-container\" id=\"modalChoice\">\n" +
     "    <md-dialog flex-xs=\"80\" flex=\"30\">\n" +
     "       <md-dialog-content>\n" +
     "         <div class=\"row\" style=\"margin-top:50px\">\n" +
     "           <div class=\"col s12\">\n" +
     "             <div class=\"input-field col offset-s1 s11 offset-l1 l11 margeTeam\">\n" +
-    "               <md-list-item id='{{team.name}}' class=\"col s12 greyBorder teamArbitrage\" ng-repeat=\"team in challenge.teams\">\n" +
+    "               <md-list-item ng-if=\"team.players.length > 0\" id='{{team.name}}' class=\"col s12 greyBorder teamArbitrage\" ng-repeat=\"team in challenge.teams\">\n" +
     "                 <label for=\"{{team.name}}\" class=\"active\">team {{team.name}}</label class =\"active\">\n" +
     "                 <div class=\"chip inlineInvite\" ng-repeat=\"player in team.players\">\n" +
     "                   <img src=\"{{player.avatar}}\" alt=\"Contact Person\"> {{player.pseudo}}\n" +
@@ -110757,8 +110877,8 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "           <div class=\" col offset-s2 s8 offset-l1 l10 \">\n" +
     "               <div class=\" col offset-s1 s9 offset-l1 l10 \">\n" +
     "                 <md-select placeholder=\"choisir le gagnant\" ng-model=\"team\">\n" +
-    "                   <md-option value=\"null\"> Match nul</md-option>\n" +
-    "                   <md-option ng-repeat=\"team in teams\" ng-value=\"team\">Equipe {{team.name}}</md-option>\n" +
+    "                   <md-option ng-if=\"isResultNul === true\" value=\"null\"> Match nul</md-option>\n" +
+    "                   <md-option ng-if=\"team.players.length > 0\" ng-repeat=\"team in teams\" ng-value=\"team\">Equipe {{team.name}}</md-option>\n" +
     "                 </md-select>\n" +
     "               </div>\n" +
     "           </div>\n" +
@@ -110766,10 +110886,14 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "       </md-dialog-content>\n" +
     "       <md-dialog-content>\n" +
     "           <div class=\"row\">\n" +
-    "             <div class=\"col s12\">\n" +
-    "               <div class=\" \">\n" +
-    "                 <button class=\"btn blue darken-1\" type=\"button\" ng-click=\"choice(team)\"><span>Arbitrer</span></button>\n" +
-    "             </div>\n" +
+    "               <div class=\"col s12 offset-l4 l4\">\n" +
+    "                   <div class=\"col s12 offset-l4 l4 \">\n" +
+    "                     <div class=\"col offset-s8 s3  offset-l5 l3\">\n" +
+    "                       <div class=\" bottomLink\">\n" +
+    "                         <a href class=\"link greenLink\" ng-click=\"choice(team)\"><span>ARBITRER</span></a>\n" +
+    "                       </div>\n" +
+    "                   </div>\n" +
+    "                 </div>\n" +
     "           </div>\n" +
     "        </div>\n" +
     "     </md-dialog-content>\n" +
@@ -110777,7 +110901,8 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "  </div>\n" +
     "</div>\n" +
     "\n" +
-    "<div style=\"visibility: hidden\">\n" +
+    "<!-- validation -->\n" +
+    "<div style=\"display:none\">\n" +
     "  <div class=\"md-dialog-container\" id=\"modalValid\">\n" +
     "    <md-dialog flex-xs=\"80\" flex=\"30\" >\n" +
     "      <md-title>\n" +
@@ -110809,19 +110934,53 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      </md-dialog-content>\n" +
     "      <md-dialog-content>\n" +
     "        <div class=\"row\" style='margin-top:30px'>\n" +
-    "          <div class=\"col s6\">\n" +
-    "            <div class=\" \">\n" +
-    "              <button class=\"btn blue darken-1\" type=\"button\" ng-click=\"valideScore(team)\"><span>valider</span></button>\n" +
+    "            <div class=\"col s12 offset-l4 l4 \">\n" +
+    "              <div class=\"col offset-s4 s3  offset-l5 l3\">\n" +
+    "                <div class=\" bottomLink\">\n" +
+    "                  <a href class=\"link greyLink\" ng-click=\"showModal(teams)\"><span>RETOUR</span></a>\n" +
+    "                </div>\n" +
+    "              </div>\n" +
+    "              <div class=\"col offset-s1 s4 l3\">\n" +
+    "                <div class=\" bottomLink\">\n" +
+    "                  <a href class=\"link greenLink\" ng-click=\"alideScore(team)\"><span>VALIDER</span></a>\n" +
+    "                </div>\n" +
+    "              </div>\n" +
     "            </div>\n" +
-    "          </div>\n" +
-    "          <div class=\"col s6\">\n" +
-    "            <div class=\" \">\n" +
-    "              <button class=\"btn blue darken-1\" type=\"button\" ng-click=\"showModal(teams)\"><span>retour</span></button>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
     "        </div>\n" +
     "      </md-dialog-content>\n" +
     "    </md-dialog>\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<!-- delete -->\n" +
+    "<div style=\"display:none\">\n" +
+    "  <div class=\"md-dialog-container\" id=\"modalSupp\">\n" +
+    "    <md-dialog flex-xs=\"65\" flex=\"20\">\n" +
+    "       <md-dialog-title>\n" +
+    "         <div class=\"row\" >\n" +
+    "           <div class=\"col offset-s1 s10\">\n" +
+    "             <h6>Info sur le défi</h6>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "       </md-dialog-title>\n" +
+    "       <md-dialog-content>\n" +
+    "         <div class=\"row\" style=\"margin-top:-15px\">\n" +
+    "           <div class=\"col offset-s1 s10\">\n" +
+    "             <p style=\"color:grey;\">Ce défi ne contient qu'une seule équipe avec des joueurs.<br>il ne peut pas ètre arbitrer</p>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "       </md-dialog-content>\n" +
+    "       <md-dialog-content>\n" +
+    "         <div class=\"row\">\n" +
+    "           <div class=\"col offset-s8 s2  offset-l2 l1\">\n" +
+    "             <div class=\" bottomLink\">\n" +
+    "               <a href class=\"link redLink\" ng-click=\"suppChallenge(challenge._id)\"><span>SUPPRIMER</span></a>\n" +
+    "             </div>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "        </div>\n" +
+    "     </md-dialog-content>\n" +
+    "   </md-dialog>'\n" +
     "  </div>\n" +
     "</div>\n"
   );
@@ -111322,10 +111481,6 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "</form>\n"
   );
 
-  $templateCache.put("user/dashboard.html",
-    "Dashboard de {{user.email}}\n"
-  );
-
   $templateCache.put("user/home.html",
     "<div class=\"row invitations \" ng-if=\"invitations.length !== 0\">\n" +
     "  <div class=\"col s12 \">\n" +
@@ -111446,7 +111601,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "    <ks-swiper-container ng-if=\"communityDefies.length > 0\" class=\"swiper-container\" on-ready=\"onReadySwiper(swiper)\" show-nav-buttons=\"true\" swiper='swiper' override-parameters=\"slideOption\" initial-slide=\"0\">\n" +
     "      <ks-swiper-slide class=\"swiper-slide\" ng-repeat=\"challenge in communityDefies track by $index\">\n" +
     "        <div class=\"card\">\n" +
-    "          <div ng-click=\"goToResum(challenge._id)\" class=\"card-image\">\n" +
+    "          <div ng-click=\"goToInCommunity(challenge._id)\" class=\"card-image\">\n" +
     "            <img class=\"challengeImage\" ng-src=\"{{challenge.activity.photo}}\">\n" +
     "            <span class=\"card-title challengeTitle\"><h3>{{challenge.activity.activityName}}</h3></span>\n" +
     "            <span class=\"card-title challengeStart\"><p>{{challenge.diff}}</p></span>\n" +
@@ -111490,7 +111645,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "  <section layout=\"row\" flex>\n" +
     "    <md-sidenav class=\"md-sidenav-right md-whiteframe-4dp\" md-component-id=\"right\" md-swipe-right=\"onSwipeRight()\">\n" +
     "      <md-toolbar class=\"md-theme-light\">\n" +
-    "        <img class=\"center circle avatar\" src=\"{{user.avatar}}\" alt=\"\">\n" +
+    "        <img class=\" margin center circle avatar\" src=\"{{user.avatar}}\" alt=\"\">\n" +
     "        <b class=\"center pseudo-sidenav\">{{user.pseudo}}</b>\n" +
     "      </md-toolbar>\n" +
     "      <md-content layout-padding>\n" +
@@ -111521,6 +111676,78 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      </md-content>\n" +
     "    </md-sidenav>\n" +
     "  </section>\n" +
+    "</div>\n"
+  );
+
+  $templateCache.put("user/inCommunity.html",
+    "<nav class='z-depth-4'>\n" +
+    "  <div class=\"nav-wrapper \">\n" +
+    "    <a href><i class=\"material-icons\" ng-click=\"return()\">close</i></a>\n" +
+    "    <form>\n" +
+    "      <i class=\"material-icons\">close</i>\n" +
+    "    </form>\n" +
+    "  </div>\n" +
+    "</nav>\n" +
+    "<div class=\"row\">\n" +
+    "  <div class=\"col s12 offset-l4 l4\">\n" +
+    "    <div class=\"cadre\">\n" +
+    "      <md-subheader class=\"resumHeader\">\n" +
+    "        <img class='circleDefi' src=\"{{challenge.author.avatar}}\" alt=\"\" class=\"circle\">\n" +
+    "        <p ng-if='challenge.author._id == user._id'>Vous organisez un </p>\n" +
+    "        <p ng-if='challenge.author._id !== user._id'>Vous participé à un </p>\n" +
+    "        <p>{{challenge.activity.activityName}}</p>\n" +
+    "      </md-subheader><br>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"col s12 offset-l4 l4\">\n" +
+    "    <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "      <label for=\"started\">Date et heure</label>\n" +
+    "      <input disabled id=\"started\" type=\"text\" class=\"validate\" ng-model='start'>\n" +
+    "    </div>\n" +
+    "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "      <label for=\"duree\">Durée</label>\n" +
+    "      <input disabled id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"challenge.duration\">\n" +
+    "    </div>\n" +
+    "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "      <label for=\"activity\">Activité</label>\n" +
+    "      <input disabled id=\"activity\" type=\"text\" class=\"validate\" ng-model=\"challenge.activity.activityName\">\n" +
+    "    </div>\n" +
+    "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
+    "      <label for=\"where\">Lieu</label>\n" +
+    "      <input disabled id=\"where\" type=\"text\" class=\"validate\" ng-model=\"challenge.place\">\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"row\">\n" +
+    "    <div class=\"col s12 offset-l4 l4\">\n" +
+    "      <div class=\"col s12\">\n" +
+    "        <div class=\"bckgrd-participant\">\n" +
+    "          <p>Participants</p>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"row\">\n" +
+    "    <div class=\"col s12 offset-l4 l4\">\n" +
+    "      <div class=\"input-field col offset-s1 s11 offset-l1 l11 margeTeam\">\n" +
+    "        <md-list-item id='{{team.name}}' class=\"col s12 greyBorder teamArbitrage\" ng-repeat=\"team in challenge.teams\">\n" +
+    "          <span ng-if=\"team.players.length < 1\" style=\"color:grey\">Vide</span>\n" +
+    "          <label ng-class='{\"toBottom\": team.players.length < 1}' for=\"{{team.name}}\" class=\"active\">team {{team.name}}</label class =\"active\">\n" +
+    "          <div class=\"chip inlineInvite\" ng-repeat=\"player in team.players\">\n" +
+    "              <img src=\"{{player.avatar}}\" alt=\"Contact Person\"> {{player.pseudo}}\n" +
+    "            </div>\n" +
+    "        </md-list-item>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"row \">\n" +
+    "    <div class=\"col s12 offset-l4 l4 bckgrd-participant bottomSection\">\n" +
+    "      <div class=\"col offset-s9 s3  offset-l5 l3\">\n" +
+    "        <div class=\" bottomLink\">\n" +
+    "          <a href class=\"link greyLink\" ng-click=\"return()\"><span>RETOUR</span></a>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
     "</div>\n"
   );
 
@@ -111924,7 +112151,8 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "</nav>\n" +
     "<md-subheader class=\"md-no-sticky\">\n" +
     "  <div class=\"gravatar\">\n" +
-    "    <img ng-src=\"{{avatar}}\" alt=\"avatar\" class=\"circle\">\n" +
+    "    <img ng-src=\"{{avatar}}\" alt=\"avatar\" class=\"center circle avatar\">\n" +
+    "    <p>créer votre avatar sur <a href=\"https://fr.gravatar.com/\">gravatar</a></p>\n" +
     "  </div>\n" +
     "</md-subheader><br>\n" +
     "<div ng-init=\"checked=true\">\n" +
@@ -111987,7 +112215,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
   $templateCache.put("user/resum.html",
     "<nav class='z-depth-4'>\n" +
     "  <div class=\"nav-wrapper \">\n" +
-    "    <a href><i class=\"material-icons\" ng-click=\"goToHome()\">close</i></a>\n" +
+    "    <a href><i class=\"material-icons\" ng-click=\"return()\">close</i></a>\n" +
     "    <form>\n" +
     "      <i class=\"material-icons\">close</i>\n" +
     "    </form>\n" +
@@ -112007,25 +112235,25 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "  <div class=\"col s12 offset-l4 l4\">\n" +
     "    <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "      <label for=\"started\">Date et heure</label>\n" +
-    "      <input id=\"started\" type=\"text\" class=\"validate\" ng-model='start'>\n" +
+    "      <input disabled id=\"started\" type=\"text\" class=\"validate\" ng-model='start'>\n" +
     "    </div>\n" +
     "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "      <label for=\"duree\">Durée</label>\n" +
-    "      <input id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"challenge.duration\">\n" +
+    "      <input disabled id=\"duree\" type=\"text\" class=\"validate\" ng-model=\"challenge.duration\">\n" +
     "    </div>\n" +
     "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "      <label for=\"activity\">Activité</label>\n" +
-    "      <input id=\"activity\" type=\"text\" class=\"validate\" ng-model=\"challenge.activity.activityName\">\n" +
+    "      <input disabled id=\"activity\" type=\"text\" class=\"validate\" ng-model=\"challenge.activity.activityName\">\n" +
     "    </div>\n" +
     "    <div class=\" greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "      <label for=\"where\">Lieu</label>\n" +
-    "      <input id=\"where\" type=\"text\" class=\"validate\" ng-model=\"challenge.place\">\n" +
+    "      <input disabled id=\"where\" type=\"text\" class=\"validate\" ng-model=\"challenge.place\">\n" +
     "    </div>\n" +
     "  </div>\n" +
     "  <div class=\"row\">\n" +
     "    <div class=\"col s12 offset-l4 l4\">\n" +
     "      <div class=\"col s12\">\n" +
-    "        <div class=\"bckgrd-participant\">\n" +
+    "        <div class=\"bckgrd-participant bottom\">\n" +
     "          <p>Participants</p>\n" +
     "        </div>\n" +
     "      </div>\n" +
@@ -112044,7 +112272,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +
-    "  <div class=\"row \" ng-if = \"challenge.author._id == user._id\">\n" +
+    "  <div class=\"row \" ng-if = \"challenge.author._id == user._id \">\n" +
     "    <div class=\"col s12 offset-l4 l4 bckgrd-participant bottomSection\">\n" +
     "      <div class=\"col offset-s7 s2  offset-l6 l1\">\n" +
     "        <div class=\" bottomLink\">\n" +
@@ -112058,25 +112286,26 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +
-    "  <div class=\"row \" ng-if = \"challenge.author._id !== user._id\">\n" +
+    "  <div class=\"row \" ng-if = \"challenge.author._id !== user._id \">\n" +
     "    <div class=\"col s12 offset-l4 l4 bckgrd-participant bottomSection\">\n" +
     "      <div class=\"col offset-s4 s3  offset-l5 l3\">\n" +
     "        <div class=\" bottomLink\">\n" +
     "          <a href class=\"link greyLink\" ng-click=\"showDesengage()\"><span>SE DESENGAGER</span></a>\n" +
     "        </div>\n" +
     "      </div>\n" +
-    "      <div class=\"col offset-s1 s4   l3\">\n" +
+    "      <div class=\"col offset-s1 s4 l3\">\n" +
     "        <div class=\" bottomLink\">\n" +
     "          <a href class=\"link greenLink\" ng-click=\"showTeamModal()\"><span>CHANGER D'EQUIPE</span></a>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +
+    "\n" +
     "</div>\n" +
     "\n" +
     "<!-- modals -->\n" +
     "<!-- delete -->\n" +
-    "<div style=\"visibility: hidden\">\n" +
+    "<div style=\"display:none\">\n" +
     "  <div class=\"md-dialog-container\" id=\"modalSupp\">\n" +
     "    <md-dialog flex-xs=\"65\" flex=\"20\">\n" +
     "       <md-dialog-title>\n" +
@@ -112113,7 +112342,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "</div>\n" +
     "\n" +
     "<!-- edit -->\n" +
-    "<div style=\"visibility: hidden\">\n" +
+    "<div style=\"display:none\">\n" +
     "  <div class=\"md-dialog-container\" id=\"modalEdit\">\n" +
     "    <md-dialog flex-xs=\"80\" flex=\"30\" >\n" +
     "      <md-title>\n" +
@@ -112129,18 +112358,18 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "            <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "              <label for=\"start\">Début</label>\n" +
     "          <div class=\"picker\">\n" +
-    "            <md-datepicker  ng-model=\"challenge.date\" ng-change=\"changedDate(challenge.date)\"></md-datepicker>\n" +
+    "            <md-datepicker ng-model=\"challenge.date\" ng-change=\"changedDate(challenge.date)\"></md-datepicker>\n" +
     "          </div>\n" +
     "      </div>\n" +
     "      <div class=\"greyBorder listHeight col offset-s1 s11 offset-l1 l11 \">\n" +
     "        <label for=\"timepicker\">Heure</label>\n" +
-    "        <md-time-picker no-meridiem ng-model=\"challenge.time\" >\n" +
+    "        <md-time-picker no-meridiem ng-model=\"challenge.time\">\n" +
     "          <label class=\"active\" for=\"start\">Heure</label>\n" +
     "        </md-time-picker>\n" +
     "      </div>\n" +
     "      <div class=\"  listHeight col offset-s1 s11 offset-l1 l11  \">\n" +
     "        <label class=\"active\" for=\"duree\">Durée</label>\n" +
-    "        <md-select  placeholder=\"Combien de temps durera le défi\" ng-model=\"challenge.duration\" style=\"margin-top:10px\">\n" +
+    "        <md-select placeholder=\"Combien de temps durera le défi\" ng-model=\"challenge.duration\" style=\"margin-top:10px\">\n" +
     "          <md-option ng-repeat=\"duration in durations\" value=\"{{duration}}\">{{duration}}</md-option>\n" +
     "        </md-select>\n" +
     "      </div>\n" +
@@ -112178,7 +112407,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "</div>\n" +
     "\n" +
     "<!-- desengage -->\n" +
-    "<div style=\"visibility: hidden\">\n" +
+    "<div style=\"display:none\">\n" +
     "  <div class=\"md-dialog-container\" id=\"modalDesengage\">\n" +
     "    <md-dialog flex-xs=\"65\" flex=\"30\">\n" +
     "       <md-dialog-title>\n" +
@@ -112216,7 +112445,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "</div>\n" +
     "\n" +
     "<!-- team change -->\n" +
-    "<div style=\"visibility: hidden\">\n" +
+    "<div style=\"display:none\">\n" +
     "  <div class=\"md-dialog-container\" id=\"modalChangeTeam\">\n" +
     "    <md-dialog flex-xs=\"65\" flex=\"20\" >\n" +
     "      <md-title>\n" +
@@ -112246,7 +112475,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "  </div>\n" +
     "</div>\n" +
     "\n" +
-    "<div style=\"visibility: hidden\">\n" +
+    "<div style=\"display:none\">\n" +
     "  <div class=\"md-dialog-container\" id=\"modalValideChange\">\n" +
     "    <md-dialog flex-xs=\"65\" flex=\"20\">\n" +
     "       <md-dialog-title>\n" +
@@ -112281,6 +112510,49 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "        </div>\n" +
     "     </md-dialog-content>\n" +
     "     </md-dialog>'\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div style=\"display:none\">\n" +
+    "  <div class=\"md-dialog-container\" id=\"modalLoading\">\n" +
+    "    <md-dialog flex-xs=\"65\" flex=\"20\" >\n" +
+    "      <md-title>\n" +
+    "        <div class=\"row\">\n" +
+    "          <div class=\"col s12  \" style=\"margin-top:0px;\">\n" +
+    "            <div class=\" greyBorder choiceTitle\">\n" +
+    "              <h5 class=\"teamTitle\" >Validation des changements, veuillez patienter</h5>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </md-title>\n" +
+    "      <md-dialog-content ng-if='team != \"null\"'>\n" +
+    "        <div class=\"spinner-layer spinner-red\">\n" +
+    "        <div class=\"circle-clipper left\">\n" +
+    "          <div class=\"circle\"></div>\n" +
+    "        </div><div class=\"gap-patch\">\n" +
+    "          <div class=\"circle\"></div>\n" +
+    "        </div><div class=\"circle-clipper right\">\n" +
+    "          <div class=\"circle\"></div>\n" +
+    "        </div>\n" +
+    "        </div>\n" +
+    "      </md-dialog-content>\n" +
+    "    </md-dialog>\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div style=\"display:none\">\n" +
+    "  <div class=\"md-dialog-container\" id=\"modalLoading\">\n" +
+    "    <md-dialog flex-xs=\"65\" flex=\"20\" >\n" +
+    "      <md-title>\n" +
+    "        <div class=\"row\">\n" +
+    "          <div class=\"col s12  \" style=\"margin-top:0px;\">\n" +
+    "            <div class=\"choiceTitle\">\n" +
+    "              <h5 class=\"teamTitle\" >Validation des changements, veuillez patienter</h5>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </md-title>\n" +
+    "    </md-dialog>\n" +
     "  </div>\n" +
     "</div>\n"
   );
