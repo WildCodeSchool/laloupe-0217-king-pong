@@ -2,13 +2,14 @@ angular.module('app')
     .controller('RankController', function($scope, CurrentUser, SharingDataService) {
 
         $scope.user = CurrentUser.user();
-        //
-        // $scope.activities = [];
-        // $scope.$watch(function() {
-        //   return SharingDataService.getScore();
-        // }, function(newValue, oldValue) {
-        //   $scope.activities = newValue;
-        // });
+
+        $scope.activities = [];
+        $scope.$watch(function() {
+          return SharingDataService.getScore();
+        }, function(newValue, oldValue) {
+          console.log(newValue);
+          $scope.activities = newValue;
+        });
 
         // $scope.activities = [{
         //         name: "rugby",
