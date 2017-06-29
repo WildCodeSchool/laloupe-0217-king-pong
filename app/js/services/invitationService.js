@@ -19,6 +19,9 @@ angular.module('app')
             addUser: function(id, user) {
                 return $http.put('/invitations/user/' + id, user);
             },
+            refuse: function(id,user) {
+                return $http.put('/invitations/delete/'+ id, {player:user,fromFront:true});
+            },
             delete: function(id) {
                 return $http.delete('/invitations/' + id);
             }

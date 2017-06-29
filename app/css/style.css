@@ -36,6 +36,7 @@
     height: 70px;
     border-bottom: 1px solid;
     border-top: 1px solid;
+    border-color: #D8D8D8;
     background-color: #eeeeee;
 }
 
@@ -248,4 +249,3 @@
   border-bottom: 1px solid;
   border-color: #D8D8D8;
 }
-

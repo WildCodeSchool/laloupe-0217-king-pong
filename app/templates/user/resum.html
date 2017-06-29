@@ -20,19 +20,19 @@
   <div class="col s12 offset-l4 l4">
     <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
       <label for="started">Date et heure</label>
-      <input id="started" type="text" class="validate" ng-model='start'>
+      <input disabled id="started" type="text" class="validate" ng-model='start'>
     </div>
     <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
       <label for="duree">Durée</label>
-      <input id="duree" type="text" class="validate" ng-model="challenge.duration">
+      <input disabled id="duree" type="text" class="validate" ng-model="challenge.duration">
     </div>
     <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
       <label for="activity">Activité</label>
-      <input id="activity" type="text" class="validate" ng-model="challenge.activity.activityName">
+      <input disabled id="activity" type="text" class="validate" ng-model="challenge.activity.activityName">
     </div>
     <div class=" greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
       <label for="where">Lieu</label>
-      <input id="where" type="text" class="validate" ng-model="challenge.place">
+      <input disabled id="where" type="text" class="validate" ng-model="challenge.place">
     </div>
   </div>
   <div class="row">
@@ -57,7 +57,7 @@
       </div>
     </div>
   </div>
-  <div class="row " ng-if = "challenge.author._id == user._id">
+  <div class="row " ng-if = "challenge.author._id == user._id && isPlayer === true">
     <div class="col s12 offset-l4 l4 bckgrd-participant bottomSection">
       <div class="col offset-s7 s2  offset-l6 l1">
         <div class=" bottomLink">
@@ -71,7 +71,7 @@
       </div>
     </div>
   </div>
-  <div class="row " ng-if = "challenge.author._id !== user._id">
+  <div class="row " ng-if = "challenge.author._id !== user._id && isPlayer === true">
     <div class="col s12 offset-l4 l4 bckgrd-participant bottomSection">
       <div class="col offset-s4 s3  offset-l5 l3">
         <div class=" bottomLink">
@@ -81,6 +81,15 @@
       <div class="col offset-s1 s4   l3">
         <div class=" bottomLink">
           <a href class="link greenLink" ng-click="showTeamModal()"><span>CHANGER D'EQUIPE</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row " ng-if = "isPlayer === false">
+    <div class="col s12 offset-l4 l4 bckgrd-participant bottomSection">
+      <div class="col offset-s9 s3  offset-l5 l3">
+        <div class=" bottomLink">
+          <a href class="link greyLink" ng-click="return()"><span>RETOUR</span></a>
         </div>
       </div>
     </div>
@@ -142,18 +151,18 @@
             <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
               <label for="start">Début</label>
           <div class="picker">
-            <md-datepicker  ng-model="challenge.date" ng-change="changedDate(challenge.date)"></md-datepicker>
+            <md-datepicker ng-model="challenge.date" ng-change="changedDate(challenge.date)"></md-datepicker>
           </div>
       </div>
       <div class="greyBorder listHeight col offset-s1 s11 offset-l1 l11 ">
         <label for="timepicker">Heure</label>
-        <md-time-picker no-meridiem ng-model="challenge.time" >
+        <md-time-picker no-meridiem ng-model="challenge.time">
           <label class="active" for="start">Heure</label>
         </md-time-picker>
       </div>
       <div class="  listHeight col offset-s1 s11 offset-l1 l11  ">
         <label class="active" for="duree">Durée</label>
-        <md-select  placeholder="Combien de temps durera le défi" ng-model="challenge.duration" style="margin-top:10px">
+        <md-select placeholder="Combien de temps durera le défi" ng-model="challenge.duration" style="margin-top:10px">
           <md-option ng-repeat="duration in durations" value="{{duration}}">{{duration}}</md-option>
         </md-select>
       </div>

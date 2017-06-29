@@ -10,13 +10,13 @@ angular.module('app')
     // functions
     $scope.choiceTeam = function(id) {
       var team = {
-        _id: "594ada837bd8305bd5365ae0"
+        _id: "5953b9e45e20587c99da9215"
       };
       var players = {
-        _id: "5942a8d358ac1e1b726c17b2"
+        _id: "5942a6f5e630441892a1f6eb"
       };
       var challenge = {
-        _id: "594ada837bd8305bd5365ade"
+        _id: "5953b9e45e20587c99da9214"
       };
       TeamService.addPlayer(team._id, {
         players: players._id,
@@ -25,6 +25,22 @@ angular.module('app')
         console.log(res);
       });
     };
+
+    $scope.erase = function(id){
+      var players = {
+        _id: "5942a6f5e630441892a1f6eb"
+      };
+      var challenge = {
+        _id: "5953b9e45e20587c99da9214"
+      };
+      InvitationService.refuse(
+        challenge._id,
+        players._id
+      ).then(function(res) {
+        console.log(res);
+      });
+    };
+
 
     // res of service exemple
 
