@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import {config} from './mail.js';
+// import {config} from './mail.js';
 require('dotenv').config({path:'../.env'});
 
 module.exports = () => {
