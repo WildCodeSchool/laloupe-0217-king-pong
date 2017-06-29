@@ -1,8 +1,8 @@
 angular.module('app')
-    .controller('CreateDefisController', function($scope, $mdDateLocale,$filter, $state, $stateParams, ActivityService, SessionService, ChallengeService, TeamService, UserService, CurrentUser, CommunityService) {
+    .controller('CreateDefisController', function($scope, $mdDateLocale, $filter, $state, $stateParams, ActivityService, SessionService, ChallengeService, TeamService, UserService, CurrentUser, CommunityService) {
 
 
-$scope.myDate = new Date();
+        $scope.myDate = new Date();
 
         if (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)) {
             $scope.device = (navigator.userAgent.match(/(android|iphone|blackberry|symbian|symbianos|symbos|netfront|model-orange|javaplatform|iemobile|windows phone|samsung|htc|opera mobile|opera mobi|opera mini|presto|huawei|blazer|bolt|doris|fennec|gobrowser|iris|maemo browser|mib|cldc|minimo|semc-browser|skyfire|teashark|teleca|uzard|uzardweb|meego|nokia|bb10|playbook)/gi)).length;
@@ -13,7 +13,7 @@ $scope.myDate = new Date();
 
         var community = $stateParams.community;
         var players = [];
-$scope.currentDate = new Date();
+        $scope.currentDate = new Date();
 
 
         CommunityService.getOne(community).then(function(res) {
@@ -48,7 +48,7 @@ $scope.currentDate = new Date();
             $state.go('user.filterActivity', {
                 community: $stateParams.community
             });
-            $scope.activity=[];
+            $scope.activity = [];
         };
 
         $scope.sendChallenge = function() {
@@ -70,8 +70,8 @@ $scope.currentDate = new Date();
             }
             console.log('team', Team);
             var players = [];
-            $scope.invite.forEach(function(player){
-              players.push(player._id);
+            $scope.invite.forEach(function(player) {
+                players.push(player._id);
 
             });
 
@@ -91,7 +91,7 @@ $scope.currentDate = new Date();
             var totalInfo = {
                 infoChallenge: infoChallenge,
                 teams: Team,
-                invite:players
+                invite: players
 
             };
 
@@ -112,11 +112,22 @@ $scope.currentDate = new Date();
             $scope.myVarBefore = !$scope.myVarBefore;
         };
 
+        $scope.check = function(checked, userId) {
+            $scope.array = [];
+            if (checked) {
+                $scope.array.push(userId);
+
+            } else {
+
+                $scope.array.splice($scope.array.indexOf(userId), 1);
+            }
+            console.log(checked);
+        };
         $scope.addInvite = function() {
             $scope.invite = [];
             $scope.myVarBefore = true;
             $scope.invite = $scope.communitys.filter(function(users) {
-
+                $scope.array = [];
                 return users.isChecked;
             });
             $scope.invite = $scope.invite.map(function(users) {
@@ -124,8 +135,8 @@ $scope.currentDate = new Date();
                 return users;
             });
 
-            $scope.invite.forEach(function(player){
-              players.push(player._id);
+            $scope.invite.forEach(function(player) {
+                players.push(player._id);
 
             });
 
@@ -133,24 +144,24 @@ $scope.currentDate = new Date();
             console.log($scope.invite);
         };
 
-    //service
-    CommunityService.getOne(community).then(function(res) {
-      console.log(res);
-      res.data.users.forEach(function(users) {
-        users.check = false;
-      });
-      $scope.communitys = res.data.users;
+        //service
+        CommunityService.getOne(community).then(function(res) {
+            console.log(res);
+            res.data.users.forEach(function(users) {
+                users.check = false;
+            });
+            $scope.communitys = res.data.users;
 
-    });
+        });
 
 
         // Model bound to input fields and modal
 
         // Optional message to display below each input field
         $scope.message = {
-          hour: 'Hour is required',
-          minute: 'Minute is required',
-          meridiem: 'Meridiem is required'
+            hour: 'Hour is required',
+            minute: 'Minute is required',
+            meridiem: 'Meridiem is required'
         };
 
         $scope.readonly = false;
@@ -158,13 +169,13 @@ $scope.currentDate = new Date();
         $scope.required = true;
 
 
-    // TODO: limit invitation au max player -1 en comptant le créateur du defy
-    // TODO: required sur l'ensemble du formulaire pour ne pas envoyer de champ vide
-    // TODO: ne pas mettre une date antérieur à celle en cours
-    // TODO: le date picker est à la date actuel(facultatif)
-    // TODO: supprimer l'author de la liste des inviter
+        // TODO: limit invitation au max player -1 en comptant le créateur du defy
+        // TODO: required sur l'ensemble du formulaire pour ne pas envoyer de champ vide
+        // TODO: ne pas mettre une date antérieur à celle en cours
+        // TODO: le date picker est à la date actuel(facultatif)
+        // TODO: supprimer l'author de la liste des inviter
 
-    $mdDateLocale.formatDate = function(date) {
-      return $filter('date')($scope.myDate, "dd-MM-yyyy");
-    };
+        $mdDateLocale.formatDate = function(date) {
+            return $filter('date')($scope.myDate, "dd-MM-yyyy");
+        };
     });
