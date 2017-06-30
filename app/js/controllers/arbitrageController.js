@@ -86,34 +86,44 @@ angular.module('app')
 
     $scope.valideScore = function(team) {
       $mdDialog.hide();
+      console.log($scope.teams);
       ChallengeService.update($state.params.id, {
         result: true
-      }).then(function(res) {});
+      }).then(function(res) {
       if (team !== 'null') {
-        $scope.teams.splice((team.name - 1), 1);
         TeamService.updateScore(team._id, {
           resultat: "win"
         }).then(function(res) {
+          console.log($scope.teams);
+          $scope.teams.splice((team.name - 1), 1);
+          console.log($scope.teams);
           $scope.teams.forEach(function(team) {
             TeamService.updateScore(team._id, {
               resultat: "lose"
-            }).then(function(res) {});
+            }).then(function(res) {
+              console.log('lose');
+              console.log(res.data);
+            });
           });
+          $state.go('main.home');
         });
       } else {
         $scope.teams.forEach(function(team){
           TeamService.updateScore(team._id, {
             resultat: "null"
-          }).then(function(res) {});
+          }).then(function(res) {
+          });
         });
+        $state.go('main.home');
       }
-      $state.go('main.home');
+      });
     };
 
 
     // service
     ChallengeService.getOne($state.params.id).then(function(res) {
       $scope.teams = nameTeams(res.data.teams);
+      console.log($scope.teams);
       $scope.isResultNul = /nul/g.test(res.data.activity.resultRule);
       verif = (verifNumberTeam(res.data.teams)).length >1;
 

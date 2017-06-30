@@ -13,12 +13,12 @@ angular.module('app')
             {name:'ping pong',value:'./img/pin-pong.jpg'},
             {name:'foot',value:'./img/foot.jpg'},
             {name:'echec',value:'./img/echec.jpg'},
-            {name:'petanque',value:'./petanque.jpg'},
-            {name:'basket',value:'./basket.jpg'},
-            {name:'sport de plein air',value:'./air.jpg'},
-            {name:'sport en salle',value:'./sport_en_salle.jpg'},
-            {name:'jeux vidéo',value:'jeuxVideo.jpg'},
-            {name:'jeux de societe',value:'jeux_de_societe.jpg'}
+            {name:'petanque',value:'./img/petanque.jpg'},
+            {name:'basket',value:'./img/basket.jpg'},
+            {name:'sport de plein air',value:'./img/air.jpg'},
+            {name:'sport en salle',value:'./img/sport_en_salle.jpg'},
+            {name:'jeux vidéo',value:'./img/jeuxVideo.jpg'},
+            {name:'jeux de societe',value:'./img/jeux_de_societe.jpg'}
 
             ];
 

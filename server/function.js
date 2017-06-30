@@ -110,11 +110,13 @@ function teamAsynchrone(teams, infos, i, array, request, callback) {
 
 //function for filter user and community
 function communityFilter(challenges, params) {
-  if (challenges !== undefined)
-
+  if (challenges !== undefined){
     return challenges.filter((el) => {
       return el.community == params.community;
     });
+
+  }
+
 }
 
 //function for filter user
@@ -170,6 +172,7 @@ function sortByActivity(challenges) {
     let activityName = challenge.activity.activityName;
     challenge.teams.forEach((team) => {
       let result = team.resultat;
+      console.log(result);
       team.players.forEach((player) => {
         let playerId = player._id,
           pseudo = player.pseudo,
