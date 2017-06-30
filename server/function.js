@@ -177,21 +177,25 @@ function sortByActivity(challenges) {
         let playerId = player._id,
           pseudo = player.pseudo,
           avatar = player.avatar;
+          console.log(result);
+
         if (table.filter(activity => activity.name == activityName).length > 0) {
           table.forEach((obj) => {
+            console.log(result);
+
             let activity = obj.name,
-              players = obj.players,
-              playerResults = players[players.findIndex((player) => player._id === playerId)].result;
+              players = obj.players;
+              console.log(result);
             if (players.filter(player => player._id == playerId).length > 0) {
               if (result == 'win') {
-                playerResults.win += 1;
-                playerResults.play += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.win += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
               } else if (result == 'null') {
-                playerResults.nul += 1;
-                playerResults.play += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.nul += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
               } else {
-                playerResults.lost += 1;
-                playerResults.play += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.lost += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
               }
             } else {
               players.push({
@@ -207,14 +211,14 @@ function sortByActivity(challenges) {
                 }
               });
               if (result == 'win') {
-                playerResults.win += 1;
-                playerResults.play += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.win += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
               } else if (result == 'null') {
-                playerResults.nul += 1;
-                playerResults.play += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.nul += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
               } else {
-                playerResults.lost += 1;
-                playerResults.play += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.lost += 1;
+                players[players.findIndex((player) => player._id === playerId)].result.play += 1;
 
               }
 

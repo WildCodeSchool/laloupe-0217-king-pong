@@ -155,7 +155,7 @@ export default class Challenge {
         path: 'teams',
         populate: {
           path: 'players',
-          select: 'avatar pseudo '
+          select: 'avatar pseudo'
         }
       })
       .exec(
