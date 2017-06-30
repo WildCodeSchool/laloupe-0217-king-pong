@@ -117,7 +117,7 @@ export default class Activity {
   }
 
   deletePlayer(req, res) {
-    console.log('delete');
+    console.log(req);
     model.findOneAndUpdate({
       challenge: req.params.challenge
     }, {

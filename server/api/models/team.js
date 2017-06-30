@@ -194,7 +194,7 @@ export default class Team {
                     player: req.body.players
                   },
                   params: {
-                    challenge: req.body.challenge
+                    challenge: team.challenge
                   }
                 },
                 (err, result) => {
